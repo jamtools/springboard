@@ -1,9 +1,0 @@
-{
-    "$schema": "https://www.partykit.io/schema.json",
-    "name": "partykit-test",
-    "main": "./dist/partykit/neutral/dist/index.js",
-    "compatibilityDate": "2025-02-26",
-    "serve": {
-        "path": "dist/partykit/browser"
-    }
-}

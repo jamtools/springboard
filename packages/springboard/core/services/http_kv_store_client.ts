@@ -63,6 +63,10 @@ export class HttpKVStoreService implements KVStore {
             }
 
             const resultJson = await result.json() as unknown;
+            if (!resultJson) {
+                return null;
+            }
+
             if (!isKVResponse(resultJson)) {
                 console.error('Invalid response format from get endpoint:', resultJson);
                 throw new Error('Invalid response format');

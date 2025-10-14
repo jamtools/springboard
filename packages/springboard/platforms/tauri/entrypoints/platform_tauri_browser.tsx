@@ -49,9 +49,6 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
             remote: kvStore,
             userAgent: userAgentKVStore,
         },
-        files: {
-            saveFile: async () => {},
-        },
         rpc: {
             remote: rpc,
             local: rpc,

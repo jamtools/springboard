@@ -1,22 +1,20 @@
-// TODO: make this an arbitrary store instead of specifically this one
-import {nodeRpcAsyncLocalStorage} from '@springboardjs/platforms-node/services/node_rpc_async_local_storage';
 import {Context} from 'hono';
-import {Connection, Room} from 'partykit/server';
+import {RoomLike} from '../hono_app';
 import {RpcMiddleware} from 'springboard-server/src/register';
 
-type PartykitJsonRpcServerInitArgs = {
-    processRequest: (message: string) => Promise<string>;
+type SharedJsonRpcServerInitArgs = {
+    processRequest: (message: string, middlewareResult: unknown) => Promise<string>;
     rpcMiddlewares: RpcMiddleware[];
 }
 
-export class PartykitJsonRpcServer {
-    constructor(private initArgs: PartykitJsonRpcServerInitArgs, private room: Room) { }
+export class SharedJsonRpcServer {
+    constructor(private initArgs: SharedJsonRpcServerInitArgs, private room: RoomLike) { }
 
     public broadcastMessage = (message: string) => {
         this.room.broadcast(message);
     };
 
-    public onMessage = async (message: string, conn: Connection) => {
+    public onMessage = async (message: string, conn: any) => {
         // we switched to using http for rpc, so this is no longer used
     };
 
@@ -54,11 +52,7 @@ export class PartykitJsonRpcServer {
             }
         }
 
-        return new Promise<string>((resolve) => {
-            nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
-                const response = await this.initArgs.processRequest(message);
-                resolve(response);
-            });
-        });
+        return this.initArgs.processRequest(message, rpcContext);
+
     };
 }

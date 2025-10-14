@@ -1,0 +1,28 @@
+{
+  "name": "@springboardjs/platforms-cf-workers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint --ext ts --ext tsx ./",
+    "fix": "npm run lint -- --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250812.0",
+    "@types/node": "catalog:",
+    "wrangler": "^4.28.1"
+  },
+  "dependencies": {
+    "hono": "catalog:",
+    "json-rpc-2.0": "catalog:",
+    "partyserver": "^0.0.73",
+    "partysocket": "^1.0.2"
+  },
+  "config": {
+    "dir": "../../../../configs"
+  }
+}

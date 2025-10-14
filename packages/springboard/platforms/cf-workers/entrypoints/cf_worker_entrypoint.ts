@@ -1,39 +1,42 @@
-import type * as Party from 'partykit/server';
+import { Server, Connection, routePartykitRequest } from 'partyserver';
 
 import {Hono} from 'hono';
 
 import springboard from 'springboard';
-import type {NodeAppDependencies} from '@springboardjs/platforms-node/entrypoints/main';
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 import {Springboard} from 'springboard/engine/engine';
 import {CoreDependencies, KVStore} from 'springboard/types/module_types';
 
-import {initApp, PartykitKvForHttp} from '../partykit_hono_app';
+import {initApp, SharedKvForHttp, ServerAppDependencies} from '../src/hono_app';
 
-import {PartykitJsonRpcServer} from '../services/partykit_rpc_server';
+import {SharedJsonRpcServer} from '../src/services/rpc_server';
 
-export default class Server implements Party.Server {
-    private app: Hono;
-    private nodeAppDependencies: NodeAppDependencies;
+export class MyServer extends Server {
+    private app!: Hono;
+    private serverAppDependencies!: ServerAppDependencies;
     private springboardApp!: Springboard;
-    private rpcService: PartykitJsonRpcServer;
+    private rpcService!: SharedJsonRpcServer;
 
     private kv: Record<string, string> = {};
 
-    constructor(readonly room: Party.Room) {
-        const {app, nodeAppDependencies, rpcService} = initApp({
+
+    async onStart() {
+        const roomAdapter = {
+            storage: this.ctx.storage,
+            broadcast: (message: string) => this.broadcast(message),
+        };
+
+        const {app, serverAppDependencies, rpcService} = initApp({
             kvForHttp: this.makeKvStoreForHttp(),
-            room,
+            room: roomAdapter,
         });
 
         this.app = app;
-        this.nodeAppDependencies = nodeAppDependencies;
+        this.serverAppDependencies = serverAppDependencies;
         this.rpcService = rpcService;
-    }
 
-    async onStart() {
         springboard.reset();
-        const values = await this.room.storage.list({
+        const values = await this.ctx.storage.list({
             limit: 100,
         });
 
@@ -41,16 +44,11 @@ export default class Server implements Party.Server {
             this.kv[key] = value as string;
         }
 
-        this.springboardApp = await startSpringboardApp(this.nodeAppDependencies);
+        this.springboardApp = await startSpringboardApp(this.serverAppDependencies);
     }
 
-    static onFetch(req: Party.Request, lobby: Party.FetchLobby, ctx: Party.ExecutionContext) {
-        return lobby.assets.fetch('/dist/index.html');
-    }
 
-    async onRequest(req: Party.Request) {
-        // this.room.context.assets.fetch('/dist/parties/tic-tac-toe/index.html'); // TODO: this should have js pointers in it, fingerprinted and ready to go to be served by partykit
-
+    async onRequest(req: Request) {
         const urlParts = new URL(req.url).pathname.split('/');
         const partyName = urlParts[2];
         const roomName = urlParts[3];
@@ -58,21 +56,16 @@ export default class Server implements Party.Server {
         const prefixToRemove = `/parties/${partyName}/${roomName}`;
         const newUrl = req.url.replace(prefixToRemove, '');
 
-        const pathname = new URL(newUrl).pathname;
-
-        if (pathname === '' || pathname === '/') {
-            return (await this.room.context.assets.fetch('/dist/index.html'))!;
-        }
 
         const newReq = new Request(newUrl, req as any);
         return this.app.fetch(newReq);
     }
 
-    async onMessage(message: string, sender: Party.Connection) {
-        await this.rpcService.onMessage(message, sender);
+    async onMessage(connection: Connection, message: string) {
+        await this.rpcService.onMessage(message, connection);
     }
 
-    private makeKvStoreForHttp = (): PartykitKvForHttp => {
+    private makeKvStoreForHttp = (): SharedKvForHttp => {
         return {
             get: async (key: string) => {
                 const value = this.kv[key];
@@ -93,17 +86,15 @@ export default class Server implements Party.Server {
             set: async (key: string, value: unknown) => {
                 this.kv[key] = JSON.stringify(value);
             },
-        }
+        };
     };
 }
 
-export const startSpringboardApp = async (deps: NodeAppDependencies): Promise<Springboard> => {
-    const mockDeps = makeMockCoreDependencies({store: {}});
+export const startSpringboardApp = async (deps: ServerAppDependencies): Promise<Springboard> => {
     const coreDeps: CoreDependencies = {
         log: console.log,
         showError: console.error,
         storage: deps.storage,
-        files: mockDeps.files,
         isMaestro: () => true,
         rpc: deps.rpc,
     };
@@ -114,4 +105,11 @@ export const startSpringboardApp = async (deps: NodeAppDependencies): Promise<Sp
     await engine.initialize();
     deps.injectEngine(engine);
     return engine;
+};
+
+export default {
+    async fetch(request: Request, env: any) {
+        const response = await routePartykitRequest(request, env);
+        return response || new Response('Not Found', { status: 404 });
+    }
 };

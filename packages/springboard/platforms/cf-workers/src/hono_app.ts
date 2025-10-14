@@ -1,32 +1,46 @@
 import {Hono} from 'hono';
 import {cors} from 'hono/cors';
 
-import {NodeAppDependencies} from '@springboardjs/platforms-node/entrypoints/main';
-import {NodeLocalJsonRpcClientAndServer} from '@springboardjs/platforms-node/services/node_local_json_rpc';
+import {ServerJsonRpcClientAndServer} from 'springboard-server/src/services/server_json_rpc';
+// import {NodeLocalJsonRpcClientAndServer} from '@springboardjs/platforms-node/services/node_local_json_rpc';
 
 import {Springboard} from 'springboard/engine/engine';
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from 'springboard-server/src/register';
-import {PartykitJsonRpcServer} from './services/partykit_rpc_server';
-import {Room} from 'partykit/server';
-import {PartykitKVStore} from './services/partykit_kv_store';
+import {SharedJsonRpcServer} from './services/rpc_server';
+import {CfWorkerKVStore} from './services/kv_store';
 
-export type PartykitKvForHttp = {
+export interface RoomLike {
+    storage: {
+        get: (key: string) => Promise<unknown>;
+        put: (key: string, value: unknown) => Promise<void>;
+        list: (options?: { limit?: number }) => Promise<Map<string, unknown>>;
+    };
+    broadcast: (message: string) => void;
+}
+
+export type SharedKvForHttp = {
     get: (key: string) => Promise<unknown>;
     getAll: () => Promise<Record<string, unknown>>;
     set: (key: string, value: unknown) => Promise<void>;
 }
 
+import {CoreDependencies} from 'springboard/types/module_types';
+
+export type ServerAppDependencies = Pick<CoreDependencies, 'rpc' | 'storage'> & Partial<CoreDependencies> & {
+    injectEngine: (engine: Springboard) => void;
+};
+
 type InitAppReturnValue = {
     app: Hono;
-    nodeAppDependencies: NodeAppDependencies;
-    rpcService: PartykitJsonRpcServer;
+    serverAppDependencies: ServerAppDependencies;
+    rpcService: SharedJsonRpcServer;
 };
 
 type InitArgs = {
-    kvForHttp: PartykitKvForHttp;
-    room: Room;
+    kvForHttp: SharedKvForHttp;
+    room: RoomLike;
 }
 
 export const initApp = (coreDeps: InitArgs): InitAppReturnValue => {
@@ -76,26 +90,26 @@ export const initApp = (coreDeps: InitArgs): InitAppReturnValue => {
         }), 500);
     });
 
-    const rpc = new NodeLocalJsonRpcClientAndServer({
+    const rpc = new ServerJsonRpcClientAndServer({
         broadcastMessage: (message) => {
             return rpcService.broadcastMessage(message);
         },
     });
 
-    const rpcService = new PartykitJsonRpcServer({
-        processRequest: async (message) => {
-            return rpc!.processRequest(message);
+    const rpcService = new SharedJsonRpcServer({
+        processRequest: async (message, middlewareResult: unknown) => {
+            return rpc!.processRequest(message, middlewareResult);
         },
         rpcMiddlewares,
     }, coreDeps.room);
 
     const mockDeps = makeMockCoreDependencies({store: {}});
 
-    const kvStore = new PartykitKVStore(coreDeps.room, coreDeps.kvForHttp);
+    const kvStore = new CfWorkerKVStore(coreDeps.room, coreDeps.kvForHttp);
 
     let storedEngine: Springboard | undefined;
 
-    const nodeAppDependencies: NodeAppDependencies = {
+    const serverAppDependencies: ServerAppDependencies = {
         rpc: {
             remote: rpc,
         },
@@ -135,7 +149,7 @@ export const initApp = (coreDeps: InitArgs): InitAppReturnValue => {
         call(makeServerModuleAPI());
     }
 
-    return {app, nodeAppDependencies, rpcService};
+    return {app, serverAppDependencies: serverAppDependencies, rpcService};
 };
 
 type ServerModuleCallback = (server: ServerModuleAPI) => void;

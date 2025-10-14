@@ -2,21 +2,26 @@
   "name": "jamtools",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build-cf": "rm -rf dist && PUBLIC_USE_WEBSOCKETS_FOR_RPC=true npx tsx ../../packages/springboard/cli/src/cli.ts build ./modules/index.ts --platforms cf-workers,main",
+    "deploy-cf": "npm run build-cf && npx wrangler deploy"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "react-router-dom": "catalog:",
-    "springboard": "workspace:*",
     "@jamtools/core": "workspace:*",
     "@jamtools/features": "workspace:*",
     "@springboardjs/platforms-browser": "workspace:*",
     "@springboardjs/platforms-node": "workspace:*",
-    "@springboardjs/shoelace": "workspace:*"
+    "@springboardjs/shoelace": "workspace:*",
+    "react-router-dom": "catalog:",
+    "springboard": "workspace:*"
   },
   "devDependencies": {
-    "springboard-cli": "workspace:*"
+    "@types/node": "catalog:",
+    "springboard-cli": "workspace:*",
+    "wrangler": "4.10.0"
   }
 }

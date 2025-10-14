@@ -3,6 +3,38 @@ import React from 'react';
 import springboard from 'springboard';
 
 import './tic_tac_toe.css';
+import serverRegistry from 'springboard-server';
+
+type MiddlewareValue = {
+    user_id: string;
+}
+
+declare module 'springboard/engine/module_api' {
+    interface RpcMiddlewareResults {
+        user_id: string;
+    }
+}
+
+// @platform "node"
+serverRegistry.registerServerModule(async (api) => {
+    const {setCookie, getCookie} = await import('hono/cookie');
+
+    api.hooks.registerRpcMiddleware(async (c): Promise<MiddlewareValue> => {
+        const cookie = getCookie(c);
+        if (cookie.user_id) {
+            return {
+                user_id: cookie.user_id,
+            };
+        }
+
+        const newUserId = Math.random().toString().substring(2);
+        setCookie(c, 'user_id', newUserId);
+        return {
+            user_id: newUserId,
+        };
+    });
+});
+// @platform end
 
 type Cell = 'X' | 'O' | null;
 type Board = Cell[][];
@@ -58,7 +90,9 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
     const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});
 
     const actions = moduleAPI.createActions({
-        clickedCell: async (args: {row: number, column: number}) => {
+        clickedCell: async (args: {row: number, column: number}, c) => {
+            console.log('in action', c);
+            console.log(c?.user_id.length);
             if (winnerState.getState()) {
                 return;
             }

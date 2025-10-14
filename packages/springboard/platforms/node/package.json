@@ -7,11 +7,15 @@
     "fix": "npm run lint -- --fix"
   },
   "peerDependencies": {
+    "@springboardjs/data-storage": "workspace:*",
     "isomorphic-ws": "^4.0.1",
     "springboard": "workspace:*",
+    "springboard-server": "workspace:*",
     "ws": "^8.18.0"
   },
   "dependencies": {
+    "@hono/node-server": "^1.13.2",
+    "crossws": "catalog:",
     "json-rpc-2.0": "catalog:",
     "reconnecting-websocket": "catalog:"
   },

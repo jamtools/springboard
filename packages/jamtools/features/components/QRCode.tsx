@@ -1,6 +1,8 @@
 import React from 'react';
 
+// @platform "browser"
 import QRCodeLibrary from 'qrcode';
+// @platform end
 
 type Props = {
     url: string;

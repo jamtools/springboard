@@ -1,0 +1,19 @@
+name = "cf-workers-app"
+main = "./neutral/dist/index.js"
+compatibility_date = "2025-02-26"
+compatibility_flags = ["nodejs_compat", "nodejs_compat_populate_process_env"]
+
+[[durable_objects.bindings]]
+name = "MyServer"
+class_name = "MyServer"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["MyServer"]
+
+[build]
+command = ""
+
+[assets]
+directory = "./browser"
+binding = "ASSETS"

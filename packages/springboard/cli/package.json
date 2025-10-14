@@ -23,7 +23,6 @@
     "build-empty-jamtools-app": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms browser_offline",
     "build-empty-jamtools-app-desktop": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms desktop",
     "build-empty-jamtools-app-all": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms all",
-    "build-partykit": "ESBUILD_OUT_DIR=../platforms/partykit/dist npx tsx src/cli.ts build ../../../apps/small_apps/handraiser/index.ts --platforms partykit",
     "dev": "npm run build -- --watch",
     "dev-dev": "npx tsx src/cli.ts dev ../../../apps/small_apps/handraiser/index.ts",
     "clean": "rm -rf dist",

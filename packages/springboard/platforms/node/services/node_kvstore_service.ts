@@ -22,7 +22,7 @@ if (fs.existsSync(DATA_FILE_NAME)) {
     fs.writeFileSync(DATA_FILE_NAME, '{}');
 }
 
-export class NodeKVStoreService implements KVStore {
+export class LocalJsonNodeKVStoreService implements KVStore {
     constructor(private databaseName: string) {
 
     }

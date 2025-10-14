@@ -34,9 +34,6 @@ export const startAndRenderBrowserApp = async (browserDeps: BrowserDependencies)
         log: console.log,
         showError: (error: string) => alert(error),
         storage: browserDeps.storage,
-        files: {
-            saveFile: async () => { },
-        },
         rpc: browserDeps.rpc,
         isMaestro: () => isLocal,
     };

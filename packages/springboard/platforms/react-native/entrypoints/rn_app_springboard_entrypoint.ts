@@ -103,7 +103,6 @@ export const createRNMainEngine = (props: {
     });
 
     const coreDeps: CoreDependencies = {
-        files: {} as any,
         isMaestro: () => false,
         log: (...args) => console.log(...args),
         showError: (error) => console.error(error),

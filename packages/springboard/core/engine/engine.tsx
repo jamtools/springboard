@@ -14,7 +14,7 @@ type CapturedRegisterModuleCalls = [string, RegisterModuleOptions, ModuleCallbac
 type CapturedRegisterClassModuleCalls = ClassModuleCallback<any>;
 
 const now = () => {
-    if (typeof performance !== undefined) {
+    if (typeof performance !== undefined && typeof performance.now === 'function') {
         return performance.now();
     }
 

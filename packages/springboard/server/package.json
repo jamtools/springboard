@@ -15,17 +15,15 @@
     "fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "@hono/node-server": "^1.13.2",
-    "@hono/node-ws": "^1.0.4",
-    "json-rpc-2.0": "catalog:"
+    "crossws": "catalog:",
+    "json-rpc-2.0": "catalog:",
+    "srvx": "^0.8.6"
   },
   "config": {
     "dir": "../../../configs"
   },
   "peerDependencies": {
     "hono": "catalog:",
-    "springboard": "workspace:*",
-    "@springboardjs/data-storage": "workspace:*",
-    "@springboardjs/platforms-node": "workspace:*"
+    "springboard": "workspace:*"
   }
 }

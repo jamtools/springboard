@@ -1,4 +1,4 @@
-import initNodeApp from '@springboardjs/platforms-node/entrypoints/node_flexible_entrypoint';
+import initNodeApp from '@springboardjs/platforms-node/entrypoints/node_entrypoint';
 
 // import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 

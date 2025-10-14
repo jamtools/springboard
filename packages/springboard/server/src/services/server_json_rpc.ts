@@ -1,125 +1,60 @@
-import {JSONRPCClient, JSONRPCRequest} from 'json-rpc-2.0';
-import {Context} from 'hono';
-import {WSContext, WSEvents} from 'hono/ws';
-import {RpcMiddleware} from '../register';
+import {JSONRPCClient, JSONRPCServer} from 'json-rpc-2.0';
 
-import {nodeRpcAsyncLocalStorage} from '@springboardjs/platforms-node/services/node_rpc_async_local_storage';
+import {Rpc, RpcArgs} from 'springboard/types/module_types';
 
-type WebsocketInterface = {
-    send: (s: string) => void;
+type ServerJsonRpcClientAndServerInitArgs = {
+    broadcastMessage: (message: string) => void;
 }
 
-type NodeJsonRpcServerInitArgs = {
-    processRequest: (message: string) => Promise<string>;
-    rpcMiddlewares: RpcMiddleware[];
-}
+export class ServerJsonRpcClientAndServer implements Rpc {
+    rpcClient: JSONRPCClient;
+    rpcServer: JSONRPCServer;
 
-export class NodeJsonRpcServer {
-    private incomingClients: {[clientId: string]: WebsocketInterface} = {};
-    private outgoingClients: {[clientId: string]: JSONRPCClient} = {};
+    public role = 'server' as const;
 
-    constructor(private initArgs: NodeJsonRpcServerInitArgs) { }
+    constructor(private initArgs: ServerJsonRpcClientAndServerInitArgs) {
+        this.rpcServer = new JSONRPCServer();
+        this.rpcClient = new JSONRPCClient(async (request) => {
+            this.initArgs.broadcastMessage(JSON.stringify(request));
+        });
+    }
 
-    // New function: this will be used for async things like toasts
-    // public sendMessage = (message: string, clientId: string) => {
-    //     this.incomingClients[clientId]?.send(message);
-    // };
-
-    public broadcastMessage = (message: string) => {
-        for (const c of Object.keys(this.incomingClients)) {
-            this.incomingClients[c]?.send(message);
-        }
+    initialize = async (): Promise<boolean> => {
+        return true;
     };
 
-    public handleConnection = (c: Context): WSEvents => {
-        let providedClientId = '';
-        // let isMaestro = false;
-
-        const incomingClients = this.incomingClients;
-        const outgoingClients = this.outgoingClients;
-
-        const req = c.req;
-
-        if (req.url?.includes('?')) {
-            const urlParams = new URLSearchParams(req.url.substring(req.url.indexOf('?')));
-            providedClientId = urlParams.get('clientId') || '';
-        }
-
-        const clientId = providedClientId || `${Date.now()}`;
-
-        let wsStored: WSContext | undefined;
-
-        const client = new JSONRPCClient((request: JSONRPCRequest) => {
-            if (wsStored?.readyState === WebSocket.OPEN) {
-                wsStored.send(JSON.stringify(request));
-                return Promise.resolve();
-            } else {
-                return Promise.reject(new Error('WebSocket is not open'));
+    registerRpc = <Args, Return>(method: string, cb: (args: Args, middlewareResults?: unknown) => Promise<Return>) => {
+        this.rpcServer.addMethod(method, async (args) => {
+            if (args) {
+                const {middlewareResults, ...rest} = args;
+                const result = await cb(rest, middlewareResults);
+                return result;
             }
+
+            return cb(args, undefined);
         });
-
-        outgoingClients[clientId] = client;
-
-        return {
-            onOpen: (event, ws) => {
-                incomingClients[clientId] = ws;
-                wsStored = ws;
-            },
-            onMessage: async (event, ws) => {
-                const message = event.data.toString();
-                // console.log(message);
-
-                const response = await this.processRequestWithMiddleware(c, message);
-                if (!response) {
-                    return;
-                }
-
-                ws.send(response);
-            },
-            onClose: () => {
-                delete incomingClients[clientId];
-                delete outgoingClients[clientId];
-            },
-        };
     };
 
-    processRequestWithMiddleware = async (c: Context, message: string) => {
-        if (!message) {
-            return;
+    callRpc = async <Return, Args>(method: string, args: Args): Promise<Return> => {
+        const result = await this.rpcClient.request(method, args);
+        return result;
+    };
+
+    broadcastRpc = async <Args>(method: string, args: Args, _rpcArgs?: RpcArgs | undefined): Promise<void> => {
+        return this.rpcClient.notify(method, args);
+    };
+
+    public processRequest = async (jsonMessageStr: string, middlewareResults: unknown) => {
+        const jsonMessage = JSON.parse(jsonMessageStr);
+        if (typeof jsonMessage === 'object' && jsonMessage !== null && 'params' in jsonMessage) {
+            jsonMessage.params.middlewareResults = middlewareResults;
         }
 
-        const jsonMessage = JSON.parse(message);
-        if (!jsonMessage) {
-            return;
+        const result = await this.rpcServer.receive(jsonMessage);
+        if (result) {
+            (result as any).clientId = (jsonMessage as unknown as any).clientId;
         }
 
-        if (jsonMessage.jsonrpc !== '2.0') {
-            return;
-        }
-
-        if (!jsonMessage.method) {
-            return;
-        }
-
-        const rpcContext: object = {};
-        for (const middleware of this.initArgs.rpcMiddlewares) {
-            try {
-                const middlewareResult = await middleware(c);
-                Object.assign(rpcContext, middlewareResult);
-            } catch (e) {
-                return JSON.stringify({
-                    jsonrpc: '2.0',
-                    id: jsonMessage.id,
-                    error: (e as Error).message,
-                });
-            }
-        }
-
-        return new Promise<string>((resolve) => {
-            nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
-                const response = await this.initArgs.processRequest(message);
-                resolve(response);
-            });
-        });
+        return JSON.stringify(result);
     };
 }

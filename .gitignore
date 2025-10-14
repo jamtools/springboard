@@ -13,3 +13,5 @@ esbuild_meta.json
 stats.html
 games
 platform-examples
+
+.claude/settings.local.json

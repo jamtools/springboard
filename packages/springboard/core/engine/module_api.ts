@@ -9,10 +9,13 @@ export type ActionCallOptions = {
     mode?: 'local' | 'remote';
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RpcMiddlewareResults {}
+
 /**
  * The Action callback
 */
-type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, options?: ActionCallOptions) => ReturnValue;
+type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, middlewareResults?: RpcMiddlewareResults) => ReturnValue;
 
 // this would make it so modules/plugins can extend the module API dynamically through interface merging
 // export interface ModuleAPI {
@@ -123,16 +126,20 @@ export class ModuleAPI {
         return result;
     };
 
+    /**
+     * Create actions to be run on either the same device or remote device. If the produced action is called from the same device, the framework just calls the provided callback. If it is called from another device, the framework calls the action via RPC to the remote device. In most cases, any main logic or calls to shared state changes should be done in an action.
+    */
     createActions = <Actions extends Record<string, ActionCallback<any, any>>>(
         actions: Actions
-    ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
+    ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<Awaited<ReturnType<Actions[K]>>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<Awaited<ReturnType<Actions[K]>>>) } => {
         const keys = Object.keys(actions);
+        const result = {} as ReturnType<typeof this.createActions<Actions>>;
 
         for (const key of keys) {
-            (actions[key] as ActionCallback<any, any>) = this.createAction(key, {}, actions[key]);
+            (result as any)[key] = this.createAction(key, {}, actions[key]);
         }
 
-        return actions;
+        return result;
     };
 
     setRpcMode = (mode: 'remote' | 'local') => {
@@ -150,18 +157,20 @@ export class ModuleAPI {
         actionName: string,
         options: Options,
         cb: undefined extends Args ? ActionCallback<Args, ReturnValue> : ActionCallback<Args, ReturnValue>
-    ): undefined extends Args ? ((args?: Args, options?: ActionCallOptions) => ReturnValue) : ((args: Args, options?: ActionCallOptions) => ReturnValue) => {
+    ): undefined extends Args ? ((args?: Args, options?: ActionCallOptions, context?: RpcMiddlewareResults) => ReturnValue) : ((args: Args, options?: ActionCallOptions, context?: RpcMiddlewareResults) => ReturnValue) => {
         const fullActionName = `${this.fullPrefix}|action|${actionName}`;
 
         if (this.coreDeps.rpc.remote.role === 'server') {
-            this.coreDeps.rpc.remote.registerRpc(fullActionName, cb);
+            this.coreDeps.rpc.remote.registerRpc(fullActionName, (...args) => {
+                return (cb as any)(...args);
+            });
         }
 
         if (this.coreDeps.rpc.local?.role === 'server') {
             this.coreDeps.rpc.local.registerRpc(fullActionName, cb);
         }
 
-        return (async (args: Args, options?: ActionCallOptions): Promise<Awaited<ReturnValue>> => {
+        return (async (args: Args, options?: ActionCallOptions, middlewareResults?: RpcMiddlewareResults): Promise<Awaited<ReturnValue>> => {
             try {
                 let rpc = this.coreDeps.rpc.remote;
 
@@ -169,7 +178,7 @@ export class ModuleAPI {
 
                 if (this.coreDeps.isMaestro() || this.options.rpcMode === 'local' || options?.mode === 'local') {
                     if (!this.coreDeps.rpc.local || this.coreDeps.rpc.local.role !== 'client') {
-                        return await cb(args);
+                        return await cb(args, middlewareResults);
                     }
 
                     rpc = this.coreDeps.rpc.local!;

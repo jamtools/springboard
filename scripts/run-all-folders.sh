@@ -88,7 +88,7 @@ bump_version "$root_dir/packages/springboard/core"
 bump_version "$root_dir/packages/springboard/platforms/webapp"
 bump_version "$root_dir/packages/springboard/platforms/node"
 bump_version "$root_dir/packages/springboard/platforms/react-native"
-bump_version "$root_dir/packages/springboard/platforms/partykit"
+bump_version "$root_dir/packages/springboard/platforms/cf-workers"
 bump_version "$root_dir/packages/springboard/server"
 bump_version "$root_dir/packages/springboard/external/mantine"
 bump_version "$root_dir/packages/springboard/external/shoelace"
@@ -120,7 +120,7 @@ publish_package "$root_dir/packages/springboard/platforms/react-native"
 
 sleep 1
 
-publish_package "$root_dir/packages/springboard/platforms/partykit"
+publish_package "$root_dir/packages/springboard/platforms/cf-workers"
 
 sleep 1
 

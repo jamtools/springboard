@@ -63,9 +63,6 @@ export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOption
             remote: new MockKVStore(store),
             userAgent: new MockKVStore(store),
         },
-        files: {
-            saveFile: async () => {},
-        },
         rpc: {
             remote: new MockRpcService(),
             local: undefined,

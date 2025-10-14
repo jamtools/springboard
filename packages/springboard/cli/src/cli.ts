@@ -6,8 +6,7 @@ import concurrently from 'concurrently';
 
 import packageJSON from '../package.json';
 
-import {buildApplication, buildServer, platformBrowserBuildConfig, platformNodeBuildConfig, platformOfflineBrowserBuildConfig, platformPartykitBrowserBuildConfig, platformPartykitServerBuildConfig, platformTauriMaestroBuildConfig, platformTauriWebviewBuildConfig, Plugin, SpringboardPlatform} from './build';
-import {esbuildPluginTransformAwaitImportToRequire} from './esbuild_plugins/esbuild_plugin_transform_await_import';
+import {buildApplication, platformBrowserBuildConfig, platformCfWorkersServerBuildConfig, platformCfWorkersBrowserBuildConfig, platformNodeBuildConfig, platformOfflineBrowserBuildConfig, platformTauriMaestroBuildConfig, platformTauriWebviewBuildConfig, SpringboardPlatform, Plugin} from './build';
 
 function resolveEntrypoint(entrypoint: string): string {
     let applicationEntrypoint = entrypoint;
@@ -44,6 +43,7 @@ async function loadPlugins(pluginPaths?: string): Promise<Plugin[]> {
 }
 
 interface BuildPlatformsOptions {
+    name?: string;
     applicationEntrypoint: string;
     watch?: boolean;
     plugins: Plugin[];
@@ -71,11 +71,6 @@ async function buildPlatforms(options: BuildPlatformsOptions): Promise<void> {
 
         await buildApplication(platformNodeBuildConfig, {
             applicationEntrypoint,
-            watch,
-            plugins,
-        });
-
-        await buildServer({
             watch,
             plugins,
         });
@@ -118,34 +113,24 @@ async function buildPlatforms(options: BuildPlatformsOptions): Promise<void> {
             esbuildOutDir: './tauri',
             plugins,
         });
-
-        await buildServer({
-            watch,
-            applicationDistPath: `${cwd}/dist/tauri/node/dist/dynamic-entry.js`,
-            esbuildOutDir: './tauri',
-            plugins,
-            editBuildOptions: (buildOptions) => {
-                buildOptions.plugins!.push(esbuildPluginTransformAwaitImportToRequire);
-            }
-        });
     }
 
     if (
         platformsToBuild.has('all') ||
-        platformsToBuild.has('partykit')
+        platformsToBuild.has('cf-workers')
     ) {
-        await buildApplication(platformPartykitBrowserBuildConfig, {
+        await buildApplication(platformCfWorkersBrowserBuildConfig, {
             applicationEntrypoint,
-            watch,
-            plugins,
-            esbuildOutDir: 'partykit',
+            watch: options.watch,
+            esbuildOutDir: 'cf-workers',
+            name: options.name,
         });
 
-        await buildApplication(platformPartykitServerBuildConfig, {
+        await buildApplication(platformCfWorkersServerBuildConfig, {
             applicationEntrypoint,
-            watch,
-            plugins,
-            esbuildOutDir: 'partykit',
+            watch: options.watch,
+            esbuildOutDir: 'cf-workers',
+            name: options.name,
         });
     }
 }
@@ -188,7 +173,7 @@ program
 
         concurrently(
             [
-                {command: `node ${nodeArgs} dist/server/dist/local-server.cjs`, name: 'Server', prefixColor: 'blue'},
+                {command: `node ${nodeArgs} dist/node/dist/index.js`, name: 'Server', prefixColor: 'blue'},
             ],
             {
                 prefix: 'name',
@@ -204,8 +189,9 @@ program
     .argument('entrypoint')
     .option('-w, --watch', 'Watch for file changes')
     .option('-p, --platforms <PLATFORM>,<PLATFORM>', 'Platforms to build for')
+    .option('-n, --name <NAME>', 'Name for the application')
     .option('-g, --plugins <PLUGIN>,<PLUGIN>', 'Plugins to build with')
-    .action(async (entrypoint: string, options: {watch?: boolean, offline?: boolean, platforms?: string, plugins?: string}) => {
+    .action(async (entrypoint: string, options: {watch?: boolean, offline?: boolean, platforms?: string, plugins?: string, name?: string}) => {
         let platformToBuild = process.env.SPRINGBOARD_PLATFORM_VARIANT || options.platforms as SpringboardPlatform;
         if (!platformToBuild) {
             platformToBuild = 'main';

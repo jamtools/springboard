@@ -23,11 +23,11 @@ if (!tauriTarget) {
 const shouldAddDebug = false;
 const DEBUG = shouldAddDebug ? '--debug' : '';
 
-const pkgCommand = `npx @yao-pkg/pkg ../../dist/tauri/server/dist/local-server.cjs --out-path ./src-tauri/binaries --config pkg.json --targets ${pkgTarget} ${DEBUG}`;
+const pkgCommand = `npx @yao-pkg/pkg ../../dist/tauri/node/dist/index.js --out-path ./src-tauri/binaries --config pkg.json --targets ${pkgTarget} ${DEBUG}`;
 execSync(pkgCommand, {stdio: 'inherit'});
 
 fs.renameSync(
-  'src-tauri/binaries/local-server',
+  'src-tauri/binaries/index',
   `src-tauri/binaries/local-server-${tauriTarget}${extension}`
 );
 

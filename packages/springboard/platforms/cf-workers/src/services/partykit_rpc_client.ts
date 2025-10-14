@@ -1,4 +1,4 @@
-import {JSONRPCClient, JSONRPCServer} from 'json-rpc-2.0';
+import {JSONRPCClient, JSONRPCResponse, JSONRPCServer} from 'json-rpc-2.0';
 import {Rpc, RpcArgs} from 'springboard/types/module_types';
 
 import PartySocket from 'partysocket';
@@ -175,7 +175,14 @@ export class PartyKitRpcClient implements Rpc {
             }
 
             const data = await res.json();
-            return data;
+            if (typeof data !== 'object') {
+                throw new Error(`RPC request failed: expected JSON object, got ${typeof data}`);
+            }
+            if (!data || !('id' in data)) {
+                throw new Error('RPC request failed: expected \'id\' in response');
+            }
+
+            return data as JSONRPCResponse;
         } catch (e) {
             console.error(`Error with RPC request for method '${originalMethod}':`, e);
             throw e;

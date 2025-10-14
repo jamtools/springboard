@@ -1,6 +1,8 @@
 import React from 'react';
 
+// @platform "browser"
 import QRCode from 'qrcode';
+// @platform end
 
 export const UltimateGuitarQRCode = () => {
     React.useEffect(() => {

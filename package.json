@@ -21,9 +21,11 @@
     "fix": "TURBO_NO_UPDATE_NOTIFIER=true turbo run fix",
     "ci": "NODE_MODULES_PARENT_FOLDER=$PWD TURBO_NO_UPDATE_NOTIFIER=true turbo run lint check-types build test",
     "heroku-postbuild": "NODE_ENV=production npm run build-saas",
+    "splash-screen-app": "npx tsx packages/springboard/cli/src/cli.ts dev ./apps/small_apps/app_with_splash_screen/app_with_splash_screen.tsx",
+    "jamtools": "npx tsx packages/springboard/cli/src/cli.ts dev ./apps/jamtools/modules/index.ts",
+    "jamtools-cf": "npx tsx packages/springboard/cli/src/cli.ts build ./apps/jamtools/modules/index.ts --platforms cf-workers",
     "build-desktop": "RUN_SIDECAR_FROM_WEBVIEW=true npx tsx packages/springboard/cli/src/cli.ts build ./apps/jamtools/modules/index.ts --platforms desktop",
-    "build-all": "RUN_SIDECAR_FROM_WEBVIEW=true npx tsx packages/springboard/cli/src/cli.ts build ./apps/small_apps/empty_app/index.ts --platforms all",
-    "splash-screen-app": "npx tsx packages/springboard/cli/src/cli.ts dev ./apps/small_apps/app_with_splash_screen/app_with_splash_screen.tsx"
+    "build-all": "RUN_SIDECAR_FROM_WEBVIEW=true npx tsx packages/springboard/cli/src/cli.ts build ./apps/small_apps/empty_app/index.ts --platforms all"
   },
   "keywords": [],
   "author": "",
@@ -31,8 +33,8 @@
   "devDependencies": {
     "@jamtools/core": "workspace:*",
     "@springboardjs/platforms-browser": "workspace:*",
+    "@springboardjs/platforms-cf-workers": "workspace:*",
     "@springboardjs/platforms-node": "workspace:*",
-    "@springboardjs/platforms-partykit": "workspace:*",
     "@springboardjs/platforms-tauri": "workspace:*",
     "@springboardjs/plugin-svelte": "workspace:*",
     "@testing-library/jest-dom": "^6.4.6",

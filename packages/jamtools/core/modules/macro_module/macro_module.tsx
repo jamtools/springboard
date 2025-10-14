@@ -124,7 +124,6 @@ export class MacroModule implements Module<MacroConfigState> {
 
     initialize = async () => {
         const registeredMacroCallbacks = (macroTypeRegistry.registerMacroType as unknown as {calls: CapturedRegisterMacroTypeCall[]}).calls || [];
-        macroTypeRegistry.registerMacroType = this.registerMacroType;
 
         for (const macroType of registeredMacroCallbacks) {
             this.registerMacroType(...macroType);

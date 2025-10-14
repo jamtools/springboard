@@ -6,9 +6,9 @@ import esbuild from 'esbuild';
 import {esbuildPluginLogBuildTime} from './esbuild_plugins/esbuild_plugin_log_build_time';
 import {esbuildPluginPlatformInject} from './esbuild_plugins/esbuild_plugin_platform_inject.js';
 import {esbuildPluginHtmlGenerate} from './esbuild_plugins/esbuild_plugin_html_generate';
-import {esbuildPluginPartykitConfig} from './esbuild_plugins/esbuild_plugin_partykit_config';
+import {esbuildPluginCfWorkersConfig} from './esbuild_plugins/esbuild_plugin_cf_workers_config';
 
-export type SpringboardPlatform = 'all' | 'main' | 'mobile' | 'desktop' | 'browser_offline' | 'partykit';
+export type SpringboardPlatform = 'all' | 'main' | 'mobile' | 'desktop' | 'browser_offline' | 'cf-workers';
 
 type EsbuildOptions = Parameters<typeof esbuild.build>[0];
 
@@ -18,7 +18,12 @@ export type BuildConfig = {
     platform: NonNullable<EsbuildOptions['platform']>;
     name?: string;
     platformEntrypoint: () => string;
-    esbuildPlugins?: (args: {outDir: string; nodeModulesParentDir: string, documentMeta?: DocumentMeta}) => EsbuildPlugin[];
+    esbuildPlugins?: (args: {
+        outDir: string;
+        nodeModulesParentDir: string;
+        documentMeta?: DocumentMeta;
+        name?: string;
+    }) => esbuild.Plugin[];
     externals?: () => string[];
     additionalFiles?: Record<string, string>;
     fingerprint?: boolean;
@@ -80,9 +85,7 @@ export const platformOfflineBrowserBuildConfig: BuildConfig = {
 export const platformNodeBuildConfig: BuildConfig = {
     platform: 'node',
     platformEntrypoint: () => {
-        // const entrypoint = '@springboardjs/platforms-node/entrypoints/node_main_entrypoint.ts';
-        const entrypoint = '@springboardjs/platforms-node/entrypoints/node_flexible_entrypoint.ts';
-
+        const entrypoint = '@springboardjs/platforms-node/entrypoints/node_entrypoint.ts';
         return entrypoint;
     },
     esbuildPlugins: () => [
@@ -98,25 +101,65 @@ export const platformNodeBuildConfig: BuildConfig = {
     },
 };
 
-export const platformPartykitServerBuildConfig: BuildConfig = {
+export const platformCfWorkersServerBuildConfig: BuildConfig = {
     platform: 'neutral',
     platformEntrypoint: () => {
-        const entrypoint = '@springboardjs/platforms-partykit/src/entrypoints/partykit_server_entrypoint.ts';
+        const entrypoint = '@springboardjs/platforms-cf-workers/entrypoints/cf_worker_entrypoint.ts';
         return entrypoint;
     },
     esbuildPlugins: (args) => [
         esbuildPluginPlatformInject('fetch'),
-        esbuildPluginPartykitConfig(args.outDir),
+        esbuildPluginCfWorkersConfig(args.outDir, args.name || 'cf-workers-app'),
+        {
+            name: 'crypto-alias',
+            setup(build: any) {
+                // Alias node:crypto to use Web Crypto API for Cloudflare Workers
+                build.onResolve({ filter: /^node:crypto$/ }, (args: any) => {
+                    return {
+                        path: args.path,
+                        namespace: 'crypto-shim'
+                    };
+                });
+
+                build.onResolve({ filter: /^crypto$/ }, (args: any) => {
+                    return {
+                        path: args.path,
+                        namespace: 'crypto-shim'
+                    };
+                });
+
+                build.onLoad({ filter: /.*/, namespace: 'crypto-shim' }, () => {
+                    return {
+                        contents: `export const webcrypto = crypto;`,
+                        loader: 'js'
+                    };
+                });
+            }
+        },
     ],
     externals: () => {
-        const externals = ['@julusian/midi', 'easymidi', 'jsdom', 'node:async_hooks'];
+        const externals = ['@julusian/midi', 'easymidi', 'jsdom', 'node:async_hooks', 'cloudflare:workers'];
         return externals;
     },
 };
 
-export const platformPartykitBrowserBuildConfig: BuildConfig = {
+export const platformCfWorkersBrowserBuildConfig: BuildConfig = {
     ...platformBrowserBuildConfig,
-    platformEntrypoint: () => '@springboardjs/platforms-partykit/src/entrypoints/partykit_browser_entrypoint.tsx',
+    platformEntrypoint: () => '@springboardjs/platforms-cf-workers/entrypoints/cf_worker_browser_entrypoint.tsx',
+    esbuildPlugins: (args) => [
+        ...platformBrowserBuildConfig.esbuildPlugins?.(args) || [],
+        {
+            name: 'move-html',
+            setup(build) {
+                build.onEnd(async () => {
+                    const htmlFilePath = `${args.outDir}/index.html`;
+                    const newHtmlFilePath = `${args.outDir}/../index.html`;
+
+                    await fs.promises.rename(htmlFilePath, newHtmlFilePath);
+                });
+            },
+        },
+    ],
 };
 
 const copyDesktopFiles = async (desktopPlatform: string) => {
@@ -184,7 +227,21 @@ export const buildApplication = async (buildConfig: BuildConfig, options?: Appli
         outDir += '/' + childDir;
     }
 
-    const fullOutDir = `${outDir}/${buildConfig.platform}/dist`;
+    // Determine platform family and context based on build config
+    let platformFamily = 'node'; // default
+    let context = 'server'; // default
+    
+    const entrypoint = buildConfig.platformEntrypoint();
+    if (entrypoint.includes('cf-workers') || entrypoint.includes('cf_worker')) {
+        platformFamily = 'cf-workers';
+        if (entrypoint.includes('browser')) {
+            context = 'browser';
+        }
+    } else if (entrypoint.includes('browser') || buildConfig.platform === 'browser') {
+        context = 'browser';
+    }
+    
+    const fullOutDir = `${outDir}/${platformFamily}/${context}/dist`;
 
     if (!fs.existsSync(fullOutDir)) {
         fs.mkdirSync(fullOutDir, {recursive: true});
@@ -202,6 +259,7 @@ export const buildApplication = async (buildConfig: BuildConfig, options?: Appli
 
     const allImports = `import initApp from '${coreFile}';
 import '${applicationEntrypoint}';
+export * from '${coreFile}';
 export default initApp;
 `
 
@@ -245,6 +303,7 @@ export default initApp;
                 outDir: fullOutDir,
                 nodeModulesParentDir: nodeModulesParentFolder,
                 documentMeta: options?.documentMeta,
+                name: appName,
             }) || []),
             ...plugins.map(p => p.esbuildPlugins?.({
                 outDir: fullOutDir,
@@ -264,6 +323,8 @@ export default initApp;
             'process.env.DEBUG_LOG_PERFORMANCE': `"${process.env.DEBUG_LOG_PERFORMANCE || ''}"`,
             'process.env.RELOAD_CSS': `"${options?.dev?.reloadCss || ''}"`,
             'process.env.RELOAD_JS': `"${options?.dev?.reloadJs || ''}"`,
+            ...getPublicEnvVarsDefine(),
+            'import.meta.env': '{}', // fallback to make missing `import.meta.env` vars at compile time to be individually be "undefined" at runtime
         },
     };
 
@@ -300,101 +361,16 @@ export default initApp;
     }
 };
 
-export type ServerBuildOptions = {
-    coreFile?: string;
-    esbuildOutDir?: string;
-    serverEntrypoint?: string;
-    applicationDistPath?: string;
-    watch?: boolean;
-    editBuildOptions?: (options: EsbuildOptions) => void;
-    plugins?: Plugin[];
-};
+const getPublicEnvVarsDefine = () => {
+    const publicEnvVars: Record<string, string> = {};
 
-export const buildServer = async (options?: ServerBuildOptions) => {
-    const externals = ['better-sqlite3', '@julusian/midi', 'easymidi', 'jsdom'];
-
-    const parentOutDir = process.env.ESBUILD_OUT_DIR || './dist';
-    const childDir = options?.esbuildOutDir;
-
-    let outDir = parentOutDir;
-    if (childDir) {
-        outDir += '/' + childDir;
-    }
-
-    const fullOutDir = `${outDir}/server/dist`;
-
-    if (!fs.existsSync(fullOutDir)) {
-        fs.mkdirSync(fullOutDir, {recursive: true});
-    }
-
-    const outFile = path.join(fullOutDir, 'local-server.cjs');
-
-
-    let coreFile = options?.coreFile || 'springboard-server/src/entrypoints/local-server.entrypoint.ts';
-    let applicationDistPath = options?.applicationDistPath || '../../node/dist/dynamic-entry.js';
-    // const applicationDistPath = options?.applicationDistPath || '../../node/dist/index.js';
-    let serverEntrypoint = process.env.SERVER_ENTRYPOINT || options?.serverEntrypoint;
-
-    if (path.isAbsolute(coreFile)) {
-        coreFile = path.relative(fullOutDir, coreFile).replace(/\\/g, '/');
-    }
-
-    if (path.isAbsolute(applicationDistPath)) {
-        applicationDistPath = path.relative(fullOutDir, applicationDistPath).replace(/\\/g, '/');
-    }
-
-    if (serverEntrypoint && path.isAbsolute(serverEntrypoint)) {
-        serverEntrypoint = path.relative(fullOutDir, serverEntrypoint).replace(/\\/g, '/');
-    }
-
-    let allImports = `import createDeps from '${coreFile}';`;
-    if (serverEntrypoint) {
-        allImports += `import '${serverEntrypoint}';`;
-    }
-
-    allImports += `import app from '${applicationDistPath}';
-createDeps().then(deps => app(deps));
-`;
-
-    const dynamicEntryPath = path.join(fullOutDir, 'dynamic-entry.js');
-    fs.writeFileSync(dynamicEntryPath, allImports);
-
-    const buildOptions: EsbuildOptions = {
-        entryPoints: [dynamicEntryPath],
-        metafile: shouldOutputMetaFile,
-        bundle: true,
-        sourcemap: true,
-        outfile: outFile,
-        platform: 'node',
-        minify: process.env.NODE_ENV === 'production',
-        target: 'es2020',
-        plugins: [
-            esbuildPluginLogBuildTime('server'),
-            esbuildPluginPlatformInject('node'),
-            ...(options?.plugins?.map(p => p({platform: 'node', platformEntrypoint: () => ''}).esbuildPlugins?.({
-                outDir: fullOutDir,
-                nodeModulesParentDir: '',
-                documentMeta: {},
-            }).filter(p => isNotUndefined(p)) || []).flat() || []),
-        ],
-        external: externals,
-        define: {
-            'process.env.NODE_ENV': `"${process.env.NODE_ENV || ''}"`,
-        },
-    };
-
-    options?.editBuildOptions?.(buildOptions);
-
-    if (options?.watch) {
-        const ctx = await esbuild.context(buildOptions);
-        await ctx.watch();
-        console.log('Watching for changes for server build...');
-    } else {
-        const result = await esbuild.build(buildOptions);
-        if (shouldOutputMetaFile) {
-            await fs.promises.writeFile('esbuild_meta_server.json', JSON.stringify(result.metafile));
+    for (const [key, value] of Object.entries(process.env)) {
+        if (key.startsWith('PUBLIC_')) {
+            publicEnvVars[`import.meta.env.${key}`] = `"${value || ''}"`;
         }
     }
+
+    return publicEnvVars;
 };
 
 const findNodeModulesParentFolder = async () => {
