@@ -142,6 +142,10 @@ export class IoModule implements Module<IoState> {
         this.ioDeps.midi.send(outputName, midiEvent);
     };
 
+    public getMidiClockService = () => {
+        return this.ioDeps.midi.getClockService();
+    };
+
     onNewMidiDeviceFound = (deviceInfo: {name: string}) => {
         const existsInConfig = false;
         if (!existsInConfig) {

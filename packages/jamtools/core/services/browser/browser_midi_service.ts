@@ -4,11 +4,13 @@ import {MidiInputEventPayload, MidiService} from '@jamtools/core/types/io_types'
 
 import {NoteMessageEvent, WebMidi} from 'webmidi';
 import {DeviceInfo, MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
+import {MidiClockService} from '../midi_clock_service';
 
 export class BrowserMidiService implements MidiService {
     private midi!: typeof WebMidi;
     private inputs: Record<string, typeof WebMidi['inputs'][0]> = {};
     private outputs: Record<string, typeof WebMidi['outputs'][0]> = {};
+    private clockService = new MidiClockService();
 
     public onInputEvent = new Subject<MidiInputEventPayload>();
     public onDeviceStatusChange = new Subject<DeviceInfo & {status: 'connected' | 'disconnected'}>();
@@ -59,6 +61,10 @@ export class BrowserMidiService implements MidiService {
 
     getOutputs = (): string[] => {
         return Object.keys(this.outputs);
+    };
+
+    public getClockService = () => {
+        return this.clockService;
     };
 
     private initializeMidiOutputDevice = (outputName: string) => {
@@ -164,6 +170,33 @@ export class BrowserMidiService implements MidiService {
                 // console.log(midiEvent);
 
                 publishMidiEvent(midiEvent);
+            });
+
+            // Handle MIDI clock messages
+            input.addListener('clock', (event) => {
+                const timestamp = performance.now();
+                this.clockService.processClockMessage(timestamp);
+                
+                // Publish clock event to the general MIDI stream
+                const clockEvent: MidiEvent = {
+                    type: 'clock',
+                    channel: 0, // System messages don't have channels
+                    number: 0,
+                    velocity: 0,
+                };
+                publishMidiEvent(clockEvent);
+            });
+
+            input.addListener('start', (event) => {
+                this.clockService.processStartMessage(performance.now());
+            });
+
+            input.addListener('stop', (event) => {
+                this.clockService.processStopMessage(performance.now());
+            });
+
+            input.addListener('continue', (event) => {
+                this.clockService.processContinueMessage(performance.now());
             });
 
         } catch (e) {

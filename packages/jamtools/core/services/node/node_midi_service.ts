@@ -5,12 +5,14 @@ import easymidi, {Channel} from 'easymidi';
 import {MidiInputEventPayload, MidiService} from '@jamtools/core/types/io_types';
 import {DeviceInfo, MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
 import {NodeMidiDevicePollerService} from './node_midi/midi_poller';
+import {MidiClockService} from '../midi_clock_service';
 
 export class NodeMidiService implements MidiService {
     private inputs: easymidi.Input[] = [];
     private outputs: easymidi.Output[] = [];
     private errorDevices: string[] = [];
     private pollService = new NodeMidiDevicePollerService();
+    private clockService = new MidiClockService();
 
     public onDeviceStatusChange = new Subject<DeviceInfo & {status: 'connected' | 'disconnected'}>();
     public onInputEvent = new Subject<MidiInputEventPayload>();
@@ -28,6 +30,10 @@ export class NodeMidiService implements MidiService {
 
     public getOutputs = () => {
         return this.outputs.map(o => o.name).filter(d => !d.startsWith('Midi Through') && !d.includes('RtMidi'));
+    };
+
+    public getClockService = () => {
+        return this.clockService;
     };
 
     private initializeMidiInputDevice = (inputName: string) => {
@@ -97,6 +103,38 @@ export class NodeMidiService implements MidiService {
 
                 publishMidiEvent(midiEvent);
             });
+
+            // Handle MIDI clock messages using clock event (if supported by easymidi)
+            try {
+                input.on('clock' as any, () => {
+                    const timestamp = performance.now();
+                    this.clockService.processClockMessage(timestamp);
+                    
+                    // Publish clock event to the general MIDI stream
+                    const clockEvent: MidiEvent = {
+                        type: 'clock',
+                        channel: 0, // System messages don't have channels
+                        number: 0,
+                        velocity: 0,
+                    };
+                    publishMidiEvent(clockEvent);
+                });
+
+                input.on('start' as any, () => {
+                    this.clockService.processStartMessage(performance.now());
+                });
+
+                input.on('stop' as any, () => {
+                    this.clockService.processStopMessage(performance.now());
+                });
+
+                input.on('continue' as any, () => {
+                    this.clockService.processContinueMessage(performance.now());
+                });
+            } catch (e) {
+                // Clock events not supported by this version of easymidi
+                console.warn('MIDI clock events not supported on this device:', inputName);
+            }
 
             this.inputs.push(input);
             // console.log('initialized midi input:', input.name);

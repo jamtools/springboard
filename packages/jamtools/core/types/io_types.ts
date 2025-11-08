@@ -1,5 +1,6 @@
 import {Subject} from 'rxjs';
 import {DeviceInfo, MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
+import {MidiClockService} from '../services/midi_clock_service';
 
 export type QwertyCallbackPayload = {
     event: 'keydown' | 'keyup';
@@ -19,4 +20,5 @@ export type MidiService = {
     getInputs: () => string[];
     getOutputs: () => string[];
     send: (outputName: string, event: MidiEvent) => void;
+    getClockService: () => MidiClockService;
 }
