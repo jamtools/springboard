@@ -75,6 +75,14 @@ export const platformBrowserBuildConfig: BuildConfig = {
 export const platformOfflineBrowserBuildConfig: BuildConfig = {
     ...platformBrowserBuildConfig,
     platformEntrypoint: () => '@springboardjs/platforms-browser/entrypoints/offline_entrypoint.ts',
+    esbuildPlugins: (args) => [
+        esbuildPluginPlatformInject('browser', {preserveServerStatesAndActions: true}),
+        esbuildPluginHtmlGenerate(
+            args.outDir,
+            `${args.nodeModulesParentDir}/node_modules/@springboardjs/platforms-browser/index.html`,
+            args.documentMeta,
+        ),
+    ],
 };
 
 export const platformNodeBuildConfig: BuildConfig = {

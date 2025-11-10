@@ -371,7 +371,7 @@ export class SingleOctaveRootModeSupervisor {
             debugSavedInputEvent,
             debugMidiState,
         ] = await Promise.all([
-            this.moduleAPI.statesAPI.createPersistentState<boolean>(makeStateName('enableDebugging'), true),
+            this.moduleAPI.statesAPI.createSharedState<boolean>(makeStateName('enableDebugging'), true),
             this.moduleAPI.statesAPI.createSharedState<MidiEventFull | null>(makeStateName('debugSavedInputEvent'), null),
             this.moduleAPI.statesAPI.createSharedState<SingleOctaveRootModeSupervisorMidiState>(makeStateName('debugMidiState'), this.midiState),
         ]);

@@ -203,3 +203,44 @@ export class SharedStateSupervisor<State> implements StateSupervisor<State> {
         return useSubject<State>(this.getState(), this.subject)!;
     };
 }
+
+/**
+ * Server-only state supervisor that persists to storage but does NOT sync to clients.
+ * This is useful for server-side data that should never be exposed to the client.
+ */
+export class ServerStateSupervisor<State> implements StateSupervisor<State> {
+    public subject: Subject<State> = new Subject();
+    public subjectForKVStorePublish: Subject<State> = new Subject();
+    private currentValue: State;
+
+    constructor(private key: string, initialValue: State) {
+        this.currentValue = initialValue;
+    }
+
+    public getState = (): State => {
+        return this.currentValue;
+    };
+
+    public setState = (state: State | StateCallback<State>): State => {
+        if (typeof state === 'function') {
+            const cb = state as StateCallback<State>;
+            const result = cb(this.getState());
+            return this.setState(result);
+        }
+
+        this.currentValue = state;
+        this.subject.next(state);
+        this.subjectForKVStorePublish.next(state);
+        // NOTE: Deliberately does NOT call sendRpcSetSharedState - this is server-only state
+        return state;
+    };
+
+    public setStateImmer = (immerCallback: StateCallbackImmer<State>): State => {
+        const result = produce(this.getState(), immerCallback);
+        return this.setState(result);
+    };
+
+    public useState = (): State => {
+        return useSubject<State>(this.getState(), this.subject)!;
+    };
+}

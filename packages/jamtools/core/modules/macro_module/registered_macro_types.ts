@@ -11,7 +11,7 @@ export type RegisterMacroTypeOptions = {
 export type MacroAPI = {
     moduleAPI: ModuleAPI;
     midiIO: IoModule;
-    statesAPI: Pick<StatesAPI, 'createSharedState' | 'createPersistentState'>;
+    statesAPI: Pick<StatesAPI, 'createSharedState'>;
     createAction: ModuleAPI['createAction'];
     isMidiMaestro: () => boolean;
     onDestroy: (cb: () => void) => void;

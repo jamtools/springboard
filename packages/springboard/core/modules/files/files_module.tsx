@@ -41,7 +41,7 @@ type FilesModule = {
 }
 
 springboard.registerModule('Files', {}, async (moduleAPI): Promise<FilesModule> => {
-    const allStoredFiles = await moduleAPI.statesAPI.createPersistentState<FileInfo[]>('allStoredFiles', []);
+    const allStoredFiles = await moduleAPI.statesAPI.createSharedState<FileInfo[]>('allStoredFiles', []);
 
     const fileUploader = new IndexedDbFileStorageProvider();
     await fileUploader.initialize();

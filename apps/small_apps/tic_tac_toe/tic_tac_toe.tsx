@@ -53,9 +53,9 @@ const checkForWinner = (board: Board): Winner => {
 springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
     // TODO: springboard docs. if you need to wipe the initial state, you need to rename the state name
     // or "re-set" it right below for one run of the program
-    const boardState = await moduleAPI.statesAPI.createPersistentState<Board>('board_v5', initialBoard);
-    const winnerState = await moduleAPI.statesAPI.createPersistentState<Winner>('winner', null);
-    const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});
+    const boardState = await moduleAPI.statesAPI.createSharedState<Board>('board_v5', initialBoard);
+    const winnerState = await moduleAPI.statesAPI.createSharedState<Winner>('winner', null);
+    const scoreState = await moduleAPI.statesAPI.createSharedState<Score>('score', {X: 0, O: 0, stalemate: 0});
 
     const actions = moduleAPI.createActions({
         clickedCell: async (args: {row: number, column: number}) => {

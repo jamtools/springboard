@@ -87,9 +87,9 @@ class States {
             savedTabs,
             currentSetlistStatus,
         ] = await Promise.all([
-            this.moduleAPI.statesAPI.createPersistentState<UltimateGuitarSetlist[]>('saved_setlists', []),
-            this.moduleAPI.statesAPI.createPersistentState<UltimateGuitarTab[]>('saved_tabs', []),
-            this.moduleAPI.statesAPI.createPersistentState<UltimateGuitarSetlistStatus | null>('current_setlist_status', null),
+            this.moduleAPI.statesAPI.createSharedState<UltimateGuitarSetlist[]>('saved_setlists', []),
+            this.moduleAPI.statesAPI.createSharedState<UltimateGuitarTab[]>('saved_tabs', []),
+            this.moduleAPI.statesAPI.createSharedState<UltimateGuitarSetlistStatus | null>('current_setlist_status', null),
         ]);
 
         this.savedSetlists = savedSetlists;
