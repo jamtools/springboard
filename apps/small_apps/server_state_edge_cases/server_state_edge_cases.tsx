@@ -23,9 +23,9 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
         return { success: true, name };
     };
 
-    // Test 4: Regular createAction (should be stripped - testing backwards compatibility)
+    // Test 4: Regular createAction
     const regularAction1 = moduleAPI.createAction('regular1', {}, async () => {
-        console.log('Regular action - will be stripped in browser');
+        console.log('Regular action - will be kept in browser');
         return { data: 'regular' };
     });
 
@@ -49,7 +49,7 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
     const regularActions = moduleAPI.createActions({
         // Inline arrow function
         inlineArrow: async () => {
-            console.log('Regular action that will be stripped');
+            console.log('Regular action that will be kept');
             return { type: 'regular' };
         },
 
