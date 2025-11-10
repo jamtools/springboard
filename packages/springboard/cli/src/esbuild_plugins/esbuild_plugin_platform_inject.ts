@@ -20,9 +20,10 @@ export const esbuildPluginPlatformInject = (
 
                 // Early return if file doesn't need any transformations
                 const hasPlatformAnnotations = /@platform "(node|browser|react-native|fetch)"/.test(source);
-                const hasServerCalls = preserveServerStatesAndActions && /createServer(State|States|Action|Actions)/.test(source);
+                const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source);
+                const needsServerProcessing = hasServerCalls && ((platform === 'browser' || platform === 'react-native') && !preserveServerStatesAndActions);
 
-                if (!hasPlatformAnnotations && !hasServerCalls) {
+                if (!hasPlatformAnnotations && !needsServerProcessing) {
                     return {
                         contents: source,
                         loader: args.path.split('.').pop() as 'js',
