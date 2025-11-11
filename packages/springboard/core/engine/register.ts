@@ -1,10 +1,13 @@
-import {Module} from 'springboard/module_registry/module_registry';
+import {Module, DocumentMeta} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
 import type {ModuleAPI} from './module_api';
 import React from 'react';
 
+export type DocumentMetaFunction = (context: {path: string; params?: Record<string, string>}) => DocumentMeta | Promise<DocumentMeta>;
+
 export type RegisterRouteOptions = {
     hideApplicationShell?: boolean;
+    documentMeta?: DocumentMeta | DocumentMetaFunction;
 };
 
 export type ModuleCallback<ModuleReturnValue extends object> = (moduleAPI: ModuleAPI) =>

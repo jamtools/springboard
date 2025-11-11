@@ -91,7 +91,10 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.registerRoute('/', {}, () => {
+    moduleAPI.registerRoute('/', {documentMeta: async () => ({
+        title: 'Tic Tac Toe! Yeah!',
+        description: 'A simple tic-tac-toe game',
+    })}, () => {
         return (
             <TicTacToeBoard
                 board={boardState.useState()}

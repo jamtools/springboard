@@ -5,6 +5,19 @@ import {Subject} from 'rxjs';
 import type {ModuleAPI} from '../engine/module_api';
 import {RegisterRouteOptions} from '../engine/register';
 
+export type DocumentMeta = {
+    title?: string;
+    description?: string;
+    'Content-Security-Policy'?: string;
+    keywords?: string;
+    author?: string;
+    robots?: string;
+    'og:title'?: string;
+    'og:description'?: string;
+    'og:image'?: string;
+    'og:url'?: string;
+} & Record<string, string>;
+
 type RouteComponentProps = {
     navigate: (routeName: string) => void;
 };
