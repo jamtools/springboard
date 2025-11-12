@@ -50,7 +50,7 @@ export function matchPath(pattern: PathPattern, pathname: string): PathMatch | n
     const match = pathname.match(matcher);
     if (!match) return null;
 
-    let matchedPathname = match[0];
+    const matchedPathname = match[0];
     let pathnameBase = matchedPathname.replace(/(.)\/+$/, '$1');
     const captureGroups = match.slice(1);
 
