@@ -352,17 +352,21 @@ export class StatesAPI {
     public createServerState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
         const fullKey = `${this.prefix}|state.server|${stateName}`;
 
-        // Load from persistent storage if available
-        const storedValue = await this.coreDeps.storage.remote.get<State>(fullKey);
-        if (storedValue !== null && storedValue !== undefined) {
-            initialValue = storedValue;
-        } else if (this.coreDeps.isMaestro()) {
-            await this.coreDeps.storage.remote.set<State>(fullKey, initialValue);
+        const cachedValue = this.modDeps.services.serverStateService.getCachedValue(fullKey) as State | undefined;
+        if (cachedValue !== undefined) {
+            initialValue = cachedValue;
+        } else {
+            const storedValue = await this.coreDeps.storage.remote.get<State>(fullKey);
+            if (storedValue !== null && storedValue !== undefined) {
+                initialValue = storedValue;
+            } else if (this.coreDeps.isMaestro()) {
+                await this.coreDeps.storage.remote.set<State>(fullKey, initialValue);
+            }
         }
 
         const supervisor = new ServerStateSupervisor(fullKey, initialValue);
 
-        // Subscribe to persist changes to storage, but do NOT broadcast to clients
+        // Subscribe to persist changes to storage, but do not broadcast to clients
         const sub = supervisor.subjectForKVStorePublish.subscribe(async value => {
             await this.coreDeps.storage.remote.set(fullKey, value);
         });
@@ -373,7 +377,7 @@ export class StatesAPI {
 
     /**
      * Create multiple server-only states at once. Convenience method for batch creation.
-     * Each state is saved in persistent storage but is NOT synced to clients.
+     * Each state is saved in persistent storage but is not synced to clients.
     */
     public createServerStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
         const keys = Object.keys(states);

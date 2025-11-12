@@ -205,6 +205,36 @@ export class SharedStateSupervisor<State> implements StateSupervisor<State> {
 }
 
 /**
+ * Server-only state service for caching server state values.
+ * Does not sync to clients - this is for server-side data only.
+ */
+export class ServerStateService {
+    private cache: Record<string, any> = {};
+
+    constructor(private kv: KVStore) {}
+
+    initialize = async () => {
+        const allValues = await this.kv.getAll();
+        if (allValues) {
+            for (const key of Object.keys(allValues)) {
+                // Only cache keys that are server state (contain '|state.server|')
+                if (key.includes('|state.server|')) {
+                    this.setCachedValue(key, allValues[key]);
+                }
+            }
+        }
+    };
+
+    getCachedValue = <Value>(key: string): Value | undefined => {
+        return this.cache[key];
+    };
+
+    setCachedValue = <Value>(key: string, value: Value): void => {
+        this.cache[key] = value;
+    };
+}
+
+/**
  * Server-only state supervisor that persists to storage but does NOT sync to clients.
  * This is useful for server-side data that should never be exposed to the client.
  */
