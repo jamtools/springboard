@@ -10,6 +10,8 @@ import {NodeAppDependencies} from '@springboardjs/platforms-node/entrypoints/mai
 import {KVStoreFromKysely} from '@springboardjs/data-storage/kv_api_kysely';
 import {NodeKVStoreService} from '@springboardjs/platforms-node/services/node_kvstore_service';
 import {NodeLocalJsonRpcClientAndServer} from '@springboardjs/platforms-node/services/node_local_json_rpc';
+import type {DocumentMeta} from 'springboard/module_registry/module_registry';
+import type {DocumentMetaFunction} from 'springboard/engine/register';
 
 import {NodeJsonRpcServer} from './services/server_json_rpc';
 import {WebsocketServerCoreDependencies} from './ws_server_core_dependencies';
@@ -17,8 +19,6 @@ import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register';
 import {Springboard} from 'springboard/engine/engine';
 import {injectDocumentMeta} from './utils/inject_metadata';
 import {matchPath} from './utils/match_path';
-import type {DocumentMeta} from 'springboard/module_registry/module_registry';
-import type {DocumentMetaFunction} from 'springboard/engine/register';
 
 type InitAppReturnValue = {
     app: Hono;
@@ -124,26 +124,21 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
     let cachedBaseHtml: string | undefined;
     let storedEngine: Springboard | undefined;
 
-    /**
-     * Serves index.html with dynamic metadata injection based on the route
-     */
+
+    // Serves index.html with dynamic metadata injection based on the route
     const serveIndexWithMetadata = async (c: Context): Promise<string> => {
-        // Read and cache base HTML
         if (!cachedBaseHtml) {
             const fullPath = `${webappDistFolder}/index.html`;
             const fs = await import('node:fs');
             cachedBaseHtml = await fs.promises.readFile(fullPath, 'utf-8');
         }
 
-        // If engine not injected yet, return base HTML
         if (!storedEngine) {
             return cachedBaseHtml;
         }
 
-        // Get the request path
         const requestPath = c.req.path;
 
-        // Find matching route with metadata
         let documentMetaOrFunction: DocumentMeta | DocumentMetaFunction | undefined;
         let matchParams: Record<string, string> | undefined;
         const modules = storedEngine.moduleRegistry.getModules();
@@ -154,18 +149,15 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
             }
 
             for (const [routePath, route] of Object.entries(mod.routes)) {
-                // Check if route has metadata
                 if (!route.options?.documentMeta) {
                     continue;
                 }
 
-                // Determine the full route path
                 // Routes starting with '/' are absolute, others are relative to /modules/{moduleId}
                 const fullRoutePath = routePath.startsWith('/')
                     ? routePath
                     : `/modules/${mod.moduleId}${routePath}`;
 
-                // Use matchPath to check if the route matches
                 const match = matchPath(fullRoutePath, requestPath);
                 if (match) {
                     documentMetaOrFunction = route.options.documentMeta;
@@ -179,18 +171,15 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
             }
         }
 
-        // Resolve metadata (handle both static objects and functions)
         if (documentMetaOrFunction) {
             let documentMeta: DocumentMeta;
 
             if (typeof documentMetaOrFunction === 'function') {
-                // Call the function with context
                 documentMeta = await documentMetaOrFunction({
                     path: requestPath,
                     params: matchParams,
                 });
             } else {
-                // Use the static metadata
                 documentMeta = documentMetaOrFunction;
             }
 
@@ -289,7 +278,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
                 call(makeServerModuleAPI());
             }
 
-            // Catch-all route for SPA with dynamic metadata injection
+            // Catch-all route for SPA
             app.use('*', serveStatic({
                 root: webappDistFolder,
                 path: 'index.html',
