@@ -98,7 +98,7 @@ function escapeHtml(text: string): string {
         '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
-        "'": '&#39;',
+        '\'': '&#39;',
     };
     return text.replace(/[&<>"']/g, (char) => htmlEscapeMap[char] || char);
 }
