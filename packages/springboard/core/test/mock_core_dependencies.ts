@@ -60,7 +60,8 @@ export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOption
         showError: console.error,
         log: () => {},
         storage: {
-            remote: new MockKVStore(store),
+            shared: new MockKVStore(store),
+            server: new MockKVStore(store),
             userAgent: new MockKVStore(store),
         },
         files: {

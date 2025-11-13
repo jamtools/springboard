@@ -4,6 +4,7 @@ import springboard from 'springboard';
 import {Springboard} from 'springboard/engine/engine';
 
 import {CoreDependencies, KVStore, Rpc} from 'springboard/types/module_types';
+import {NullKVStore} from 'springboard/services/namespaced_kv_store';
 
 import {ReactNativeToWebviewKVService} from '../services/kv/kv_rn_and_webview';
 import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview';
@@ -108,7 +109,8 @@ export const createRNMainEngine = (props: {
         log: (...args) => console.log(...args),
         showError: (error) => console.error(error),
         storage: {
-            remote: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'remote'}, props.asyncStorageDependency),
+            shared: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'shared'}, props.asyncStorageDependency),
+            server: new NullKVStore(),
             userAgent: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'userAgent'}, props.asyncStorageDependency),
         },
         rpc: {

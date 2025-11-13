@@ -206,7 +206,8 @@ export class SharedStateSupervisor<State> implements StateSupervisor<State> {
 
 /**
  * Server-only state service for caching server state values.
- * Does not sync to clients - this is for server-side data only.
+ * Similar to SharedStateService but does not sync to clients via RPC.
+ * This is for server-side data only.
  */
 export class ServerStateService {
     private cache: Record<string, any> = {};
@@ -217,10 +218,7 @@ export class ServerStateService {
         const allValues = await this.kv.getAll();
         if (allValues) {
             for (const key of Object.keys(allValues)) {
-                // Only cache keys that are server state (contain '|state.server|')
-                if (key.includes('|state.server|')) {
-                    this.setCachedValue(key, allValues[key]);
-                }
+                this.setCachedValue(key, allValues[key]);
             }
         }
     };

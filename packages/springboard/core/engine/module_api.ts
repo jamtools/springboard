@@ -294,18 +294,18 @@ export class StatesAPI {
         if (cachedValue !== undefined) {
             initialValue = cachedValue;
         } else {
-            const storedValue = await this.coreDeps.storage.remote.get<State>(fullKey);
+            const storedValue = await this.coreDeps.storage.shared.get<State>(fullKey);
             if (storedValue !== null && storedValue !== undefined) { // this should really only use undefined for a signal
                 initialValue = storedValue;
             } else if (this.coreDeps.isMaestro()) {
-                await this.coreDeps.storage.remote.set<State>(fullKey, initialValue);
+                await this.coreDeps.storage.shared.set<State>(fullKey, initialValue);
             }
         }
 
         const supervisor = new SharedStateSupervisor(fullKey, initialValue, this.modDeps.services.remoteSharedStateService);
 
         const sub = supervisor.subjectForKVStorePublish.subscribe(async value => {
-            await this.coreDeps.storage.remote.set(fullKey, value);
+            await this.coreDeps.storage.shared.set(fullKey, value);
         });
         this.onDestroy(sub.unsubscribe);
 
@@ -347,20 +347,21 @@ export class StatesAPI {
     /**
      * Create a piece of server-only state that is saved in persistent storage but is NOT synced to clients.
      * This is useful for sensitive server-side data that should never be exposed to the client.
-     * The state is still persisted to the remote storage (database/etc), but changes are not broadcast via RPC.
+     * The state is still persisted to the server storage (database/etc), but changes are not broadcast via RPC.
     */
     public createServerState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
         const fullKey = `${this.prefix}|state.server|${stateName}`;
 
+        // Check cache first (populated during serverStateService.initialize())
         const cachedValue = this.modDeps.services.serverStateService.getCachedValue(fullKey) as State | undefined;
         if (cachedValue !== undefined) {
             initialValue = cachedValue;
         } else {
-            const storedValue = await this.coreDeps.storage.remote.get<State>(fullKey);
+            const storedValue = await this.coreDeps.storage.server.get<State>(fullKey);
             if (storedValue !== null && storedValue !== undefined) {
                 initialValue = storedValue;
             } else if (this.coreDeps.isMaestro()) {
-                await this.coreDeps.storage.remote.set<State>(fullKey, initialValue);
+                await this.coreDeps.storage.server.set<State>(fullKey, initialValue);
             }
         }
 
@@ -368,7 +369,7 @@ export class StatesAPI {
 
         // Subscribe to persist changes to storage, but do not broadcast to clients
         const sub = supervisor.subjectForKVStorePublish.subscribe(async value => {
-            await this.coreDeps.storage.remote.set(fullKey, value);
+            await this.coreDeps.storage.server.set(fullKey, value);
         });
         this.onDestroy(sub.unsubscribe);
 

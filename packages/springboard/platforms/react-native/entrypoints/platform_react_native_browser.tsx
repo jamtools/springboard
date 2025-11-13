@@ -37,6 +37,7 @@ import {RpcWebviewToRN} from '../services/rpc/rpc_webview_to_rn';
 import {WebviewToReactNativeKVService} from '../services/kv/kv_rn_and_webview';
 import {BrowserJsonRpcClientAndServer} from '@springboardjs/platforms-browser/services/browser_json_rpc';
 import {HttpKVStoreService} from 'springboard/services/http_kv_store_client';
+import {NullKVStore} from 'springboard/services/namespaced_kv_store';
 import {ReactNativeWebviewLocalTokenService} from '../services/rn_webview_local_token_service';
 
 export const startJamToolsAndRenderApp = async (args: {remoteUrl: string}): Promise<Springboard> => {
@@ -132,7 +133,8 @@ export const createRNWebviewEngine = (props: {remoteRpc: Rpc, remoteKv: KVStore,
         log: console.log,
         showError: (error: string) => console.error(error),
         storage: {
-            remote: remoteKVStore,
+            shared: remoteKVStore,
+            server: new NullKVStore(),
             userAgent: userAgentKVStore,
         },
         files: {

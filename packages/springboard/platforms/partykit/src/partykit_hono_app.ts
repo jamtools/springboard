@@ -6,6 +6,7 @@ import {NodeLocalJsonRpcClientAndServer} from '@springboardjs/platforms-node/ser
 
 import {Springboard} from 'springboard/engine/engine';
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
+import {NamespacedKVStore} from 'springboard/services/namespaced_kv_store';
 
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from 'springboard-server/src/register';
 import {PartykitJsonRpcServer} from './services/partykit_rpc_server';
@@ -91,7 +92,10 @@ export const initApp = (coreDeps: InitArgs): InitAppReturnValue => {
 
     const mockDeps = makeMockCoreDependencies({store: {}});
 
-    const kvStore = new PartykitKVStore(coreDeps.room, coreDeps.kvForHttp);
+    const baseKvStore = new PartykitKVStore(coreDeps.room, coreDeps.kvForHttp);
+
+    const sharedKvStore = new NamespacedKVStore(baseKvStore, 'shared:');
+    const serverKvStore = new NamespacedKVStore(baseKvStore, 'server:');
 
     let storedEngine: Springboard | undefined;
 
@@ -100,7 +104,8 @@ export const initApp = (coreDeps: InitArgs): InitAppReturnValue => {
             remote: rpc,
         },
         storage: {
-            remote: kvStore,
+            shared: sharedKvStore,
+            server: serverKvStore,
             userAgent: mockDeps.storage.userAgent,
         },
         injectEngine: (engine) => {

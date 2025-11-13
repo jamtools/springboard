@@ -15,7 +15,8 @@ export type CoreDependencies = {
         saveFile: (name: string, content: string) => Promise<void>;
     };
     storage: {
-        remote: KVStore;
+        shared: KVStore;
+        server: KVStore;
         userAgent: KVStore;
     };
     rpc: {

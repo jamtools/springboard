@@ -81,7 +81,7 @@ export class Springboard {
 
         this.remoteSharedStateService = new SharedStateService({
             rpc: this.coreDeps.rpc.remote,
-            kv: this.coreDeps.storage.remote,
+            kv: this.coreDeps.storage.shared,
             log: this.coreDeps.log,
             isMaestro: this.coreDeps.isMaestro,
         });
@@ -98,8 +98,10 @@ export class Springboard {
         });
         await this.localSharedStateService.initialize();
 
-        this.serverStateService = new ServerStateService(this.coreDeps.storage.remote);
-        await this.serverStateService.initialize();
+        this.serverStateService = new ServerStateService(this.coreDeps.storage.server);
+        if (this.coreDeps.isMaestro()) {
+            await this.serverStateService.initialize();
+        }
 
         this.moduleRegistry = new ModuleRegistry();
 
