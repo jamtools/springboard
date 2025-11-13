@@ -7,7 +7,7 @@ import React, {createContext, useContext, useState} from 'react';
 import {useMount} from 'springboard/hooks/useMount';
 import {ExtraModuleDependencies, Module, ModuleRegistry} from 'springboard/module_registry/module_registry';
 
-import {SharedStateService} from '../services/states/shared_state_service';
+import {SharedStateService, ServerStateService} from '../services/states/shared_state_service';
 import {ModuleAPI} from './module_api';
 
 type CapturedRegisterModuleCalls = [string, RegisterModuleOptions, ModuleCallback<any>];
@@ -61,6 +61,7 @@ export class Springboard {
 
     private remoteSharedStateService!: SharedStateService;
     private localSharedStateService!: SharedStateService;
+    private serverStateService!: ServerStateService;
 
     initialize = async () => {
         const initStartTime = now();
@@ -80,7 +81,7 @@ export class Springboard {
 
         this.remoteSharedStateService = new SharedStateService({
             rpc: this.coreDeps.rpc.remote,
-            kv: this.coreDeps.storage.remote,
+            kv: this.coreDeps.storage.shared,
             log: this.coreDeps.log,
             isMaestro: this.coreDeps.isMaestro,
         });
@@ -96,6 +97,11 @@ export class Springboard {
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.localSharedStateService.initialize();
+
+        this.serverStateService = new ServerStateService(this.coreDeps.storage.server);
+        if (this.coreDeps.isMaestro()) {
+            await this.serverStateService.initialize();
+        }
 
         this.moduleRegistry = new ModuleRegistry();
 
@@ -182,6 +188,7 @@ export class Springboard {
             services: {
                 remoteSharedStateService: this.remoteSharedStateService,
                 localSharedStateService: this.localSharedStateService,
+                serverStateService: this.serverStateService,
             },
         };
     };

@@ -148,12 +148,8 @@ export class MacroModule implements Module<MacroConfigState> {
                 return (args: any) => action(args, this.localMode ? {mode: 'local'} : undefined);
             },
             statesAPI: {
-                createSharedState: (key: string, defaultValue: any) => {
+                createSharedState: <State,>(key: string, defaultValue: State) => {
                     const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createSharedState;
-                    return func(key, defaultValue);
-                },
-                createPersistentState: (key: string, defaultValue: any) => {
-                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createPersistentState;
                     return func(key, defaultValue);
                 },
             },

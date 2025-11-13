@@ -53,7 +53,7 @@ macroTypeRegistry.registerMacroType(
             numberOfOctaves: conf.singleOctave ? 1 : initialUserDefinedConfig.numberOfOctaves,
         };
 
-        const pagedOctaveInputStoredConfig = await macroAPI.statesAPI.createPersistentState<PagedOctaveInputStoredConfig>(getKeyForMacro('pagedOctaveInputStoredConfig', fieldName), initialUserConfig);
+        const pagedOctaveInputStoredConfig = await macroAPI.statesAPI.createSharedState<PagedOctaveInputStoredConfig>(getKeyForMacro('pagedOctaveInputStoredConfig', fieldName), initialUserConfig);
 
         const showConfigurationFormState = await macroAPI.statesAPI.createSharedState<boolean>(getKeyForMacro('pagedOctaveInputShowForm', fieldName), false);
 

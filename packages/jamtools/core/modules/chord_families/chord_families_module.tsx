@@ -106,7 +106,7 @@ declare module 'springboard/module_registry/module_registry' {
 // });
 
 springboard.registerModule('chord_families', {}, async (moduleAPI) => {
-    const savedData = await moduleAPI.statesAPI.createPersistentState<ChordFamilyData[]>('all_chord_families', []);
+    const savedData = await moduleAPI.statesAPI.createSharedState<ChordFamilyData[]>('all_chord_families', []);
 
     const getChordFamilyHandler = (key: string): ChordFamilyHandler => {
         const data = savedData.getState()[0];

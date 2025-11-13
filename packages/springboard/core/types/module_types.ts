@@ -1,5 +1,5 @@
 import {Module, ModuleRegistry} from 'springboard/module_registry/module_registry';
-import {SharedStateService} from '../services/states/shared_state_service';
+import {SharedStateService, ServerStateService} from '../services/states/shared_state_service';
 
 export type ModuleCallback<T extends object,> = (coreDeps: CoreDependencies, modDependencies: ModuleDependencies) =>
 Promise<Module<T>> | Module<T>;
@@ -15,7 +15,8 @@ export type CoreDependencies = {
         saveFile: (name: string, content: string) => Promise<void>;
     };
     storage: {
-        remote: KVStore;
+        shared: KVStore;
+        server: KVStore;
         userAgent: KVStore;
     };
     rpc: {
@@ -63,5 +64,6 @@ export type ModuleDependencies = {
     services: {
         remoteSharedStateService: SharedStateService;
         localSharedStateService : SharedStateService;
+        serverStateService: ServerStateService;
     };
 }

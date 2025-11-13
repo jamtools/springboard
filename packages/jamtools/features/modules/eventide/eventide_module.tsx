@@ -14,8 +14,8 @@ type EventidePresetState = {
 }
 
 springbord.registerModule('Eventide', {}, async (moduleAPI) => {
-    const currentPresetState = await moduleAPI.statesAPI.createPersistentState<EventidePresetState | null>('currentPresetState', null);
-    const favoritedPresetsState = await moduleAPI.statesAPI.createPersistentState<string[]>('favoritedPresets', []);
+    const currentPresetState = await moduleAPI.statesAPI.createSharedState<EventidePresetState | null>('currentPresetState', null);
+    const favoritedPresetsState = await moduleAPI.statesAPI.createSharedState<string[]>('favoritedPresets', []);
 
     const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
     const eventideMacro = await macroModule.createMacro(moduleAPI, 'eventide_pedal', 'musical_keyboard_output', {});

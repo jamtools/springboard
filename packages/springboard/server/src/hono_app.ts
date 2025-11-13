@@ -10,6 +10,7 @@ import {NodeAppDependencies} from '@springboardjs/platforms-node/entrypoints/mai
 import {KVStoreFromKysely} from '@springboardjs/data-storage/kv_api_kysely';
 import {NodeKVStoreService} from '@springboardjs/platforms-node/services/node_kvstore_service';
 import {NodeLocalJsonRpcClientAndServer} from '@springboardjs/platforms-node/services/node_local_json_rpc';
+import {NamespacedKVStore} from 'springboard/services/namespaced_kv_store';
 
 import {NodeJsonRpcServer} from './services/server_json_rpc';
 import {WebsocketServerCoreDependencies} from './ws_server_core_dependencies';
@@ -39,6 +40,9 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
     const remoteKV = new KVStoreFromKysely(kvDeps.kvDatabase);
     const userAgentStore = new NodeKVStoreService('userAgent');
 
+    const sharedKV = new NamespacedKVStore(remoteKV, 'shared:');
+    const serverKV = new NamespacedKVStore(remoteKV, 'server:');
+
     const rpc = new NodeLocalJsonRpcClientAndServer({
         broadcastMessage: (message) => {
             return service.broadcastMessage(message);
@@ -59,31 +63,17 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
             return c.json({error: 'No key provided'}, 400);
         }
 
-        const value = await remoteKV.get(key);
+        const value = await sharedKV.get(key);
 
         return c.json(value || null);
     });
 
     app.post('/kv/set', async (c) => {
-        const body = await c.req.text();
-        const {key, value} = JSON.parse(body);
-
-        c.header('Content-Type', 'application/json');
-
-        if (!key) {
-            return c.json({error: 'No key provided'}, 400);
-        }
-
-        if (!value) {
-            return c.json({error: 'No value provided'}, 400);
-        }
-
-        await remoteKV.set(key, value);
-        return c.json({success: true});
+        return c.json({error: 'Direct KV set is not allowed'}, 400);
     });
 
     app.get('/kv/get-all', async (c) => {
-        const all = await remoteKV.getAll();
+        const all = await sharedKV.getAll();
         return c.json(all);
     });
 
@@ -187,7 +177,8 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
             local: undefined,
         },
         storage: {
-            remote: remoteKV,
+            shared: sharedKV,
+            server: serverKV,
             userAgent: userAgentStore,
         },
         injectEngine: (engine: Springboard) => {

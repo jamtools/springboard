@@ -2,6 +2,7 @@
 
 import {BrowserKVStoreService} from '@springboardjs/platforms-browser/services/browser_kvstore_service';
 import {HttpKVStoreService} from 'springboard/services/http_kv_store_client';
+import {NullKVStore} from 'springboard/services/namespaced_kv_store';
 import {startAndRenderBrowserApp} from '@springboardjs/platforms-browser/entrypoints/react_entrypoint';
 
 import {PartyKitRpcClient} from '../services/partykit_rpc_client';
@@ -27,8 +28,9 @@ setTimeout(() => {
             remote: rpc,
         },
         storage: {
+            shared: remoteKvStore,
+            server: new NullKVStore(),
             userAgent: userAgentKVStore,
-            remote: remoteKvStore,
         },
     });
 });

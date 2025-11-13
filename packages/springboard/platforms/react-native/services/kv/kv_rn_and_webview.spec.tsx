@@ -86,7 +86,7 @@ describe('KvRnWebview', () => {
 
         const rnEngine = createRNMainEngine({
             remoteRpc: mockRemoteRpcForRN,
-            remoteKv: mockCoreDepsForRN.storage.remote,
+            remoteKv: mockCoreDepsForRN.storage.shared,
             onMessageFromRN,
             asyncStorageDependency: mockAsyncStorage,
         });
@@ -101,7 +101,7 @@ describe('KvRnWebview', () => {
 
         const webviewEngine = createRNWebviewEngine({
             remoteRpc: mockRpcWebview,
-            remoteKv: mockCoreDepsForWebview.storage.remote,
+            remoteKv: mockCoreDepsForWebview.storage.shared,
             onMessageFromWebview,
         });
 

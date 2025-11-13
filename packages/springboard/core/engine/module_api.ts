@@ -1,4 +1,4 @@
-import {SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
+import {ServerStateSupervisor, SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
 import {ExtraModuleDependencies, Module, NavigationItemConfig, RegisteredRoute} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
 import {RegisterRouteOptions} from './register';
@@ -104,11 +104,51 @@ export class ModuleAPI {
         this.module.applicationShell = component;
     };
 
-    createStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
+    createSharedStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
         const keys = Object.keys(states);
         const promises = keys.map(async key => {
             return {
-                state: await this.statesAPI.createPersistentState(key, states[key]),
+                state: await this.statesAPI.createSharedState(key, states[key]),
+                key,
+            };
+        });
+
+        const result = {} as {[K in keyof States]: StateSupervisor<States[K]>};
+
+        const supervisors = await Promise.all(promises);
+        for (const key of keys) {
+            (result[key] as StateSupervisor<States[keyof States]>) = supervisors.find(s => s.key === key as any)!.state;
+        }
+
+        return result;
+    };
+
+    createStates = this.createSharedStates;
+
+    createServerStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
+        const keys = Object.keys(states);
+        const promises = keys.map(async key => {
+            return {
+                state: await this.statesAPI.createServerState(key, states[key]),
+                key,
+            };
+        });
+
+        const result = {} as {[K in keyof States]: StateSupervisor<States[K]>};
+
+        const supervisors = await Promise.all(promises);
+        for (const key of keys) {
+            (result[key] as StateSupervisor<States[keyof States]>) = supervisors.find(s => s.key === key as any)!.state;
+        }
+
+        return result;
+    };
+
+    createUserAgentStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
+        const keys = Object.keys(states);
+        const promises = keys.map(async key => {
+            return {
+                state: await this.statesAPI.createUserAgentState(key, states[key]),
                 key,
             };
         });
@@ -133,6 +173,32 @@ export class ModuleAPI {
         }
 
         return actions;
+    };
+
+    /**
+     * Create a server-only action that runs exclusively on the server.
+     * In client builds, the implementation will be stripped out, leaving only the RPC call structure.
+    */
+    createServerAction = <
+        Options extends ActionConfigOptions,
+        Args extends undefined | object,
+        ReturnValue extends Promise<undefined | void | null | object | number>
+    >(
+        actionName: string,
+        options: Options,
+        cb: undefined extends Args ? ActionCallback<Args, ReturnValue> : ActionCallback<Args, ReturnValue>
+    ): undefined extends Args ? ((args?: Args, options?: ActionCallOptions) => ReturnValue) : ((args: Args, options?: ActionCallOptions) => ReturnValue) => {
+        return this.createAction(actionName, options, cb);
+    };
+
+    /**
+     * Create multiple server-only actions that run exclusively on the server.
+     * In client builds, the implementations will be stripped out, leaving only the RPC call structure.
+    */
+    createServerActions = <Actions extends Record<string, ActionCallback<any, any>>>(
+        actions: Actions
+    ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
+        return this.createActions(actions);
     };
 
     setRpcMode = (mode: 'remote' | 'local') => {
@@ -217,45 +283,39 @@ export class StatesAPI {
     }
 
     /**
-     * Create a piece of state to be shared between all connected devices. This state should generally be treated as ephemeral, though it will be cached on the server to retain application state.
+     * Create a piece of state to be saved in persistent storage such as a database or localStorage.
+     * If the deployment is multi-player, then this data is shared between all connected devices.
+     * This is the primary method for creating shared state that persists and syncs across clients.
     */
     public createSharedState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
         const fullKey = `${this.prefix}|state.shared|${stateName}`;
-        const supervisor = new SharedStateSupervisor(fullKey, initialValue, this.modDeps.services.remoteSharedStateService);
-        return supervisor;
-    };
-
-    /**
-     * Create a piece of state to be saved in persistent storage such as a database or localStorage. If the deployment is multi-player, then this data is shared between all connected devices.
-    */
-    public createPersistentState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
-        const fullKey = `${this.prefix}|state.persistent|${stateName}`;
 
         const cachedValue = this.modDeps.services.remoteSharedStateService.getCachedValue(fullKey) as State | undefined;
         if (cachedValue !== undefined) {
             initialValue = cachedValue;
         } else {
-            const storedValue = await this.coreDeps.storage.remote.get<State>(fullKey);
+            const storedValue = await this.coreDeps.storage.shared.get<State>(fullKey);
             if (storedValue !== null && storedValue !== undefined) { // this should really only use undefined for a signal
                 initialValue = storedValue;
             } else if (this.coreDeps.isMaestro()) {
-                await this.coreDeps.storage.remote.set<State>(fullKey, initialValue);
+                await this.coreDeps.storage.shared.set<State>(fullKey, initialValue);
             }
         }
 
         const supervisor = new SharedStateSupervisor(fullKey, initialValue, this.modDeps.services.remoteSharedStateService);
 
-        // TODO: unsubscribe through onDestroy lifecycle of StatesAPI
-        // this createPersistentState function is not Maestro friendly
-        // every time you access coreDeps, that's the case
-        // persistent state has been a weird thing
         const sub = supervisor.subjectForKVStorePublish.subscribe(async value => {
-            await this.coreDeps.storage.remote.set(fullKey, value);
+            await this.coreDeps.storage.shared.set(fullKey, value);
         });
         this.onDestroy(sub.unsubscribe);
 
         return supervisor;
     };
+
+    /**
+     * @deprecated Use createSharedState instead. This is an alias for backwards compatibility.
+    */
+    public createPersistentState = this.createSharedState;
 
     /**
      * Create a piece of state to be saved on the given user agent. In the browser's case, this will use `localStorage`
@@ -282,5 +342,60 @@ export class StatesAPI {
         this.onDestroy(sub.unsubscribe);
 
         return supervisor;
+    };
+
+    /**
+     * Create a piece of server-only state that is saved in persistent storage but is NOT synced to clients.
+     * This is useful for sensitive server-side data that should never be exposed to the client.
+     * The state is still persisted to the server storage (database/etc), but changes are not broadcast via RPC.
+    */
+    public createServerState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
+        const fullKey = `${this.prefix}|state.server|${stateName}`;
+
+        // Check cache first (populated during serverStateService.initialize())
+        const cachedValue = this.modDeps.services.serverStateService.getCachedValue(fullKey) as State | undefined;
+        if (cachedValue !== undefined) {
+            initialValue = cachedValue;
+        } else {
+            const storedValue = await this.coreDeps.storage.server.get<State>(fullKey);
+            if (storedValue !== null && storedValue !== undefined) {
+                initialValue = storedValue;
+            } else if (this.coreDeps.isMaestro()) {
+                await this.coreDeps.storage.server.set<State>(fullKey, initialValue);
+            }
+        }
+
+        const supervisor = new ServerStateSupervisor(fullKey, initialValue);
+
+        // Subscribe to persist changes to storage, but do not broadcast to clients
+        const sub = supervisor.subjectForKVStorePublish.subscribe(async value => {
+            await this.coreDeps.storage.server.set(fullKey, value);
+        });
+        this.onDestroy(sub.unsubscribe);
+
+        return supervisor;
+    };
+
+    /**
+     * Create multiple server-only states at once. Convenience method for batch creation.
+     * Each state is saved in persistent storage but is not synced to clients.
+    */
+    public createServerStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
+        const keys = Object.keys(states);
+        const promises = keys.map(async key => {
+            return {
+                state: await this.createServerState(key, states[key]),
+                key,
+            };
+        });
+
+        const result = {} as {[K in keyof States]: StateSupervisor<States[K]>};
+
+        const supervisors = await Promise.all(promises);
+        for (const key of keys) {
+            (result[key] as StateSupervisor<States[keyof States]>) = supervisors.find(s => s.key === key as any)!.state;
+        }
+
+        return result;
     };
 }

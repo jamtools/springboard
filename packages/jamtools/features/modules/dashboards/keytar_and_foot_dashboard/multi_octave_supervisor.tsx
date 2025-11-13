@@ -151,7 +151,7 @@ export class MultiOctaveSupervisor {
             debugSavedInputEvent,
             debugMidiState,
         ] = await Promise.all([
-            this.moduleAPI.statesAPI.createPersistentState<boolean>(makeStateName('enableDebugging'), true),
+            this.moduleAPI.statesAPI.createSharedState<boolean>(makeStateName('enableDebugging'), true),
             this.moduleAPI.statesAPI.createSharedState<MidiEventFull | null>(makeStateName('debugSavedInputEvent'), null),
             this.moduleAPI.statesAPI.createSharedState<MultiOctaveSupervisorMidiState>(makeStateName('debugMidiState'), this.midiState),
         ]);

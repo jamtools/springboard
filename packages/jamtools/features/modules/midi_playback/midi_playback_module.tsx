@@ -19,7 +19,7 @@ type MidiPlaybackModuleReturnValue = {
 springboard.registerModule('MidiPlayback', {}, async (moduleAPI): Promise<MidiPlaybackModuleReturnValue> => {
     const midiFileModule = moduleAPI.deps.module.moduleRegistry.getModule('MidiFile');
 
-    const savedMidiFileData = await moduleAPI.statesAPI.createPersistentState<ParsedMidiFile | null>('savedMidiFileData', null);
+    const savedMidiFileData = await moduleAPI.statesAPI.createSharedState<ParsedMidiFile | null>('savedMidiFileData', null);
 
     const outputDevice = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'outputDevice', 'musical_keyboard_output', {});
 
