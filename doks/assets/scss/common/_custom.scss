@@ -1,5 +1,16 @@
 // Put your custom SCSS code here
 
+.default-embed {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.default-embed iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
 svg[data-bs-theme-value="dark"], svg[data-bs-theme-value="light"] {
   display: none !important;
 }

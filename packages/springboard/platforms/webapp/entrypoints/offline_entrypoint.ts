@@ -1,7 +1,7 @@
 import {MockRpcService} from 'springboard/test/mock_core_dependencies';
 import React from 'react';
 
-import {BrowserKVStoreService} from 'services/browser_kvstore_service';
+import {BrowserKVStoreService} from '../services/browser_kvstore_service';
 import {startAndRenderBrowserApp} from './react_entrypoint';
 
 (globalThis as {useHashRouter?: boolean}).useHashRouter = true;
