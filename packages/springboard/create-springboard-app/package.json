@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "^5.4.5"
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "build": "npm run clean && npm run prebuild && npm run build-cli",

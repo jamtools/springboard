@@ -57,7 +57,7 @@ program
 
     const jamToolsPackage = template === 'jamtools' ? `@jamtools/core@${version}` : '';
 
-    const installDepsCommand = `${packageManager} install springboard@${version} springboard-server@${version} @springboardjs/platforms-node@${version} @springboardjs/platforms-browser@${version} ${jamToolsPackage} react react-dom react-router@6`;
+    const installDepsCommand = `${packageManager} install springboard@${version} springboard-server@${version} @springboardjs/platforms-node@${version} @springboardjs/platforms-browser@${version} ${jamToolsPackage} react react-dom react-router`;
     console.log(installDepsCommand);
     execSync(installDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
 

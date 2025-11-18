@@ -26,7 +26,7 @@
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "react": "catalog:",
+    "react": "19.2.0",
     "react-dom": "catalog:"
   },
   "config": {

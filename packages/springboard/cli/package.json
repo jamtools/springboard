@@ -25,7 +25,7 @@
     "build-empty-jamtools-app-all": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms all",
     "build-partykit": "ESBUILD_OUT_DIR=../platforms/partykit/dist npx tsx src/cli.ts build ../../../apps/small_apps/handraiser/index.ts --platforms partykit",
     "dev": "npm run build -- --watch",
-    "dev-dev": "npx tsx src/cli.ts dev ../../../apps/small_apps/handraiser/index.ts",
+    "dev-dev": "npx tsx src/cli.ts dev ../../../apps/jamtools/modules/index.ts",
     "clean": "rm -rf dist",
     "add-header": "./scripts/add-node-executable-header.sh",
     "cli-docs": "npx tsx scripts/make_cli_docs.ts",
@@ -33,10 +33,10 @@
   },
   "dependencies": {
     "commander": "catalog:",
-    "concurrently": "^9.1.0",
-    "esbuild": "catalog:",
+    "concurrently": "^9.2.1",
+    "esbuild": "0.27.0",
     "tslib": "catalog:",
-    "typescript": "^5.4.5"
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@springboardjs/platforms-browser": "workspace:*",
@@ -44,10 +44,11 @@
     "springboard": "workspace:*",
     "springboard-server": "workspace:*"
   },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-  },
   "description": ""
 }

@@ -13,15 +13,15 @@
     "build-macos": "npm run build-pkg -- --targets node20-macos-arm64 && mv src-tauri/binaries/local-server src-tauri/binaries/local-server-aarch64-apple-darwin"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.2.0",
-    "@tauri-apps/plugin-dialog": "~2.0.1",
-    "@tauri-apps/plugin-fs": "~2.2.0",
-    "@tauri-apps/plugin-shell": "^2"
+    "@tauri-apps/api": "catalog:",
+    "@tauri-apps/plugin-dialog": "catalog:",
+    "@tauri-apps/plugin-fs": "catalog:",
+    "@tauri-apps/plugin-shell": "catalog:"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2",
+    "@tauri-apps/cli": "catalog:",
     "@yao-pkg/pkg": "^6.1.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.3.1"
+    "typescript": "catalog:",
+    "vite": "catalog:"
   }
 }

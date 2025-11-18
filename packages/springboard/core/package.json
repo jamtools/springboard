@@ -31,23 +31,23 @@
     "utils"
   ],
   "peerDependencies": {
-    "json-rpc-2.0": "catalog:",
     "immer": "catalog:",
+    "json-rpc-2.0": "catalog:",
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "rxjs": "catalog:"
   },
   "dependencies": {
-    "dexie": "^4.0.9",
+    "dexie": "^4.2.1",
     "reconnecting-websocket": "catalog:",
-    "ws": "^8.18.0"
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@types/ws": "^8.5.12",
-    "react": "catalog:",
+    "@types/ws": "^8.18.1",
+    "react": "19.2.0",
     "react-dom": "catalog:"
   },
   "config": {
