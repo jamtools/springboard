@@ -41,6 +41,15 @@ export class MacroModule implements Module<MacroConfigState> {
 
     registeredMacroTypes: CapturedRegisterMacroTypeCall[] = [];
 
+    private localMode = false;
+
+    /**
+        This is used to determine if MIDI devices should be used client-side.
+    */
+    public setLocalMode = (mode: boolean) => {
+        this.localMode = mode;
+    };
+
     constructor(private coreDeps: CoreDependencies, private moduleDeps: ModuleDependencies) { }
 
     routes = {
@@ -133,6 +142,23 @@ export class MacroModule implements Module<MacroConfigState> {
         }
 
         const macroAPI: MacroAPI = {
+            midiIO: moduleAPI.getModule('io'),
+            createAction: (...args) => {
+                const action = moduleAPI.createAction(...args);
+                return (args: any) => action(args, this.localMode ? {mode: 'local'} : undefined);
+            },
+            statesAPI: {
+                createSharedState: (key: string, defaultValue: any) => {
+                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createSharedState;
+                    return func(key, defaultValue);
+                },
+                createPersistentState: (key: string, defaultValue: any) => {
+                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createPersistentState;
+                    return func(key, defaultValue);
+                },
+            },
+            createMacro: this.createMacro,
+            isMidiMaestro: () => this.coreDeps.isMaestro() || this.localMode,
             moduleAPI,
             onDestroy: (cb: () => void) => {
                 moduleAPI.onDestroy(cb);

@@ -12,10 +12,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@hono/trpc-server": "catalog:",
     "@springboardjs/platforms-browser": "workspace:*",
     "@springboardjs/platforms-node": "workspace:*",
-    "@trpc/server": "catalog:",
     "hono": "catalog:",
     "json-rpc-2.0": "catalog:",
     "partysocket": "^1.0.3",
@@ -23,6 +21,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "partykit": "^0.0.111"
   },
   "peerDependencies": {

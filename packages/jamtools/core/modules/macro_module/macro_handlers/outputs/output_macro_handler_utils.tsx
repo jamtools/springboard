@@ -28,11 +28,11 @@ type OutputMacroSaverOptions = {
 type CheckSavedMidiOutputsAreEqual = (state1: SavedOutputDeviceState, state2: SavedOutputDeviceState) => boolean;
 
 export const useOutputMacroWaiterAndSaver = async (macroAPI: MacroAPI, states: OutputMacroStateHolders, options: OutputMacroSaverOptions, fieldName: string, checkSavedMidiOutputsAreEqual: CheckSavedMidiOutputsAreEqual): Promise<MidiOutputMacroPayload> => {
-    const ioModule = macroAPI.moduleAPI.deps.module.moduleRegistry.getModule('io');
+    const ioModule = macroAPI.midiIO;
     const editingState = states.editing;
 
     const createAction = <Args extends object>(actionName: string, cb: (args: Args) => void) => {
-        return macroAPI.moduleAPI.createAction(`macro|${fieldName}|${actionName}`, {}, async (args: Args) => {
+        return macroAPI.createAction(`macro|${fieldName}|${actionName}`, {}, async (args: Args) => {
             return cb(args);
         });
     };

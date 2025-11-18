@@ -1,6 +1,8 @@
-import {ModuleAPI} from 'springboard/engine/module_api';
+import {ModuleAPI, StatesAPI} from 'springboard/engine/module_api';
 
 import type {MacroTypeConfigs} from './macro_module_types';
+import {IoModule} from '../io/io_module';
+import type {MacroModule} from './macro_module';
 
 export type RegisterMacroTypeOptions = {
 
@@ -8,7 +10,12 @@ export type RegisterMacroTypeOptions = {
 
 export type MacroAPI = {
     moduleAPI: ModuleAPI;
+    midiIO: IoModule;
+    statesAPI: Pick<StatesAPI, 'createSharedState' | 'createPersistentState'>;
+    createAction: ModuleAPI['createAction'];
+    isMidiMaestro: () => boolean;
     onDestroy: (cb: () => void) => void;
+    createMacro: MacroModule['createMacro'];
 };
 
 export type MacroCallback<MacroInputConf extends object, MacroReturnValue extends object> = (macroAPI: MacroAPI, macroInputConf: MacroInputConf, fieldName: string) =>

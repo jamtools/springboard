@@ -1,7 +1,7 @@
 (globalThis as {useHashRouter?: boolean}).useHashRouter = true;
 
 import {BrowserKVStoreService} from '@springboardjs/platforms-browser/services/browser_kvstore_service';
-import {TrpcKVStoreService} from 'springboard/services/trpc_kv_store_client';
+import {HttpKVStoreService} from 'springboard/services/http_kv_store_client';
 import {startAndRenderBrowserApp} from '@springboardjs/platforms-browser/entrypoints/react_entrypoint';
 
 import {PartyKitRpcClient} from '../services/partykit_rpc_client';
@@ -19,7 +19,7 @@ const partykitRoom = 'myroom';
 
 setTimeout(() => {
     const rpc = new PartyKitRpcClient(partykitWebsocketHost, partykitRoom);
-    const remoteKvStore = new TrpcKVStoreService(partykitHost);
+    const remoteKvStore = new HttpKVStoreService(partykitHost);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);
 
     startAndRenderBrowserApp({

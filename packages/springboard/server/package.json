@@ -17,7 +17,6 @@
   "dependencies": {
     "@hono/node-server": "^1.13.2",
     "@hono/node-ws": "^1.0.4",
-    "@hono/trpc-server": "catalog:",
     "json-rpc-2.0": "catalog:"
   },
   "config": {

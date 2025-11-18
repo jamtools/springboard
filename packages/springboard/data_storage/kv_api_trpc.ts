@@ -1,57 +1,31 @@
-import {z} from 'zod';
+import {KyselyDBWithKVStoreTable} from './kv_store_db_types';
 
-import {initTRPC} from '@trpc/server';
-import * as trpcExpress from '@trpc/server/adapters/express';
-import {KVEntry, KyselyKVStore} from './kv_store_db_types';
+export class HttpKvStoreFromKysely {
+    constructor(private db: KyselyDBWithKVStoreTable) {}
 
-export const makeKVTrpcRouter = (db: KyselyKVStore) => {
-    const createContext = ({
-        req,
-        res,
-    }: trpcExpress.CreateExpressContextOptions) => ({});
+    getAll = async () => {
+        return this.db.selectFrom('kvstore')
+            .select(['key', 'value'])
+            .execute();
+    };
 
-    type TrpcContext = Awaited<ReturnType<typeof createContext>>;
-    const t = initTRPC.context<TrpcContext>().create();
+    get = async <T>(key: string) => {
+        return this.db.selectFrom('kvstore')
+            .select(['value'])
+            .where('key', '=', key)
+            .executeTakeFirst().then(result => result?.value);
+    };
 
-    const trpcRouter = t.router({
-        kvGet: t.procedure
-            .input(z.object({
-                key: z.string(),
-            }))
-            .query(async (opts) => {
-                return db.selectFrom('kvstore')
-                    .select(['value'])
-                    .where('key', '=', opts.input.key)
-                    .executeTakeFirst().then(result => result?.value);
-            }),
-        kvGetAll: t.procedure
-            .query(async () => {
-                return db.selectFrom('kvstore')
-                    .select(['key', 'value'])
-                    .execute();
-            }),
-        kvPut: t.procedure
-            .input(z.object({
-                key: z.string(),
-                value: z.string(),
-            }))
-            .mutation(async (opts) => {
-                await db
-                    .insertInto('kvstore')
-                    .values({key: opts.input.key, value: opts.input.value})
-                    .onConflict((oc) =>
-                        oc
-                            .columns(['key'])
-                            .where('key', '=', opts.input.key)
-                            .doUpdateSet({value: opts.input.value})
-                    )
-                    .execute();
-                return {message: `updated ${opts.input.key} to ${opts.input.value}`}
-            }),
-
-    });
-
-    return trpcRouter;
+    set = async <T>(key: string, value: T) => {
+        await this.db
+            .insertInto('kvstore')
+            .values({key, value: JSON.stringify(value)})
+            .onConflict((oc) =>
+                oc
+                    .columns(['key'])
+                    .where('key', '=', key)
+                    .doUpdateSet({value: JSON.stringify(value)})
+            )
+            .execute();
+    };
 }
-
-export type KVTrpcRouter = ReturnType<typeof makeKVTrpcRouter>;

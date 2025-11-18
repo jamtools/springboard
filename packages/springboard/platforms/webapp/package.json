@@ -15,6 +15,7 @@
     "reconnecting-websocket": "catalog:"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "react": "catalog:",

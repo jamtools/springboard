@@ -1,12 +1,12 @@
 // TODO: make this an arbitrary store instead of specifically this one
 import {nodeRpcAsyncLocalStorage} from '@springboardjs/platforms-node/services/node_rpc_async_local_storage';
+import {Context} from 'hono';
 import {Connection, Room} from 'partykit/server';
-
-type PartykitRpcMiddleware = (conn: Connection, room: Room) => Promise<object>;
+import {RpcMiddleware} from 'springboard-server/src/register';
 
 type PartykitJsonRpcServerInitArgs = {
     processRequest: (message: string) => Promise<string>;
-    rpcMiddlewares: PartykitRpcMiddleware[];
+    rpcMiddlewares: RpcMiddleware[];
 }
 
 export class PartykitJsonRpcServer {
@@ -17,6 +17,10 @@ export class PartykitJsonRpcServer {
     };
 
     public onMessage = async (message: string, conn: Connection) => {
+        // we switched to using http for rpc, so this is no longer used
+    };
+
+    public processRequestWithMiddleware = async (message: string, c: Context) => {
         if (!message) {
             return;
         }
@@ -37,21 +41,24 @@ export class PartykitJsonRpcServer {
         const rpcContext: object = {};
         for (const middleware of this.initArgs.rpcMiddlewares) {
             try {
-                const middlewareResult = await middleware(conn, this.room);
+                const middlewareResult = await middleware(c);
                 Object.assign(rpcContext, middlewareResult);
             } catch (e) {
-                conn.send(JSON.stringify({
+                console.error('Error with rpc middleware', e);
+
+                return JSON.stringify({
                     jsonrpc: '2.0',
                     id: jsonMessage.id,
-                    error: (e as Error).message, // TODO: Probably shouldn't show this error directly to the user
-                }));
-                return;
+                    error: 'An error occurred',
+                });
             }
         }
 
-        nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
-            const response = await this.initArgs.processRequest(message);
-            conn.send(response);
+        return new Promise<string>((resolve) => {
+            nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
+                const response = await this.initArgs.processRequest(message);
+                resolve(response);
+            });
         });
     };
 }

@@ -31,7 +31,6 @@
     "utils"
   ],
   "peerDependencies": {
-    "@trpc/client": "^10.45.2",
     "json-rpc-2.0": "catalog:",
     "immer": "catalog:",
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
@@ -39,7 +38,6 @@
     "rxjs": "catalog:"
   },
   "dependencies": {
-    "@springboardjs/data-storage": "workspace:*",
     "dexie": "^4.0.9",
     "reconnecting-websocket": "catalog:",
     "ws": "^8.18.0"

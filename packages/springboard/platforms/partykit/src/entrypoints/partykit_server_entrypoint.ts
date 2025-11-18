@@ -2,16 +2,13 @@ import type * as Party from 'partykit/server';
 
 import {Hono} from 'hono';
 
-import {initTRPC} from '@trpc/server';
-import {z} from 'zod';
-
 import springboard from 'springboard';
 import type {NodeAppDependencies} from '@springboardjs/platforms-node/entrypoints/main';
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 import {Springboard} from 'springboard/engine/engine';
-import {CoreDependencies} from 'springboard/types/module_types';
+import {CoreDependencies, KVStore} from 'springboard/types/module_types';
 
-import {initApp} from '../partykit_hono_app';
+import {initApp, PartykitKvForHttp} from '../partykit_hono_app';
 
 import {PartykitJsonRpcServer} from '../services/partykit_rpc_server';
 
@@ -25,7 +22,7 @@ export default class Server implements Party.Server {
 
     constructor(readonly room: Party.Room) {
         const {app, nodeAppDependencies, rpcService} = initApp({
-            kvTrpcRouter: this.makeTrpcRouter(),
+            kvForHttp: this.makeKvStoreForHttp(),
             room,
         });
 
@@ -75,38 +72,30 @@ export default class Server implements Party.Server {
         await this.rpcService.onMessage(message, sender);
     }
 
-    private makeTrpcRouter = () => {
-        const t = initTRPC.context().create();
+    private makeKvStoreForHttp = (): PartykitKvForHttp => {
+        return {
+            get: async (key: string) => {
+                const value = this.kv[key];
+                if (!value) {
+                    return null;
+                }
 
-        const trpcRouter = t.router({
-            kvGet: t.procedure
-                .input(z.object({
-                    key: z.string(),
-                }))
-                .query(async (opts) => {
-                    return this.kv[opts.input.key] as string | undefined;
-                }),
-            kvGetAll: t.procedure
-                .query(async () => {
-                    const entries = Object.entries(this.kv).map(args => ({key: args[0], value: args[1]}));
-                    return entries;
-                }),
-            kvPut: t.procedure
-                .input(z.object({
-                    key: z.string(),
-                    value: z.string(),
-                }))
-                .mutation(async (opts) => {
-                    return {error: 'kvPut operation not supported on this platform'}
-                }),
+                return JSON.parse(value);
+            },
+            getAll: async () => {
+                const allEntriesAsRecord: Record<string, any> = {};
+                for (const key of Object.keys(this.kv)) {
+                    allEntriesAsRecord[key] = JSON.parse(this.kv[key]);
+                }
 
-        });
-
-        return trpcRouter;
+                return allEntriesAsRecord;
+            },
+            set: async (key: string, value: unknown) => {
+                this.kv[key] = JSON.stringify(value);
+            },
+        }
     };
 }
-
-export type PartykitTrpcRouter = ReturnType<Server['makeTrpcRouter']>;
 
 export const startSpringboardApp = async (deps: NodeAppDependencies): Promise<Springboard> => {
     const mockDeps = makeMockCoreDependencies({store: {}});

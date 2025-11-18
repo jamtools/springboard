@@ -36,6 +36,15 @@ on:
       APPLE_TEAM_ID:
         required: false
         type: string
+      tauri_project_path:
+        required: false
+        type: string
+      scaffold_tauri_project:
+        required: false
+        type: boolean
+      scaffold_tauri_project_config_path:
+        required: false
+        type: string
 
 jobs:
   build_tauri:
@@ -62,18 +71,21 @@ jobs:
         sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
     - name: Scaffold Tauri app
-      run: npx create-tauri-app@4.5.9 myapp -- --template vanilla --yes
-      working-directory: ./apps
+      if: ${{ inputs.scaffold_tauri_project }}
+      run: |
+        mkdir -p apps
+        cd apps
+        npx create-tauri-app@4.5.9 myapp -- --template vanilla --yes
 
     - name: Remove and move directories (Windows)
-      if: ${{ inputs.platform == 'windows-latest' }}
+      if: ${{ inputs.platform == 'windows-latest' && inputs.scaffold_tauri_project }}
       run: |
         Remove-Item -Recurse -Force apps\desktop_tauri
         Move-Item apps\myapp apps\desktop_tauri
       shell: pwsh
 
     - name: Remove and move directories (Unix)
-      if: ${{ inputs.platform != 'windows-latest' }}
+      if: ${{ inputs.platform != 'windows-latest' && inputs.scaffold_tauri_project }}
       run: |
         rm -rf apps/desktop_tauri && mv apps/myapp apps/desktop_tauri
       shell: bash
@@ -84,30 +96,33 @@ jobs:
     # TODO: install @springboardjs/platforms-tauri if not already installed
 
     - name: Patch Tauri app directory with config values
-      run: ../../node_modules/@springboardjs/platforms-tauri/scripts/update_desktop_project.sh
+      if: ${{ inputs.scaffold_tauri_project && inputs.scaffold_tauri_project_config_path }}
+      run: ../../node_modules/@springboardjs/platforms-tauri/scripts/update_desktop_project.sh ${{ inputs.scaffold_tauri_project_config_path }}
       working-directory: ./apps/desktop_tauri
 
     - name: Build app
       run: |
         touch .env
-        npm run build-all
-        # npm run build-desktop
+        # npm run build-all
+        npm run build-desktop
         # pnpm run build-desktop
 
     - name: Fetch Rust dependencies
-      run: cargo fetch
-      working-directory: ./apps/desktop_tauri/src-tauri
+      run: |
+        cargo fetch
+      working-directory: ${{inputs.tauri_project_path || './apps/desktop_tauri'}}/src-tauri
 
     - name: Conditionally Install Rust Target (macOS)
       if: inputs.platform == 'macos-latest'
       run: |
         rustup target add ${{ inputs.tauri_target }}
+      working-directory: ${{inputs.tauri_project_path || './apps/desktop_tauri'}}/src-tauri
 
     - name: Build node sidecar with pkg
       run: |
         pnpm install -g @yao-pkg/pkg
         node ../../node_modules/@springboardjs/platforms-tauri/scripts/build-tauri-sidecar.mjs
-      working-directory: ./apps/desktop_tauri
+      working-directory: ${{inputs.tauri_project_path || './apps/desktop_tauri'}}
       env:
         PKG_TARGET: ${{ inputs.pkg_target }}
         TAURI_TARGET: ${{ inputs.tauri_target }}
@@ -127,7 +142,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        projectPath: 'apps/desktop_tauri'
+        projectPath: ${{inputs.tauri_project_path || './apps/desktop_tauri'}}
         includeDebug: true
         includeRelease: true
         # tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.

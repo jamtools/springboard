@@ -9,7 +9,8 @@ export const esbuildPluginHtmlGenerate = (outDir: string, htmlFilePath: string, 
         name: 'html-asset-insert',
         setup(build) {
             build.onEnd(async result => {
-                const outputFiles = Object.keys(result.metafile!.outputs).filter(f => !f.endsWith('.map'));
+                if (!result.metafile?.outputs) return;
+                const outputFiles = Object.keys(result.metafile.outputs).filter(f => !f.endsWith('.map'));
 
                 let htmlFileContent = (await fs.promises.readFile(htmlFilePath)).toString();
                 const bodyEnd = '</body>';

@@ -14,7 +14,13 @@
   "peerDependencies": {
     "@springboardjs/platforms-browser": "workspace:*",
     "@tonejs/midi": "^2.0.0",
-    "springboard": "workspace:*"
+    "springboard": "workspace:*",
+    "svelte": ">= 5"
+  },
+  "peerDependenciesMeta": {
+    "svelte": {
+      "optional": true
+    }
   },
   "dependencies": {
     "easymidi": "^3.0.1",
@@ -29,7 +35,8 @@
     "@types/react-dom": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "rxjs": "catalog:"
+    "rxjs": "catalog:",
+    "svelte": "5.34.7"
   },
   "config": {
     "dir": "../../../configs"

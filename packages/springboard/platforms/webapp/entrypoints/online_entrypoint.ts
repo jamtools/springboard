@@ -1,6 +1,6 @@
 import {BrowserJsonRpcClientAndServer} from '../services/browser_json_rpc';
 import {BrowserKVStoreService} from '../services/browser_kvstore_service';
-import {TrpcKVStoreService} from 'springboard/services/trpc_kv_store_client';
+import {HttpKVStoreService} from 'springboard/services/http_kv_store_client';
 import {startAndRenderBrowserApp} from './react_entrypoint';
 
 let wsProtocol = 'ws';
@@ -18,7 +18,7 @@ const reloadJs = process.env.NODE_ENV === 'development' && process.env.RELOAD_JS
 
 setTimeout(() => {
     const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
-    const remoteKvStore = new TrpcKVStoreService(DATA_HOST);
+    const remoteKvStore = new HttpKVStoreService(DATA_HOST);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);
 
     startAndRenderBrowserApp({

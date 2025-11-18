@@ -1,8 +1,8 @@
 import {KVStore} from 'springboard/types/module_types';
-import {KyselyKVStore} from './kv_store_db_types';
+import {KyselyDBWithKVStoreTable} from './kv_store_db_types';
 
 export class KVStoreFromKysely implements KVStore {
-    constructor(private db: KyselyKVStore) { }
+    constructor(private db: KyselyDBWithKVStoreTable) { }
 
     get = async (key: string) => {
         return this.db.selectFrom('kvstore')

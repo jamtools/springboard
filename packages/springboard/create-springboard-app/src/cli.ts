@@ -46,7 +46,14 @@ program
 
     execSync('npm init -y', {cwd: process.cwd()});
     writeFileSync('./.npmrc', npmRcContent.join('\n'), {flag: 'w'});
-    writeFileSync('./.gitignore', 'node_modules\ndist', {flag: 'a'});
+
+    const gitIgnore = [
+        'node_modules',
+        'dist',
+        'data/kv_data.json',
+    ];
+
+    writeFileSync('./.gitignore', gitIgnore.join('\n'), {flag: 'a'});
 
     const jamToolsPackage = template === 'jamtools' ? `@jamtools/core@${version}` : '';
 

@@ -22,10 +22,10 @@ declare module '../../macro_module_types' {
 }
 
 macroTypeRegistry.registerMacroType('midi_control_change_input', {}, async (macroAPI, conf, fieldName) => {
-    const editing = await macroAPI.moduleAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
-    const waitingForConfiguration = await macroAPI.moduleAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
-    const capturedMidiEvent = await macroAPI.moduleAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);
-    const savedMidiEvents = await macroAPI.moduleAPI.statesAPI.createPersistentState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
+    const editing = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
+    const waitingForConfiguration = await macroAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
+    const capturedMidiEvent = await macroAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);
+    const savedMidiEvents = await macroAPI.statesAPI.createPersistentState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
     const states: InputMacroStateHolders = {
         editing,
         waiting: waitingForConfiguration,
@@ -35,11 +35,11 @@ macroTypeRegistry.registerMacroType('midi_control_change_input', {}, async (macr
 
     const macroReturnValue = await useInputMacroWaiterAndSaver(macroAPI, states, {}, fieldName, savedMidiEventsAreEqual);
 
-    if (!macroAPI.moduleAPI.deps.core.isMaestro() && !conf.allowLocal) {
+    if (!macroAPI.isMidiMaestro() && !conf.allowLocal) {
         return macroReturnValue;
     }
 
-    const sub = macroAPI.moduleAPI.deps.module.moduleRegistry.getModule('io').midiInputSubject.subscribe(event => {
+    const sub = macroAPI.midiIO.midiInputSubject.subscribe(event => {
         if (event.event.type !== 'cc') {
             return;
         }

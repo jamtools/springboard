@@ -1,15 +1,14 @@
 {
     "dependencies": {
         "npm": {
-            "@tauri-apps/api": "2.2.0",
             "@yao-pkg/pkg": "6.3.0"
         },
         "tauri": {
-            "opener": "2.2.0",
-            "persisted-scope": "2.2.0",
-            "dialog": "2.2.0",
-            "fs": "2.2.0",
-            "shell": "2.2.0"
+            "opener": "*",
+            "persisted-scope": "*",
+            "dialog": "*",
+            "fs": "*",
+            "shell": "*"
         }
     },
     "config": {

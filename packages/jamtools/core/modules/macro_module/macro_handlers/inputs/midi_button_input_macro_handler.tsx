@@ -32,10 +32,10 @@ declare module '../../macro_module_types' {
 }
 
 macroTypeRegistry.registerMacroType('midi_button_input', {}, async (macroAPI, conf, fieldName) => {
-    const editing = await macroAPI.moduleAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
-    const waitingForConfiguration = await macroAPI.moduleAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
-    const capturedMidiEvent = await macroAPI.moduleAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);
-    const savedMidiEvents = await macroAPI.moduleAPI.statesAPI.createPersistentState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
+    const editing = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
+    const waitingForConfiguration = await macroAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
+    const capturedMidiEvent = await macroAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);
+    const savedMidiEvents = await macroAPI.statesAPI.createPersistentState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
     const states: InputMacroStateHolders = {
         editing,
         waiting: waitingForConfiguration,
@@ -45,7 +45,7 @@ macroTypeRegistry.registerMacroType('midi_button_input', {}, async (macroAPI, co
 
     const initialMacroReturnValue = await useInputMacroWaiterAndSaver(macroAPI, states, {includeQwerty: conf.enableQwerty}, fieldName, savedMidiEventsAreEqual);
 
-    const onPress = macroAPI.moduleAPI.createAction(getKeyForMacro('onPress', fieldName), {}, async () => {
+    const onPress = macroAPI.createAction(getKeyForMacro('onPress', fieldName), {}, async () => {
         const event: MidiEventFull = {
             type: 'ui',
             deviceInfo: {
@@ -79,7 +79,7 @@ macroTypeRegistry.registerMacroType('midi_button_input', {}, async (macroAPI, co
         }
     };
 
-    if (!macroAPI.moduleAPI.deps.core.isMaestro()) {
+    if (!macroAPI.isMidiMaestro()) {
         return macroReturnValue;
     }
 
@@ -114,11 +114,11 @@ macroTypeRegistry.registerMacroType('midi_button_input', {}, async (macroAPI, co
         }
     };
 
-    const midiSubscription = macroAPI.moduleAPI.deps.module.moduleRegistry.getModule('io').midiInputSubject.subscribe(handleMidiEvent);
+    const midiSubscription = macroAPI.midiIO.midiInputSubject.subscribe(handleMidiEvent);
     macroAPI.onDestroy(midiSubscription.unsubscribe);
 
     if (conf.enableQwerty) {
-        const qwertySubscription = macroAPI.moduleAPI.deps.module.moduleRegistry.getModule('io').qwertyInputSubject.subscribe((qwertyEvent => {
+        const qwertySubscription = macroAPI.midiIO.qwertyInputSubject.subscribe((qwertyEvent => {
             const midiEvent = qwertyEventToMidiEvent(qwertyEvent, false);
             if (!midiEvent) {
                 return;

@@ -31,8 +31,13 @@ fi
 # Install Tauri plugins with specified versions
 tauri_plugins=$(echo "$CONFIG" | jq -r '.dependencies.tauri | to_entries[] | "\(.key)@\(.value)"')
 for plugin in $tauri_plugins; do
-  npx tauri add "$plugin"
-  # pnpm tauri add "$plugin"
+  name="${plugin%@*}"
+  version="${plugin#*@}"
+  if [[ "$version" == "*" ]]; then
+    npx tauri add "$name"
+  else
+    npx tauri add "$plugin"
+  fi
 done
 
 apply_json_merge() {

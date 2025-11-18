@@ -84,81 +84,74 @@ publish_package() {
 }
 
 bump_version "$root_dir/packages/springboard/data_storage"
+bump_version "$root_dir/packages/springboard/core"
+bump_version "$root_dir/packages/springboard/platforms/webapp"
+bump_version "$root_dir/packages/springboard/platforms/node"
+bump_version "$root_dir/packages/springboard/platforms/react-native"
+bump_version "$root_dir/packages/springboard/platforms/partykit"
+bump_version "$root_dir/packages/springboard/server"
+bump_version "$root_dir/packages/springboard/external/mantine"
+bump_version "$root_dir/packages/springboard/external/shoelace"
+bump_version "$root_dir/packages/jamtools/core"
+bump_version "$root_dir/packages/jamtools/features"
+bump_version "$root_dir/packages/springboard/cli"
+bump_version "$root_dir/packages/springboard/create-springboard-app"
+bump_version "$root_dir/packages/springboard/plugins/svelte"
+
+pnpm i
+
 publish_package "$root_dir/packages/springboard/data_storage"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/core"
 publish_package "$root_dir/packages/springboard/core"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/platforms/webapp"
-# bump_peer_dep "$root_dir/packages/springboard/platforms/webapp" "springboard"
 publish_package "$root_dir/packages/springboard/platforms/webapp"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/platforms/node"
-# bump_peer_dep "$root_dir/packages/springboard/platforms/node" "springboard"
 publish_package "$root_dir/packages/springboard/platforms/node"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/platforms/react-native"
-# bump_peer_dep "$root_dir/packages/springboard/platforms/react-native" "springboard"
 publish_package "$root_dir/packages/springboard/platforms/react-native"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/platforms/partykit"
-# bump_peer_dep "$root_dir/packages/springboard/platforms/partykit" "springboard"
 publish_package "$root_dir/packages/springboard/platforms/partykit"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/server"
-# bump_peer_dep "$root_dir/packages/springboard/server" "springboard"
-# bump_peer_dep "$root_dir/packages/springboard/server" "@springboardjs/data-storage"
 publish_package "$root_dir/packages/springboard/server"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/external/mantine"
-# bump_peer_dep "$root_dir/packages/springboard/external/mantine" "springboard"
 publish_package "$root_dir/packages/springboard/external/mantine"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/external/shoelace"
-# bump_peer_dep "$root_dir/packages/springboard/external/shoelace" "springboard"
 publish_package "$root_dir/packages/springboard/external/shoelace"
 
 sleep 1
 
-bump_version "$root_dir/packages/jamtools/core"
-# bump_peer_dep "$root_dir/packages/jamtools/core" "springboard"
 publish_package "$root_dir/packages/jamtools/core"
 
 sleep 1
 
-bump_version "$root_dir/packages/jamtools/features"
-# bump_peer_dep "$root_dir/packages/jamtools/features" "@jamtools/core"
-# bump_peer_dep "$root_dir/packages/jamtools/features" "@springboardjs/shoelace"
 publish_package "$root_dir/packages/jamtools/features"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/cli"
-# bump_peer_dep "$root_dir/packages/springboard/cli" "springboard"
-# bump_peer_dep "$root_dir/packages/springboard/cli" "@springboardjs/platforms-node"
-# bump_peer_dep "$root_dir/packages/springboard/cli" "@springboardjs/platforms-browser"
-# bump_peer_dep "$root_dir/packages/springboard/cli" "springboard-server"
 publish_package "$root_dir/packages/springboard/cli"
 
 sleep 1
 
-bump_version "$root_dir/packages/springboard/create-springboard-app"
 publish_package "$root_dir/packages/springboard/create-springboard-app"
+
+sleep 1
+
+publish_package "$root_dir/packages/springboard/plugins/svelte"
 
 # # npm i

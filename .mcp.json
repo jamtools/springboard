@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "batchit": {
+      "command": "npx",
+      "args": ["-y", "@mseep/mcp-batchit"]
+    }
+  }
+}

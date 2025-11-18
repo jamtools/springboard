@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)",
+      "Bash(npm i -g pnpm)",
+      "Bash(pnpm add:*)",
+      "Bash(npm run check-types:*)",
+      "Bash(pnpm i:*)",
+      "Bash(pnpm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(turbo run check-types:*)",
+      "Bash(turbo run lint:*)",
+      "Bash(turbo run build:*)",
+      "Bash(turbo run fix:*)",
+      "Bash(npm run ci:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run test:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "mcp__batchit__batch_execute"
+    ],
+    "deny": []
+  },
+  "enabledMcpjsonServers": [
+    "batchit"
+  ]
+}

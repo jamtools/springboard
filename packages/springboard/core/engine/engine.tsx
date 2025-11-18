@@ -1,6 +1,6 @@
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
 
-import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard} from './register';
+import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard, getRegisteredSplashScreen} from './register';
 
 import React, {createContext, useContext, useState} from 'react';
 
@@ -242,6 +242,11 @@ export const SpringboardProvider = (props: SpringboardProviderProps) => {
     });
 
     if (!engine) {
+        const SplashScreenComponent = getRegisteredSplashScreen();
+        if (SplashScreenComponent) {
+            return <SplashScreenComponent />;
+        }
+
         return (
             <Loader />
         );

@@ -33,10 +33,13 @@ jobs:
       tauri_args: ${{ matrix.args }}
       tauri_target: ${{ matrix.tauri_target }}
       pkg_target: ${{ matrix.pkg_target }}
-      sign_app: true
-      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-      APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-      APPLE_ID: ${{ secrets.APPLE_ID }}
-      APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      sign_app: false
+      # sign_app: true
+      # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      # APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      # APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+      # APPLE_ID: ${{ secrets.APPLE_ID }}
+      # APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+      # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      scaffold_tauri_project: true
+      scaffold_tauri_project_config_path: './configs/tauri_project_config.json'

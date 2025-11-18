@@ -15,4 +15,4 @@ export interface KVEntry {
     // created_at: ColumnType<Date, string | undefined, never>
 // };
 
-export type KyselyKVStore = Kysely<KVStoreDatabaseSchema>;
+export type KyselyDBWithKVStoreTable = Kysely<KVStoreDatabaseSchema>;

@@ -19,8 +19,10 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
+    "build": "npm run clean && npm run prebuild && npm run build-cli",
     "prebuild": "./scripts/generate-example-string.sh",
     "prepublishOnly": "npm run clean && npm run prebuild && npm run build-cli",
+    "postinstall": "[ -f ./dist/cli.js ] || npm run build",
     "build-cli": "tsc && npm run add-header",
     "add-header": "./scripts/add-node-executable-header.sh",
     "clean": "rm -rf dist",

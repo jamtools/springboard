@@ -69,51 +69,57 @@ export class NodeJsonRpcServer {
                 const message = event.data.toString();
                 // console.log(message);
 
-                if (!message) {
+                const response = await this.processRequestWithMiddleware(c, message);
+                if (!response) {
                     return;
                 }
 
-                const jsonMessage = JSON.parse(message);
-                if (!jsonMessage) {
-                    return;
-                }
-
-                // console.log(jsonMessage);
-
-                if (jsonMessage.jsonrpc !== '2.0') {
-                    return;
-                }
-
-                if (!jsonMessage.method) {
-                    return;
-                }
-
-                (async () => {
-                    const rpcContext: object = {};
-                    for (const middleware of this.initArgs.rpcMiddlewares) {
-                        try {
-                            const middlewareResult = await middleware(c);
-                            Object.assign(rpcContext, middlewareResult);
-                        } catch (e) {
-                            incomingClients[clientId]?.send(JSON.stringify({
-                                jsonrpc: '2.0',
-                                id: jsonMessage.id,
-                                error: (e as Error).message,
-                            }));
-                            return;
-                        }
-                    }
-
-                    nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
-                        const response = await this.initArgs.processRequest(message);
-                        incomingClients[clientId]?.send(response);
-                    });
-                })();
+                ws.send(response);
             },
             onClose: () => {
                 delete incomingClients[clientId];
                 delete outgoingClients[clientId];
             },
         };
+    };
+
+    processRequestWithMiddleware = async (c: Context, message: string) => {
+        if (!message) {
+            return;
+        }
+
+        const jsonMessage = JSON.parse(message);
+        if (!jsonMessage) {
+            return;
+        }
+
+        if (jsonMessage.jsonrpc !== '2.0') {
+            return;
+        }
+
+        if (!jsonMessage.method) {
+            return;
+        }
+
+        const rpcContext: object = {};
+        for (const middleware of this.initArgs.rpcMiddlewares) {
+            try {
+                const middlewareResult = await middleware(c);
+                Object.assign(rpcContext, middlewareResult);
+            } catch (e) {
+                return JSON.stringify({
+                    jsonrpc: '2.0',
+                    id: jsonMessage.id,
+                    error: (e as Error).message,
+                });
+            }
+        }
+
+        return new Promise<string>((resolve) => {
+            nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
+                const response = await this.initArgs.processRequest(message);
+                resolve(response);
+            });
+        });
     };
 }

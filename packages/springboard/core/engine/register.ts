@@ -1,6 +1,7 @@
 import {Module} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
 import type {ModuleAPI} from './module_api';
+import React from 'react';
 
 export type RegisterRouteOptions = {
     hideApplicationShell?: boolean;
@@ -19,6 +20,7 @@ export type SpringboardRegistry = {
         cb: ModuleCallback<ModuleReturnValue>,
     ) => void;
     registerClassModule: <T extends object>(cb: ClassModuleCallback<T>) => void;
+    registerSplashScreen: (component: React.ComponentType) => void;
     reset: () => void;
 };
 
@@ -46,13 +48,23 @@ const registerClassModule = <T extends object>(cb: ClassModuleCallback<T>) => {
     (registerClassModule as unknown as {calls: CapturedRegisterClassModuleCalls[]}).calls = calls;
 };
 
+let registeredSplashScreen: React.ComponentType | null = null;
+
+const registerSplashScreen = (component: React.ComponentType) => {
+    registeredSplashScreen = component;
+};
+
+export const getRegisteredSplashScreen = (): React.ComponentType | null => {
+    return registeredSplashScreen;
+};
+
 export const springboard: SpringboardRegistry = {
     registerModule,
     registerClassModule,
+    registerSplashScreen,
     reset: () => {
         springboard.registerModule = registerModule;
         springboard.registerClassModule = registerClassModule;
+        springboard.registerSplashScreen = registerSplashScreen;
     },
 };
-
-(globalThis as unknown as {springboard: SpringboardRegistry}).springboard = springboard;

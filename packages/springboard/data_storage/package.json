@@ -8,8 +8,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@trpc/client": "catalog:",
-    "@trpc/server": "catalog:",
     "better-sqlite3": "^11.3.0",
     "zod": "catalog:"
   },

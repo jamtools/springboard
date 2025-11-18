@@ -6,7 +6,7 @@ import {appDataDir} from '@tauri-apps/api/path';
 
 import {CoreDependencies} from 'springboard/types/module_types';
 
-import {TrpcKVStoreService} from 'springboard/services/trpc_kv_store_client';
+import {HttpKVStoreService} from 'springboard/services/http_kv_store_client';
 
 import {Main} from '@springboardjs/platforms-browser/entrypoints/main';
 // import {Main} from './main';
@@ -31,7 +31,7 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
     const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
     // const rpc = mockDeps.rpc;
 
-    const kvStore = new TrpcKVStoreService(DATA_HOST);
+    const kvStore = new HttpKVStoreService(DATA_HOST);
 
     // const kvStore = new BrowserKVStoreService(localStorage);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);

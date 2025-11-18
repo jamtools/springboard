@@ -22,9 +22,9 @@ macroTypeRegistry.registerMacroType(
     'musical_keyboard_output',
     {},
     (async (macroAPI, inputConf, fieldName) => {
-        const editingState = await macroAPI.moduleAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
-        const addingOutputDevice = await macroAPI.moduleAPI.statesAPI.createSharedState<AddingOutputDeviceState>(getKeyForMacro('adding_output_device', fieldName), {device: null, channel: null});
-        const savedOutputDevices = await macroAPI.moduleAPI.statesAPI.createPersistentState<SavedOutputDeviceState[]>(getKeyForMacro('saved_output_devices', fieldName), []);
+        const editingState = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
+        const addingOutputDevice = await macroAPI.statesAPI.createSharedState<AddingOutputDeviceState>(getKeyForMacro('adding_output_device', fieldName), {device: null, channel: null});
+        const savedOutputDevices = await macroAPI.statesAPI.createPersistentState<SavedOutputDeviceState[]>(getKeyForMacro('saved_output_devices', fieldName), []);
 
         const states: OutputMacroStateHolders = {
             editing: editingState,

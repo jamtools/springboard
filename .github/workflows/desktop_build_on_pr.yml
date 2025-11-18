@@ -33,4 +33,6 @@ jobs:
       tauri_target: ${{ matrix.tauri_target }}
       pkg_target: ${{ matrix.pkg_target }}
       sign_app: false
+      scaffold_tauri_project: true
+      scaffold_tauri_project_config_path: './configs/tauri_project_config.json'
     secrets: inherit

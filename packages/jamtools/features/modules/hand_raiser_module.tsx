@@ -5,17 +5,10 @@ import springboard from 'springboard';
 
 import './hand_raiser.css';
 
-// how to handle local midi device stuff in remote context
-// eventually I think this will be done through spawnables
-
-// for now, the macro module will need to manually pivot and make its own concept of spawnables
-// the user chooses to use a local midi device, and the macro module takes care of the complexity
-// instead of `moduleAPI.createActions`, the module uses `moduleAPI.actions.createHybridAction`
-// idk about that actually. it can probably use createActions still, with {client: true} in the call
-// but based on user choice, the macro will use remote actions&state, or local actions&state
-// so it will use a user agent state supervisor for local
-
 springboard.registerModule('HandRaiser', {}, async (m) => {
+    const macroModule = m.getModule('macro');
+    macroModule.setLocalMode(true);
+
     const states = await m.createStates({
         handPositions: [0, 0],
     });
@@ -25,10 +18,11 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
             states.handPositions.setStateImmer((positions) => {
                 positions[args.index] = args.value;
             });
+
+            return {success: true};
         },
     });
 
-    const macroModule = m.getModule('macro');
     const macros = await macroModule.createMacros(m, {
         slider0: {
             type: 'midi_control_change_input',
@@ -62,7 +56,9 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
                         <HandSliderContainer
                             key={index}
                             position={position}
-                            handlePositionChange={value => actions.changeHandPosition({index, value})}
+                            handlePositionChange={async (value) => {
+                                await actions.changeHandPosition({index, value});
+                            }}
                             macro={index === 0 ? macros.slider0 : macros.slider1}
                         />
                     ))}

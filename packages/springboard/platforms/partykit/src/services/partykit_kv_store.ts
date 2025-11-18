@@ -1,8 +1,9 @@
 import {Room} from 'partykit/server';
 import {KVStore} from 'springboard/types/module_types';
+import type {PartykitKvForHttp} from '../partykit_hono_app';
 
 export class PartykitKVStore implements KVStore {
-    constructor(private room: Room) { }
+    constructor(private room: Room, private kvForHttp: PartykitKvForHttp) { }
 
     get = async <T>(key: string): Promise<T | null> => {
         const value = await this.room.storage.get(key);
@@ -14,6 +15,7 @@ export class PartykitKVStore implements KVStore {
     }
 
     set = async <T>(key: string, value: T): Promise<void> => {
+        await this.kvForHttp.set(key, value);
         return this.room.storage.put(key, JSON.stringify(value));
     }
 

@@ -1,7 +1,7 @@
 import SQLite from 'better-sqlite3';
 import {Dialect, Kysely, SqliteDialect} from 'kysely';
 
-import {KyselyKVStore} from './kv_store_db_types';
+import {KyselyDBWithKVStoreTable} from './kv_store_db_types';
 
 export const makeKyselySqliteInstance = async (fname: string) => {
     const dialect = new SqliteDialect({
@@ -11,17 +11,17 @@ export const makeKyselySqliteInstance = async (fname: string) => {
     return makeKyselyInstanceFromDialect(dialect);
 };
 
-export const makeKyselyInstanceFromDialect = async (dialect: Dialect): Promise<KyselyKVStore> => {
+export const makeKyselyInstanceFromDialect = async (dialect: Dialect): Promise<KyselyDBWithKVStoreTable> => {
     const db = new Kysely({
         dialect,
-    }) as KyselyKVStore;
+    }) as KyselyDBWithKVStoreTable;
 
     await ensureKVTable(db);
 
     return db;
 }
 
-const ensureKVTable = async (db: KyselyKVStore) => {
+const ensureKVTable = async (db: KyselyDBWithKVStoreTable) => {
     await db.schema.createTable('kvstore')
     .ifNotExists()
     .addColumn('id', 'integer', (col) => col.autoIncrement().primaryKey())

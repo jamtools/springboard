@@ -14,7 +14,7 @@
     "build": "npm run clean && npm run build-cli",
     "build-cli": "tsc && npm run add-header",
     "prepublishOnly": "npm run build",
-    "postinstall": "[ -f ./dist/cli.js ] || npm run build",
+    "dev:setup": "[ -f ./dist/cli.js ] || npm run build",
     "build-saas": "DISABLE_IO=true npx tsx src/cli.ts build ../../../apps/jamtools/modules/index.ts",
     "build-with-cli": "npx tsx cli.ts build ../../../apps/jamtools/modules/index.ts",
     "run-node-local": "NODE_KV_STORE_DATA_FILE=kv_data.json node dist/node/dist/index.js",
@@ -23,12 +23,13 @@
     "build-empty-jamtools-app": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms browser_offline",
     "build-empty-jamtools-app-desktop": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms desktop",
     "build-empty-jamtools-app-all": "npx tsx src/cli.ts build ../../../apps/small_apps/empty_jamtools_app/index.ts --platforms all",
-    "build-partykit": "ESBUILD_OUT_DIR=../platforms/partykit/dist npx tsx src/cli.ts build ../../../apps/games/tic_tac_toe/tic_tac_toe.tsx --platforms partykit",
+    "build-partykit": "ESBUILD_OUT_DIR=../platforms/partykit/dist npx tsx src/cli.ts build ../../../apps/small_apps/handraiser/index.ts --platforms partykit",
     "dev": "npm run build -- --watch",
     "dev-dev": "npx tsx src/cli.ts dev ../../../apps/small_apps/handraiser/index.ts",
     "clean": "rm -rf dist",
     "add-header": "./scripts/add-node-executable-header.sh",
-    "cli-docs": "npx tsx scripts/make_cli_docs.ts"
+    "cli-docs": "npx tsx scripts/make_cli_docs.ts",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "commander": "catalog:",
