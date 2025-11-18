@@ -18,18 +18,16 @@ seo:
   robots: "" # custom robot tags (optional)
 ---
 
-I'm been wanting to have a public journal for my current efforts of software development, so here it is.
-
-(Edit: At the time of writing this post, Jam Tools was the name of an application. Now it refers to a collection of software tools.)
+I've been wanting to have a public journal for my current efforts of software development, so here it is.
 
 Right now I'm focusing on 2 projects:
 
-- [Jam Tools](https://jam.tools) - An open-source music performance application
+- [Jam Tools](https://jam.tools) - An ecosystem of software development tools to build cross-platform multiplayer MIDI applications
 - [SongDrive](https://songdrive.app) - An online songwriting and collaboration platform
 
-This post is about Jam Tools, more specifically about the framework that powers the application, [Springboard](https://docs.jam.tools/springboard/overview) (a multiplayer full-stack application framework created out of necessity for this application) and [Jam Tools Core](https://docs.jam.tools/jamtools/overview) (additional code to make it easy to work with MIDI and IO devices). You can check out the [repo](https://github.com/jamtools/springboard) and [documentation](https://docs.jam.tools) for more info. The project is open-source to enable developers to make their own MIDI applications, and also collaborate together on features to include into a common application.
+This post is about Jam Tools, more specifically about the application framework [Springboard](https://docs.jam.tools/springboard/overview) and [Jam Tools Core](https://docs.jam.tools/jamtools/overview) (additional code to make it easy to work with MIDI and IO devices). You can check out the [repo](https://github.com/jamtools/springboard) for more info. The project is open-source to enable developers to make their own MIDI applications, and also collaborate together on features to include into a common application.
 
-Jam Tools is a realtime music communication tool that allows musicians to communicate thoughts to each other while playing music. It's meant to be used with everyone in the same room, and ideas can be circulated among different phones and screens in the room. The goal is to communicate chord progressions, lyrics, and messages such as "slow down" or "let's play something funky". It also helps automate [MIDI](https://en.wikipedia.org/wiki/MIDI)-related processes and control [WLED](https://kno.wled.ge) lighting.
+Jam Tools was created with an interest in making a realtime music communication tool that allows musicians to communicate thoughts to each other while playing music (The Jam App). It's meant to be used with everyone in the same room, and ideas can be circulated among different phones and screens in the room. The goal is to communicate chord progressions, lyrics, and messages such as "slow down" or "let's play something funky". It also helps automate [MIDI](https://en.wikipedia.org/wiki/MIDI)-related processes and control [WLED](https://kno.wled.ge) lighting.
 
 Here are some videos from *previous* implementations before starting on the current project. There were lots of learnings from writing this code that contributes to the design of Springboard now. I think the videos capture the spirit of what I'm trying to make.
 
@@ -56,7 +54,7 @@ Here are some videos from *previous* implementations before starting on the curr
 
 ---
 
-Back to the project - One thing the Jam Tools application requires is using a phone/tablet to remotely control something on a separate computer that has the MIDI devices plugged in (i.e. a phone communicating with a desktop app hosting a local server). From experience of trying to build this program a few times, in order for this to scale this means there needs to be high cohesion between the UI code running on the phone, and the feature-level code related to MIDI functionality running on the server. Another required feature is the application to optionally run standalone in the browser, so you can do everything on the phone in isolation. Given these constraints, the application needs to run in multiple different deployment contexts, such as:
+Back to the project - One thing the Jam App requires is using a phone/tablet to remotely control something on a separate computer that has the MIDI devices plugged in (i.e. a phone communicating with a desktop app hosting a local server). From experience of trying to build this program a few times, in order for this to scale this means there needs to be high cohesion between the UI code running on the phone, and the feature-level code related to MIDI functionality running on the server. Another required feature is the application to optionally run standalone in the browser, so you can do everything on the phone in isolation. Given these constraints, the application needs to run in multiple different deployment contexts, such as:
 
 - Browser local/offline
 - Browser with server
