@@ -75,7 +75,7 @@ jobs:
       run: |
         mkdir -p apps
         cd apps
-        npx create-tauri-app@4.5.9 myapp -- --template vanilla --yes
+        npx create-tauri-app@4.6.2 myapp -- --template vanilla --yes
 
     - name: Remove and move directories (Windows)
       if: ${{ inputs.platform == 'windows-latest' && inputs.scaffold_tauri_project }}

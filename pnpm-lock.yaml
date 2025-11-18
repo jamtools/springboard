@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   default:
+    '@tauri-apps/api':
+      specifier: 2.9.0
+      version: 2.9.0
+    '@tauri-apps/plugin-shell':
+      specifier: 2.3.3
+      version: 2.3.3
     '@types/node':
       specifier: 20.17.48
       version: 20.17.48
@@ -601,10 +607,10 @@ importers:
         specifier: workspace:*
         version: link:../node
       '@tauri-apps/api':
-        specifier: ^2.9.0
+        specifier: 'catalog:'
         version: 2.9.0
       '@tauri-apps/plugin-shell':
-        specifier: ^2.3.3
+        specifier: 'catalog:'
         version: 2.3.3
     devDependencies:
       '@types/node':

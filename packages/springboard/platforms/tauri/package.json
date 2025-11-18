@@ -17,8 +17,8 @@
   "dependencies": {
     "@springboardjs/platforms-browser": "workspace:*",
     "@springboardjs/platforms-node": "workspace:*",
-    "@tauri-apps/api": "^2.9.0",
-    "@tauri-apps/plugin-shell": "^2.3.3"
+    "@tauri-apps/api": "catalog:",
+    "@tauri-apps/plugin-shell": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
