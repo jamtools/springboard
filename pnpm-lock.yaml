@@ -395,6 +395,10 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.48
 
   packages/springboard/core:
     dependencies:
@@ -5420,7 +5424,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 20.17.48
+      '@types/node': 24.10.1
 
   '@types/yargs-parser@21.0.3': {}
 

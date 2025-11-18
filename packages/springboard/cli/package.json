@@ -44,6 +44,9 @@
     "springboard": "workspace:*",
     "springboard-server": "workspace:*"
   },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
