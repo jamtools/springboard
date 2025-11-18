@@ -10,11 +10,15 @@ import {NodeAppDependencies} from '@springboardjs/platforms-node/entrypoints/mai
 import {KVStoreFromKysely} from '@springboardjs/data-storage/kv_api_kysely';
 import {NodeKVStoreService} from '@springboardjs/platforms-node/services/node_kvstore_service';
 import {NodeLocalJsonRpcClientAndServer} from '@springboardjs/platforms-node/services/node_local_json_rpc';
+import type {DocumentMeta} from 'springboard/module_registry/module_registry';
+import type {DocumentMetaFunction} from 'springboard/engine/register';
 
 import {NodeJsonRpcServer} from './services/server_json_rpc';
 import {WebsocketServerCoreDependencies} from './ws_server_core_dependencies';
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register';
 import {Springboard} from 'springboard/engine/engine';
+import {injectDocumentMeta} from './utils/inject_metadata';
+import {matchPath} from './utils/match_path';
 
 type InitAppReturnValue = {
     app: Hono;
@@ -117,11 +121,79 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         }
     };
 
+    let cachedBaseHtml: string | undefined;
+    let storedEngine: Springboard | undefined;
+
+
+    // Serves index.html with dynamic metadata injection based on the route
+    const serveIndexWithMetadata = async (c: Context): Promise<string> => {
+        if (!cachedBaseHtml) {
+            const fullPath = `${webappDistFolder}/index.html`;
+            const fs = await import('node:fs');
+            cachedBaseHtml = await fs.promises.readFile(fullPath, 'utf-8');
+        }
+
+        if (!storedEngine) {
+            return cachedBaseHtml;
+        }
+
+        const requestPath = c.req.path;
+
+        let documentMetaOrFunction: DocumentMeta | DocumentMetaFunction | undefined;
+        let matchParams: Record<string, string> | undefined;
+        const modules = storedEngine.moduleRegistry.getModules();
+
+        for (const mod of modules) {
+            if (!mod.routes) {
+                continue;
+            }
+
+            for (const [routePath, route] of Object.entries(mod.routes)) {
+                if (!route.options?.documentMeta) {
+                    continue;
+                }
+
+                // Routes starting with '/' are absolute, others are relative to /modules/{moduleId}
+                const fullRoutePath = routePath.startsWith('/')
+                    ? routePath
+                    : `/modules/${mod.moduleId}${routePath}`;
+
+                const match = matchPath(fullRoutePath, requestPath);
+                if (match) {
+                    documentMetaOrFunction = route.options.documentMeta;
+                    matchParams = match.params as Record<string, string>;
+                    break;
+                }
+            }
+
+            if (documentMetaOrFunction) {
+                break;
+            }
+        }
+
+        if (documentMetaOrFunction) {
+            let documentMeta: DocumentMeta;
+
+            if (typeof documentMetaOrFunction === 'function') {
+                documentMeta = await documentMetaOrFunction({
+                    path: requestPath,
+                    params: matchParams,
+                });
+            } else {
+                documentMeta = documentMetaOrFunction;
+            }
+
+            return injectDocumentMeta(cachedBaseHtml, documentMeta);
+        }
+
+        return cachedBaseHtml;
+    };
+
     app.use('/', serveStatic({
         root: webappDistFolder,
         path: 'index.html',
         getContent: async (path, c) => {
-            return serveFile('index.html', 'text/html', c);
+            return serveIndexWithMetadata(c);
         },
         onFound: (path, c) => {
             // c.header('Cross-Origin-Embedder-Policy',  'require-corp');
@@ -179,8 +251,6 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         }
     });
 
-    let storedEngine: Springboard | undefined;
-
     const nodeAppDependencies: NodeAppDependencies = {
         rpc: {
             remote: rpc,
@@ -213,7 +283,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
                 root: webappDistFolder,
                 path: 'index.html',
                 getContent: async (path, c) => {
-                    return serveFile('index.html', 'text/html', c);
+                    return serveIndexWithMetadata(c);
                 },
                 onFound: (path, c) => {
                     c.header('Cache-Control', 'no-store, no-cache, must-revalidate');
