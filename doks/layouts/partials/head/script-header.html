@@ -1,1 +1,6 @@
-<!-- Insert scripts NOT needed by stylesheets here -->
+<script
+src='{{ getenv "RYBBIT_SITE_URL" | default "" }}/api/script.js'
+data-site-id='{{ getenv "RYBBIT_SITE_ID" | default "" }}'
+data-session-replay="true"
+defer
+></script>

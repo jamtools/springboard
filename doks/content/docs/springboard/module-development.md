@@ -37,14 +37,14 @@ Modules can play a few different types of roles:
 
 When registering a module, the module provides a callback to run on app initialization. The callback the module provides essentially _is_ the module. The callback receives an instance of the `ModuleAPI`. The namespacing of states and actions for this particular module are automatically managed by the framework. Some useful methods/properties from the `ModuleAPI` are documented in the [ModuleAPI docs](../typedoc_docs/module_api/classes/ModuleAPI.md).
 
-Check out the [Tic-Tac-Toe example](https://github.com/jamtools/jamtools/blob/main/apps/small_apps/tic_tac_toe/tic_tac_toe.tsx) and [Song Structure example](https://github.com/jamtools/jamtools/blob/main/packages/jamtools/features/modules/song_structures_dashboards/song_structures_dashboards_module.tsx) for examples of feature modules.
+Check out the [Tic-Tac-Toe example](https://github.com/jamtools/springboard/blob/main/apps/small_apps/tic_tac_toe/tic_tac_toe.tsx) and [Song Structure example](https://github.com/jamtools/springboard/blob/main/packages/jamtools/features/modules/song_structures_dashboards/song_structures_dashboards_module.tsx) for examples of feature modules.
 
 ## Writing a utility module
 
 By default it is assumed a module is a feature or initializer module, meaning it is assumed that the module does not expose anything for other modules to use. In order for other modules to be aware of any exposed functions/properties, we need to perform [interface merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces) to register the module's return value with the Springboard framework's module system.
 
 Here's an [example](
-https://github.com/jamtools/jamtools/blob/cea35258c6d7e495a68148c4a9e61ac06dcca609/packages/jamtools/core/modules/macro_module/macro_module.tsx#L31-L35) of the Macro module declaring its return type:
+https://github.com/jamtools/springboard/blob/cea35258c6d7e495a68148c4a9e61ac06dcca609/packages/jamtools/core/modules/macro_module/macro_module.tsx#L31-L35) of the Macro module declaring its return type:
 
 
 ```ts

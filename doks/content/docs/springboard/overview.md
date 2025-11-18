@@ -18,7 +18,7 @@ Springboard is a modular cross-platform application builder and runtime library 
 
 This dual requirement has shaped how the framework works, by maximizing the amount of code reuse across the different platforms, and utilizing JavaScript isomorphism as much as possible.
 
-Springboard uses the concept of [modules](/docs/springboard/module-development) to encapsulate responsibilities of different pieces of code. A new Springboard application contains no modules by default. There are some predefined modules that you can import into your code, namely the modules defined by the [`@jamtools/core`](https://github.com/jamtools/jamtools/tree/main/packages/jamtools/core/modules) package at the time of writing.
+Springboard uses the concept of [modules](/docs/springboard/module-development) to encapsulate responsibilities of different pieces of code. A new Springboard application contains no modules by default. There are some predefined modules that you can import into your code, namely the modules defined by the [`@jamtools/core`](https://github.com/jamtools/springboard/tree/main/packages/jamtools/core/modules) package at the time of writing.
 
 Each application build for a given platform consists of two parts:
 

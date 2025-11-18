@@ -7,22 +7,22 @@
     "fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "jsdom": "^25.0.0",
+    "jsdom": "25.0.1",
     "qrcode": "^1.5.4",
     "react-guitar": "^1.1.2",
     "rxjs": "catalog:",
-    "tonal": "^6.2.0",
+    "tonal": "^6.4.2",
     "wled-client": "^0.22.1"
   },
   "devDependencies": {
     "@jamtools/core": "workspace:*",
     "@springboardjs/shoelace": "workspace:*",
-    "@types/qrcode": "^1.5.5",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "react": "catalog:",
+    "react": "19.2.0",
     "react-dom": "catalog:",
-    "react-router-dom": "catalog:"
+    "react-router": "catalog:"
   },
   "config": {
     "dir": "../../../configs"

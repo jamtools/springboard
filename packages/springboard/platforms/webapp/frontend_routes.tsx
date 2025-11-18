@@ -7,7 +7,7 @@ import {
     RouteObject,
     RouterProvider,
     useNavigate,
-} from 'react-router-dom';
+} from 'react-router';
 
 import {useSpringboardEngine} from 'springboard/engine/engine';
 import {Module, RegisteredRoute} from 'springboard/module_registry/module_registry';

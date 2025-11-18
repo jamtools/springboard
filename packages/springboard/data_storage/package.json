@@ -8,13 +8,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "better-sqlite3": "^11.3.0",
+    "better-sqlite3": "^12.4.1",
     "zod": "catalog:"
   },
   "peerDependencies": {
     "kysely": ">= 0.24.0"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.11"
+    "@types/better-sqlite3": "^7.6.13"
   }
 }

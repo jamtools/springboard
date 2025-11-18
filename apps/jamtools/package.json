@@ -8,7 +8,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "react-router-dom": "catalog:",
+    "react-router": "catalog:",
     "springboard": "workspace:*",
     "@jamtools/core": "workspace:*",
     "@jamtools/features": "workspace:*",
