@@ -33,10 +33,10 @@
   },
   "dependencies": {
     "commander": "catalog:",
-    "concurrently": "^9.1.0",
-    "esbuild": "catalog:",
+    "concurrently": "^9.2.1",
+    "esbuild": "0.27.0",
     "tslib": "catalog:",
-    "typescript": "^5.4.5"
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@springboardjs/platforms-browser": "workspace:*",
@@ -47,7 +47,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-  },
   "description": ""
 }

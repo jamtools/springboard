@@ -16,13 +16,13 @@
     "@springboardjs/platforms-node": "workspace:*",
     "hono": "catalog:",
     "json-rpc-2.0": "catalog:",
-    "partysocket": "^1.0.3",
+    "partysocket": "^1.1.6",
     "springboard-server": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "partykit": "^0.0.111"
+    "partykit": "^0.0.115"
   },
   "peerDependencies": {
     "springboard": "workspace:*"

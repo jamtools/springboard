@@ -23,20 +23,20 @@
     }
   },
   "dependencies": {
-    "easymidi": "^3.0.1",
+    "easymidi": "^3.1.0",
     "immer": "catalog:",
     "midi-file": "^1.2.4",
     "soundfont-player": "^0.12.0",
-    "webmidi": "^3.1.11"
+    "webmidi": "^3.1.14"
   },
   "devDependencies": {
     "@springboardjs/platforms-browser": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "react": "catalog:",
+    "react": "19.2.0",
     "react-dom": "catalog:",
     "rxjs": "catalog:",
-    "svelte": "5.34.7"
+    "svelte": "5.43.11"
   },
   "config": {
     "dir": "../../../configs"

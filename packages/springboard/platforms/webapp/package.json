@@ -7,8 +7,8 @@
     "fix": "npm run lint -- --fix"
   },
   "peerDependencies": {
-    "springboard": "workspace:*",
-    "react-router": "^7"
+    "react-router": "^7",
+    "springboard": "workspace:*"
   },
   "dependencies": {
     "json-rpc-2.0": "catalog:",
@@ -18,7 +18,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "react": "catalog:",
+    "react": "19.2.0",
     "react-dom": "catalog:"
   },
   "config": {
