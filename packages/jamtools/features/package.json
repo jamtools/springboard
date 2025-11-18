@@ -22,7 +22,7 @@
     "@types/react-dom": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router-dom": "catalog:"
+    "react-router": "catalog:"
   },
   "config": {
     "dir": "../../../configs"

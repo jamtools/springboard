@@ -38,7 +38,8 @@ springboard.registerModule('MidiFile', {}, async (moduleAPI): Promise<MidiFileMo
                                 console.error('');
                                 return;
                             }
-                            const parsed = parser.parseWithTonejsMidiBuffer(content as Buffer);
+                            const buffer = Buffer.from(content as ArrayBuffer);
+                            const parsed = parser.parseWithTonejsMidiBuffer(buffer);
                             setParsedMidiFile(parsed);
                         };
 

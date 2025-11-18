@@ -26,7 +26,7 @@ This will install the following packages:
 
 - `react`
 - `react-dom`
-- `react-router` (Will be replaced with [TanStack Router](https://tanstack.com/router/latest))
+- `react-router`
 - `springboard` - Used for RPC and state management
 - `springboard-cli` - User for building and deploying your app
 - `@jamtools/core` - MIDI and IO device related functionality

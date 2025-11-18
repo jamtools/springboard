@@ -45,15 +45,17 @@
     "eslint": "^8.39.0",
     "eslint-plugin-react": "^7.32.2",
     "identity-obj-proxy": "^3.0.0",
+    "react-router": "^7.9.6",
+    "react-router-dom": "^7.9.6",
     "shadow-dom-testing-library": "^1.11.3",
     "springboard": "workspace:*",
     "springboard-server": "workspace:*",
-    "tsx": "^4.19.2",
     "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
     "typescript": "^5.4.5",
     "vite": "^5.4.6",
     "vite-tsconfig-paths": "^5.0.1",
-    "vitest": "^2.1.1"
+    "vitest": "^4.0.10"
   },
   "dependencies": {
     "turbo": "^2.0.6"

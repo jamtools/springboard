@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "react": "catalog:",
-    "react-router-dom": "catalog:"
+    "react-router": "catalog:"
   }
 }
