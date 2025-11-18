@@ -1,5 +1,16 @@
 // Put your custom SCSS code here
 
+.default-embed {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.default-embed iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
 svg[data-bs-theme-value="dark"], svg[data-bs-theme-value="light"] {
   display: none !important;
 }
@@ -55,7 +66,7 @@ svg[data-bs-theme-value="dark"], svg[data-bs-theme-value="light"] {
 @media(prefers-reduced-motion:no-preference) {
   .marquee-content {
     animation-name: scroll;
-    animation-duration: 2 5s;
+    animation-duration: 25s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-play-state: running;
