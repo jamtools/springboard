@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 
 import springboard from 'springboard';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';

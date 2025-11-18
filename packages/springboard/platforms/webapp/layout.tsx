@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useLocation, matchPath} from 'react-router-dom';
+import {useLocation, matchPath} from 'react-router';
 
 import {Module} from 'springboard/module_registry/module_registry';
 
