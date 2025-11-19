@@ -12,7 +12,7 @@ on:
         description: 'Deployment URL'
         required: true
         type: string
-        default: 'https://jamtools.app'
+        default: 'https://app.jam.tools'
   pull_request:
     branches: [main]
   push:
@@ -69,24 +69,21 @@ jobs:
       - name: Build application
         run: |
           export PUBLIC_SITE_URL="${{ secrets.CLOUDFLARE_DEPLOYMENT_URL }}"
-          npx tsx packages/springboard/cli/src/cli.ts build ./apps/jamtools/modules/index.ts --platforms cf-workers
+          cd apps/jamtools
+          npx tsx ../../packages/springboard/cli/src/cli.ts build ./modules/index.ts --platforms cf-workers
         env:
           PUBLIC_SITE_URL: ${{ secrets.CLOUDFLARE_DEPLOYMENT_URL }}
-
-      - name: Setup Wrangler
-        if: needs.determine-mode.outputs.mode != ''
-        run: npm install -g wrangler
 
       - name: Deploy (Dry Run)
         if: needs.determine-mode.outputs.mode == 'dry-run'
         run: |
-          cd dist/cf-workers
+          cd apps/jamtools/dist/cf-workers
           npx wrangler deploy --dry-run
 
       - name: Deploy (Production)
         if: needs.determine-mode.outputs.mode == 'deploy'
         run: |
-          cd dist/cf-workers
+          cd apps/jamtools/dist/cf-workers
           npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

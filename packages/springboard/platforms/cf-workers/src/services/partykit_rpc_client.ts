@@ -70,6 +70,7 @@ export class PartyKitRpcClient implements Rpc {
             host: this.host,
             room: this.room,
             query: this.latestQueryParams,
+            party: 'my-server',
         });
 
         const ws = this.conn;
