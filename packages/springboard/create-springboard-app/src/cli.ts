@@ -31,7 +31,6 @@ program
     let packageManager = 'npm';
     try {
         execSync('pnpm --version', {cwd: process.cwd(), stdio: 'ignore'});
-        console.log('Using pnpm as the package manager\n');
         packageManager = 'pnpm';
     } catch (error) {
     }
@@ -51,6 +50,7 @@ program
         'node_modules',
         'dist',
         'data/kv_data.json',
+        'data/kv_data.db',
     ];
 
     writeFileSync('./.gitignore', gitIgnore.join('\n'), {flag: 'a'});
@@ -79,6 +79,10 @@ program
     };
 
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+    execSync('git init', {cwd: process.cwd()});
+    execSync('git add .', {cwd: process.cwd()});
+    execSync('git commit -m "Initial commit"', {cwd: process.cwd()});
 
     console.log('Project created successfully! Run the following to start the development server:\n');
     console.log('npm run dev\n');
