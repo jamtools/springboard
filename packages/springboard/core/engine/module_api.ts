@@ -2,6 +2,11 @@ import {ServerStateSupervisor, SharedStateSupervisor, StateSupervisor, UserAgent
 import {ExtraModuleDependencies, Module, NavigationItemConfig, RegisteredRoute} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
 import {RegisterRouteOptions} from './register';
+import {ServerAPI} from './server_api';
+import {SharedAPI} from './shared_api';
+import {UserAgentAPI} from './user_agent_api';
+import {ClientAPI} from './client_api';
+import {UIAPI} from './ui_api';
 
 type ActionConfigOptions = object;
 
@@ -12,7 +17,7 @@ export type ActionCallOptions = {
 /**
  * The Action callback
 */
-type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, options?: ActionCallOptions) => ReturnValue;
+export type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, options?: ActionCallOptions) => ReturnValue;
 
 // this would make it so modules/plugins can extend the module API dynamically through interface merging
 // export interface ModuleAPI {
@@ -42,17 +47,48 @@ export class ModuleAPI {
             try {
                 cb();
             } catch (e) {
-                console.error('destroy callback failed in StatesAPI', e);
+                console.error('destroy callback failed', e);
             }
         }
-
-        this.statesAPI.destroy();
     };
 
-    public readonly deps: {core: CoreDependencies; module: ModuleDependencies, extra: ExtraModuleDependencies};
-
     constructor(private module: Module, private prefix: string, private coreDeps: CoreDependencies, private modDeps: ModuleDependencies, extraDeps: ExtraModuleDependencies, private options: ModuleOptions) {
+        // Store deps for backwards compatibility
         this.deps = {core: coreDeps, module: modDeps, extra: extraDeps};
+
+        // Initialize namespace APIs
+        this.server = new ServerAPI(
+            this.fullPrefix,
+            this.coreDeps,
+            this.modDeps,
+            this.createAction.bind(this),
+            this.onDestroy
+        );
+
+        this.shared = new SharedAPI(
+            this.fullPrefix,
+            this.coreDeps,
+            this.modDeps,
+            this.createAction.bind(this),
+            this.onDestroy
+        );
+
+        this.userAgent = new UserAgentAPI(
+            this.fullPrefix,
+            this.coreDeps,
+            this.modDeps,
+            this.createAction.bind(this),
+            this.onDestroy
+        );
+
+        this.client = new ClientAPI(
+            this.createAction.bind(this)
+        );
+
+        this.ui = new UIAPI(
+            this.module,
+            this.modDeps
+        );
     }
 
     public readonly moduleId = this.module.moduleId;
@@ -60,109 +96,106 @@ export class ModuleAPI {
     public readonly fullPrefix = `${this.prefix}|module|${this.module.moduleId}`;
 
     /**
-     * Create shared and persistent pieces of state, scoped to this specific module.
-    */
-    public readonly statesAPI = new StatesAPI(this.fullPrefix, this.coreDeps, this.modDeps);
+     * Dependencies for this module (core framework deps and module-specific deps).
+     */
+    public readonly deps: {core: CoreDependencies; module: ModuleDependencies, extra: ExtraModuleDependencies};
 
+    /**
+     * Server-only states and actions (stripped from client builds).
+     *
+     * @see {@link ServerAPI}
+     */
+    public readonly server: ServerAPI;
+
+    /**
+     * Shared states and actions (synced across all clients).
+     *
+     * @see {@link SharedAPI}
+     */
+    public readonly shared: SharedAPI;
+
+    /**
+     * User agent (device-local) states and actions.
+     *
+     * @see {@link UserAgentAPI}
+     */
+    public readonly userAgent: UserAgentAPI;
+
+    /**
+     * Client actions that server can invoke (server→client RPC).
+     *
+     * @see {@link ClientAPI}
+     */
+    public readonly client: ClientAPI;
+
+    /**
+     * UI-related methods (routes, application shell, providers).
+     *
+     * @see {@link UIAPI}
+     */
+    public readonly ui: UIAPI;
+
+    /**
+     * Get another module by its ID.
+     *
+     * @example
+     * ```typescript
+     * const macroModule = moduleAPI.getModule('midi_macro');
+     * ```
+     */
     getModule = this.modDeps.moduleRegistry.getModule.bind(this.modDeps.moduleRegistry);
 
     /**
-     * Register a route with the application's React Router. More info in [registering UI routes](/springboard/registering-ui).
+     * Register a route with the application's React Router.
      *
-     * ```jsx
-        // matches "" and "/"
-     *    moduleAPI.registerRoute('/', () => {
-     *        return (
-     *            <div/>
-     *        );
-     *    });
+     * @deprecated Use `moduleAPI.ui.registerRoute()` instead.
      *
-     *    // matches "/modules/MyModule"
-     *    moduleAPI.registerRoute('', () => {
-     *        return (
-     *            <div/>
-     *        );
-     *    });
-     *
-     * ```
-     *
+     * @see {@link UIAPI.registerRoute}
      */
     registerRoute = (routePath: string, options: RegisterRouteOptions, component: RegisteredRoute['component']) => {
-        const routes = this.module.routes || {};
-        routes[routePath] = {
-            options,
-            component,
-        };
-
-        this.module.routes = {...routes};
-        if (this.modDeps.moduleRegistry.getCustomModule(this.module.moduleId)) {
-            this.modDeps.moduleRegistry.refreshModules();
-        }
+        this.ui.registerRoute(routePath, options, component);
     };
 
+    /**
+     * Register an application shell component.
+     *
+     * @deprecated Use `moduleAPI.ui.registerApplicationShell()` instead.
+     *
+     * @see {@link UIAPI.registerApplicationShell}
+     */
     registerApplicationShell = (component: React.ElementType<React.PropsWithChildren<{modules: Module[]}>>) => {
-        this.module.applicationShell = component;
+        this.ui.registerApplicationShell(component);
     };
 
+    /**
+     * @deprecated Use `moduleAPI.shared.createSharedStates()` instead.
+     */
     createSharedStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
-        const keys = Object.keys(states);
-        const promises = keys.map(async key => {
-            return {
-                state: await this.statesAPI.createSharedState(key, states[key]),
-                key,
-            };
-        });
-
-        const result = {} as {[K in keyof States]: StateSupervisor<States[K]>};
-
-        const supervisors = await Promise.all(promises);
-        for (const key of keys) {
-            (result[key] as StateSupervisor<States[keyof States]>) = supervisors.find(s => s.key === key as any)!.state;
-        }
-
-        return result;
+        return this.shared.createSharedStates(states);
     };
 
+    /**
+     * @deprecated Use `moduleAPI.shared.createSharedStates()` instead.
+     */
     createStates = this.createSharedStates;
 
+    /**
+     * @deprecated Use `moduleAPI.server.createServerStates()` instead.
+     */
     createServerStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
-        const keys = Object.keys(states);
-        const promises = keys.map(async key => {
-            return {
-                state: await this.statesAPI.createServerState(key, states[key]),
-                key,
-            };
-        });
-
-        const result = {} as {[K in keyof States]: StateSupervisor<States[K]>};
-
-        const supervisors = await Promise.all(promises);
-        for (const key of keys) {
-            (result[key] as StateSupervisor<States[keyof States]>) = supervisors.find(s => s.key === key as any)!.state;
-        }
-
-        return result;
+        return this.server.createServerStates(states);
     };
 
+    /**
+     * @deprecated Use `moduleAPI.userAgent.createUserAgentStates()` instead.
+     */
     createUserAgentStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
-        const keys = Object.keys(states);
-        const promises = keys.map(async key => {
-            return {
-                state: await this.statesAPI.createUserAgentState(key, states[key]),
-                key,
-            };
-        });
-
-        const result = {} as {[K in keyof States]: StateSupervisor<States[K]>};
-
-        const supervisors = await Promise.all(promises);
-        for (const key of keys) {
-            (result[key] as StateSupervisor<States[keyof States]>) = supervisors.find(s => s.key === key as any)!.state;
-        }
-
-        return result;
+        return this.userAgent.createUserAgentStates(states);
     };
 
+    /**
+     * @deprecated Use `moduleAPI.shared.createSharedActions()` instead.
+     */
     createActions = <Actions extends Record<string, ActionCallback<any, any>>>(
         actions: Actions
     ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
@@ -176,9 +209,8 @@ export class ModuleAPI {
     };
 
     /**
-     * Create a server-only action that runs exclusively on the server.
-     * In client builds, the implementation will be stripped out, leaving only the RPC call structure.
-    */
+     * @deprecated Use `moduleAPI.server.createServerAction()` instead.
+     */
     createServerAction = <
         Options extends ActionConfigOptions,
         Args extends undefined | object,
@@ -192,9 +224,8 @@ export class ModuleAPI {
     };
 
     /**
-     * Create multiple server-only actions that run exclusively on the server.
-     * In client builds, the implementations will be stripped out, leaving only the RPC call structure.
-    */
+     * @deprecated Use `moduleAPI.server.createServerActions()` instead.
+     */
     createServerActions = <Actions extends Record<string, ActionCallback<any, any>>>(
         actions: Actions
     ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {

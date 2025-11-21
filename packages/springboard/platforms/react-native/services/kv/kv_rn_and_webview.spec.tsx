@@ -29,16 +29,18 @@ describe('KvRnWebview', () => {
 
         const entrypoint = (sb: SpringboardRegistry | Springboard) => {
             sb.registerModule('Test', {}, async (m) => {
-                const myUserAgentState = await m.statesAPI.createUserAgentState('myUserAgentState', {message: 'Hey'});
+                const userAgentStates = await m.userAgent.createUserAgentStates({
+                    myUserAgentState: {message: 'Hey'}
+                });
 
                 const actions = m.createActions({
                     changeValue: async (args: {value: string}) => {
-                        myUserAgentState.setState({message: args.value});
+                        userAgentStates.myUserAgentState.setState({message: args.value});
                     },
                 });
 
                 m.registerRoute('/', {}, () => {
-                    const myState = myUserAgentState.useState();
+                    const myState = userAgentStates.myUserAgentState.useState();
 
                     const [localState, setLocalState] = useState('');
 
@@ -60,7 +62,7 @@ describe('KvRnWebview', () => {
                             <button
                                 data-testid={'test-submit-set-state'}
                                 onClick={async () => {
-                                    myUserAgentState.setState({message: 'hardcoded'});
+                                    userAgentStates.myUserAgentState.setState({message: 'hardcoded'});
                                 }}
                             >
                                 Submit set state

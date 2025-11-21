@@ -41,14 +41,16 @@ type FilesModule = {
 }
 
 springboard.registerModule('Files', {}, async (moduleAPI): Promise<FilesModule> => {
-    const allStoredFiles = await moduleAPI.statesAPI.createSharedState<FileInfo[]>('allStoredFiles', []);
+    const sharedStates = await moduleAPI.shared.createSharedStates({
+        allStoredFiles: [] as FileInfo[]
+    });
 
     const fileUploader = new IndexedDbFileStorageProvider();
     await fileUploader.initialize();
 
     const uploadFile = async (file: File): Promise<FileInfo> => {
         const fileInfo = await fileUploader.uploadFile(file);
-        allStoredFiles.setState(files => [...files, fileInfo]);
+        sharedStates.allStoredFiles.setState((files: FileInfo[]) => [...files, fileInfo]);
         return fileInfo;
     };
 
@@ -60,7 +62,7 @@ springboard.registerModule('Files', {}, async (moduleAPI): Promise<FilesModule> 
     ): any => {
         return async (file: File, args: T) => {
             const fileInfo = await fileUploader.uploadFile(file);
-            allStoredFiles.setState(files => [...files, fileInfo]);
+            sharedStates.allStoredFiles.setState((files: FileInfo[]) => [...files, fileInfo]);
 
             callback(fileInfo, args);
             // return fileUploader.uploadFile(modAPI, file, args, actionName, options);
@@ -69,8 +71,8 @@ springboard.registerModule('Files', {}, async (moduleAPI): Promise<FilesModule> 
 
     const deleteFile = async (fileId: string) => {
         await fileUploader.deleteFile(fileId);
-        allStoredFiles.setState(files => {
-            const index = files.findIndex(f => f.id === fileId)!;
+        sharedStates.allStoredFiles.setState((files: FileInfo[]) => {
+            const index = files.findIndex((f: FileInfo) => f.id === fileId)!;
             return [
                 ...files.slice(0, index),
                 ...files.slice(index + 1),
@@ -83,7 +85,7 @@ springboard.registerModule('Files', {}, async (moduleAPI): Promise<FilesModule> 
         createFileUploadAction,
         deleteFile,
         getFileSrc: fileUploader.getFileContent,
-        listFiles: allStoredFiles.getState,
-        useFiles: allStoredFiles.useState,
+        listFiles: sharedStates.allStoredFiles.getState,
+        useFiles: sharedStates.allStoredFiles.useState,
     };
 });

@@ -148,9 +148,14 @@ export class MacroModule implements Module<MacroConfigState> {
                 return (args: any) => action(args, this.localMode ? {mode: 'local'} : undefined);
             },
             statesAPI: {
-                createSharedState: <State,>(key: string, defaultValue: State) => {
-                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createSharedState;
-                    return func(key, defaultValue);
+                createSharedState: async <State,>(key: string, defaultValue: State) => {
+                    if (this.localMode) {
+                        const states = await moduleAPI.userAgent.createUserAgentStates({[key]: defaultValue});
+                        return states[key];
+                    } else {
+                        const states = await moduleAPI.shared.createSharedStates({[key]: defaultValue});
+                        return states[key];
+                    }
                 },
             },
             createMacro: this.createMacro,

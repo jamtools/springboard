@@ -15,9 +15,11 @@ describe('ModuleAPI', () => {
         await engine.initialize();
 
         const mod = await engine.registerModule('TestModule', {}, async (moduleAPI) => {
-            const state = await moduleAPI.statesAPI.createSharedState('hey', {yep: 'yeah'});
+            const states = await moduleAPI.shared.createSharedStates({
+                hey: {yep: 'yeah'}
+            });
             return {
-                state,
+                state: states.hey,
             };
         });
 

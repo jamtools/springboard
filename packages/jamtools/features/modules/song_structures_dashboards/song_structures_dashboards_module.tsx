@@ -29,13 +29,19 @@ const initialGuitarDisplaySettings: GuitarDisplaySettings = {
 };
 
 springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): Promise<SongStructuresDashboardsModuleReturnValue> => {
-    const states = moduleAPI.statesAPI;
     const macros = moduleAPI.deps.module.moduleRegistry.getModule('macro');
 
-    const state = await states.createUserAgentState('guitar_display_settings', initialGuitarDisplaySettings);
+    const userAgentStates = await moduleAPI.userAgent.createUserAgentStates({
+        guitar_display_settings: initialGuitarDisplaySettings,
+    });
+    const state = userAgentStates.guitar_display_settings;
 
-    const draftChordsState = await states.createSharedState<ChordChoice[] | null>('draft_chord_choices', null);
-    const confirmedChordsState = await states.createSharedState<ChordChoice[] | null>('confirmed_chord_choices', null);
+    const sharedStates = await moduleAPI.shared.createSharedStates({
+        draft_chord_choices: null as ChordChoice[] | null,
+        confirmed_chord_choices: null as ChordChoice[] | null,
+    });
+    const draftChordsState = sharedStates.draft_chord_choices;
+    const confirmedChordsState = sharedStates.confirmed_chord_choices;
 
     // const draftScaleChoice = moduleAPI.statesAPI.createSharedState('', true);
     // const confirmedScaleChoise = moduleAPI.statesAPI.createSharedState('', true);

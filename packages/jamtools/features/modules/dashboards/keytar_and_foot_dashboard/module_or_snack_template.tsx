@@ -17,9 +17,12 @@ async function promiseAllObject<Obj extends Record<string, Promise<any>>>(
 }
 
 const createStates = async (moduleAPI: ModuleAPI) => {
-    return promiseAllObject({
-        myState: moduleAPI.statesAPI.createSharedState('myState', 'initial state'),
+    const states = await moduleAPI.shared.createSharedStates({
+        myState: 'initial state',
     });
+    return {
+        myState: states.myState,
+    };
 };
 
 const createMacros = async (moduleAPI: ModuleAPI) => {

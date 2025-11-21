@@ -20,10 +20,13 @@ export const esbuildPluginPlatformInject = (
 
                 // Early return if file doesn't need any transformations
                 const hasPlatformAnnotations = /@platform "(node|browser|react-native|fetch)"/.test(source);
-                const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source);
+                // Detect both old and new API patterns for server calls
+                const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source) ||
+                                       /\.server\.createServer(States|Actions)/.test(source);
                 const needsServerProcessing = hasServerCalls && ((platform === 'browser' || platform === 'react-native') && !preserveServerStatesAndActions);
+                const hasRunOnCalls = /springboard\.runOn\(/.test(source);
 
-                if (!hasPlatformAnnotations && !needsServerProcessing) {
+                if (!hasPlatformAnnotations && !needsServerProcessing && !hasRunOnCalls) {
                     return {
                         contents: source,
                         loader: args.path.split('.').pop() as 'js',
@@ -40,8 +43,70 @@ export const esbuildPluginPlatformInject = (
                 // Remove the code for the other platforms
                 source = source.replace(otherPlatformRegex, '');
 
+                // Transform springboard.runOn() calls
+                if (hasRunOnCalls) {
+                    try {
+                        const ast = parser.parse(source, {
+                            sourceType: 'module',
+                            plugins: ['typescript', 'jsx'],
+                        });
+
+                        traverse(ast, {
+                            CallExpression(path) {
+                                // Check if this is a springboard.runOn() call
+                                if (
+                                    path.node.callee.type === 'MemberExpression' &&
+                                    path.node.callee.object.type === 'Identifier' &&
+                                    path.node.callee.object.name === 'springboard' &&
+                                    path.node.callee.property.type === 'Identifier' &&
+                                    path.node.callee.property.name === 'runOn'
+                                ) {
+                                    // First argument should be the platform string
+                                    const platformArg = path.node.arguments[0];
+                                    const callbackArg = path.node.arguments[1];
+
+                                    if (
+                                        platformArg &&
+                                        platformArg.type === 'StringLiteral' &&
+                                        callbackArg
+                                    ) {
+                                        const targetPlatform = platformArg.value;
+
+                                        // Check if the target platform matches the current build platform
+                                        const platformMatches = targetPlatform === platform;
+
+                                        if (platformMatches) {
+                                            // Replace with IIFE: (callback)()
+                                            // The await is handled naturally at the parent level if needed
+                                            path.replaceWith({
+                                                type: 'CallExpression',
+                                                callee: callbackArg as any,
+                                                arguments: [],
+                                            } as any);
+                                        } else {
+                                            // Replace with null
+                                            path.replaceWith({
+                                                type: 'NullLiteral',
+                                            } as any);
+                                        }
+                                    }
+                                }
+                            },
+                        });
+
+                        // Generate the modified source
+                        const output = generate(ast, {}, source);
+                        source = output.code;
+                    } catch (err) {
+                        // If AST parsing fails, log warning but continue with original source
+                        console.warn(`Failed to parse ${args.path} for runOn transformation:`, err);
+                    }
+                }
+
                 if ((platform === 'browser' || platform === 'react-native') && !preserveServerStatesAndActions) {
-                    const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source);
+                    // Detect both old and new API patterns for server calls
+                    const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source) ||
+                                           /\.server\.createServer(States|Actions)/.test(source);
                     if (hasServerCalls) {
                         try {
                             const ast = parser.parse(source, {
@@ -68,21 +133,45 @@ export const esbuildPluginPlatformInject = (
 
                                     const methodName = callExpr.callee.property.name;
 
-                                    // Remove entire variable declarations for createServerState/createServerStates
+                                    // Check for both old API (direct) and new API (namespaced)
+                                    // Old API: moduleAPI.createServerStates({...})
+                                    // New API: moduleAPI.server.createServerStates({...})
+                                    let isServerMethod = false;
+                                    let isServerStateMethod = false;
+                                    let isServerActionMethod = false;
+
+                                    // Check if this is the old API pattern
                                     if (methodName === 'createServerState' || methodName === 'createServerStates') {
-                                        const object = callExpr.callee.object;
-                                        if (
-                                            object.type === 'MemberExpression' &&
-                                            object.property.type === 'Identifier' &&
-                                            object.property.name === 'statesAPI'
-                                        ) {
-                                            nodesToRemove.push(path);
+                                        isServerMethod = true;
+                                        isServerStateMethod = true;
+                                    } else if (methodName === 'createServerAction' || methodName === 'createServerActions') {
+                                        isServerMethod = true;
+                                        isServerActionMethod = true;
+                                    }
+                                    // Check if this is the new namespaced API pattern
+                                    else if (methodName === 'createServerStates' || methodName === 'createServerActions') {
+                                        // Check if the call is on moduleAPI.server.*
+                                        if (callExpr.callee.object.type === 'MemberExpression' &&
+                                            callExpr.callee.object.property.type === 'Identifier' &&
+                                            callExpr.callee.object.property.name === 'server') {
+                                            isServerMethod = true;
+                                            if (methodName === 'createServerStates') {
+                                                isServerStateMethod = true;
+                                            } else if (methodName === 'createServerActions') {
+                                                isServerActionMethod = true;
+                                            }
                                         }
                                     }
 
-                                    // For createServerAction/createServerActions, strip function bodies
-                                    if (methodName === 'createServerAction' || methodName === 'createServerActions') {
+                                    if (!isServerMethod) return;
 
+                                    // Remove entire variable declarations for createServerState/createServerStates
+                                    if (isServerStateMethod) {
+                                        nodesToRemove.push(path);
+                                    }
+
+                                    // For createServerAction/createServerActions, strip function bodies
+                                    if (isServerActionMethod) {
                                         // For createServerAction (singular), handle the pattern: createServerAction(key, config, handler)
                                         // The handler is the 3rd argument (index 2) or could be in the 2nd if config is omitted
                                         if (methodName === 'createServerAction') {

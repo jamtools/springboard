@@ -5,8 +5,12 @@ import springboard from 'springboard';
 // import {GuitarComponent} from './song_structures/components/guitar';
 
 springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
-    const sliderPositionState1 = await moduleAPI.statesAPI.createSharedState('slider_position_1', 0);
-    const sliderPositionState2 = await moduleAPI.statesAPI.createSharedState('slider_position_2', 0);
+    const states = await moduleAPI.shared.createSharedStates({
+        slider_position_1: 0,
+        slider_position_2: 0,
+    });
+    const sliderPositionState1 = states.slider_position_1;
+    const sliderPositionState2 = states.slider_position_2;
 
     const ccOutput1 = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'cc_output_1', 'midi_control_change_output', {});
     const ccOutput2 = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'cc_output_2', 'midi_control_change_output', {});

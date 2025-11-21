@@ -134,7 +134,10 @@ export class IoModule implements Module<IoState> {
             midiOutputDevices: [],
         };
 
-        this.midiDeviceState = await moduleAPI.statesAPI.createSharedState('plugged_in_midi_devices', state);
+        const sharedStates = await moduleAPI.shared.createSharedStates({
+            plugged_in_midi_devices: state
+        });
+        this.midiDeviceState = sharedStates.plugged_in_midi_devices;
     };
 
     public sendMidiEvent = (outputName: string, midiEvent: MidiEvent) => {

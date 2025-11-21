@@ -124,3 +124,96 @@ describe('esbuild_plugin_platform_inject', () => {
         expect(browserBuildContent).not.toContain('Authenticating user:');
     }, 60000);
 });
+
+describe('esbuild_plugin_platform_inject - runOn transformation', () => {
+    const rootDir = path.resolve(__dirname, '../../../../..');
+    const cliPath = path.resolve(__dirname, '../cli.ts');
+    const testAppPath = 'run_on_test/run_on_test.tsx';
+    const distPath = path.resolve(rootDir, 'apps/small_apps/dist');
+
+    beforeAll(() => {
+        // Clean dist directory before running tests
+        if (fs.existsSync(distPath)) {
+            fs.rmSync(distPath, { recursive: true, force: true });
+        }
+
+        // Build the runOn test app using the CLI
+        execSync(`npx tsx ${cliPath} build ${testAppPath}`, {
+            cwd: path.resolve(rootDir, 'apps/small_apps'),
+            stdio: 'inherit',
+            env: {
+                ...process.env,
+                NODE_ENV: 'production',
+            },
+        });
+    });
+
+    it('should replace runOn with null for non-matching platforms in browser build', async () => {
+        // Read the browser build output
+        const browserDistPath = path.join(distPath, 'browser/dist');
+        const jsFiles = fs.readdirSync(browserDistPath).filter(f => f.endsWith('.js') && f.startsWith('index-'));
+        expect(jsFiles.length).toBeGreaterThan(0);
+
+        const browserBuildContent = fs.readFileSync(path.join(browserDistPath, jsFiles[0]), 'utf-8');
+
+        // Browser build should not contain node-specific strings (they should be stripped)
+        expect(browserBuildContent).not.toContain('node-only-secret');
+        expect(browserBuildContent).not.toContain('node-async-data');
+
+        // Browser build should contain browser-specific strings (callback executed)
+        expect(browserBuildContent).toContain('browser-only-feature');
+    }, 60000);
+
+    it('should replace runOn with IIFE for matching platforms in node build', async () => {
+        // Read the node build output
+        const nodeDistPath = path.join(distPath, 'node/dist');
+        const jsFiles = fs.readdirSync(nodeDistPath).filter(f => f.endsWith('.js') && f === 'index.js');
+        expect(jsFiles.length).toBeGreaterThan(0);
+
+        const nodeBuildContent = fs.readFileSync(path.join(nodeDistPath, jsFiles[0]), 'utf-8');
+
+        // Node build should contain node-specific strings (callback executed)
+        expect(nodeBuildContent).toContain('node-only-secret');
+
+        // Node build should NOT contain browser-specific strings (they should be null)
+        expect(nodeBuildContent).not.toContain('browser-only-feature');
+    }, 60000);
+
+    it('should handle async runOn callbacks correctly', async () => {
+        // Read the node build output
+        const nodeDistPath = path.join(distPath, 'node/dist');
+        const jsFiles = fs.readdirSync(nodeDistPath).filter(f => f.endsWith('.js') && f === 'index.js');
+        const nodeBuildContent = fs.readFileSync(path.join(nodeDistPath, jsFiles[0]), 'utf-8');
+
+        // The async callback should be preserved in node build
+        expect(nodeBuildContent).toContain('node-async-data');
+
+        // Read the browser build output
+        const browserDistPath = path.join(distPath, 'browser/dist');
+        const browserJsFiles = fs.readdirSync(browserDistPath).filter(f => f.endsWith('.js') && f.startsWith('index-'));
+        const browserBuildContent = fs.readFileSync(path.join(browserDistPath, browserJsFiles[0]), 'utf-8');
+
+        // The async callback should not appear in browser build
+        expect(browserBuildContent).not.toContain('node-async-data');
+    }, 60000);
+
+    it('should handle chained runOn with ?? operator correctly', async () => {
+        // Read the node build output
+        const nodeDistPath = path.join(distPath, 'node/dist');
+        const jsFiles = fs.readdirSync(nodeDistPath).filter(f => f.endsWith('.js') && f === 'index.js');
+        const nodeBuildContent = fs.readFileSync(path.join(nodeDistPath, jsFiles[0]), 'utf-8');
+
+        // In node build, the first runOn should execute and second should be null
+        expect(nodeBuildContent).toContain('node-midi-service');
+        expect(nodeBuildContent).not.toContain('browser-audio-service');
+
+        // Read the browser build output
+        const browserDistPath = path.join(distPath, 'browser/dist');
+        const browserJsFiles = fs.readdirSync(browserDistPath).filter(f => f.endsWith('.js') && f.startsWith('index-'));
+        const browserBuildContent = fs.readFileSync(path.join(browserDistPath, browserJsFiles[0]), 'utf-8');
+
+        // In browser build, the first runOn should be null and second should execute
+        expect(browserBuildContent).not.toContain('node-midi-service');
+        expect(browserBuildContent).toContain('browser-audio-service');
+    }, 60000);
+});

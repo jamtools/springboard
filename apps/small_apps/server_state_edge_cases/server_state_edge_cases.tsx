@@ -5,17 +5,20 @@ import springboard from 'springboard';
 
 springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
     // Test 1: Multiple server states at once using createServerStates
-    const serverStates = await moduleAPI.statesAPI.createServerStates({
+    const serverStates = await moduleAPI.server.createServerStates({
         userSession: { userId: 'user-123', token: 'secret-token' },
         apiKeys: { stripe: 'sk_test_123', sendgrid: 'SG.xyz' },
         internalCache: { lastSync: Date.now(), data: {} },
     });
 
     // Test 2: Single server state
-    const singleServerState = await moduleAPI.statesAPI.createServerState('config', {
-        dbPassword: 'super-secret-password',
-        adminKey: 'admin-key-123',
+    const singleServerStates = await moduleAPI.server.createServerStates({
+        config: {
+            dbPassword: 'super-secret-password',
+            adminKey: 'admin-key-123',
+        },
     });
+    const singleServerState = singleServerStates.config;
 
     // Test 3: Function that returns a function (for actions)
     const createHandler = (name: string) => async () => {

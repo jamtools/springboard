@@ -82,19 +82,15 @@ class States {
     constructor(private moduleAPI: ModuleAPI) {}
 
     public initialize = async () => {
-        const [
-            savedSetlists,
-            savedTabs,
-            currentSetlistStatus,
-        ] = await Promise.all([
-            this.moduleAPI.statesAPI.createSharedState<UltimateGuitarSetlist[]>('saved_setlists', []),
-            this.moduleAPI.statesAPI.createSharedState<UltimateGuitarTab[]>('saved_tabs', []),
-            this.moduleAPI.statesAPI.createSharedState<UltimateGuitarSetlistStatus | null>('current_setlist_status', null),
-        ]);
+        const states = await this.moduleAPI.shared.createSharedStates({
+            saved_setlists: [] as UltimateGuitarSetlist[],
+            saved_tabs: [] as UltimateGuitarTab[],
+            current_setlist_status: null as UltimateGuitarSetlistStatus | null,
+        });
 
-        this.savedSetlists = savedSetlists;
-        this.savedTabs = savedTabs;
-        this.currentSetlistStatus = currentSetlistStatus;
+        this.savedSetlists = states.saved_setlists;
+        this.savedTabs = states.saved_tabs;
+        this.currentSetlistStatus = states.current_setlist_status;
     };
 }
 
