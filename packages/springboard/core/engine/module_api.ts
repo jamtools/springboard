@@ -33,10 +33,32 @@ type ModuleOptions = {
 }
 
 /**
- * The API provided in the callback when calling `registerModule`. The ModuleAPI is the entrypoint in the framework for everything pertaining to creating a module.
-*/
-export class ModuleAPI {
+ * Internal APIs that are discouraged for general use.
+ * These are exposed for advanced use cases and framework internals.
+ */
+export class ModuleAPIInternal {
     private destroyCallbacks: Function[] = [];
+
+    constructor(
+        public readonly module: Module,
+        private prefix: string,
+        public readonly coreDeps: CoreDependencies,
+        public readonly modDeps: ModuleDependencies,
+        extraDeps: ExtraModuleDependencies,
+        private options: ModuleOptions
+    ) {
+        this.deps = {core: coreDeps, module: modDeps, extra: extraDeps};
+        this.moduleId = module.moduleId;
+        this.fullPrefix = `${prefix}|module|${module.moduleId}`;
+    }
+
+    public readonly moduleId: string;
+    public readonly fullPrefix: string;
+
+    /**
+     * Dependencies for this module (core framework deps and module-specific deps).
+     */
+    public readonly deps: {core: CoreDependencies; module: ModuleDependencies, extra: ExtraModuleDependencies};
 
     public onDestroy = (cb: Function) => {
         this.destroyCallbacks.push(cb);
@@ -52,53 +74,109 @@ export class ModuleAPI {
         }
     };
 
-    constructor(private module: Module, private prefix: string, private coreDeps: CoreDependencies, private modDeps: ModuleDependencies, extraDeps: ExtraModuleDependencies, private options: ModuleOptions) {
-        // Store deps for backwards compatibility
-        this.deps = {core: coreDeps, module: modDeps, extra: extraDeps};
+    setRpcMode = (mode: 'remote' | 'local') => {
+        this.options.rpcMode = mode;
+    };
+
+    /**
+     * Create an action to be run on either the same device or remote device.
+     */
+    createAction = <
+        Options extends ActionConfigOptions,
+        Args extends undefined | object,
+        ReturnValue extends Promise<undefined | void | null | object | number>
+    >(
+        actionName: string,
+        options: Options,
+        cb: undefined extends Args ? ActionCallback<Args, ReturnValue> : ActionCallback<Args, ReturnValue>
+    ): undefined extends Args ? ((args?: Args, options?: ActionCallOptions) => ReturnValue) : ((args: Args, options?: ActionCallOptions) => ReturnValue) => {
+        const fullActionName = `${this.fullPrefix}|action|${actionName}`;
+
+        if (this.coreDeps.rpc.remote.role === 'server') {
+            this.coreDeps.rpc.remote.registerRpc(fullActionName, cb);
+        }
+
+        if (this.coreDeps.rpc.local?.role === 'server') {
+            this.coreDeps.rpc.local.registerRpc(fullActionName, cb);
+        }
+
+        return (async (args: Args, options?: ActionCallOptions): Promise<Awaited<ReturnValue>> => {
+            try {
+                let rpc = this.coreDeps.rpc.remote;
+
+                if (this.coreDeps.isMaestro() || this.options.rpcMode === 'local' || options?.mode === 'local') {
+                    if (!this.coreDeps.rpc.local || this.coreDeps.rpc.local.role !== 'client') {
+                        return await cb(args);
+                    }
+
+                    rpc = this.coreDeps.rpc.local!;
+                }
+
+                const result = await rpc.callRpc<Args, ReturnValue>(fullActionName, args);
+                if (typeof result === 'string') { // TODO: make this not think a string is an error
+                    this.coreDeps.showError(result);
+                    throw new Error(result);
+                }
+
+                return result;
+            } catch (e) {
+                const errorMessage = `Error running action '${fullActionName}': ${new String(e)}`;
+                this.coreDeps.showError(errorMessage);
+
+                throw e;
+            }
+        }) as unknown as undefined extends Args ? (args?: Args, options?: ActionCallOptions) => ReturnValue : (args: Args, options?: ActionCallOptions) => ReturnValue;
+    };
+}
+
+/**
+ * The API provided in the callback when calling `registerModule`. The ModuleAPI is the entrypoint in the framework for everything pertaining to creating a module.
+*/
+export class ModuleAPI {
+    /**
+     * Internal APIs - discouraged for general use.
+     * Use the public namespaced APIs instead (server, shared, userAgent, client, ui).
+     */
+    public readonly _internal: ModuleAPIInternal;
+
+    constructor(module: Module, prefix: string, coreDeps: CoreDependencies, modDeps: ModuleDependencies, extraDeps: ExtraModuleDependencies, options: ModuleOptions) {
+        // Initialize internal APIs
+        this._internal = new ModuleAPIInternal(module, prefix, coreDeps, modDeps, extraDeps, options);
 
         // Initialize namespace APIs
         this.server = new ServerAPI(
-            this.fullPrefix,
-            this.coreDeps,
-            this.modDeps,
-            this.createAction.bind(this),
-            this.onDestroy
+            this._internal.fullPrefix,
+            this._internal.coreDeps,
+            this._internal.modDeps,
+            this._internal.createAction.bind(this._internal),
+            this._internal.onDestroy
         );
 
         this.shared = new SharedAPI(
-            this.fullPrefix,
-            this.coreDeps,
-            this.modDeps,
-            this.createAction.bind(this),
-            this.onDestroy
+            this._internal.fullPrefix,
+            this._internal.coreDeps,
+            this._internal.modDeps,
+            this._internal.createAction.bind(this._internal),
+            this._internal.onDestroy
         );
 
         this.userAgent = new UserAgentAPI(
-            this.fullPrefix,
-            this.coreDeps,
-            this.modDeps,
-            this.createAction.bind(this),
-            this.onDestroy
+            this._internal.fullPrefix,
+            this._internal.coreDeps,
+            this._internal.modDeps,
+            this._internal.createAction.bind(this._internal),
+            this._internal.onDestroy
         );
 
         this.client = new ClientAPI(
-            this.createAction.bind(this)
+            this._internal.createAction.bind(this._internal)
         );
 
         this.ui = new UIAPI(
-            this.module,
-            this.modDeps
+            this._internal.module,
+            this._internal.modDeps
         );
     }
-
-    public readonly moduleId = this.module.moduleId;
-
-    public readonly fullPrefix = `${this.prefix}|module|${this.module.moduleId}`;
-
-    /**
-     * Dependencies for this module (core framework deps and module-specific deps).
-     */
-    public readonly deps: {core: CoreDependencies; module: ModuleDependencies, extra: ExtraModuleDependencies};
 
     /**
      * Server-only states and actions (stripped from client builds).
@@ -143,7 +221,9 @@ export class ModuleAPI {
      * const macroModule = moduleAPI.getModule('midi_macro');
      * ```
      */
-    getModule = this.modDeps.moduleRegistry.getModule.bind(this.modDeps.moduleRegistry);
+    getModule = <ModuleId extends string>(moduleId: ModuleId) => {
+        return this._internal.modDeps.moduleRegistry.getModule(moduleId as any);
+    };
 
     /**
      * Register a route with the application's React Router.
@@ -191,101 +271,6 @@ export class ModuleAPI {
      */
     createUserAgentStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
         return this.userAgent.createUserAgentStates(states);
-    };
-
-    /**
-     * @deprecated Use `moduleAPI.shared.createSharedActions()` instead.
-     */
-    createActions = <Actions extends Record<string, ActionCallback<any, any>>>(
-        actions: Actions
-    ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
-        const keys = Object.keys(actions);
-
-        for (const key of keys) {
-            (actions[key] as ActionCallback<any, any>) = this.createAction(key, {}, actions[key]);
-        }
-
-        return actions;
-    };
-
-    /**
-     * @deprecated Use `moduleAPI.server.createServerAction()` instead.
-     */
-    createServerAction = <
-        Options extends ActionConfigOptions,
-        Args extends undefined | object,
-        ReturnValue extends Promise<undefined | void | null | object | number>
-    >(
-        actionName: string,
-        options: Options,
-        cb: undefined extends Args ? ActionCallback<Args, ReturnValue> : ActionCallback<Args, ReturnValue>
-    ): undefined extends Args ? ((args?: Args, options?: ActionCallOptions) => ReturnValue) : ((args: Args, options?: ActionCallOptions) => ReturnValue) => {
-        return this.createAction(actionName, options, cb);
-    };
-
-    /**
-     * @deprecated Use `moduleAPI.server.createServerActions()` instead.
-     */
-    createServerActions = <Actions extends Record<string, ActionCallback<any, any>>>(
-        actions: Actions
-    ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
-        return this.createActions(actions);
-    };
-
-    setRpcMode = (mode: 'remote' | 'local') => {
-        this.options.rpcMode = mode;
-    };
-
-    /**
-     * Create an action to be run on either the same device or remote device. If the produced action is called from the same device, the framework just calls the provided callback. If it is called from another device, the framework calls the action via RPC to the remote device. In most cases, any main logic or calls to shared state changes should be done in an action.
-    */
-    createAction = <
-        Options extends ActionConfigOptions,
-        Args extends undefined | object,
-        ReturnValue extends Promise<undefined | void | null | object | number>
-    >(
-        actionName: string,
-        options: Options,
-        cb: undefined extends Args ? ActionCallback<Args, ReturnValue> : ActionCallback<Args, ReturnValue>
-    ): undefined extends Args ? ((args?: Args, options?: ActionCallOptions) => ReturnValue) : ((args: Args, options?: ActionCallOptions) => ReturnValue) => {
-        const fullActionName = `${this.fullPrefix}|action|${actionName}`;
-
-        if (this.coreDeps.rpc.remote.role === 'server') {
-            this.coreDeps.rpc.remote.registerRpc(fullActionName, cb);
-        }
-
-        if (this.coreDeps.rpc.local?.role === 'server') {
-            this.coreDeps.rpc.local.registerRpc(fullActionName, cb);
-        }
-
-        return (async (args: Args, options?: ActionCallOptions): Promise<Awaited<ReturnValue>> => {
-            try {
-                let rpc = this.coreDeps.rpc.remote;
-
-                // if (options?.mode === 'local' || rpc.role === 'server') { // TODO: get rid of isMaestro and do something like this instead
-
-                if (this.coreDeps.isMaestro() || this.options.rpcMode === 'local' || options?.mode === 'local') {
-                    if (!this.coreDeps.rpc.local || this.coreDeps.rpc.local.role !== 'client') {
-                        return await cb(args);
-                    }
-
-                    rpc = this.coreDeps.rpc.local!;
-                }
-
-                const result = await rpc.callRpc<Args, ReturnValue>(fullActionName, args);
-                if (typeof result === 'string') { // TODO: make this not think a string is an error
-                    this.coreDeps.showError(result);
-                    throw new Error(result);
-                }
-
-                return result;
-            } catch (e) {
-                const errorMessage = `Error running action '${fullActionName}': ${new String(e)}`;
-                this.coreDeps.showError(errorMessage);
-
-                throw e;
-            }
-        }) as unknown as undefined extends Args ? (args?: Args, options?: ActionCallOptions) => ReturnValue : (args: Args, options?: ActionCallOptions) => ReturnValue;
     };
 }
 
