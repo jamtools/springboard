@@ -274,6 +274,7 @@ export const SpringboardProviderPure = (props: SpringboardProviderProps) => {
 
     let stackedProviders: React.ReactNode = props.children;
     for (const mod of mods) {
+        // Support legacy single Provider property
         const ModProvider = mod.Provider;
         if (ModProvider) {
             stackedProviders = (
@@ -281,6 +282,17 @@ export const SpringboardProviderPure = (props: SpringboardProviderProps) => {
                     {stackedProviders}
                 </ModProvider>
             );
+        }
+
+        // Support new providers array
+        if (mod.providers) {
+            for (const Provider of mod.providers) {
+                stackedProviders = (
+                    <Provider>
+                        {stackedProviders}
+                    </Provider>
+                );
+            }
         }
     }
 

@@ -23,7 +23,8 @@ export type NavigationItemConfig = {
 export type Module<State extends object = any> = {
     moduleId: string;
     initialize?: (moduleAPI: ModuleAPI) => void | Promise<void>;
-    Provider?: React.ElementType;
+    Provider?: React.ElementType; // Deprecated: use providers array instead
+    providers?: React.ElementType[];
     state?: State;
     subject?: Subject<State>;
     routes?: Record<string, RegisteredRoute>;

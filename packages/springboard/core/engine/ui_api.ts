@@ -101,27 +101,34 @@ export class UIAPI {
      *
      * **Purpose:** Provide global context (theme, auth, etc.) to all components.
      *
-     * **Future:** This method is planned but not yet implemented.
+     * Multiple providers can be registered per module and they will be stacked
+     * in the order they are registered across all modules.
      *
      * @example
      * ```typescript
-     * moduleAPI.ui.registerReactProvider(({children}) => {
-     *   return (
-     *     <ThemeProvider theme={theme}>
-     *       <AuthProvider>
-     *         {children}
-     *       </AuthProvider>
-     *     </ThemeProvider>
-     *   );
-     * });
+     * // Register a theme provider
+     * moduleAPI.ui.registerReactProvider(({children}) => (
+     *   <ThemeProvider theme={theme}>
+     *     {children}
+     *   </ThemeProvider>
+     * ));
+     *
+     * // Register another provider (will wrap the theme provider)
+     * moduleAPI.ui.registerReactProvider(({children}) => (
+     *   <AuthProvider>
+     *     {children}
+     *   </AuthProvider>
+     * ));
      * ```
      *
      * @see {@link https://docs.springboard.dev/react-providers | React Providers Guide}
      */
     registerReactProvider = (
-        _provider: React.ComponentType<{children: React.ReactNode}>
+        provider: React.ComponentType<{children: React.ReactNode}>
     ): void => {
-        // TODO: Implement provider registration
-        throw new Error('registerReactProvider is not yet implemented');
+        if (!this.module.providers) {
+            this.module.providers = [];
+        }
+        this.module.providers.push(provider as React.ElementType);
     };
 }
