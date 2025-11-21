@@ -272,28 +272,37 @@ export const SpringboardProviderPure = (props: SpringboardProviderProps) => {
     const {engine} = props;
     const mods = engine.moduleRegistry.getModules();
 
-    let stackedProviders: React.ReactNode = props.children;
+    // Collect all providers with their ranks from all modules
+    const allProvidersWithRank: Array<{provider: React.ElementType, rank: number}> = [];
+
     for (const mod of mods) {
-        // Support legacy single Provider property
-        const ModProvider = mod.Provider;
-        if (ModProvider) {
-            stackedProviders = (
-                <ModProvider>
-                    {stackedProviders}
-                </ModProvider>
-            );
+        // Support legacy single Provider property (treat as rank 0)
+        if (mod.Provider) {
+            allProvidersWithRank.push({
+                provider: mod.Provider,
+                rank: 0,
+            });
         }
 
-        // Support new providers array
+        // Collect new providers with their ranks
         if (mod.providers) {
-            for (const Provider of mod.providers) {
-                stackedProviders = (
-                    <Provider>
-                        {stackedProviders}
-                    </Provider>
-                );
-            }
+            allProvidersWithRank.push(...mod.providers);
         }
+    }
+
+    // Sort by rank descending (higher rank = outer wrapper)
+    // Within same rank, maintain registration order (stable sort)
+    allProvidersWithRank.sort((a, b) => b.rank - a.rank);
+
+    // Stack providers from lowest rank to highest (so highest rank ends up outermost)
+    let stackedProviders: React.ReactNode = props.children;
+    for (let i = allProvidersWithRank.length - 1; i >= 0; i--) {
+        const Provider = allProvidersWithRank[i].provider;
+        stackedProviders = (
+            <Provider>
+                {stackedProviders}
+            </Provider>
+        );
     }
 
     return (

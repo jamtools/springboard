@@ -101,34 +101,73 @@ export class UIAPI {
      *
      * **Purpose:** Provide global context (theme, auth, etc.) to all components.
      *
-     * Multiple providers can be registered per module and they will be stacked
-     * in the order they are registered across all modules.
+     * **Ordering:**
+     * Providers are stacked by rank (highest rank = outermost wrapper):
+     * - Rank 100: "top" - Outermost providers (error boundaries, global state)
+     * - Rank 0: "default" - Normal providers (most use cases)
+     * - Rank -100: "bottom" - Innermost providers (theme, i18n)
+     *
+     * Within the same rank, providers are stacked in registration order
+     * across all modules (first registered = outer wrapper).
      *
      * @example
      * ```typescript
-     * // Register a theme provider
+     * // Default rank (0) - stacks in registration order
      * moduleAPI.ui.registerReactProvider(({children}) => (
      *   <ThemeProvider theme={theme}>
      *     {children}
      *   </ThemeProvider>
      * ));
      *
-     * // Register another provider (will wrap the theme provider)
+     * // Bottom rank - always innermost (close to app components)
      * moduleAPI.ui.registerReactProvider(({children}) => (
-     *   <AuthProvider>
+     *   <I18nProvider>
      *     {children}
-     *   </AuthProvider>
-     * ));
+     *   </I18nProvider>
+     * ), { rank: 'bottom' });
+     *
+     * // Top rank - always outermost (wraps everything)
+     * moduleAPI.ui.registerReactProvider(({children}) => (
+     *   <ErrorBoundary>
+     *     {children}
+     *   </ErrorBoundary>
+     * ), { rank: 'top' });
+     *
+     * // Custom numeric rank for fine control
+     * moduleAPI.ui.registerReactProvider(MyProvider, { rank: 50 });
      * ```
+     *
+     * **Final order:** ErrorBoundary > ThemeProvider > I18nProvider > App
+     *
+     * @param provider - React component that accepts children
+     * @param options - Optional configuration
+     * @param options.rank - Stacking priority (higher = outer). Can be number or 'top' (100) / 'bottom' (-100)
      *
      * @see {@link https://docs.springboard.dev/react-providers | React Providers Guide}
      */
     registerReactProvider = (
-        provider: React.ComponentType<{children: React.ReactNode}>
+        provider: React.ComponentType<{children: React.ReactNode}>,
+        options?: {rank?: number | 'top' | 'bottom'}
     ): void => {
         if (!this.module.providers) {
             this.module.providers = [];
         }
-        this.module.providers.push(provider as React.ElementType);
+
+        // Resolve rank from named constants or use default
+        let rank = 0; // Default rank
+        if (options?.rank !== undefined) {
+            if (options.rank === 'top') {
+                rank = 100;
+            } else if (options.rank === 'bottom') {
+                rank = -100;
+            } else {
+                rank = options.rank;
+            }
+        }
+
+        this.module.providers.push({
+            provider: provider as React.ElementType,
+            rank,
+        });
     };
 }

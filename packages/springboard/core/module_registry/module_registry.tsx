@@ -20,11 +20,16 @@ export type NavigationItemConfig = {
     route: string;
 };
 
+export type ProviderWithRank = {
+    provider: React.ElementType;
+    rank: number;
+};
+
 export type Module<State extends object = any> = {
     moduleId: string;
     initialize?: (moduleAPI: ModuleAPI) => void | Promise<void>;
     Provider?: React.ElementType; // Deprecated: use providers array instead
-    providers?: React.ElementType[];
+    providers?: ProviderWithRank[];
     state?: State;
     subject?: Subject<State>;
     routes?: Record<string, RegisteredRoute>;
