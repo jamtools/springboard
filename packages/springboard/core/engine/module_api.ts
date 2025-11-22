@@ -1,5 +1,5 @@
 import {ServerStateSupervisor, SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
-import {ExtraModuleDependencies, Module, NavigationItemConfig, RegisteredRoute} from 'springboard/module_registry/module_registry';
+import {AllModules, ExtraModuleDependencies, Module, NavigationItemConfig, RegisteredRoute} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
 import {RegisterRouteOptions} from './register';
 import {ServerAPI} from './server_api';
@@ -221,8 +221,8 @@ export class ModuleAPI {
      * const macroModule = moduleAPI.getModule('midi_macro');
      * ```
      */
-    getModule = <ModuleId extends string>(moduleId: ModuleId) => {
-        return this.internal.modDeps.moduleRegistry.getModule(moduleId as any);
+    getModule = <ModuleId extends keyof AllModules>(moduleId: ModuleId): AllModules[ModuleId] => {
+        return this.internal.modDeps.moduleRegistry.getModule(moduleId);
     };
 
     /**
