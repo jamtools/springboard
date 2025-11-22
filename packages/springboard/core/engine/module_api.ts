@@ -137,44 +137,44 @@ export class ModuleAPI {
      * Internal APIs - discouraged for general use.
      * Use the public namespaced APIs instead (server, shared, userAgent, client, ui).
      */
-    public readonly _internal: ModuleAPIInternal;
+    public readonly internal: ModuleAPIInternal;
 
     constructor(module: Module, prefix: string, coreDeps: CoreDependencies, modDeps: ModuleDependencies, extraDeps: ExtraModuleDependencies, options: ModuleOptions) {
         // Initialize internal APIs
-        this._internal = new ModuleAPIInternal(module, prefix, coreDeps, modDeps, extraDeps, options);
+        this.internal = new ModuleAPIInternal(module, prefix, coreDeps, modDeps, extraDeps, options);
 
         // Initialize namespace APIs
         this.server = new ServerAPI(
-            this._internal.fullPrefix,
-            this._internal.coreDeps,
-            this._internal.modDeps,
-            this._internal.createAction.bind(this._internal),
-            this._internal.onDestroy
+            this.internal.fullPrefix,
+            this.internal.coreDeps,
+            this.internal.modDeps,
+            this.internal.createAction.bind(this.internal),
+            this.internal.onDestroy
         );
 
         this.shared = new SharedAPI(
-            this._internal.fullPrefix,
-            this._internal.coreDeps,
-            this._internal.modDeps,
-            this._internal.createAction.bind(this._internal),
-            this._internal.onDestroy
+            this.internal.fullPrefix,
+            this.internal.coreDeps,
+            this.internal.modDeps,
+            this.internal.createAction.bind(this.internal),
+            this.internal.onDestroy
         );
 
         this.userAgent = new UserAgentAPI(
-            this._internal.fullPrefix,
-            this._internal.coreDeps,
-            this._internal.modDeps,
-            this._internal.createAction.bind(this._internal),
-            this._internal.onDestroy
+            this.internal.fullPrefix,
+            this.internal.coreDeps,
+            this.internal.modDeps,
+            this.internal.createAction.bind(this.internal),
+            this.internal.onDestroy
         );
 
         this.client = new ClientAPI(
-            this._internal.createAction.bind(this._internal)
+            this.internal.createAction.bind(this.internal)
         );
 
         this.ui = new UIAPI(
-            this._internal.module,
-            this._internal.modDeps
+            this.internal.module,
+            this.internal.modDeps
         );
     }
 
@@ -222,7 +222,7 @@ export class ModuleAPI {
      * ```
      */
     getModule = <ModuleId extends string>(moduleId: ModuleId) => {
-        return this._internal.modDeps.moduleRegistry.getModule(moduleId as any);
+        return this.internal.modDeps.moduleRegistry.getModule(moduleId as any);
     };
 
     /**
