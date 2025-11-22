@@ -82,11 +82,19 @@ export class SharedAPI {
     };
 
     /**
-     * Create a single shared state.
+     * Create a single shared state that syncs across all clients.
      *
-     * @see {@link createSharedStates} for batch creation (recommended).
+     * **Sync:** Changes are automatically synchronized via WebSockets to all connected clients.
+     *
+     * **Note:** For creating multiple states, use {@link createSharedStates} instead.
+     *
+     * @example
+     * ```typescript
+     * const counter = await moduleAPI.shared.createSharedState('counter', 0);
+     * counter.setState(5); // Syncs to all clients
+     * ```
      */
-    private createSharedState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
+    createSharedState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
         const fullKey = `${this.prefix}|state.shared|${stateName}`;
 
         const cachedValue = this.modDeps.services.remoteSharedStateService.getCachedValue(fullKey) as State | undefined;

@@ -83,11 +83,21 @@ export class UserAgentAPI {
     };
 
     /**
-     * Create a single user agent state.
+     * Create a single user agent state stored locally on the device.
      *
-     * @see {@link createUserAgentStates} for batch creation (recommended).
+     * **Storage:** Browser localStorage, React Native AsyncStorage, or equivalent.
+     *
+     * **Sync:** Not synchronized across devices. Each device maintains its own copy.
+     *
+     * **Note:** For creating multiple states, use {@link createUserAgentStates} instead.
+     *
+     * @example
+     * ```typescript
+     * const theme = await moduleAPI.userAgent.createUserAgentState('theme', 'dark');
+     * theme.setState('light'); // Only affects this device
+     * ```
      */
-    private createUserAgentState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
+    createUserAgentState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
         const fullKey = `${this.prefix}|state.useragent|${stateName}`;
 
         if (this.modDeps.services.localSharedStateService) {

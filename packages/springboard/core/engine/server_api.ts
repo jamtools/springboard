@@ -80,9 +80,17 @@ export class ServerAPI {
     /**
      * Create a single server-only state.
      *
-     * @see {@link createServerStates} for batch creation (recommended).
+     * **Security:** Like `createServerStates`, this state is never synced to clients
+     * and the entire variable declaration is removed from client builds.
+     *
+     * **Note:** For creating multiple states, use {@link createServerStates} instead.
+     *
+     * @example
+     * ```typescript
+     * const apiKey = await moduleAPI.server.createServerState('apiKey', process.env.STRIPE_KEY);
+     * ```
      */
-    private createServerState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
+    createServerState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
         const fullKey = `${this.prefix}|state.server|${stateName}`;
 
         // Check cache first (populated during serverStateService.initialize())
