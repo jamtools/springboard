@@ -1,0 +1,43 @@
+{
+  "platform": "react-native",
+  "templateVersion": "1.0.0",
+  "injectionPoints": {<% if (injectCustomCode) { %>
+    "entrypoint": {
+      "file": "app/entrypoints/rn_init_module.js",
+      "sourceFile": "dist/rn-main/neutral/dist/index.js",
+      "description": "Copy built rn-main module as entrypoint"
+    },
+    "entrypointTypes": {
+      "file": "app/entrypoints/rn_init_module.d.ts", 
+      "sourceFile": "packages/rn-main/springboard_entrypoint.d.ts",
+      "description": "Copy TypeScript definitions for entrypoint"
+    },
+    "postScaffoldScript": "post-scaffold"<% } %>
+  },
+  "buildProfiles": {
+    "development": {
+      "platform": "both",
+      "distribution": "internal",
+      "script": "npm run dev"
+    },
+    "preview": {
+      "platform": "both", 
+      "distribution": "internal",
+      "buildScript": {
+        "android": "npm run build-android",
+        "ios": "npm run build-ios"
+      }
+    },
+    "production": {
+      "platform": "both",
+      "distribution": "store", 
+      "buildScript": "npm run ci:build"
+    }
+  },
+  "customPackages": [<% if (customRnMainPackage) { %>
+    "<%= customRnMainPackage %>",<% } %><% if (customRnSharedPackage) { %>
+    "<%= customRnSharedPackage %>",<% } %><% if (customStorePackage) { %>
+    "<%= customStorePackage %>",<% } %><% if (customFilesPackage) { %>
+    "<%= customFilesPackage %>"<% } %>
+  ]
+}

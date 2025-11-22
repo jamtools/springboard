@@ -20,13 +20,14 @@
   },
   "scripts": {
     "build": "npm run clean && npm run prebuild && npm run build-cli",
-    "prebuild": "./scripts/generate-example-string.sh",
+    "prebuild": "./scripts/generate-example-string.sh && node scripts/serialize-workflows.js",
     "prepublishOnly": "npm run clean && npm run prebuild && npm run build-cli",
     "postinstall": "[ -f ./dist/cli.js ] || npm run build",
     "build-cli": "tsc && npm run add-header",
     "add-header": "./scripts/add-node-executable-header.sh",
     "clean": "rm -rf dist",
-    "cli-docs": "npx tsx scripts/make_cli_docs.ts"
+    "cli-docs": "npx tsx scripts/make_cli_docs.ts",
+    "check-types": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
