@@ -9,6 +9,6 @@ import '@springboardjs/shoelace/shoelace_imports';
 import {ShoelaceApplicationShell} from '@springboardjs/shoelace/components/shoelace_application_shell';
 
 springboard.registerModule('UIMain', {}, async (moduleAPI) => {
-    moduleAPI.registerApplicationShell(ShoelaceApplicationShell);
+    moduleAPI.ui.registerApplicationShell(ShoelaceApplicationShell);
 });
 // @platform end

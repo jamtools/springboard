@@ -11,7 +11,7 @@ type RandomNoteModuleReturnValue = {
 }
 
 springboard.registerModule('RandomNote', {}, async (moduleAPI): Promise<RandomNoteModuleReturnValue> => {
-    const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+    const macroModule = moduleAPI.getModule('macro');
 
     const inputTrigger = await macroModule.createMacro(moduleAPI, 'Input trigger', 'musical_keyboard_input', {enableQwerty: false});
     const output = await macroModule.createMacro(moduleAPI, 'Random output', 'musical_keyboard_output', {});

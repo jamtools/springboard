@@ -67,7 +67,7 @@ export class MacroModule implements Module<MacroConfigState> {
     };
 
     public createMacro = async <MacroType extends keyof MacroTypeConfigs, T extends MacroConfigItem<MacroType>>(moduleAPI: ModuleAPI, name: string, macroType: MacroType, config: T): Promise<MacroTypeConfigs[MacroType]['output']> => {
-        const moduleId = moduleAPI.moduleId;
+        const moduleId = moduleAPI.internal.moduleId;
 
         const tempConfig = {[name]: {...config, type: macroType}};
         this.state.configs = {...this.state.configs, [moduleId]: {...this.state.configs[moduleId], ...tempConfig}};
@@ -144,7 +144,7 @@ export class MacroModule implements Module<MacroConfigState> {
         const macroAPI: MacroAPI = {
             midiIO: moduleAPI.getModule('io'),
             createAction: (...args) => {
-                const action = moduleAPI.createAction(...args);
+                const action = moduleAPI.internal.createAction(...args);
                 return (args: any) => action(args, this.localMode ? {mode: 'local'} : undefined);
             },
             statesAPI: {
@@ -162,7 +162,7 @@ export class MacroModule implements Module<MacroConfigState> {
             isMidiMaestro: () => this.coreDeps.isMaestro() || this.localMode,
             moduleAPI,
             onDestroy: (cb: () => void) => {
-                moduleAPI.onDestroy(cb);
+                moduleAPI.internal.onDestroy(cb);
             },
         };
 

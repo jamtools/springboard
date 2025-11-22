@@ -26,7 +26,8 @@
     "build-cli": "tsc && npm run add-header",
     "add-header": "./scripts/add-node-executable-header.sh",
     "clean": "rm -rf dist",
-    "cli-docs": "npx tsx scripts/make_cli_docs.ts"
+    "cli-docs": "npx tsx scripts/make_cli_docs.ts",
+    "check-types": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

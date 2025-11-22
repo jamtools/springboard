@@ -2,7 +2,9 @@
   "name": "jamtools",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "@springboardjs/shoelace": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "springboard-cli": "workspace:*"
   }
 }

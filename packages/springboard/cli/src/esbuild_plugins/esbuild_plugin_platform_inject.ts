@@ -5,12 +5,57 @@ import traverse, {NodePath} from '@babel/traverse';
 import generate from '@babel/generator';
 import type {Plugin} from 'esbuild';
 import type * as t from '@babel/types';
+import type {SpringboardPlatform} from 'springboard/engine/register';
 
+/**
+ * ESBuild plugin for platform-specific code injection and transformation.
+ *
+ * **Responsibilities:**
+ * 1. **Platform directive blocks** - Remove `@platform "..."` blocks for non-matching platforms
+ * 2. **springboard.runOn()** - Transform to IIFE (if platform matches) or `null` (if doesn't match)
+ * 3. **Server state removal** - Remove `createServerStates()` variable declarations in client builds
+ * 4. **Server action stripping** - Strip bodies from `createServerActions()` in client builds
+ *
+ * **Platform Matrix:**
+ * These must match the TypeScript types in `packages/springboard/core/engine/register.ts` (line 236-244).
+ *
+ * | Build Target | Accepts runOn(...) with |
+ * |--------------|------------------------|
+ * | `node` | `'node'`, `'server'` |
+ * | `cf-workers` | `'cf-workers'`, `'server'` |
+ * | `web`  | `'web'`, `'browser'`, `'client'`, `'user-agent'` |
+ * | `tauri` | `'tauri'`, `'browser'`, `'client'`, `'user-agent'` |
+ * | `react-native-web` | `'react-native-web'`, `'browser'`, `'client'` |
+ * | `react-native` | `'react-native'`, `'user-agent'` |
+ *
+ * @see packages/springboard/core/engine/register.ts - TypeScript type definitions
+ * @see packages/springboard/cli/src/esbuild_plugins/esbuild_plugin_platform_inject.test.ts - Test suite
+ */
 export const esbuildPluginPlatformInject = (
-    platform: 'node' | 'browser' | 'fetch' | 'react-native',
+    platform: SpringboardPlatform,
     options?: {preserveServerStatesAndActions?: boolean}
 ): Plugin => {
     const preserveServerStatesAndActions = options?.preserveServerStatesAndActions || false;
+
+    // Helper: Determine if platform is a client platform (should strip server states/actions)
+    const isClientPlatform = (): boolean => {
+        switch (platform) {
+            case 'node':
+            case 'cf-workers':
+                // Server platforms - keep server states/actions
+                return false;
+            case 'web':
+            case 'tauri':
+            case 'react-native-web':
+            case 'react-native':
+                // Client platforms - strip server states/actions
+                return true;
+            default:
+                // Exhaustive check
+                const _exhaustive: never = platform;
+                return true; // Default to client for safety
+        }
+    };
 
     return {
         name: 'platform-macro',
@@ -19,29 +64,60 @@ export const esbuildPluginPlatformInject = (
                 let source = await fs.promises.readFile(args.path, 'utf8');
 
                 // Early return if file doesn't need any transformations
-                const hasPlatformAnnotations = /@platform "(node|browser|react-native|fetch)"/.test(source);
+                const hasPlatformAnnotations = /@platform "(node|cf-workers|web|tauri|react-native|react-native-web|server|browser|client|user-agent)"/.test(source);
                 // Detect both old and new API patterns for server calls
                 const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source) ||
                                        /\.server\.createServer(States|Actions)/.test(source);
-                const needsServerProcessing = hasServerCalls && ((platform === 'browser' || platform === 'react-native') && !preserveServerStatesAndActions);
+                const needsServerProcessing = hasServerCalls && (isClientPlatform() && !preserveServerStatesAndActions);
                 const hasRunOnCalls = /springboard\.runOn\(/.test(source);
 
                 if (!hasPlatformAnnotations && !needsServerProcessing && !hasRunOnCalls) {
                     return {
                         contents: source,
                         loader: args.path.split('.').pop() as 'js',
-                    };
+                        };
                 }
 
-                // Then, replace platform-specific blocks based on the platform
-                const platformRegex = new RegExp(`\/\/ @platform "${platform}"([\\s\\S]*?)\/\/ @platform end`, 'g');
-                const otherPlatformRegex = new RegExp(`\/\/ @platform "(node|browser|react-native|fetch)"([\\s\\S]*?)\/\/ @platform end`, 'g');
+                // Helper function to check if a platform directive matches the current build target
+                const platformMatches = (targetPlatform: string): boolean => {
+                    switch (platform) {
+                        case 'node':
+                            return targetPlatform === 'node' || targetPlatform === 'server';
+                        case 'cf-workers':
+                            return targetPlatform === 'cf-workers' || targetPlatform === 'server';
+                        case 'web':
+                            return targetPlatform === 'web' ||
+                                   targetPlatform === 'browser' ||
+                                   targetPlatform === 'client' ||
+                                   targetPlatform === 'user-agent';
+                        case 'tauri':
+                            return targetPlatform === 'tauri' ||
+                                   targetPlatform === 'browser' ||
+                                   targetPlatform === 'client' ||
+                                   targetPlatform === 'user-agent';
+                        case 'react-native-web':
+                            return targetPlatform === 'react-native-web' ||
+                                   targetPlatform === 'browser' ||
+                                   targetPlatform === 'client';
+                        case 'react-native':
+                            return targetPlatform === 'react-native' || targetPlatform === 'user-agent';
+                        default:
+                            return false;
+                    }
+                };
 
-                // Include only the code relevant to the current platform
-                source = source.replace(platformRegex, '$1');
-
-                // Remove the code for the other platforms
-                source = source.replace(otherPlatformRegex, '');
+                // Process all platform directive blocks
+                const allPlatformBlocksRegex = /\/\/ @platform "([^"]+)"([\s\S]*?)\/\/ @platform end/g;
+                source = source.replace(allPlatformBlocksRegex, (match, targetPlatform, content) => {
+                    if (platformMatches(targetPlatform)) {
+                        // Keep the content but remove the directives, preserving line numbers
+                        return content;
+                    } else {
+                        // Remove the content but preserve line numbers by replacing with newlines
+                        const lineCount = match.split('\n').length;
+                        return '\n'.repeat(lineCount - 1);
+                    }
+                });
 
                 // Transform springboard.runOn() calls
                 if (hasRunOnCalls) {
@@ -72,8 +148,42 @@ export const esbuildPluginPlatformInject = (
                                     ) {
                                         const targetPlatform = platformArg.value;
 
-                                        // Check if the target platform matches the current build platform
-                                        const platformMatches = targetPlatform === platform;
+                                        // Platform matching based on build target
+                                        // Matches the matrix in packages/springboard/core/engine/register.ts (line 236-244)
+                                        const platformMatches = (() => {
+                                            switch (platform) {
+                                                case 'node':
+                                                    // node build accepts: 'node' and context 'server'
+                                                    return targetPlatform === 'node' || targetPlatform === 'server';
+                                                case 'cf-workers':
+                                                    // cf-workers build accepts: 'cf-workers' and context 'server'
+                                                    return targetPlatform === 'cf-workers' || targetPlatform === 'server';
+                                                case 'web':
+                                                    // web build accepts: 'web', 'browser' and contexts 'client', 'user-agent'
+                                                    return targetPlatform === 'web' ||
+                                                           targetPlatform === 'browser' ||
+                                                           targetPlatform === 'client' ||
+                                                           targetPlatform === 'user-agent';
+                                                case 'tauri':
+                                                    // tauri build accepts: 'tauri', 'browser' and contexts 'client', 'user-agent'
+                                                    return targetPlatform === 'tauri' ||
+                                                           targetPlatform === 'browser' ||
+                                                           targetPlatform === 'client' ||
+                                                           targetPlatform === 'user-agent';
+                                                case 'react-native-web':
+                                                    // react-native-web build accepts: 'react-native-web', 'browser' and context 'client'
+                                                    return targetPlatform === 'react-native-web' ||
+                                                           targetPlatform === 'browser' ||
+                                                           targetPlatform === 'client';
+                                                case 'react-native':
+                                                    // react-native build accepts: 'react-native' and context 'user-agent'
+                                                    return targetPlatform === 'react-native' || targetPlatform === 'user-agent';
+                                                default:
+                                                    // Exhaustive check - this should never happen with proper types
+                                                    const _exhaustive: never = platform;
+                                                    return false;
+                                            }
+                                        })();
 
                                         if (platformMatches) {
                                             // Replace with IIFE: (callback)()
@@ -103,7 +213,7 @@ export const esbuildPluginPlatformInject = (
                     }
                 }
 
-                if ((platform === 'browser' || platform === 'react-native') && !preserveServerStatesAndActions) {
+                if (isClientPlatform() && !preserveServerStatesAndActions) {
                     // Detect both old and new API patterns for server calls
                     const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source) ||
                                            /\.server\.createServer(States|Actions)/.test(source);

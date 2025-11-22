@@ -9,11 +9,11 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
     const macroModule = m.getModule('macro');
     macroModule.setLocalMode(true);
 
-    const states = await m.createStates({
+    const states = await m.shared.createSharedStates({
         handPositions: [0, 0],
     });
 
-    const actions = m.createActions({
+    const actions = m.shared.createSharedActions({
         changeHandPosition: async (args: {index: number, value: number}) => {
             states.handPositions.setStateImmer((positions) => {
                 positions[args.index] = args.value;
@@ -46,7 +46,7 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
         },
     });
 
-    m.registerRoute('/', {}, () => {
+    m.ui.registerRoute('/', {}, () => {
         const positions = states.handPositions.useState();
 
         return (

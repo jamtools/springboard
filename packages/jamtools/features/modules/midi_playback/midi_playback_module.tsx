@@ -17,18 +17,18 @@ type MidiPlaybackModuleReturnValue = {
 };
 
 springboard.registerModule('MidiPlayback', {}, async (moduleAPI): Promise<MidiPlaybackModuleReturnValue> => {
-    const midiFileModule = moduleAPI.deps.module.moduleRegistry.getModule('MidiFile');
+    const midiFileModule = moduleAPI.getModule('MidiFile');
 
     const states = await moduleAPI.shared.createSharedStates({
         savedMidiFileData: null as ParsedMidiFile | null,
     });
     const savedMidiFileData = states.savedMidiFileData;
 
-    const outputDevice = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'outputDevice', 'musical_keyboard_output', {});
+    const outputDevice = await moduleAPI.getModule('macro').createMacro(moduleAPI, 'outputDevice', 'musical_keyboard_output', {});
 
     let currentIndex = -1;
 
-    const inputTrigger = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'inputTrigger', 'midi_button_input', {onTrigger: (event) => {
+    const inputTrigger = await moduleAPI.getModule('macro').createMacro(moduleAPI, 'inputTrigger', 'midi_button_input', {onTrigger: (event) => {
         if (event.event.type !== 'noteon') {
             return;
         }
@@ -61,11 +61,11 @@ springboard.registerModule('MidiPlayback', {}, async (moduleAPI): Promise<MidiPl
         }, 100);
     }});
 
-    const handleParsedMidiFile = moduleAPI.createAction('handleParsedMidiFile', {}, async (args: {data: ParsedMidiFile}) => {
+    const handleParsedMidiFile = moduleAPI.internal.createAction('handleParsedMidiFile', {}, async (args: {data: ParsedMidiFile}) => {
         savedMidiFileData.setState(args.data);
     });
 
-    moduleAPI.registerRoute('', {hideApplicationShell: false}, () => {
+    moduleAPI.ui.registerRoute('', {hideApplicationShell: false}, () => {
         const savedState = savedMidiFileData.useState();
 
         return (

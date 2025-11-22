@@ -60,7 +60,7 @@ export const platformBrowserBuildConfig: BuildConfig = {
     fingerprint: true,
     platformEntrypoint: () => '@springboardjs/platforms-browser/entrypoints/online_entrypoint.ts',
     esbuildPlugins: (args) => [
-        esbuildPluginPlatformInject('browser'),
+        esbuildPluginPlatformInject('web'),
         esbuildPluginHtmlGenerate(
             args.outDir,
             `${args.nodeModulesParentDir}/node_modules/@springboardjs/platforms-browser/index.html`,
@@ -76,7 +76,7 @@ export const platformOfflineBrowserBuildConfig: BuildConfig = {
     ...platformBrowserBuildConfig,
     platformEntrypoint: () => '@springboardjs/platforms-browser/entrypoints/offline_entrypoint.ts',
     esbuildPlugins: (args) => [
-        esbuildPluginPlatformInject('browser', {preserveServerStatesAndActions: true}),
+        esbuildPluginPlatformInject('web', {preserveServerStatesAndActions: true}),
         esbuildPluginHtmlGenerate(
             args.outDir,
             `${args.nodeModulesParentDir}/node_modules/@springboardjs/platforms-browser/index.html`,
@@ -113,7 +113,7 @@ export const platformPartykitServerBuildConfig: BuildConfig = {
         return entrypoint;
     },
     esbuildPlugins: (args) => [
-        esbuildPluginPlatformInject('fetch'),
+        esbuildPluginPlatformInject('cf-workers'),
         esbuildPluginPartykitConfig(args.outDir),
     ],
     externals: () => {
@@ -153,7 +153,12 @@ export const platformTauriWebviewBuildConfig: BuildConfig = {
     fingerprint: false,
     platformEntrypoint: () => '@springboardjs/platforms-tauri/entrypoints/platform_tauri_browser.tsx',
     esbuildPlugins: (args) => [
-        ...platformBrowserBuildConfig.esbuildPlugins!(args),
+        esbuildPluginPlatformInject('tauri', {preserveServerStatesAndActions: true}),
+        esbuildPluginHtmlGenerate(
+            args.outDir,
+            `${args.nodeModulesParentDir}/node_modules/@springboardjs/platforms-browser/index.html`,
+            args.documentMeta,
+        ),
         {
             name: 'onBuildEnd',
             setup(build: any) {

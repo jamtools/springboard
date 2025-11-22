@@ -5,8 +5,8 @@ import {Link} from 'react-router-dom';
 import springboard from 'springboard';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
 
-import {GuitarChordRootsDisplay, GuitarTabView} from '@jamtools/features/modules/song_structures/components/guitar_tab_view';
-import {ChordChoice, ChordDisplay} from '@jamtools/features/modules/song_structures/components/chord_display';
+import {GuitarChordRootsDisplay, GuitarTabView} from '../song_structures/components/guitar_tab_view';
+import {ChordChoice, ChordDisplay} from '../song_structures/components/chord_display';
 
 declare module 'springboard/module_registry/module_registry' {
     interface AllModules {
@@ -29,7 +29,7 @@ const initialGuitarDisplaySettings: GuitarDisplaySettings = {
 };
 
 springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): Promise<SongStructuresDashboardsModuleReturnValue> => {
-    const macros = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+    const macros = moduleAPI.getModule('macro');
 
     const userAgentStates = await moduleAPI.userAgent.createUserAgentStates({
         guitar_display_settings: initialGuitarDisplaySettings,
@@ -50,8 +50,8 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
     const musicalKeyboardOutputMacro = await macros.createMacro(moduleAPI, 'keyboard_out', 'musical_keyboard_output', {});
 
     const toggleChordChooseMode = await macros.createMacro(moduleAPI, 'toggle_chord_choose_mode', 'midi_button_input', {enableQwerty: false});
-    // const toggleChordChooseMode = moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro();
-    // const toggleScaleChooseMode = moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro();
+    // const toggleChordChooseMode = moduleAPI.getModule('macro').createMacro();
+    // const toggleScaleChooseMode = moduleAPI.getModule('macro').createMacro();
 
     // const messageState = await states.createSharedState('message', '');
 
@@ -143,7 +143,7 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
         }
     });
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         return (
             <div>
                 <Link to='/modules/song_structures_dashboards/bass_guitar'>
@@ -155,7 +155,7 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
         );
     });
 
-    moduleAPI.registerRoute('bass_guitar', {}, () => {
+    moduleAPI.ui.registerRoute('bass_guitar', {}, () => {
         const props: React.ComponentProps<typeof GuitarTabView> = {
             numberOfStrings: 4,
             chosenFrets: [

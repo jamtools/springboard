@@ -12,7 +12,7 @@ export type MacroAPI = {
     moduleAPI: ModuleAPI;
     midiIO: IoModule;
     statesAPI: Pick<StatesAPI, 'createSharedState'>;
-    createAction: ModuleAPI['createAction'];
+    createAction: ModuleAPI['internal']['createAction'];
     isMidiMaestro: () => boolean;
     onDestroy: (cb: () => void) => void;
     createMacro: MacroModule['createMacro'];

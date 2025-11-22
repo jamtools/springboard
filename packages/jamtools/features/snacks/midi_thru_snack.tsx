@@ -15,7 +15,7 @@ springboard.registerModule('midi_thru', {}, async (moduleAPI) => {
         myOutput.send(evt.event);
     });
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         return (
             <div>
                 <myInput.components.edit/>

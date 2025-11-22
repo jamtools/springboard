@@ -1,7 +1,6 @@
 import {ServerStateSupervisor, SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
-import {AllModules, ExtraModuleDependencies, Module, NavigationItemConfig, RegisteredRoute} from 'springboard/module_registry/module_registry';
+import {AllModules, ExtraModuleDependencies, Module} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
-import {RegisterRouteOptions} from './register';
 import {ServerAPI} from './server_api';
 import {SharedAPI} from './shared_api';
 import {UserAgentAPI} from './user_agent_api';
@@ -223,54 +222,6 @@ export class ModuleAPI {
      */
     getModule = <ModuleId extends keyof AllModules>(moduleId: ModuleId): AllModules[ModuleId] => {
         return this.internal.modDeps.moduleRegistry.getModule(moduleId);
-    };
-
-    /**
-     * Register a route with the application's React Router.
-     *
-     * @deprecated Use `moduleAPI.ui.registerRoute()` instead.
-     *
-     * @see {@link UIAPI.registerRoute}
-     */
-    registerRoute = (routePath: string, options: RegisterRouteOptions, component: RegisteredRoute['component']) => {
-        this.ui.registerRoute(routePath, options, component);
-    };
-
-    /**
-     * Register an application shell component.
-     *
-     * @deprecated Use `moduleAPI.ui.registerApplicationShell()` instead.
-     *
-     * @see {@link UIAPI.registerApplicationShell}
-     */
-    registerApplicationShell = (component: React.ElementType<React.PropsWithChildren<{modules: Module[]}>>) => {
-        this.ui.registerApplicationShell(component);
-    };
-
-    /**
-     * @deprecated Use `moduleAPI.shared.createSharedStates()` instead.
-     */
-    createSharedStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
-        return this.shared.createSharedStates(states);
-    };
-
-    /**
-     * @deprecated Use `moduleAPI.shared.createSharedStates()` instead.
-     */
-    createStates = this.createSharedStates;
-
-    /**
-     * @deprecated Use `moduleAPI.server.createServerStates()` instead.
-     */
-    createServerStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
-        return this.server.createServerStates(states);
-    };
-
-    /**
-     * @deprecated Use `moduleAPI.userAgent.createUserAgentStates()` instead.
-     */
-    createUserAgentStates = async <States extends Record<string, any>>(states: States): Promise<{[K in keyof States]: StateSupervisor<States[K]>}> => {
-        return this.userAgent.createUserAgentStates(states);
     };
 }
 

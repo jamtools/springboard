@@ -62,7 +62,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
     const winnerState = states.winner;
     const scoreState = states.score;
 
-    const actions = moduleAPI.createActions({
+    const actions = moduleAPI.shared.createSharedActions({
         clickedCell: async (args: {row: number, column: number}) => {
             if (winnerState.getState()) {
                 return;
@@ -96,7 +96,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.registerRoute('/', {}, () => {
+    moduleAPI.ui.registerRoute('/', {}, () => {
         return (
             <TicTacToeBoard
                 board={boardState.useState()}

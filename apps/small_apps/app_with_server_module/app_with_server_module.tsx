@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import springboard from 'springboard';
 
 springboard.registerModule('Main', {}, async (moduleAPI) => {
-    moduleAPI.registerRoute('/', {}, () => {
+    moduleAPI.ui.registerRoute('/', {}, () => {
         useEffect(() => {
             fetch('/hello')
                 .then(res => res.json())

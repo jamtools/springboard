@@ -12,10 +12,10 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
     const sliderPositionState1 = states.slider_position_1;
     const sliderPositionState2 = states.slider_position_2;
 
-    const ccOutput1 = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'cc_output_1', 'midi_control_change_output', {});
-    const ccOutput2 = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'cc_output_2', 'midi_control_change_output', {});
+    const ccOutput1 = await moduleAPI.getModule('macro').createMacro(moduleAPI, 'cc_output_1', 'midi_control_change_output', {});
+    const ccOutput2 = await moduleAPI.getModule('macro').createMacro(moduleAPI, 'cc_output_2', 'midi_control_change_output', {});
 
-    moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'cc_input_1', 'midi_control_change_input', {
+    moduleAPI.getModule('macro').createMacro(moduleAPI, 'cc_input_1', 'midi_control_change_input', {
         allowLocal: true,
         onTrigger: (event => {
             if (event.event.value) {
@@ -25,7 +25,7 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
         }),
     });
 
-    moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'cc_input_2', 'midi_control_change_input', {
+    moduleAPI.getModule('macro').createMacro(moduleAPI, 'cc_input_2', 'midi_control_change_input', {
         allowLocal: true,
         onTrigger: (event => {
             if (event.event.value) {
@@ -35,7 +35,7 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
         }),
     });
 
-    const handleSliderDrag = moduleAPI.createAction('slider_drag', {}, async (args: {index: 0 | 1, value: number}) => {
+    const handleSliderDrag = moduleAPI.internal.createAction('slider_drag', {}, async (args: {index: 0 | 1, value: number}) => {
         const output = [ccOutput1, ccOutput2][args.index];
         output.send(args.value);
 
@@ -43,7 +43,7 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
         state.setState(args.value);
     });
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         const sliderPosition1 = sliderPositionState1.useState();
         const sliderPosition2 = sliderPositionState2.useState();
 

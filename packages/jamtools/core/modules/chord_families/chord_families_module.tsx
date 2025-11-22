@@ -132,7 +132,7 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
         });
     };
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         const state = states.state.useState();
 
         const onClick = () => {
@@ -147,7 +147,7 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
         );
     });
 
-    const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+    const macroModule = moduleAPI.getModule('macro');
 
     const [input, output] = await Promise.all([
         macroModule.createMacro(moduleAPI, 'MIDI Input', 'musical_keyboard_input', {}),

@@ -33,13 +33,13 @@ describe('KvRnWebview', () => {
                     myUserAgentState: {message: 'Hey'}
                 });
 
-                const actions = m.createActions({
+                const actions = m.shared.createSharedActions({
                     changeValue: async (args: {value: string}) => {
                         userAgentStates.myUserAgentState.setState({message: args.value});
                     },
                 });
 
-                m.registerRoute('/', {}, () => {
+                m.ui.registerRoute('/', {}, () => {
                     const myState = userAgentStates.myUserAgentState.useState();
 
                     const [localState, setLocalState] = useState('');

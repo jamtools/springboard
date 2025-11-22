@@ -26,30 +26,30 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
         return { success: true, name };
     };
 
-    // Test 4: Regular createAction
-    const regularAction1 = moduleAPI.createAction('regular1', {}, async () => {
+    // Test 4: Regular createSharedAction
+    const regularAction1 = moduleAPI.shared.createSharedAction('regular1', {}, async () => {
         console.log('Regular action - will be kept in browser');
         return { data: 'regular' };
     });
 
     // Test 5: Singular createServerAction with inline function
-    const serverAction1 = moduleAPI.createServerAction('serverAction1', {}, async () => {
+    const serverAction1 = moduleAPI.server.createServerAction('serverAction1', {}, async () => {
         console.log('This should be removed from client');
         return serverStates.userSession.getState();
     });
 
     // Test 6: Singular createServerAction with function that returns a function
-    const serverAction2 = moduleAPI.createServerAction('serverAction2', {}, createHandler('test'));
+    const serverAction2 = moduleAPI.server.createServerAction('serverAction2', {}, createHandler('test'));
 
     // Test 7: Singular createServerAction with variable reference
     const myHandler = async () => {
         console.log('Variable handler');
         return singleServerState.getState();
     };
-    const serverAction3 = moduleAPI.createServerAction('serverAction3', {}, myHandler);
+    const serverAction3 = moduleAPI.server.createServerAction('serverAction3', {}, myHandler);
 
-    // Test 8: Mix of createActions (regular - for backwards compat testing)
-    const regularActions = moduleAPI.createActions({
+    // Test 8: Mix of createSharedActions (regular - for backwards compat testing)
+    const regularActions = moduleAPI.shared.createSharedActions({
         // Inline arrow function
         inlineArrow: async () => {
             console.log('Regular action that will be kept');
@@ -63,7 +63,7 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
     });
 
     // Test 9: createServerActions (plural) with various patterns
-    const serverActions = moduleAPI.createServerActions({
+    const serverActions = moduleAPI.server.createServerActions({
         // Server action with inline logic
         authenticate: async () => {
             const session = serverStates.userSession.getState();
@@ -116,5 +116,5 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
         );
     };
 
-    moduleAPI.registerRoute('/', {}, () => <EdgeCasesUI />);
+    moduleAPI.ui.registerRoute('/', {}, () => <EdgeCasesUI />);
 });

@@ -159,6 +159,9 @@ importers:
         specifier: workspace:*
         version: link:../../packages/springboard/core
     devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.48
       springboard-cli:
         specifier: workspace:*
         version: link:../../packages/springboard/cli
@@ -193,6 +196,9 @@ importers:
         specifier: workspace:*
         version: link:../../packages/springboard/cli
     devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.48
       '@types/react':
         specifier: 'catalog:'
         version: 19.1.5
@@ -361,6 +367,12 @@ importers:
       '@opentelemetry/instrumentation':
         specifier: ^0.53.0
         version: 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources':
+        specifier: ^1.26.0
+        version: 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base':
+        specifier: ^1.26.0
+        version: 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web':
         specifier: ^1.26.0
         version: 1.30.1(@opentelemetry/api@1.9.0)
@@ -506,6 +518,13 @@ importers:
       springboard:
         specifier: workspace:*
         version: link:../../core
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.1.5
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
 
   packages/springboard/external/shoelace:
     dependencies:
@@ -519,6 +538,9 @@ importers:
         specifier: workspace:*
         version: link:../../core
     devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.1.5
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -1752,9 +1774,6 @@ packages:
 
   '@types/node@20.17.48':
     resolution: {integrity: sha512-KpSfKOHPsiSC4IkZeu2LsusFwExAIVGkhG1KkbaBMLwau0uMhj0fCrvyg9ddM2sAvd+gtiBJLir4LAw1MNMIaw==}
-
-  '@types/node@22.15.19':
-    resolution: {integrity: sha512-3vMNr4TzNQyjHcRZadojpRaD9Ofr6LsonZAoQ+HMUa/9ORTPoxVIw0e0mpqWpdjj8xybyCM+oKOUH2vwFu/oEw==}
 
   '@types/node@24.10.0':
     resolution: {integrity: sha512-qzQZRBqkFsYyaSWXuEHc2WR9c0a0CXwiE5FWUvn7ZM+vdy1uZLfCunD38UzhuB7YN/J11ndbDBcTmOdxJo9Q7A==}
@@ -4187,9 +4206,6 @@ packages:
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
@@ -5587,10 +5603,6 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@22.15.19':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@24.10.0':
     dependencies:
       undici-types: 7.16.0
@@ -5599,7 +5611,7 @@ snapshots:
 
   '@types/qrcode@1.5.5':
     dependencies:
-      '@types/node': 22.15.19
+      '@types/node': 24.10.0
 
   '@types/react-dom@19.1.5(@types/react@19.1.5)':
     dependencies:
@@ -7032,7 +7044,7 @@ snapshots:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
       '@types/jsdom': 20.0.1
-      '@types/node': 22.15.19
+      '@types/node': 24.10.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
       jsdom: 20.0.3
@@ -8346,8 +8358,6 @@ snapshots:
       which-boxed-primitive: 1.1.1
 
   undici-types@6.19.8: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
