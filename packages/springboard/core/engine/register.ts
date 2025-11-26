@@ -40,7 +40,7 @@ export type SpringboardRegistry = {
      * | `web`  | `'web'`, `'browser'`, `'client'`, `'user-agent'` |
      * | `tauri` | `'tauri'`, `'browser'`, `'client'`, `'user-agent'` |
      * | `browser` | `'browser'`, `'web'`, `'tauri'`, `'client'`, `'user-agent'` (meta-target) |
-     * | `react-native-web` | `'react-native-web'`, `'browser'`, `'client'` |
+     * | `react-native-webview` | `'react-native-webview'`, `'browser'`, `'client'` |
      * | `react-native` | `'react-native'`, `'user-agent'` |
      *
      * **Async Support:** Callbacks can be sync or async. Use `await` if the callback returns a Promise:
@@ -87,7 +87,7 @@ export type SpringboardRegistry = {
     runOn: <T>(
         platform: SpringboardPlatform | SpringboardPlatformContext,
         callback: () => T
-    ) => T | null;
+    ) => T | undefined;
 
     /**
      * Check if the current runtime matches a platform or context at runtime.
@@ -107,7 +107,7 @@ export type SpringboardRegistry = {
      * | `cf-workers` | `'cf-workers'`, `'server'` |
      * | `web`  | `'web'`, `'browser'`, `'client'`, `'user-agent'` |
      * | `tauri` | `'tauri'`, `'browser'`, `'client'`, `'user-agent'` |
-     * | `react-native-webview` | `'browser'`, `'client'`
+     * | `react-native-webviewview` | `'browser'`, `'client'`
      * | `react-native` | `'react-native'`, `'user-agent'` |
      *
      * **Implementation:** Transformed by platform macros in build plugin to return
@@ -177,35 +177,22 @@ export const getRegisteredSplashScreen = (): React.ComponentType | null => {
 };
 
 /**
- * Runtime stub for `springboard.runOn()` - FOR DEVELOPMENT/FALLBACK ONLY.
- *
- * **Expected Behavior:**
- * This function should NEVER be called in production builds. The esbuild plugin
- * (`packages/springboard/cli/src/esbuild_plugins/esbuild_plugin_platform_inject.ts`)
- * transforms all `runOn` calls at compile time:
+ * Runtime stub for `springboard.runOn()`
  *
  * - **Platform matches:** `runOn('node', cb)` → `cb()` (immediate execution)
- * - **Platform doesn't match:** `runOn('browser', cb)` → `null` (removed)
- *
- * **This stub:**
- * - Exists for TypeScript type checking and IDE autocomplete
- * - Provides fallback behavior in non-transformed environments (development, tests)
- * - Simply executes the callback immediately (simulating "platform matches" behavior)
+ * - **Platform doesn't match:** `runOn('browser', cb)` → `undefined` (removed)
  *
  * **Platform parameter:**
  * Accepts either platform names (`'node'`, `'browser'`, etc.) or contexts (`'server'`, `'client'`, etc.).
- * The esbuild plugin (lines 97-118 of esbuild_plugin_platform_inject.ts) handles the platform
+ * The esbuild plugin (esbuild_plugin_platform_inject.ts) handles the platform
  * matching logic based on the build target using a switch statement.
  *
  * @internal
  */
 const runOn = <T>(
-    platform: SpringboardPlatform | SpringboardPlatformContext,
+    _platform: SpringboardPlatform | SpringboardPlatformContext,
     callback: () => T
-): T | null => {
-    // Development/test fallback: execute callback immediately
-    // In production, this code is replaced by the esbuild plugin transformation
-    void platform; // Unused in runtime stub
+): T | undefined => {
     return callback();
 };
 
@@ -224,7 +211,7 @@ const SPRINGBOARD_PLATFORMS = {
     WEB: 'web',
     TAURI: 'tauri',
     REACT_NATIVE: 'react-native',
-    REACT_NATIVE_WEBVIEW: 'react-native-web',
+    REACT_NATIVE_WEBVIEW: 'react-native-webview',
 } as const;
 
 export type SpringboardPlatform = typeof SPRINGBOARD_PLATFORMS[keyof typeof SPRINGBOARD_PLATFORMS];
@@ -244,7 +231,7 @@ export type SpringboardPlatform = typeof SPRINGBOARD_PLATFORMS[keyof typeof SPRI
  * | `web`  | `'web'`, `'browser'`, `'client'`, `'user-agent'` |
  * | `tauri` | `'tauri'`, `'browser'`, `'client'`, `'user-agent'` |
  * | `browser` | `'browser'`, `'web'`, `'tauri'`, `'client'`, `'user-agent'` (meta-target) |
- * | `react-native-web` | `'react-native-web'`, `'browser'`, `'client'` |
+ * | `react-native-webview` | `'react-native-webview'`, `'browser'`, `'client'` |
  * | `react-native` | `'react-native'`, `'user-agent'` |
  */
 const isPlatform = (platform: SpringboardPlatform | SpringboardPlatformContext): boolean => {

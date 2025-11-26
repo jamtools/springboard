@@ -379,6 +379,15 @@ importers:
 
   packages/springboard/cli:
     dependencies:
+      '@babel/generator':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/parser':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/traverse':
+        specifier: ^7.28.5
+        version: 7.28.5
       '@springboardjs/platforms-browser':
         specifier: workspace:*
         version: link:../platforms/webapp
@@ -407,15 +416,6 @@ importers:
         specifier: ^5.4.5
         version: 5.8.3
     devDependencies:
-      '@babel/generator':
-        specifier: ^7.28.5
-        version: 7.28.5
-      '@babel/parser':
-        specifier: ^7.28.5
-        version: 7.28.5
-      '@babel/traverse':
-        specifier: ^7.28.5
-        version: 7.28.5
       '@babel/types':
         specifier: ^7.28.5
         version: 7.28.5

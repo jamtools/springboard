@@ -12,7 +12,7 @@ import type {SpringboardPlatform} from 'springboard/engine/register';
  *
  * **Responsibilities:**
  * 1. **Platform directive blocks** - Remove `@platform "..."` blocks for non-matching platforms
- * 2. **springboard.runOn()** - Transform to IIFE (if platform matches) or `null` (if doesn't match)
+ * 2. **springboard.runOn()** - Transform to IIFE (if platform matches) or `undefined` (if doesn't match)
  * 3. **Server state removal** - Remove `createServerStates()` variable declarations in client builds
  * 4. **Server action stripping** - Strip bodies from `createServerActions()` in client builds
  *
@@ -25,7 +25,7 @@ import type {SpringboardPlatform} from 'springboard/engine/register';
  * | `cf-workers` | `'cf-workers'`, `'server'` |
  * | `web`  | `'web'`, `'browser'`, `'client'`, `'user-agent'` |
  * | `tauri` | `'tauri'`, `'browser'`, `'client'`, `'user-agent'` |
- * | `react-native-web` | `'react-native-web'`, `'browser'`, `'client'` |
+ * | `react-native-webview` | `'react-native-webview'`, `'browser'`, `'client'` |
  * | `react-native` | `'react-native'`, `'user-agent'` |
  *
  * @see packages/springboard/core/engine/register.ts - TypeScript type definitions
@@ -46,7 +46,7 @@ export const esbuildPluginPlatformInject = (
                 return false;
             case 'web':
             case 'tauri':
-            case 'react-native-web':
+            case 'react-native-webview':
             case 'react-native':
                 // Client platforms - strip server states/actions
                 return true;
@@ -64,7 +64,7 @@ export const esbuildPluginPlatformInject = (
                 let source = await fs.promises.readFile(args.path, 'utf8');
 
                 // Early return if file doesn't need any transformations
-                const hasPlatformAnnotations = /@platform "(node|cf-workers|web|tauri|react-native|react-native-web|server|browser|client|user-agent)"/.test(source);
+                const hasPlatformAnnotations = /@platform "(node|cf-workers|web|tauri|react-native|react-native-webview|server|browser|client|user-agent)"/.test(source);
                 // Detect both old and new API patterns for server calls
                 const hasServerCalls = /createServer(State|States|Action|Actions)/.test(source) ||
                                        /\.server\.createServer(States|Actions)/.test(source);
@@ -95,8 +95,8 @@ export const esbuildPluginPlatformInject = (
                                    targetPlatform === 'browser' ||
                                    targetPlatform === 'client' ||
                                    targetPlatform === 'user-agent';
-                        case 'react-native-web':
-                            return targetPlatform === 'react-native-web' ||
+                        case 'react-native-webview':
+                            return targetPlatform === 'react-native-webview' ||
                                    targetPlatform === 'browser' ||
                                    targetPlatform === 'client';
                         case 'react-native':
@@ -170,9 +170,9 @@ export const esbuildPluginPlatformInject = (
                                                            targetPlatform === 'browser' ||
                                                            targetPlatform === 'client' ||
                                                            targetPlatform === 'user-agent';
-                                                case 'react-native-web':
-                                                    // react-native-web build accepts: 'react-native-web', 'browser' and context 'client'
-                                                    return targetPlatform === 'react-native-web' ||
+                                                case 'react-native-webview':
+                                                    // react-native-webview build accepts: 'react-native-webview', 'browser' and context 'client'
+                                                    return targetPlatform === 'react-native-webview' ||
                                                            targetPlatform === 'browser' ||
                                                            targetPlatform === 'client';
                                                 case 'react-native':
@@ -194,9 +194,10 @@ export const esbuildPluginPlatformInject = (
                                                 arguments: [],
                                             } as any);
                                         } else {
-                                            // Replace with null
+                                            // Replace with undefined
                                             path.replaceWith({
-                                                type: 'NullLiteral',
+                                                type: 'Identifier',
+                                                name: 'undefined',
                                             } as any);
                                         }
                                     }
