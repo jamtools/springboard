@@ -61,12 +61,14 @@ describe('Vite Plugin Access', () => {
   it('should create plugin configuration', async () => {
     const { springboard } = await import('../packages/springboard/vite-plugin/src/index.js');
 
-    const plugins = springboard({
+    const config = springboard({
       entry: './src/index.tsx',
       platforms: ['browser'],
     });
 
-    expect(Array.isArray(plugins)).toBe(true);
-    expect(plugins.length).toBeGreaterThan(0);
+    expect(config).toBeTypeOf('object');
+    expect(config).toHaveProperty('plugins');
+    expect(Array.isArray(config.plugins)).toBe(true);
+    expect(config.plugins.length).toBeGreaterThan(0);
   });
 });

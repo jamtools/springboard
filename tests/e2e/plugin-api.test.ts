@@ -314,12 +314,12 @@ describe('Springboard Vite Plugin API', () => {
 
   describe('Plugin names and structure', () => {
     it('should have expected plugin names', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
       });
 
-      const pluginNames = plugins.map((p) => p.name);
+      const pluginNames = config.plugins.map((p) => p.name);
 
       // Should include core plugins
       expect(pluginNames).toContain('springboard:init');
@@ -328,22 +328,22 @@ describe('Springboard Vite Plugin API', () => {
     });
 
     it('should include build plugin in production', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser', 'node'],
       });
 
-      const pluginNames = plugins.map((p) => p.name);
+      const pluginNames = config.plugins.map((p) => p.name);
       expect(pluginNames).toContain('springboard:build');
     });
 
     it('should include HTML plugin for browser platforms', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
       });
 
-      const pluginNames = plugins.map((p) => p.name);
+      const pluginNames = config.plugins.map((p) => p.name);
       expect(pluginNames).toContain('springboard:html');
     });
   });

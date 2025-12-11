@@ -47,8 +47,10 @@ export function springboardBuild(options: NormalizedOptions): Plugin {
 
         /**
          * Build end hook - trigger additional platform builds
+         * Use writeBundle instead of closeBundle to ensure the current build
+         * completes fully before triggering additional platform builds
          */
-        async closeBundle() {
+        async writeBundle() {
             const duration = Date.now() - buildStartTime;
             logger.info(`Build completed in ${duration}ms`);
 
@@ -101,9 +103,12 @@ async function buildPlatform(
         // Create options for this platform
         const platformOptions = createOptionsForPlatform(options, platform);
 
-        // Import the springboardPlugins function to get plugins for a single platform
-        // Note: This creates a new plugin set for the target platform
+        // Import the springboardPlugins function and getPlatformConfig
         const { springboardPlugins } = await import('../index.js');
+        const { getPlatformConfig } = await import('../config/platform-configs.js');
+
+        // Get platform-specific Vite configuration
+        const platformConfig = getPlatformConfig(platformOptions);
 
         await build({
             configFile: false,
@@ -115,6 +120,8 @@ async function buildPlatform(
                 partykitName: options.partykitName,
                 outDir: options.outDir,
             }, platform),
+            // Apply platform-specific configuration
+            ...platformConfig,
             // Prevent loading user's vite.config which might cause issues
             root: options.root,
         });
