@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+
+# Verdaccio test artifacts
+verdaccio.log
+verdaccio.pid
+
+# Lock files (generated during test)
+pnpm-lock.yaml
+package-lock.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test outputs
+*.log

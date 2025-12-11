@@ -12,8 +12,6 @@
     "springboard": "workspace:*",
     "@jamtools/core": "workspace:*",
     "@jamtools/features": "workspace:*",
-    "@springboardjs/platforms-browser": "workspace:*",
-    "@springboardjs/platforms-node": "workspace:*",
     "@springboardjs/shoelace": "workspace:*"
   },
   "devDependencies": {

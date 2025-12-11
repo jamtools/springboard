@@ -42,6 +42,12 @@ catalogs:
     tslib:
       specifier: 2.8.1
       version: 2.8.1
+    typescript:
+      specifier: 5.9.3
+      version: 5.9.3
+    ws:
+      specifier: 8.18.3
+      version: 8.18.3
     zod:
       specifier: 3.25.7
       version: 3.25.7
@@ -66,21 +72,6 @@ importers:
       '@jamtools/core':
         specifier: workspace:*
         version: link:packages/jamtools/core
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:packages/springboard/platforms/webapp
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:packages/springboard/platforms/node
-      '@springboardjs/platforms-partykit':
-        specifier: workspace:*
-        version: link:packages/springboard/platforms/partykit
-      '@springboardjs/platforms-tauri':
-        specifier: workspace:*
-        version: link:packages/springboard/platforms/tauri
-      '@springboardjs/plugin-svelte':
-        specifier: workspace:*
-        version: link:packages/springboard/plugins/svelte
       '@testing-library/jest-dom':
         specifier: 6.9.1
         version: 6.9.1
@@ -119,10 +110,7 @@ importers:
         version: 1.13.1(@testing-library/dom@10.4.0)
       springboard:
         specifier: workspace:*
-        version: link:packages/springboard/core
-      springboard-server:
-        specifier: workspace:*
-        version: link:packages/springboard/server
+        version: link:packages/springboard
       tsup:
         specifier: 8.5.1
         version: 8.5.1(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
@@ -150,12 +138,6 @@ importers:
       '@jamtools/features':
         specifier: workspace:*
         version: link:../../packages/jamtools/features
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../../packages/springboard/platforms/webapp
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:../../packages/springboard/platforms/node
       '@springboardjs/shoelace':
         specifier: workspace:*
         version: link:../../packages/springboard/external/shoelace
@@ -164,7 +146,7 @@ importers:
         version: 7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       springboard:
         specifier: workspace:*
-        version: link:../../packages/springboard/core
+        version: link:../../packages/springboard
     devDependencies:
       springboard-cli:
         specifier: workspace:*
@@ -178,12 +160,6 @@ importers:
       '@jamtools/features':
         specifier: workspace:*
         version: link:../../packages/jamtools/features
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../../packages/springboard/platforms/webapp
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:../../packages/springboard/platforms/node
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -192,7 +168,7 @@ importers:
         version: 19.2.0(react@19.2.0)
       springboard:
         specifier: workspace:*
-        version: link:../../packages/springboard/core
+        version: link:../../packages/springboard
       springboard-cli:
         specifier: workspace:*
         version: link:../../packages/springboard/cli
@@ -278,14 +254,11 @@ importers:
         version: 0.12.0
       springboard:
         specifier: workspace:*
-        version: link:../../springboard/core
+        version: link:../../springboard
       webmidi:
         specifier: ^3.1.14
         version: 3.1.14
     devDependencies:
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../../springboard/platforms/webapp
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.6
@@ -369,61 +342,64 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
 
-  packages/springboard/cli:
+  packages/springboard:
     dependencies:
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../platforms/webapp
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:../platforms/node
-      commander:
+      '@tauri-apps/api':
         specifier: 'catalog:'
-        version: 12.1.0
-      concurrently:
-        specifier: ^9.2.1
-        version: 9.2.1
-      esbuild:
-        specifier: 0.27.0
-        version: 0.27.0
-      springboard:
-        specifier: workspace:*
-        version: link:../core
-      springboard-server:
-        specifier: workspace:*
-        version: link:../server
-      tslib:
+        version: 2.9.0
+      '@tauri-apps/plugin-shell':
         specifier: 'catalog:'
-        version: 2.8.1
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-    devDependencies:
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.17.48
-
-  packages/springboard/core:
-    dependencies:
+        version: 2.3.3
       dexie:
         specifier: ^4.2.1
         version: 4.2.1
       immer:
         specifier: 'catalog:'
         version: 10.1.1
+      isomorphic-ws:
+        specifier: ^4.0.1
+        version: 4.0.1(ws@8.18.3)
       json-rpc-2.0:
         specifier: 'catalog:'
-        version: 1.7.0
+        version: 1.7.1
+      kysely:
+        specifier: '>= 0.24.0'
+        version: 0.28.2
+      react-router:
+        specifier: 'catalog:'
+        version: 7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       reconnecting-websocket:
         specifier: 'catalog:'
         version: 4.4.0
       rxjs:
         specifier: 7.8.1
         version: 7.8.1
+    optionalDependencies:
+      '@hono/node-server':
+        specifier: ^1.19.6
+        version: 1.19.6(hono@4.6.17)
+      '@hono/node-ws':
+        specifier: ^1.2.0
+        version: 1.2.0(@hono/node-server@1.19.6(hono@4.6.17))(hono@4.6.17)
+      better-sqlite3:
+        specifier: ^12.4.1
+        version: 12.4.1
+      hono:
+        specifier: 4.6.17
+        version: 4.6.17
+      partysocket:
+        specifier: ^1.1.6
+        version: 1.1.6
       ws:
-        specifier: ^8.18.3
+        specifier: 'catalog:'
         version: 8.18.3
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.7
     devDependencies:
+      '@types/better-sqlite3':
+        specifier: ^7.6.13
+        version: 7.6.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.17.48
@@ -436,28 +412,46 @@ importers:
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
+      partykit:
+        specifier: ^0.0.115
+        version: 0.0.115
       react:
         specifier: 19.2.0
         version: 19.2.0
       react-dom:
         specifier: 'catalog:'
         version: 19.2.0(react@19.2.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.17.48)(jsdom@25.0.1)
 
-  packages/springboard/create-springboard-app:
+  packages/springboard/cli:
     dependencies:
       commander:
         specifier: 'catalog:'
         version: 12.1.0
+      concurrently:
+        specifier: ^9.2.1
+        version: 9.2.1
+      springboard:
+        specifier: workspace:0.0.1-autogenerated
+        version: link:..
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
         version: 20.17.48
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
+      vite:
+        specifier: 5.4.19
+        version: 5.4.19(@types/node@20.17.48)
 
   packages/springboard/data_storage:
     dependencies:
@@ -494,19 +488,16 @@ importers:
         version: 7.17.7(@mantine/core@7.17.7(@mantine/hooks@7.17.7(react@19.2.0))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mantine/hooks@7.17.7(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       springboard:
         specifier: workspace:*
-        version: link:../../core
+        version: link:../..
 
   packages/springboard/external/shoelace:
     dependencies:
       '@shoelace-style/shoelace':
         specifier: ^2.20.1
         version: 2.20.1(@floating-ui/utils@0.2.10)(@types/react@19.2.6)
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../../platforms/webapp
       springboard:
         specifier: workspace:*
-        version: link:../../core
+        version: link:../..
     devDependencies:
       react:
         specifier: 19.2.0
@@ -514,148 +505,6 @@ importers:
       react-router:
         specifier: 'catalog:'
         version: 7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-
-  packages/springboard/platforms/node:
-    dependencies:
-      isomorphic-ws:
-        specifier: ^4.0.1
-        version: 4.0.1(ws@8.18.2)
-      json-rpc-2.0:
-        specifier: 'catalog:'
-        version: 1.7.1
-      reconnecting-websocket:
-        specifier: 'catalog:'
-        version: 4.4.0
-      springboard:
-        specifier: workspace:*
-        version: link:../../core
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.2
-
-  packages/springboard/platforms/partykit:
-    dependencies:
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../webapp
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:../node
-      hono:
-        specifier: 4.6.17
-        version: 4.6.17
-      json-rpc-2.0:
-        specifier: 'catalog:'
-        version: 1.7.1
-      partysocket:
-        specifier: ^1.1.6
-        version: 1.1.6
-      springboard:
-        specifier: workspace:*
-        version: link:../../core
-      springboard-server:
-        specifier: workspace:*
-        version: link:../../server
-      zod:
-        specifier: 'catalog:'
-        version: 3.25.7
-    devDependencies:
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.17.48
-      partykit:
-        specifier: ^0.0.115
-        version: 0.0.115
-
-  packages/springboard/platforms/react-native:
-    dependencies:
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../webapp
-      json-rpc-2.0:
-        specifier: 'catalog:'
-        version: 1.7.1
-      reconnecting-websocket:
-        specifier: 'catalog:'
-        version: 4.4.0
-      springboard:
-        specifier: workspace:*
-        version: link:../../core
-    devDependencies:
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.2.6
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.6)
-      react:
-        specifier: 19.2.0
-        version: 19.2.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.0(react@19.2.0)
-
-  packages/springboard/platforms/tauri:
-    dependencies:
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../webapp
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:../node
-      '@tauri-apps/api':
-        specifier: 'catalog:'
-        version: 2.9.0
-      '@tauri-apps/plugin-shell':
-        specifier: 'catalog:'
-        version: 2.3.3
-    devDependencies:
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.17.48
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.2.6
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.6)
-      react:
-        specifier: 19.2.0
-        version: 19.2.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.0(react@19.2.0)
-
-  packages/springboard/platforms/webapp:
-    dependencies:
-      json-rpc-2.0:
-        specifier: 'catalog:'
-        version: 1.7.1
-      react-router:
-        specifier: ^7
-        version: 7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      reconnecting-websocket:
-        specifier: 'catalog:'
-        version: 4.4.0
-      springboard:
-        specifier: workspace:*
-        version: link:../../core
-    devDependencies:
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.17.48
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.2.6
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.6)
-      react:
-        specifier: 19.2.0
-        version: 19.2.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.0(react@19.2.0)
 
   packages/springboard/plugins/svelte:
     dependencies:
@@ -664,7 +513,7 @@ importers:
         version: 0.9.3(esbuild@0.27.0)(svelte@5.43.11)
       springboard:
         specifier: workspace:*
-        version: link:../../core
+        version: link:../..
       svelte-preprocess:
         specifier: ^6.0.3
         version: 6.0.3(@babel/core@7.28.5)(postcss-load-config@6.0.1(postcss@8.5.6)(tsx@4.20.6))(postcss@8.5.6)(svelte@5.43.11)(typescript@5.9.3)
@@ -672,9 +521,6 @@ importers:
       '@jamtools/core':
         specifier: workspace:*
         version: link:../../../jamtools/core
-      '@springboardjs/platforms-browser':
-        specifier: workspace:*
-        version: link:../../platforms/webapp
       '@types/node':
         specifier: 'catalog:'
         version: 20.17.48
@@ -702,30 +548,6 @@ importers:
       svelte:
         specifier: 5.43.11
         version: 5.43.11
-
-  packages/springboard/server:
-    dependencies:
-      '@hono/node-server':
-        specifier: ^1.19.6
-        version: 1.19.6(hono@4.6.17)
-      '@hono/node-ws':
-        specifier: ^1.2.0
-        version: 1.2.0(@hono/node-server@1.19.6(hono@4.6.17))(hono@4.6.17)
-      '@springboardjs/data-storage':
-        specifier: workspace:*
-        version: link:../data_storage
-      '@springboardjs/platforms-node':
-        specifier: workspace:*
-        version: link:../platforms/node
-      hono:
-        specifier: 4.6.17
-        version: 4.6.17
-      json-rpc-2.0:
-        specifier: 'catalog:'
-        version: 1.7.1
-      springboard:
-        specifier: workspace:*
-        version: link:../core
 
 packages:
 
@@ -2166,9 +1988,6 @@ packages:
     resolution: {integrity: sha512-2z+rWdzbbSZv6/rhtvzvqeZQHrBaqgogqt85sqFNbabZOuFbCVFb8kPeEtZjiKkbrm395irpNKiYeFeLiQnFPg==}
     engines: {node: '>=18'}
 
-  csstype@3.1.3:
-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
-
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
@@ -2957,9 +2776,6 @@ packages:
 
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
-
-  json-rpc-2.0@1.7.0:
-    resolution: {integrity: sha512-asnLgC1qD5ytP+fvBP8uL0rvj+l8P6iYICbzZ8dVxCpESffVjzA7KkYkbKCIbavs7cllwH1ZUaNtJwphdeRqpg==}
 
   json-rpc-2.0@1.7.1:
     resolution: {integrity: sha512-JqZjhjAanbpkXIzFE7u8mE/iFblawwlXtONaCvRqI+pyABVz7B4M1EUNpyVW+dZjqgQ2L5HFmZCmOCgUKm00hg==}
@@ -4284,18 +4100,6 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.18.2:
-    resolution: {integrity: sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.18.3:
     resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
     engines: {node: '>=10.0.0'}
@@ -4741,6 +4545,7 @@ snapshots:
   '@hono/node-server@1.19.6(hono@4.6.17)':
     dependencies:
       hono: 4.6.17
+    optional: true
 
   '@hono/node-ws@1.2.0(@hono/node-server@1.19.6(hono@4.6.17))(hono@4.6.17)':
     dependencies:
@@ -4750,6 +4555,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
@@ -5904,8 +5710,6 @@ snapshots:
       '@asamuzakjp/css-color': 3.2.0
       rrweb-cssom: 0.8.0
 
-  csstype@3.1.3: {}
-
   csstype@3.2.3: {}
 
   data-uri-to-buffer@2.0.2: {}
@@ -6002,7 +5806,7 @@ snapshots:
   dom-helpers@5.2.1:
     dependencies:
       '@babel/runtime': 7.27.1
-      csstype: 3.1.3
+      csstype: 3.2.3
 
   dunder-proto@1.0.1:
     dependencies:
@@ -6281,7 +6085,8 @@ snapshots:
 
   esutils@2.0.3: {}
 
-  event-target-polyfill@0.0.4: {}
+  event-target-polyfill@0.0.4:
+    optional: true
 
   event-target-shim@5.0.1: {}
 
@@ -6533,7 +6338,8 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  hono@4.6.17: {}
+  hono@4.6.17:
+    optional: true
 
   html-encoding-sniffer@4.0.0:
     dependencies:
@@ -6742,10 +6548,6 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-ws@4.0.1(ws@8.18.2):
-    dependencies:
-      ws: 8.18.2
-
   isomorphic-ws@4.0.1(ws@8.18.3):
     dependencies:
       ws: 8.18.3
@@ -6867,8 +6669,6 @@ snapshots:
   json-buffer@3.0.1: {}
 
   json-parse-even-better-errors@2.3.1: {}
-
-  json-rpc-2.0@1.7.0: {}
 
   json-rpc-2.0@1.7.1: {}
 
@@ -7185,6 +6985,7 @@ snapshots:
   partysocket@1.1.6:
     dependencies:
       event-target-polyfill: 0.0.4
+    optional: true
 
   path-exists@4.0.0: {}
 
@@ -8099,6 +7900,24 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  vite-node@2.1.9(@types/node@20.17.48):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.3
+      es-module-lexer: 1.7.0
+      pathe: 1.1.2
+      vite: 5.4.19(@types/node@20.17.48)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite-node@2.1.9(@types/node@24.10.1):
     dependencies:
       cac: 6.7.14
@@ -8128,6 +7947,15 @@ snapshots:
       - supports-color
       - typescript
 
+  vite@5.4.19(@types/node@20.17.48):
+    dependencies:
+      esbuild: 0.27.0
+      postcss: 8.5.6
+      rollup: 4.53.2
+    optionalDependencies:
+      '@types/node': 20.17.48
+      fsevents: 2.3.3
+
   vite@5.4.19(@types/node@24.10.1):
     dependencies:
       esbuild: 0.27.0
@@ -8136,6 +7964,42 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.1
       fsevents: 2.3.3
+
+  vitest@2.1.9(@types/node@20.17.48)(jsdom@25.0.1):
+    dependencies:
+      '@vitest/expect': 2.1.9
+      '@vitest/mocker': 2.1.9(vite@5.4.19(@types/node@24.10.1))
+      '@vitest/pretty-format': 2.1.9
+      '@vitest/runner': 2.1.9
+      '@vitest/snapshot': 2.1.9
+      '@vitest/spy': 2.1.9
+      '@vitest/utils': 2.1.9
+      chai: 5.3.3
+      debug: 4.4.3
+      expect-type: 1.2.2
+      magic-string: 0.30.21
+      pathe: 1.1.2
+      std-env: 3.10.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.2
+      tinypool: 1.1.1
+      tinyrainbow: 1.2.0
+      vite: 5.4.19(@types/node@20.17.48)
+      vite-node: 2.1.9(@types/node@20.17.48)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 20.17.48
+      jsdom: 25.0.1
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
 
   vitest@2.1.9(@types/node@24.10.1)(jsdom@25.0.1):
     dependencies:
@@ -8294,8 +8158,6 @@ snapshots:
       strip-ansi: 7.1.2
 
   wrappy@1.0.2: {}
-
-  ws@8.18.2: {}
 
   ws@8.18.3: {}
 

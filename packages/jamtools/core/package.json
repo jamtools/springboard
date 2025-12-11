@@ -12,7 +12,6 @@
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "peerDependencies": {
-    "@springboardjs/platforms-browser": "workspace:*",
     "@tonejs/midi": "^2.0.0",
     "springboard": "workspace:*",
     "svelte": ">= 5"
@@ -30,7 +29,6 @@
     "webmidi": "^3.1.14"
   },
   "devDependencies": {
-    "@springboardjs/platforms-browser": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "react": "19.2.0",

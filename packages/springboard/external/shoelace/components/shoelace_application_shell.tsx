@@ -5,7 +5,7 @@ import {useLocation, useNavigate} from 'react-router';
 import SlTab from '@shoelace-style/shoelace/dist/react/tab/index.js';
 import SlTabGroup from '@shoelace-style/shoelace/dist/react/tab-group/index.js';
 import SlTabPanel from '@shoelace-style/shoelace/dist/react/tab-panel/index.js';
-import {RunLocalButton} from '@springboardjs/platforms-browser/components/run_local_button';
+import {RunLocalButton} from 'springboard/platforms/browser';
 import {Module} from 'springboard/module_registry/module_registry';
 
 type Props = React.PropsWithChildren<{

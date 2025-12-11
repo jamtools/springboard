@@ -10,8 +10,6 @@
   "dependencies": {
     "@jamtools/core": "workspace:*",
     "@jamtools/features": "workspace:*",
-    "@springboardjs/platforms-browser": "workspace:*",
-    "@springboardjs/platforms-node": "workspace:*",
     "react": "19.2.0",
     "react-dom": "catalog:",
     "springboard": "workspace:*",

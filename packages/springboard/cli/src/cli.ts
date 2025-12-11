@@ -1,14 +1,31 @@
+/**
+ * Springboard CLI
+ *
+ * Vite-based CLI wrapper for multi-platform application builds.
+ * Implements Option D: Monolithic CLI Wrapper from PLAN_VITE_CLI_INTEGRATION.md
+ *
+ * Commands:
+ * - sb dev <entrypoint>  - Start development server with HMR
+ * - sb build <entrypoint> - Build for production
+ * - sb start - Start the production server
+ */
+
 import path from 'path';
 import fs from 'node:fs';
-
-import {Option, program} from 'commander';
+import { program } from 'commander';
 import concurrently from 'concurrently';
+import { createRequire } from 'node:module';
 
-import packageJSON from '../package.json';
+const require = createRequire(import.meta.url);
+const packageJSON = require('../package.json');
 
-import {buildApplication, buildServer, platformBrowserBuildConfig, platformNodeBuildConfig, platformOfflineBrowserBuildConfig, platformPartykitBrowserBuildConfig, platformPartykitServerBuildConfig, platformTauriMaestroBuildConfig, platformTauriWebviewBuildConfig, Plugin, SpringboardPlatform} from './build';
-import {esbuildPluginTransformAwaitImportToRequire} from './esbuild_plugins/esbuild_plugin_transform_await_import';
+import type { SpringboardPlatform, Plugin } from './types.js';
+import { buildAllPlatforms, buildMain, buildTauri, buildPartyKit, printBuildSummary } from './build/vite_build.js';
+import { startDevServer } from './dev/vite_dev_server.js';
 
+/**
+ * Resolve an entrypoint path to an absolute path
+ */
 function resolveEntrypoint(entrypoint: string): string {
     let applicationEntrypoint = entrypoint;
     const cwd = process.cwd();
@@ -18,6 +35,9 @@ function resolveEntrypoint(entrypoint: string): string {
     return path.resolve(applicationEntrypoint);
 }
 
+/**
+ * Load plugins from a comma-separated list of plugin paths
+ */
 async function loadPlugins(pluginPaths?: string): Promise<Plugin[]> {
     const plugins: Plugin[] = [];
     if (pluginPaths) {
@@ -25,230 +45,174 @@ async function loadPlugins(pluginPaths?: string): Promise<Plugin[]> {
         for (const pluginPath of pluginPathsList) {
             let resolvedPath: string;
 
+            // Check if it's a package name (no slashes or dots)
             if (!pluginPath.includes('/') && !pluginPath.includes('\\') && !pluginPath.includes('.')) {
                 const nodeModulesPath = `@springboardjs/plugin-${pluginPath}/plugin.js`;
                 try {
                     resolvedPath = require.resolve(nodeModulesPath);
                 } catch {
-                    resolvedPath = resolve(pluginPath);
+                    resolvedPath = path.resolve(pluginPath);
                 }
             } else {
-                resolvedPath = resolve(pluginPath);
+                resolvedPath = path.resolve(pluginPath);
             }
 
-            const mod = require(resolvedPath) as {default: () => Plugin};
+            const mod = require(resolvedPath) as { default: () => Plugin };
             plugins.push(mod.default());
         }
     }
     return plugins;
 }
 
-interface BuildPlatformsOptions {
-    applicationEntrypoint: string;
-    watch?: boolean;
-    plugins: Plugin[];
-    platformsToBuild: Set<SpringboardPlatform>;
-    dev?: {
-        reloadCss: boolean;
-        reloadJs: boolean;
-    };
+/**
+ * Parse platforms string into a Set
+ */
+function parsePlatforms(platformsStr: string): Set<SpringboardPlatform> {
+    return new Set(platformsStr.split(',') as SpringboardPlatform[]);
 }
 
-async function buildPlatforms(options: BuildPlatformsOptions): Promise<void> {
-    const { applicationEntrypoint, watch, plugins, platformsToBuild, dev } = options;
-    const cwd = process.cwd();
-
-    if (
-        platformsToBuild.has('all') ||
-        platformsToBuild.has('main')
-    ) {
-        await buildApplication(platformBrowserBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            plugins,
-            dev,
-        });
-
-        await buildApplication(platformNodeBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            plugins,
-        });
-
-        await buildServer({
-            watch,
-            plugins,
-        });
-    }
-
-    if (
-        platformsToBuild.has('all') ||
-        platformsToBuild.has('browser_offline')
-    ) {
-        await buildApplication(platformOfflineBrowserBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            esbuildOutDir: 'browser_offline',
-            plugins,
-        });
-    }
-
-    if (
-        platformsToBuild.has('all') ||
-        platformsToBuild.has('desktop')
-    ) {
-        await buildApplication(platformTauriWebviewBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            esbuildOutDir: './tauri',
-            plugins,
-            editBuildOptions: (buildOptions) => {
-                buildOptions.define = {
-                    ...buildOptions.define,
-                    'process.env.DATA_HOST': "'http://127.0.0.1:1337'",
-                    'process.env.WS_HOST': "'ws://127.0.0.1:1337'",
-                    'process.env.RUN_SIDECAR_FROM_WEBVIEW': `${process.env.RUN_SIDECAR_FROM_WEBVIEW && process.env.RUN_SIDECAR_FROM_WEBVIEW !== 'false'}`,
-                };
-            },
-        });
-
-        await buildApplication(platformTauriMaestroBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            esbuildOutDir: './tauri',
-            plugins,
-        });
-
-        await buildServer({
-            watch,
-            applicationDistPath: `${cwd}/dist/tauri/node/dist/dynamic-entry.js`,
-            esbuildOutDir: './tauri',
-            plugins,
-            editBuildOptions: (buildOptions) => {
-                buildOptions.plugins!.push(esbuildPluginTransformAwaitImportToRequire);
-            }
-        });
-    }
-
-    if (
-        platformsToBuild.has('all') ||
-        platformsToBuild.has('partykit')
-    ) {
-        await buildApplication(platformPartykitBrowserBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            plugins,
-            esbuildOutDir: 'partykit',
-        });
-
-        await buildApplication(platformPartykitServerBuildConfig, {
-            applicationEntrypoint,
-            watch,
-            plugins,
-            esbuildOutDir: 'partykit',
-        });
-    }
-}
+// =============================================================================
+// CLI Program Setup
+// =============================================================================
 
 program
     .name('sb')
-    .description('Springboard CLI')
+    .description('Springboard CLI - Vite-based multi-platform build system')
     .version(packageJSON.version);
+
+// =============================================================================
+// DEV Command
+// =============================================================================
 
 program
     .command('dev')
-    .description('Run the Springboard development server')
+    .description('Run the Springboard development server with HMR')
     .usage('src/index.tsx')
-    .argument('entrypoint')
+    .argument('entrypoint', 'Application entrypoint file')
     .option('-p, --platforms <PLATFORM>,<PLATFORM>', 'Platforms to build for', 'main')
     .option('-g, --plugins <PLUGIN>,<PLUGIN>', 'Plugins to build with')
-    .action(async (entrypoint: string, options: {platforms?: string, plugins?: string}) => {
+    .option('--port <PORT>', 'Dev server port', '5173')
+    .action(async (entrypoint: string, options: {
+        platforms?: string;
+        plugins?: string;
+        port?: string;
+    }) => {
         const applicationEntrypoint = resolveEntrypoint(entrypoint);
         const plugins = await loadPlugins(options.plugins);
+        const platformsToBuild = parsePlatforms(options.platforms || 'main');
+        const port = parseInt(options.port || '5173', 10);
 
-        let platformToBuild = options.platforms || 'main';
-        const platformsToBuild = new Set<SpringboardPlatform>(platformToBuild.split(',') as SpringboardPlatform[]);
+        console.log(`Starting development server for platforms: ${options.platforms || 'main'}`);
 
-        console.log(`Building application variants "${platformToBuild}" in development mode`);
+        try {
+            await startDevServer({
+                applicationEntrypoint,
+                platforms: platformsToBuild,
+                plugins,
+                port,
+                hmr: true,
+            });
 
-        await buildPlatforms({
-            applicationEntrypoint,
-            watch: true,
-            plugins,
-            platformsToBuild,
-            dev: {
-                reloadCss: true,
-                reloadJs: true,
-            },
-        });
-
-        const nodeArgs = '--watch --watch-preserve-output';
-
-        await new Promise(r => setTimeout(r, 1000));
-
-        concurrently(
-            [
-                {command: `node ${nodeArgs} dist/server/dist/local-server.cjs`, name: 'Server', prefixColor: 'blue'},
-            ],
-            {
-                prefix: 'name',
-                restartTries: 0,
-            }
-        );
+            // Keep process alive
+            console.log('\nDev server running. Press Ctrl+C to stop.\n');
+        } catch (error) {
+            console.error('Failed to start dev server:', error);
+            process.exit(1);
+        }
     });
+
+// =============================================================================
+// BUILD Command
+// =============================================================================
 
 program
     .command('build')
-    .description('Build the application bundles')
+    .description('Build the application bundles for production')
     .usage('src/index.tsx')
-    .argument('entrypoint')
+    .argument('entrypoint', 'Application entrypoint file')
     .option('-w, --watch', 'Watch for file changes')
     .option('-p, --platforms <PLATFORM>,<PLATFORM>', 'Platforms to build for')
     .option('-g, --plugins <PLUGIN>,<PLUGIN>', 'Plugins to build with')
-    .action(async (entrypoint: string, options: {watch?: boolean, offline?: boolean, platforms?: string, plugins?: string}) => {
-        let platformToBuild = process.env.SPRINGBOARD_PLATFORM_VARIANT || options.platforms as SpringboardPlatform;
+    .action(async (entrypoint: string, options: {
+        watch?: boolean;
+        platforms?: string;
+        plugins?: string;
+    }) => {
+        // Determine platform to build
+        let platformToBuild = process.env.SPRINGBOARD_PLATFORM_VARIANT || options.platforms;
         if (!platformToBuild) {
             platformToBuild = 'main';
         }
 
         const applicationEntrypoint = resolveEntrypoint(entrypoint);
         const plugins = await loadPlugins(options.plugins);
+        const platformsToBuild = parsePlatforms(platformToBuild);
 
-        console.log(`Building application variants "${platformToBuild}"`);
+        console.log(`Building application for platforms: ${platformToBuild}`);
 
-        const platformsToBuild = new Set<SpringboardPlatform>(platformToBuild.split(',') as SpringboardPlatform[]);
+        try {
+            let results;
 
-        await buildPlatforms({
-            applicationEntrypoint,
-            watch: options.watch,
-            plugins,
-            platformsToBuild,
-        });
+            // Use specialized build functions for complex platforms
+            if (platformsToBuild.has('desktop') && platformsToBuild.size === 1) {
+                results = await buildTauri({
+                    applicationEntrypoint,
+                    plugins,
+                    watch: options.watch,
+                });
+            } else if (platformsToBuild.has('partykit') && platformsToBuild.size === 1) {
+                results = await buildPartyKit({
+                    applicationEntrypoint,
+                    plugins,
+                    watch: options.watch,
+                });
+            } else if (platformsToBuild.has('main') && platformsToBuild.size === 1) {
+                results = await buildMain({
+                    applicationEntrypoint,
+                    plugins,
+                    watch: options.watch,
+                });
+            } else {
+                // Generic multi-platform build
+                results = await buildAllPlatforms({
+                    applicationEntrypoint,
+                    platforms: platformsToBuild,
+                    plugins,
+                    watch: options.watch,
+                });
+            }
 
-        // if (
-        //     platformsToBuild.has('all') ||
-        //     platformsToBuild.has('mobile')
-        // ) {
-        //     await buildRNWebview();
-        // }
+            printBuildSummary(results);
 
-        // if (
-        //     platformsToBuild.has('all') ||
-        //     platformsToBuild.has('browser_offline')
-        // ) {
-        //     await buildBrowserOffline();
-        // }
+            // Check for failures
+            const failed = results.filter(r => !r.success);
+            if (failed.length > 0) {
+                process.exit(1);
+            }
+        } catch (error) {
+            console.error('Build failed:', error);
+            process.exit(1);
+        }
     });
+
+// =============================================================================
+// START Command
+// =============================================================================
 
 program
     .command('start')
-    .description('Start the application server')
+    .description('Start the production application server')
     .usage('')
     .action(async () => {
+        console.log('Starting production server...');
+
         concurrently(
             [
-                {command: 'node dist/server/dist/local-server.cjs', name: 'Server', prefixColor: 'blue'},
-                // {command: 'node dist/node/dist/index.js', name: 'Node Maestro', prefixColor: 'green'},
+                {
+                    command: 'node dist/server/dist/local-server.cjs',
+                    name: 'Server',
+                    prefixColor: 'blue',
+                },
             ],
             {
                 prefix: 'name',
@@ -257,67 +221,60 @@ program
         );
     });
 
-// import { readJsonSync, writeJsonSync } from 'fs-extra';
-import { resolve } from 'path';
-import {build} from 'esbuild';
-import {pathToFileURL} from 'node:url';
-// import {generateReactNativeProject} from './generators/mobile/react_native_project_generator';
+// =============================================================================
+// UPGRADE Command (utility)
+// =============================================================================
 
 program
     .command('upgrade')
-    .description('Upgrade package versions with a specified prefix in package.json files.')
-    .usage('')
+    .description('Upgrade Springboard package versions in package.json files.')
     .argument('<new-version>', 'The new version number to set for matching packages.')
     .option('--packages <files...>', 'package.json files to update', ['package.json'])
-    .option('--prefixes <prefixes...>', 'Package name prefixes to match (can be comma-separated or repeated)', ['springboard', '@springboardjs/', '@jamtools/'])
-    .addOption(new Option('--publish <tag>').hideHelp())
-    .action(async (newVersion, options) => {
-    const { packages, prefixes, publish } = options;
+    .option('--prefixes <prefixes...>', 'Package name prefixes to match', ['springboard', '@springboardjs/', '@jamtools/'])
+    .action(async (newVersion: string, options: {
+        packages: string[];
+        prefixes: string[];
+    }) => {
+        const { packages, prefixes } = options;
 
-    console.log('publishing to ' + publish);
-    // return;
+        const normalizedPrefixes = prefixes.flatMap((p) => p.split(',')).map((p) => p.trim());
 
-    const normalizedPrefixes = (prefixes as string[]).flatMap((p) => p.split(',')).map((p) => p.trim());
+        for (const packageFile of packages) {
+            const packagePath = path.resolve(process.cwd(), packageFile);
+            try {
+                const packageJson = JSON.parse(fs.readFileSync(packagePath).toString());
+                let modified = false;
 
-    for (const packageFile of packages) {
-      const packagePath = resolve(process.cwd(), packageFile);
-      try {
-        const packageJson = JSON.parse(fs.readFileSync(packagePath).toString());
-        let modified = false;
+                for (const depType of ['dependencies', 'devDependencies', 'peerDependencies']) {
+                    if (!packageJson[depType]) continue;
 
-        for (const depType of ['dependencies', 'devDependencies', 'peerDependencies']) {
-          if (!packageJson[depType]) continue;
+                    for (const [dep] of Object.entries<string>(packageJson[depType])) {
+                        if (normalizedPrefixes.some((prefix) => dep.startsWith(prefix))) {
+                            packageJson[depType][dep] = newVersion;
+                            console.log(`Updated ${dep} to ${newVersion} in ${packageFile}`);
+                            modified = true;
+                        }
+                    }
+                }
 
-          for (const [dep, currentVersion] of Object.entries<string>(packageJson[depType])) {
-            console.log(normalizedPrefixes, dep)
-            if (normalizedPrefixes.some((prefix) => dep.startsWith(prefix))) {
-              packageJson[depType][dep] = newVersion;
-              console.log(`✅ Updated ${dep} to ${newVersion} in ${packageFile}`);
-              modified = true;
+                if (modified) {
+                    fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2));
+                } else {
+                    console.log(`No matching packages found in ${packageFile}`);
+                }
+            } catch (err) {
+                console.error(`Error processing ${packageFile}:`, err);
             }
-          }
         }
+    });
 
-        if (modified) {
-            fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2));
-        } else {
-          console.log(`ℹ️ No matching packages found in ${packageFile}`);
-        }
-      } catch (err) {
-        console.error(`❌ Error processing ${packageFile}:`, err);
-      }
-    }
-});
+// =============================================================================
+// Parse and Execute
+// =============================================================================
 
-// const generateCommand = program.command('generate');
-
-// generateCommand.command('mobile')
-//     .description('Generate a mobile app')
-//     .action(async () => {
-//         await generateReactNativeProject();
-//     });
-
-
-if (!(globalThis as any).AVOID_PROGRAM_PARSE) {
+if (!(globalThis as Record<string, unknown>).AVOID_PROGRAM_PARSE) {
     program.parse();
 }
+
+// Export for testing
+export { program, resolveEntrypoint, loadPlugins, parsePlatforms };
