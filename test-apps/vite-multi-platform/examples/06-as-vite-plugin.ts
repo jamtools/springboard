@@ -1,8 +1,19 @@
 /**
- * Example 6: Using Springboard as a Vite Plugin
+ * Example 6a: Using Springboard as a Vite Plugin (Single Platform)
  *
  * Alternative approach: Use springboard as a plugin instead of config wrapper.
  * This gives you FULL control over the Vite config.
+ *
+ * ❓ Why multiple plugins (...spread)?
+ * Springboard is composed of several focused plugins for better separation:
+ * - springboard:init (base config)
+ * - springboard:virtual (virtual modules)
+ * - springboard:platform-inject (code transformation)
+ * - springboard:html (HTML generation)
+ * - etc.
+ *
+ * The spread operator (...) adds all of them to your plugin array.
+ * This follows the Nitro.js pattern of plugin composition.
  */
 
 import { defineConfig } from 'vite';
@@ -14,7 +25,7 @@ export default defineConfig({
   plugins: [
     react(),
 
-    // Add Springboard as a plugin
+    // Add Springboard plugins (spreads multiple focused plugins)
     ...springboardPlugins({
       entry: './src/index.tsx',
       platform: 'browser', // Specify one platform
@@ -48,9 +59,4 @@ export default defineConfig({
   // Any other Vite options...
 });
 
-// For multi-platform builds, you'd create separate config files:
-// - vite.config.browser.ts
-// - vite.config.node.ts
-// - vite.config.partykit.ts
-//
-// Then run: vite build --config vite.config.browser.ts
+// For multi-platform builds with this approach, see 06b-multi-platform-plugin.ts

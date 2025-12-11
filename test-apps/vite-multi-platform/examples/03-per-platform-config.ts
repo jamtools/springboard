@@ -14,13 +14,15 @@ export default springboard({
   platforms: ['browser', 'node', 'partykit'],
 
   // Option B: Function - different config per platform
+  // ⭐ This is the RECOMMENDED way to apply plugins to specific platforms
   viteConfig: (platform, baseConfig) => {
     // Browser: Add PWA plugin, specific optimizations
     if (platform === 'browser') {
       return mergeConfig(baseConfig, {
         plugins: [
-          // Add browser-specific plugins
+          // Add browser-ONLY plugins here
           // VitePWA({ ... }),
+          // react() would only apply to browser builds
         ],
         build: {
           rollupOptions: {

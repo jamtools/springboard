@@ -33,6 +33,8 @@ export default springboard({
 
     plugins: [
       // Add your own Vite plugins
+      // NOTE: These apply to ALL platforms. For platform-specific plugins,
+      // see Example 3 (per-platform config) which is the recommended approach.
       react({
         babel: {
           plugins: ['babel-plugin-styled-components'],
