@@ -58,7 +58,12 @@
       "import": "./src/core/*.ts",
       "default": "./src/core/*.ts"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./vite-plugin": {
+      "types": "./vite-plugin/dist/index.d.ts",
+      "import": "./vite-plugin/dist/index.js",
+      "default": "./vite-plugin/dist/index.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -69,12 +74,14 @@
       "platforms/partykit": ["./src/platforms/partykit/index.ts"],
       "platforms/react-native": ["./src/platforms/react-native/index.ts"],
       "core": ["./src/core/index.ts"],
-      "core/*": ["./src/core/*"]
+      "core/*": ["./src/core/*"],
+      "vite-plugin": ["./vite-plugin/dist/index.d.ts"]
     }
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "vite-plugin"
   ],
   "scripts": {
     "test": "vitest --run",

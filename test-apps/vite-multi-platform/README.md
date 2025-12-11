@@ -1,226 +1,159 @@
 # Vite Multi-Platform Test Application
 
-This is an **isolated** test application that validates Springboard works correctly with Vite across multiple platforms. It simulates a real user's experience by installing Springboard packages from a local Verdaccio registry.
+This is an **isolated** test application that demonstrates the correct Springboard pattern: write once, run on all platforms. It uses the new `springboard/vite-plugin` API.
 
 ## Purpose
 
-This test app verifies:
+This test app demonstrates:
 
-1. **Package Resolution**: All Springboard export conditions resolve correctly
-2. **Browser Platform**: Vite can build a browser app with HMR support
-3. **Node.js Platform**: Vite can build a Node.js server with proper externals
-4. **PartyKit Platform**: Vite can build for workerd/edge runtime
-5. **Production Builds**: All platforms produce valid production bundles
+1. **Single Entrypoint**: One `src/index.tsx` works on ALL platforms
+2. **Springboard Vite Plugin**: Simple `vite.config.ts` using `springboard()` function
+3. **Platform Agnostic Code**: No platform-specific files in `src/`
+4. **Real App Patterns**: State management, actions, routing, and components
 
-## Key Design Decisions
+## Architecture
 
-### Isolation from Main Repository
+```
+vite-multi-platform/
+├── pnpm-workspace.yaml    # Isolated from parent workspace
+├── package.json           # Minimal dependencies
+├── .npmrc                 # Points to Verdaccio registry
+├── vite.config.ts         # Uses springboard() plugin
+├── tsconfig.json          # TypeScript configuration
+└── src/
+    └── index.tsx          # SINGLE ENTRYPOINT for all platforms
+```
 
-This test app is **deliberately isolated** from the main Springboard monorepo:
+### Key Design Principles
 
-- Has its own `pnpm-workspace.yaml` (empty packages list)
-- Does NOT use `workspace:*` protocol
-- Installs packages from Verdaccio (local npm registry)
-- Has its own `.npmrc` pointing to Verdaccio
+**Write Once, Run Everywhere**
 
-This isolation is critical because:
-- It simulates a real user installing from npm
-- Tests actual package exports, not local file resolution
-- Catches issues with `package.json` exports configuration
-- Validates that published packages work independently
+The app code in `src/index.tsx` is completely platform-agnostic:
 
-### Multi-Platform Vite Configuration
+```typescript
+import springboard from 'springboard';
 
-The `vite.config.ts` supports three build modes:
+springboard.registerModule('MyApp', {}, async (moduleAPI) => {
+  // Create state - works on browser, node, partykit, etc.
+  const state = await moduleAPI.statesAPI.createPersistentState('data', initialValue);
 
-| Mode | Target | Export Conditions | Output |
-|------|--------|-------------------|--------|
-| `browser` | ESM for browsers | `browser`, `import`, `module` | `dist/browser/` |
-| `server` | Node.js 20+ | `node`, `import`, `module` | `dist/server/` |
-| `partykit` | Workerd/Edge | `workerd`, `worker`, `import` | `dist/partykit/` |
+  // Create actions - framework handles sync across platforms
+  const actions = moduleAPI.createActions({
+    doSomething: async () => { /* ... */ }
+  });
 
-## Running Tests
+  // Register routes - framework handles routing per platform
+  moduleAPI.registerRoute('/', { documentMeta: async () => ({ title: 'My App' }) }, () => {
+    return <MyComponent />;
+  });
+});
+```
+
+**Simple Vite Configuration**
+
+```typescript
+import { springboard } from 'springboard/vite-plugin';
+
+export default springboard({
+  entry: './src/index.tsx',
+  platforms: ['browser', 'node', 'partykit'],
+  documentMeta: {
+    title: 'My App',
+    description: 'Multi-platform app'
+  }
+});
+```
+
+That's it! The plugin handles:
+- Platform detection
+- Virtual entry generation
+- Platform code injection
+- Multi-platform builds
+- HTML generation
+- HMR setup
+- SSR configuration
+
+## Running the App
 
 ### Prerequisites
 
 1. Node.js 20+
 2. pnpm 9+
-3. Main repo dependencies installed (`pnpm install` at repo root)
+3. Verdaccio running with Springboard packages published
 
-### Full Test (Recommended)
-
-Run the complete test suite with Verdaccio:
+### Development
 
 ```bash
-./scripts/test-with-verdaccio.sh
-```
-
-This will:
-1. Start Verdaccio
-2. Publish all Springboard packages
-3. Install in this test app
-4. Run Vite dev server test
-5. Build for all platforms
-6. Run export verification tests
-
-### Options
-
-```bash
-# Use a specific version
-./scripts/test-with-verdaccio.sh --version 0.3.0
-
-# Skip Verdaccio startup (if already running)
-./scripts/test-with-verdaccio.sh --skip-verdaccio
-
-# Skip publishing (if packages already published)
-./scripts/test-with-verdaccio.sh --skip-publish
-
-# Keep node_modules after test
-./scripts/test-with-verdaccio.sh --keep-node-modules
-```
-
-### Manual Testing
-
-If you want to test manually:
-
-```bash
-# 1. Start Verdaccio (from repo root)
-cd ../..
+# Start Verdaccio and publish packages (from repo root)
 docker compose -f verdaccio/docker-compose.yml up -d
-# Or: npx verdaccio --config verdaccio/config/config.yaml
-
-# 2. Publish packages (from repo root)
 ./scripts/run-all-folders.sh 0.2.0 --mode verdaccio
 
-# 3. Install in test app
+# Install dependencies (in this directory)
 cd test-apps/vite-multi-platform
 pnpm install
 
-# 4. Run dev server
+# Start dev server
 pnpm dev
+```
 
-# 5. Build all platforms
+### Production Build
+
+```bash
+# Build for all platforms
 pnpm build
 
-# 6. Run export tests
-pnpm test:exports
+# Output:
+# dist/browser/  - Browser build
+# dist/node/     - Node.js server build
+# dist/partykit/ - PartyKit/edge build
 ```
 
-## Project Structure
+## App Features
+
+The test app is a counter with these features:
+
+- **Counter State**: Increment, decrement, reset
+- **History Tracking**: Records all count changes
+- **Theme Toggle**: Light/dark mode with persistence
+- **Multiple Routes**: Home (`/`) and History (`/history`)
+- **Document Meta**: Per-route title and description
+
+## Comparison: Before vs After
+
+### Before (Platform-Specific)
 
 ```
-vite-multi-platform/
-├── pnpm-workspace.yaml    # Empty - isolates from parent workspace
-├── package.json           # Dependencies from Verdaccio
-├── .npmrc                 # Points to Verdaccio registry
-├── vite.config.ts         # Multi-platform Vite configuration
-├── tsconfig.json          # TypeScript configuration
-├── index.html             # Browser entry HTML
-├── src/
-│   ├── browser/
-│   │   └── main.tsx       # Browser platform entry
-│   ├── server/
-│   │   └── index.ts       # Node.js server entry
-│   └── partykit/
-│       └── server.ts      # PartyKit server entry
-├── scripts/
-│   ├── test-with-verdaccio.sh    # Main test script
-│   └── test-exports.mjs          # Export verification
-└── README.md
+src/
+├── browser/
+│   └── main.tsx      # Browser-only code
+├── server/
+│   └── index.ts      # Server-only code
+└── partykit/
+    └── server.ts     # PartyKit-only code
 ```
 
-## What Gets Tested
+### After (Platform-Agnostic)
 
-### Export Resolution
-
-The following imports are tested:
-
-```typescript
-// Main package
-import springboard from 'springboard';
-import { Springboard } from 'springboard/engine/engine';
-import type { CoreDependencies } from 'springboard/types/module_types';
-
-// Server package
-import serverRegistry from 'springboard-server';
-
-// Platform packages
-import '@springboardjs/platforms-browser';
-import { startNodeApp } from '@springboardjs/platforms-node/entrypoints/main';
-import '@springboardjs/platforms-partykit';
-import '@springboardjs/data-storage';
+```
+src/
+└── index.tsx         # Works on ALL platforms
 ```
 
-### Build Verification
+## Testing
 
-Each platform build is verified for:
-- Output files exist in correct location
-- ESM format is preserved
-- Source maps generated
-- No runtime errors on import
+### Type Check
 
-### HMR Testing
-
-The browser dev server is tested for:
-- Vite starts successfully
-- HMR websocket connects
-- Module hot replacement works
-
-## Troubleshooting
-
-### Verdaccio Connection Issues
-
-If Verdaccio fails to start:
 ```bash
-# Check if port is in use
-lsof -i :4873
-
-# View logs
-cat verdaccio.log
-
-# Try manual start
-npx verdaccio --config ../../verdaccio/config/config.yaml
+pnpm typecheck
 ```
 
-### Package Not Found
+### E2E Tests (Coming Soon)
 
-If packages aren't found in Verdaccio:
 ```bash
-# Verify package was published
-curl http://localhost:4873/springboard
-
-# Re-publish
-cd ../..
-./scripts/run-all-folders.sh 0.2.0 --mode verdaccio
+pnpm test
 ```
 
-### Build Failures
+## Related Documentation
 
-Check platform-specific issues:
-```bash
-# Browser only
-pnpm build:browser
-
-# Server only
-pnpm build:server
-
-# PartyKit only
-pnpm build:partykit
-```
-
-## CI Integration
-
-This test is designed to run in CI. Example GitHub Actions step:
-
-```yaml
-- name: Run Vite Multi-Platform Test
-  run: |
-    cd test-apps/vite-multi-platform
-    ./scripts/test-with-verdaccio.sh --version ${{ github.event.inputs.version || '0.2.0' }}
-```
-
-## Related Files
-
-- `/verdaccio/` - Verdaccio configuration
-- `/scripts/run-all-folders.sh` - Package publishing script
-- `/.github/workflows/cli_test.yml` - Existing CI workflow using Verdaccio
+- [VITE_PLUGIN_DESIGN.md](../../VITE_PLUGIN_DESIGN.md) - Plugin architecture
+- [apps/small_apps/](../../apps/small_apps/) - More Springboard app examples

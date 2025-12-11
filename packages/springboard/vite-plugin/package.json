@@ -1,0 +1,39 @@
+{
+  "name": "@springboard/vite-plugin",
+  "version": "0.0.1",
+  "description": "Springboard Vite plugin for multi-platform builds",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -p tsconfig.json --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "springboard",
+    "multi-platform",
+    "cross-platform"
+  ],
+  "author": "JamTools",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

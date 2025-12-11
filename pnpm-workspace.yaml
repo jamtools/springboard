@@ -5,6 +5,7 @@ packages:
   - "packages/jamtools/features"
   - "packages/springboard"
   - "packages/springboard/cli"
+  - "packages/springboard/vite-plugin"
   - "packages/springboard/data_storage"
   - "packages/springboard/plugins/*"
   - "packages/springboard/external/*"

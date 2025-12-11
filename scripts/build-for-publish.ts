@@ -2,18 +2,27 @@
 /**
  * Springboard Publish-Time Build System
  *
- * This script compiles ALL Springboard packages to JavaScript with TypeScript
- * declarations for npm publishing. This is a Vite-first approach with NO
- * backward compatibility with esbuild.
+ * This script compiles the consolidated Springboard package to JavaScript with
+ * TypeScript declarations for npm publishing. This is a Vite-first approach.
  *
  * Key features:
+ * - Single package with multiple entry points (exports)
  * - Platform-specific builds using @platform directives
- * - Multiple output formats (ESM for browser, CJS for Node)
  * - TypeScript declaration generation
  * - Source maps for debugging
  *
+ * The output structure matches the package.json exports field:
+ * - dist/index.mjs          -> "."
+ * - dist/core/index.mjs     -> "./core"
+ * - dist/server/index.mjs   -> "./server" (node condition)
+ * - dist/browser/index.mjs  -> "./platforms/browser" (browser condition)
+ * - dist/node/index.mjs     -> "./platforms/node" (node condition)
+ * - dist/partykit/index.mjs -> "./platforms/partykit" (workerd condition)
+ * - dist/tauri/index.mjs    -> "./platforms/tauri"
+ * - dist/react-native/index.mjs -> "./platforms/react-native" (react-native condition)
+ *
  * Usage:
- *   npx tsx scripts/build-for-publish.ts [--package <name>] [--watch]
+ *   npx tsx scripts/build-for-publish.ts [--watch]
  */
 
 import { build, type BuildOptions } from 'esbuild';
@@ -27,45 +36,23 @@ import { execSync } from 'child_process';
 
 type PlatformMacro = 'browser' | 'node' | 'fetch' | 'react-native';
 
-interface PackageConfig {
-    /** Package name (for logging) */
-    name: string;
-    /** Package directory relative to repo root */
-    dir: string;
-    /** Entry points to compile */
-    entryPoints: EntryPointConfig[];
-    /** Platform-specific builds */
-    platforms?: PlatformBuildConfig[];
-    /** External dependencies (not bundled) */
-    externals?: string[];
-    /** Whether this package has React/JSX */
-    hasJsx?: boolean;
-}
-
 interface EntryPointConfig {
-    /** Source file path relative to package dir */
+    /** Export path (e.g., ".", "./server", "./platforms/browser") */
+    exportPath: string;
+    /** Source file path relative to src/ */
     input: string;
     /** Output path relative to dist/ */
     output: string;
-    /** Export condition name (for package.json exports) */
-    exportCondition?: string;
-}
-
-interface PlatformBuildConfig {
-    /** Platform macro target */
-    platform: PlatformMacro;
-    /** Export condition name */
-    condition: string;
-    /** Output subdirectory under dist/ */
-    outDir: string;
-    /** Output format */
-    format: 'esm' | 'cjs';
-    /** File extension */
-    extension: '.mjs' | '.cjs' | '.js';
+    /** Platform macro for @platform directive processing */
+    platformMacro?: PlatformMacro;
+    /** esbuild platform setting */
+    esbuildPlatform?: 'node' | 'neutral' | 'browser';
+    /** Export condition for documentation */
+    condition?: string;
 }
 
 // =============================================================================
-// Platform Injection Plugin (moved from esbuild_plugin_platform_inject)
+// Platform Injection Plugin
 // =============================================================================
 
 /**
@@ -116,249 +103,135 @@ function platformInjectPlugin(platform: PlatformMacro): import('esbuild').Plugin
 }
 
 // =============================================================================
-// Package Configurations
+// Configuration
 // =============================================================================
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '..');
+const PACKAGE_DIR = path.join(REPO_ROOT, 'packages/springboard');
+const SRC_DIR = path.join(PACKAGE_DIR, 'src');
+const DIST_DIR = path.join(PACKAGE_DIR, 'dist');
 
 /**
- * All packages to build for publishing
+ * Entry points derived from package.json exports field
  */
-const PACKAGES: PackageConfig[] = [
-    // Core package - platform-agnostic
+const ENTRY_POINTS: EntryPointConfig[] = [
+    // Main entry point - platform-agnostic core
     {
-        name: 'springboard',
-        dir: 'packages/springboard/core',
-        entryPoints: [
-            { input: 'src/index.ts', output: 'index' },
-            { input: 'engine/engine.tsx', output: 'engine/engine' },
-            { input: 'engine/register.ts', output: 'engine/register' },
-            { input: 'engine/module_api.ts', output: 'engine/module_api' },
-            { input: 'hooks/useMount.ts', output: 'hooks/useMount' },
-            { input: 'types/module_types.ts', output: 'types/module_types' },
-            { input: 'types/response_types.ts', output: 'types/response_types' },
-            { input: 'utils/generate_id.ts', output: 'utils/generate_id' },
-            { input: 'services/http_kv_store_client.ts', output: 'services/http_kv_store_client' },
-            { input: 'services/states/shared_state_service.ts', output: 'services/states/shared_state_service' },
-            { input: 'modules/index.ts', output: 'modules/index' },
-            { input: 'modules/base_module/base_module.tsx', output: 'modules/base_module/base_module' },
-            { input: 'modules/files/files_module.tsx', output: 'modules/files/files_module' },
-            { input: 'module_registry/module_registry.tsx', output: 'module_registry/module_registry' },
-        ],
-        externals: [
-            'react',
-            'react-dom',
-            'rxjs',
-            'immer',
-            'json-rpc-2.0',
-            'dexie',
-            'reconnecting-websocket',
-            'ws',
-        ],
-        hasJsx: true,
+        exportPath: '.',
+        input: 'index.ts',
+        output: 'index',
     },
 
-    // Server package - Node.js only
+    // Core module - platform-agnostic
     {
-        name: 'springboard-server',
-        dir: 'packages/springboard/server',
-        entryPoints: [
-            { input: 'index.ts', output: 'index' },
-            { input: 'src/register.ts', output: 'src/register' },
-        ],
-        externals: [
-            'springboard',
-            '@springboardjs/platforms-node',
-            '@springboardjs/data-storage',
-            'hono',
-            '@hono/node-server',
-            '@hono/node-ws',
-            'json-rpc-2.0',
-        ],
+        exportPath: './core',
+        input: 'core/index.ts',
+        output: 'core/index',
     },
 
-    // Browser platform package
+    // Server - Node.js only
     {
-        name: '@springboardjs/platforms-browser',
-        dir: 'packages/springboard/platforms/webapp',
-        entryPoints: [
-            { input: 'entrypoints/main.tsx', output: 'entrypoints/main' },
-            { input: 'entrypoints/react_entrypoint.tsx', output: 'entrypoints/react_entrypoint' },
-            { input: 'entrypoints/online_entrypoint.ts', output: 'entrypoints/online_entrypoint' },
-            { input: 'entrypoints/offline_entrypoint.ts', output: 'entrypoints/offline_entrypoint' },
-            { input: 'services/browser_kvstore_service.ts', output: 'services/browser_kvstore_service' },
-            { input: 'services/browser_json_rpc.ts', output: 'services/browser_json_rpc' },
-            { input: 'frontend_routes.tsx', output: 'frontend_routes' },
-            { input: 'layout.tsx', output: 'layout' },
-        ],
-        platforms: [
-            {
-                platform: 'browser',
-                condition: 'browser',
-                outDir: 'browser',
-                format: 'esm',
-                extension: '.mjs',
-            },
-        ],
-        externals: [
-            'springboard',
-            'react',
-            'react-dom',
-            'react-router',
-            'json-rpc-2.0',
-            'reconnecting-websocket',
-        ],
-        hasJsx: true,
+        exportPath: './server',
+        input: 'server/index.ts',
+        output: 'server/index',
+        platformMacro: 'node',
+        esbuildPlatform: 'node',
+        condition: 'node',
     },
 
-    // Node platform package
+    // Browser platform
     {
-        name: '@springboardjs/platforms-node',
-        dir: 'packages/springboard/platforms/node',
-        entryPoints: [
-            { input: 'entrypoints/main.ts', output: 'entrypoints/main' },
-            { input: 'entrypoints/node_flexible_entrypoint.ts', output: 'entrypoints/node_flexible_entrypoint' },
-            { input: 'services/node_kvstore_service.ts', output: 'services/node_kvstore_service' },
-            { input: 'services/node_json_rpc.ts', output: 'services/node_json_rpc' },
-            { input: 'services/node_local_json_rpc.ts', output: 'services/node_local_json_rpc' },
-            { input: 'services/node_rpc_async_local_storage.ts', output: 'services/node_rpc_async_local_storage' },
-            { input: 'services/node_file_storage_service.ts', output: 'services/node_file_storage_service' },
-        ],
-        platforms: [
-            {
-                platform: 'node',
-                condition: 'node',
-                outDir: 'node',
-                format: 'esm',
-                extension: '.mjs',
-            },
-        ],
-        externals: [
-            'springboard',
-            'isomorphic-ws',
-            'ws',
-            'json-rpc-2.0',
-            'reconnecting-websocket',
-            'fs',
-            'path',
-            'async_hooks',
-        ],
+        exportPath: './platforms/browser',
+        input: 'platforms/browser/index.ts',
+        output: 'browser/index',
+        platformMacro: 'browser',
+        esbuildPlatform: 'browser',
+        condition: 'browser',
     },
 
-    // PartyKit platform package
+    // Node.js platform
     {
-        name: '@springboardjs/platforms-partykit',
-        dir: 'packages/springboard/platforms/partykit',
-        entryPoints: [
-            { input: 'src/entrypoints/partykit_server_entrypoint.ts', output: 'entrypoints/partykit_server_entrypoint' },
-            { input: 'src/partykit_hono_app.ts', output: 'partykit_hono_app' },
-            { input: 'src/services/partykit_kv_store.ts', output: 'services/partykit_kv_store' },
-            { input: 'src/services/partykit_rpc_client.ts', output: 'services/partykit_rpc_client' },
-            { input: 'src/services/partykit_rpc_server.ts', output: 'services/partykit_rpc_server' },
-        ],
-        platforms: [
-            {
-                platform: 'fetch',
-                condition: 'workerd',
-                outDir: 'workerd',
-                format: 'esm',
-                extension: '.mjs',
-            },
-        ],
-        externals: [
-            'springboard',
-            'springboard-server',
-            '@springboardjs/platforms-browser',
-            '@springboardjs/platforms-node',
-            'hono',
-            'json-rpc-2.0',
-            'partysocket',
-            'zod',
-            'partykit/server',
-        ],
+        exportPath: './platforms/node',
+        input: 'platforms/node/index.ts',
+        output: 'node/index',
+        platformMacro: 'node',
+        esbuildPlatform: 'node',
+        condition: 'node',
     },
 
-    // Tauri platform package
+    // PartyKit platform - workerd runtime
     {
-        name: '@springboardjs/platforms-tauri',
-        dir: 'packages/springboard/platforms/tauri',
-        entryPoints: [
-            { input: 'entrypoints/platform_tauri_maestro.ts', output: 'entrypoints/platform_tauri_maestro' },
-            { input: 'entrypoints/platform_tauri_browser.tsx', output: 'entrypoints/platform_tauri_browser' },
-        ],
-        platforms: [
-            {
-                platform: 'browser',
-                condition: 'browser',
-                outDir: 'browser',
-                format: 'esm',
-                extension: '.mjs',
-            },
-            {
-                platform: 'node',
-                condition: 'node',
-                outDir: 'node',
-                format: 'esm',
-                extension: '.mjs',
-            },
-        ],
-        externals: [
-            'springboard',
-            '@springboardjs/platforms-browser',
-            '@springboardjs/platforms-node',
-            '@tauri-apps/api',
-            '@tauri-apps/plugin-shell',
-            'react',
-            'react-dom',
-        ],
-        hasJsx: true,
+        exportPath: './platforms/partykit',
+        input: 'platforms/partykit/index.ts',
+        output: 'partykit/index',
+        platformMacro: 'fetch',
+        esbuildPlatform: 'neutral',
+        condition: 'workerd',
     },
 
-    // React Native platform package
+    // Tauri platform - dual browser/node
     {
-        name: '@springboardjs/platforms-react-native',
-        dir: 'packages/springboard/platforms/react-native',
-        entryPoints: [
-            { input: 'entrypoints/rn_app_springboard_entrypoint.ts', output: 'entrypoints/rn_app_springboard_entrypoint' },
-            { input: 'entrypoints/platform_react_native_browser.tsx', output: 'entrypoints/platform_react_native_browser' },
-            { input: 'services/rn_webview_local_token_service.ts', output: 'services/rn_webview_local_token_service' },
-            { input: 'services/kv/kv_rn_and_webview.ts', output: 'services/kv/kv_rn_and_webview' },
-            { input: 'services/rpc/rpc_webview_to_rn.ts', output: 'services/rpc/rpc_webview_to_rn' },
-            { input: 'services/rpc/rpc_rn_to_webview.ts', output: 'services/rpc/rpc_rn_to_webview' },
-        ],
-        platforms: [
-            {
-                platform: 'react-native',
-                condition: 'react-native',
-                outDir: 'react-native',
-                format: 'esm',
-                extension: '.mjs',
-            },
-        ],
-        externals: [
-            'springboard',
-            '@springboardjs/platforms-browser',
-            'react',
-            'react-dom',
-            'json-rpc-2.0',
-            'reconnecting-websocket',
-        ],
-        hasJsx: true,
+        exportPath: './platforms/tauri',
+        input: 'platforms/tauri/index.ts',
+        output: 'tauri/index',
+        platformMacro: 'browser',
+        esbuildPlatform: 'browser',
     },
 
-    // Data storage package - Node.js only
+    // React Native platform
     {
-        name: '@springboardjs/data-storage',
-        dir: 'packages/springboard/data_storage',
-        entryPoints: [
-            { input: 'index.ts', output: 'index' },
-        ],
-        externals: [
-            'better-sqlite3',
-            'kysely',
-            'zod',
-        ],
+        exportPath: './platforms/react-native',
+        input: 'platforms/react-native/index.ts',
+        output: 'react-native/index',
+        platformMacro: 'react-native',
+        esbuildPlatform: 'neutral',
+        condition: 'react-native',
     },
+];
+
+/**
+ * External dependencies that should not be bundled
+ */
+const EXTERNALS = [
+    // React ecosystem
+    'react',
+    'react-dom',
+    'react-router',
+    // RxJS
+    'rxjs',
+    // State management
+    'immer',
+    // RPC
+    'json-rpc-2.0',
+    // IndexedDB
+    'dexie',
+    // WebSocket
+    'reconnecting-websocket',
+    'ws',
+    'isomorphic-ws',
+    // Hono server
+    'hono',
+    '@hono/node-server',
+    '@hono/node-ws',
+    // PartyKit
+    'partysocket',
+    'partykit',
+    'partykit/server',
+    // Tauri
+    '@tauri-apps/api',
+    '@tauri-apps/plugin-shell',
+    // Database
+    'better-sqlite3',
+    'kysely',
+    // Validation
+    'zod',
+    // Node.js built-ins
+    'fs',
+    'path',
+    'async_hooks',
+    'node:fs',
+    'node:path',
+    'node:async_hooks',
 ];
 
 // =============================================================================
@@ -366,16 +239,10 @@ const PACKAGES: PackageConfig[] = [
 // =============================================================================
 
 /**
- * Build a single entry point for a specific platform
+ * Build a single entry point
  */
-async function buildEntryPoint(
-    packageConfig: PackageConfig,
-    entryPoint: EntryPointConfig,
-    platformBuild: PlatformBuildConfig | null,
-    outDir: string
-): Promise<void> {
-    const packageDir = path.join(REPO_ROOT, packageConfig.dir);
-    const inputPath = path.join(packageDir, entryPoint.input);
+async function buildEntryPoint(entryPoint: EntryPointConfig): Promise<void> {
+    const inputPath = path.join(SRC_DIR, entryPoint.input);
 
     // Check if input file exists
     try {
@@ -385,21 +252,29 @@ async function buildEntryPoint(
         return;
     }
 
-    const outputPath = path.join(outDir, `${entryPoint.output}${platformBuild?.extension ?? '.mjs'}`);
+    const outputPath = path.join(DIST_DIR, `${entryPoint.output}.mjs`);
+
+    // Ensure output directory exists
+    await fs.mkdir(path.dirname(outputPath), { recursive: true });
+
+    const plugins: import('esbuild').Plugin[] = [];
+    if (entryPoint.platformMacro) {
+        plugins.push(platformInjectPlugin(entryPoint.platformMacro));
+    }
 
     const buildOptions: BuildOptions = {
         entryPoints: [inputPath],
         outfile: outputPath,
         bundle: true,
-        format: platformBuild?.format === 'cjs' ? 'cjs' : 'esm',
+        format: 'esm',
         target: 'es2020',
         sourcemap: true,
         minify: false, // Keep readable for debugging
         treeShaking: true,
-        platform: platformBuild?.platform === 'node' ? 'node' : 'neutral',
-        external: packageConfig.externals ?? [],
-        plugins: platformBuild ? [platformInjectPlugin(platformBuild.platform)] : [],
-        jsx: packageConfig.hasJsx ? 'automatic' : undefined,
+        platform: entryPoint.esbuildPlatform ?? 'neutral',
+        external: EXTERNALS,
+        plugins,
+        jsx: 'automatic',
         loader: {
             '.tsx': 'tsx',
             '.ts': 'ts',
@@ -410,111 +285,168 @@ async function buildEntryPoint(
     };
 
     await build(buildOptions);
+
+    const conditionInfo = entryPoint.condition ? ` (${entryPoint.condition})` : '';
+    console.log(`  Built: ${entryPoint.exportPath}${conditionInfo} -> dist/${entryPoint.output}.mjs`);
 }
 
 /**
- * Generate TypeScript declarations for a package
+ * Generate TypeScript declarations for the entire package
  */
-async function generateDeclarations(packageConfig: PackageConfig): Promise<void> {
-    const packageDir = path.join(REPO_ROOT, packageConfig.dir);
-    const distDir = path.join(packageDir, 'dist');
-
-    // Create a temporary tsconfig for declaration generation
-    const declarationTsConfig = {
-        extends: './tsconfig.json',
-        compilerOptions: {
-            declaration: true,
-            declarationMap: true,
-            emitDeclarationOnly: true,
-            outDir: './dist',
-            rootDir: '.',
-            noEmit: false,
-            skipLibCheck: true,
-            moduleResolution: 'bundler',
-            module: 'ESNext',
-            target: 'ES2020',
-        },
-        include: packageConfig.entryPoints.map(ep => ep.input),
-        exclude: ['node_modules', 'dist', '**/*.spec.ts', '**/*.test.ts'],
-    };
-
-    const tempTsConfigPath = path.join(packageDir, 'tsconfig.publish.json');
+async function generateDeclarations(): Promise<void> {
+    console.log('\nGenerating TypeScript declarations...');
 
     try {
-        await fs.writeFile(tempTsConfigPath, JSON.stringify(declarationTsConfig, null, 2));
-
-        // Run tsc with the temporary config
-        execSync(`npx tsc -p ${tempTsConfigPath}`, {
-            cwd: packageDir,
+        // Use the existing tsconfig.build.json which is already configured correctly
+        execSync('npx tsc -p tsconfig.build.json', {
+            cwd: PACKAGE_DIR,
             stdio: 'pipe',
         });
 
-        console.log(`  Generated declarations for ${packageConfig.name}`);
+        console.log('  Generated declarations successfully');
     } catch (error) {
-        // Declaration generation might fail for some files, but that's ok
-        // We'll still have the .js files
-        console.warn(`  Warning: Some declarations may not have been generated for ${packageConfig.name}`);
-    } finally {
-        // Clean up temp config
-        await fs.unlink(tempTsConfigPath).catch(() => {});
-    }
-}
-
-/**
- * Build a complete package
- */
-async function buildPackage(packageConfig: PackageConfig): Promise<void> {
-    console.log(`\nBuilding ${packageConfig.name}...`);
-
-    const packageDir = path.join(REPO_ROOT, packageConfig.dir);
-    const distDir = path.join(packageDir, 'dist');
-
-    // Clean dist directory
-    await fs.rm(distDir, { recursive: true, force: true });
-    await fs.mkdir(distDir, { recursive: true });
-
-    // If package has platform-specific builds, build for each platform
-    if (packageConfig.platforms && packageConfig.platforms.length > 0) {
-        for (const platformBuild of packageConfig.platforms) {
-            console.log(`  Building for platform: ${platformBuild.condition}`);
-            const platformOutDir = path.join(distDir, platformBuild.outDir);
-            await fs.mkdir(platformOutDir, { recursive: true });
-
-            for (const entryPoint of packageConfig.entryPoints) {
-                await buildEntryPoint(packageConfig, entryPoint, platformBuild, platformOutDir);
+        // Declaration generation might have warnings but still succeed
+        // Check if dist directory has .d.ts files
+        try {
+            const files = await fs.readdir(DIST_DIR, { recursive: true });
+            const dtsFiles = (files as string[]).filter(f => f.toString().endsWith('.d.ts'));
+            if (dtsFiles.length > 0) {
+                console.log(`  Generated ${dtsFiles.length} declaration files (with warnings)`);
+            } else {
+                console.warn('  Warning: No declaration files were generated');
             }
-        }
-    } else {
-        // Build without platform-specific transforms
-        for (const entryPoint of packageConfig.entryPoints) {
-            await buildEntryPoint(packageConfig, entryPoint, null, distDir);
+        } catch {
+            console.warn('  Warning: Could not verify declaration generation');
         }
     }
-
-    // Generate TypeScript declarations
-    await generateDeclarations(packageConfig);
-
-    console.log(`  Completed ${packageConfig.name}`);
 }
 
 /**
- * Build all packages
+ * Update package.json exports to point to dist files for publishing
  */
-async function buildAllPackages(): Promise<void> {
+async function generatePublishPackageJson(): Promise<void> {
+    console.log('\nGenerating publish-ready package.json exports...');
+
+    const packageJsonPath = path.join(PACKAGE_DIR, 'package.json');
+    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
+
+    // Create exports that point to dist/ for the published package
+    const publishExports: Record<string, unknown> = {
+        '.': {
+            types: './dist/index.d.ts',
+            import: './dist/index.mjs',
+            default: './dist/index.mjs',
+        },
+        './core': {
+            types: './dist/core/index.d.ts',
+            import: './dist/core/index.mjs',
+            default: './dist/core/index.mjs',
+        },
+        './server': {
+            types: './dist/server/index.d.ts',
+            node: './dist/server/index.mjs',
+            import: './dist/server/index.mjs',
+            default: './dist/server/index.mjs',
+        },
+        './platforms/browser': {
+            types: './dist/browser/index.d.ts',
+            browser: './dist/browser/index.mjs',
+            import: './dist/browser/index.mjs',
+            default: './dist/browser/index.mjs',
+        },
+        './platforms/node': {
+            types: './dist/node/index.d.ts',
+            node: './dist/node/index.mjs',
+            import: './dist/node/index.mjs',
+            default: './dist/node/index.mjs',
+        },
+        './platforms/partykit': {
+            types: './dist/partykit/index.d.ts',
+            workerd: './dist/partykit/index.mjs',
+            import: './dist/partykit/index.mjs',
+            default: './dist/partykit/index.mjs',
+        },
+        './platforms/tauri': {
+            types: './dist/tauri/index.d.ts',
+            import: './dist/tauri/index.mjs',
+            default: './dist/tauri/index.mjs',
+        },
+        './platforms/react-native': {
+            types: './dist/react-native/index.d.ts',
+            'react-native': './dist/react-native/index.mjs',
+            import: './dist/react-native/index.mjs',
+            default: './dist/react-native/index.mjs',
+        },
+        './package.json': './package.json',
+    };
+
+    // Create a separate package.json for publishing
+    const publishPackageJson = {
+        ...packageJson,
+        main: './dist/index.mjs',
+        module: './dist/index.mjs',
+        types: './dist/index.d.ts',
+        exports: publishExports,
+        typesVersions: {
+            '*': {
+                server: ['./dist/server/index.d.ts'],
+                'platforms/node': ['./dist/node/index.d.ts'],
+                'platforms/browser': ['./dist/browser/index.d.ts'],
+                'platforms/tauri': ['./dist/tauri/index.d.ts'],
+                'platforms/partykit': ['./dist/partykit/index.d.ts'],
+                'platforms/react-native': ['./dist/react-native/index.d.ts'],
+                core: ['./dist/core/index.d.ts'],
+            },
+        },
+    };
+
+    // Write the publish-ready package.json to dist/
+    const publishPackageJsonPath = path.join(PACKAGE_DIR, 'package.publish.json');
+    await fs.writeFile(publishPackageJsonPath, JSON.stringify(publishPackageJson, null, 2));
+
+    console.log('  Generated package.publish.json');
+    console.log('  To publish, copy package.publish.json to package.json before npm publish');
+}
+
+/**
+ * Build the complete Springboard package
+ */
+async function buildPackage(): Promise<void> {
     console.log('='.repeat(60));
     console.log('Springboard Publish-Time Build');
     console.log('='.repeat(60));
 
     const startTime = Date.now();
 
-    for (const pkg of PACKAGES) {
-        await buildPackage(pkg);
+    // Clean dist directory
+    console.log('\nCleaning dist directory...');
+    await fs.rm(DIST_DIR, { recursive: true, force: true });
+    await fs.mkdir(DIST_DIR, { recursive: true });
+
+    // Build all entry points
+    console.log('\nBuilding entry points...');
+    for (const entryPoint of ENTRY_POINTS) {
+        await buildEntryPoint(entryPoint);
     }
+
+    // Generate TypeScript declarations
+    await generateDeclarations();
+
+    // Generate publish-ready package.json
+    await generatePublishPackageJson();
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
     console.log('\n' + '='.repeat(60));
     console.log(`Build completed in ${duration}s`);
     console.log('='.repeat(60));
+
+    // Print summary
+    console.log('\nOutput structure:');
+    console.log('  packages/springboard/dist/');
+    for (const ep of ENTRY_POINTS) {
+        const conditionInfo = ep.condition ? ` (${ep.condition})` : '';
+        console.log(`    ${ep.output}.mjs${conditionInfo}`);
+    }
 }
 
 // =============================================================================
@@ -522,24 +454,7 @@ async function buildAllPackages(): Promise<void> {
 // =============================================================================
 
 async function main(): Promise<void> {
-    const args = process.argv.slice(2);
-
-    // Parse arguments
-    const packageFilter = args.includes('--package')
-        ? args[args.indexOf('--package') + 1]
-        : null;
-
-    if (packageFilter) {
-        const pkg = PACKAGES.find(p => p.name === packageFilter || p.dir.includes(packageFilter));
-        if (!pkg) {
-            console.error(`Package not found: ${packageFilter}`);
-            console.error('Available packages:', PACKAGES.map(p => p.name).join(', '));
-            process.exit(1);
-        }
-        await buildPackage(pkg);
-    } else {
-        await buildAllPackages();
-    }
+    await buildPackage();
 }
 
 main().catch((error) => {

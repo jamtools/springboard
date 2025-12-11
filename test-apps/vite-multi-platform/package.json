@@ -3,17 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "description": "Production-like test app for Springboard with Vite - tests multiple platforms",
+  "description": "Multi-platform test app demonstrating Springboard's Vite plugin",
   "scripts": {
     "dev": "vite",
-    "dev:browser": "vite --mode browser",
-    "build": "npm run build:browser && npm run build:server",
-    "build:browser": "vite build --mode browser",
-    "build:server": "vite build --mode server",
-    "build:partykit": "vite build --mode partykit",
+    "build": "vite build",
     "preview": "vite preview",
-    "test:exports": "node scripts/test-exports.mjs",
-    "test:all": "npm run build && npm run test:exports",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
