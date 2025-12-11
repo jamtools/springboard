@@ -81,14 +81,16 @@ import { springboardDev } from './plugins/dev.js';
  *   },
  * });
  */
-export function springboard(options: SpringboardOptions): UserConfig {
+export function springboard(options: SpringboardOptions): Plugin[] {
     // Validate options early
     validateOptions(options);
 
     // Normalize options
     const normalized = normalizeOptions(options);
 
-    // Create plugins array
+    // Create and return plugins array
+    // Note: Vite expects Plugin | Plugin[], so returning an array is valid
+    // Users can use it as: plugins: [springboard({ ... })] or plugins: springboard({ ... })
     const plugins: (Plugin | null)[] = [
         springboardInit(normalized),
         springboardVirtual(normalized),
@@ -98,13 +100,8 @@ export function springboard(options: SpringboardOptions): UserConfig {
         springboardDev(normalized),
     ];
 
-    // Filter out null plugins
-    const filteredPlugins = plugins.filter((p): p is Plugin => p !== null);
-
-    // Return Vite configuration object
-    return {
-        plugins: filteredPlugins,
-    };
+    // Filter out null plugins and return
+    return plugins.filter((p): p is Plugin => p !== null);
 }
 
 /**
@@ -135,14 +132,15 @@ export function springboardPlugins(
 }
 
 /**
- * Helper to create a defineConfig-style export.
+ * Helper to create a Vite config with Springboard plugins.
  *
- * @deprecated Use `springboard()` directly instead. This function is kept for backwards compatibility.
  * @param options - Springboard options
  * @returns Vite UserConfig with Springboard plugins
  */
 export function defineSpringboardConfig(options: SpringboardOptions): UserConfig {
-    return springboard(options);
+    return {
+        plugins: springboard(options),
+    };
 }
 
 // Re-export types
