@@ -146,20 +146,20 @@ async function startWatchBuild(
         // Dynamic import vite
         const { build } = await import('vite');
 
-        // Import springboard to get plugins
-        const { springboard } = await import('../index.js');
+        // Import springboardPlugins to get plugins for a single platform
+        const { springboardPlugins } = await import('../index.js');
 
         // Start build in watch mode
         const watcher = await build({
             configFile: false,
-            plugins: springboard({
+            plugins: springboardPlugins({
                 entry: options.entryConfig,
                 platforms: [platform],
                 documentMeta: options.documentMeta,
                 debug: options.debug,
                 partykitName: options.partykitName,
                 outDir: options.outDir,
-            }),
+            }, platform),
             root: options.root,
             build: {
                 watch: {

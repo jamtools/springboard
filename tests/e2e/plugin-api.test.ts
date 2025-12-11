@@ -24,41 +24,43 @@ describe('Springboard Vite Plugin API', () => {
       expect(springboard).toBeTypeOf('function');
     });
 
-    it('should return array of plugins', () => {
-      const plugins = springboard({
+    it('should return Vite config object with plugins', () => {
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
       });
 
-      expect(Array.isArray(plugins)).toBe(true);
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config).toBeTypeOf('object');
+      expect(config).toHaveProperty('plugins');
+      expect(Array.isArray(config.plugins)).toBe(true);
+      expect(config.plugins.length).toBeGreaterThan(0);
 
       // Each plugin should have a name
-      plugins.forEach((plugin) => {
+      config.plugins.forEach((plugin) => {
         expect(plugin).toHaveProperty('name');
         expect(typeof plugin.name).toBe('string');
       });
     });
 
     it('should accept minimal configuration', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept multi-platform configuration', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser', 'node', 'partykit'],
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept document metadata', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
         documentMeta: {
@@ -67,11 +69,11 @@ describe('Springboard Vite Plugin API', () => {
         },
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept custom Vite config as object', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser', 'node'],
         viteConfig: {
@@ -84,11 +86,11 @@ describe('Springboard Vite Plugin API', () => {
         },
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept custom Vite config as function', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
         viteConfig: (platform, baseConfig) => {
@@ -101,7 +103,7 @@ describe('Springboard Vite Plugin API', () => {
         },
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should validate required entry option', () => {
@@ -114,7 +116,7 @@ describe('Springboard Vite Plugin API', () => {
     });
 
     it('should accept per-platform entry configuration', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: {
           browser: './src/index.browser.tsx',
           node: './src/index.node.tsx',
@@ -122,37 +124,37 @@ describe('Springboard Vite Plugin API', () => {
         platforms: ['browser', 'node'],
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept debug option', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
         debug: true,
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept outDir option', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['browser'],
         outDir: 'build',
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
 
     it('should accept partykitName for PartyKit platform', () => {
-      const plugins = springboard({
+      const config = springboard({
         entry: './src/index.tsx',
         platforms: ['partykit'],
         partykitName: 'my-party-app',
       });
 
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(config.plugins.length).toBeGreaterThan(0);
     });
   });
 

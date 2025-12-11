@@ -37,7 +37,8 @@ import { springboardDev } from './plugins/dev.js';
 /**
  * Create a Springboard Vite configuration.
  *
- * This function returns an array of Vite plugins that work together to:
+ * This function returns a Vite configuration object that works for multi-platform builds.
+ * It includes plugins that:
  * - Generate virtual entry points for each platform
  * - Transform @platform comment blocks
  * - Generate HTML for browser platforms
@@ -45,7 +46,7 @@ import { springboardDev } from './plugins/dev.js';
  * - Handle HMR and watch mode
  *
  * @param options - Springboard configuration options
- * @returns Array of Vite plugins (can be used directly as Vite config)
+ * @returns Vite UserConfig object
  *
  * @example
  * // Minimal configuration
@@ -80,7 +81,7 @@ import { springboardDev } from './plugins/dev.js';
  *   },
  * });
  */
-export function springboard(options: SpringboardOptions): Plugin[] {
+export function springboard(options: SpringboardOptions): UserConfig {
     // Validate options early
     validateOptions(options);
 
@@ -97,8 +98,13 @@ export function springboard(options: SpringboardOptions): Plugin[] {
         springboardDev(normalized),
     ];
 
-    // Filter out null plugins and return
-    return plugins.filter((p): p is Plugin => p !== null);
+    // Filter out null plugins
+    const filteredPlugins = plugins.filter((p): p is Plugin => p !== null);
+
+    // Return Vite configuration object
+    return {
+        plugins: filteredPlugins,
+    };
 }
 
 /**
@@ -131,16 +137,12 @@ export function springboardPlugins(
 /**
  * Helper to create a defineConfig-style export.
  *
- * This allows users to use springboard() directly as their Vite config export
- * while still getting proper typing.
- *
+ * @deprecated Use `springboard()` directly instead. This function is kept for backwards compatibility.
  * @param options - Springboard options
  * @returns Vite UserConfig with Springboard plugins
  */
 export function defineSpringboardConfig(options: SpringboardOptions): UserConfig {
-    return {
-        plugins: springboard(options),
-    };
+    return springboard(options);
 }
 
 // Re-export types

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://www.partykit.io/schema.json",
+  "name": "springboard-app",
+  "main": "./dist/partykit/server/index.js",
+  "compatibilityDate": "2025-12-11",
+  "serve": {
+    "path": "dist/browser"
+  }
+}

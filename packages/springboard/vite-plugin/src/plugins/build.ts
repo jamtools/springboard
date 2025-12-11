@@ -101,20 +101,20 @@ async function buildPlatform(
         // Create options for this platform
         const platformOptions = createOptionsForPlatform(options, platform);
 
-        // Import the springboard function to get plugins
+        // Import the springboardPlugins function to get plugins for a single platform
         // Note: This creates a new plugin set for the target platform
-        const { springboard } = await import('../index.js');
+        const { springboardPlugins } = await import('../index.js');
 
         await build({
             configFile: false,
-            plugins: springboard({
+            plugins: springboardPlugins({
                 entry: options.entryConfig,
                 platforms: [platform], // Single platform to avoid recursion
                 documentMeta: options.documentMeta,
                 debug: options.debug,
                 partykitName: options.partykitName,
                 outDir: options.outDir,
-            }),
+            }, platform),
             // Prevent loading user's vite.config which might cause issues
             root: options.root,
         });

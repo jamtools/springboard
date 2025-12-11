@@ -99,6 +99,21 @@ export function getNodeConfig(options: NormalizedOptions): UserConfig {
                 external: [
                     ...NODE_BUILTINS,
                     ...NODE_BUILTINS.map(m => `node:${m}`),
+                    // Externalize React and other peer dependencies
+                    'react',
+                    'react-dom',
+                    'react-dom/server',
+                    'react/jsx-runtime',
+                    'react/jsx-dev-runtime',
+                    'springboard',
+                    'hono',
+                    '@hono/node-server',
+                    '@hono/node-ws',
+                    'rxjs',
+                    'immer',
+                    'json-rpc-2.0',
+                    /^react\//,  // All react imports
+                    /^springboard\//,  // All springboard imports
                 ],
                 output: {
                     format: 'es',
@@ -139,6 +154,15 @@ export function getPartykitConfig(options: NormalizedOptions): UserConfig {
                     /^cloudflare:.*/,
                     'partykit',
                     'partysocket',
+                    // Externalize React and other peer dependencies
+                    'react',
+                    'react-dom',
+                    'react-dom/server',
+                    'react/jsx-runtime',
+                    'react/jsx-dev-runtime',
+                    'springboard',
+                    /^react\//,
+                    /^springboard\//,
                 ],
                 output: {
                     format: 'es',
