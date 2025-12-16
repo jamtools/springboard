@@ -106,7 +106,8 @@ function platformInjectPlugin(platform: PlatformMacro): import('esbuild').Plugin
 // Configuration
 // =============================================================================
 
-const REPO_ROOT = path.resolve(import.meta.dirname, '..');
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const REPO_ROOT = path.resolve(__dirname, '..');
 const PACKAGE_DIR = path.join(REPO_ROOT, 'packages/springboard');
 const SRC_DIR = path.join(PACKAGE_DIR, 'src');
 const DIST_DIR = path.join(PACKAGE_DIR, 'dist');
