@@ -102,3 +102,6 @@ export class HttpKVStoreService implements KVStore {
         }
     };
 }
+
+// Export alias for backward compatibility
+export const HttpKvStoreClient = HttpKVStoreService;

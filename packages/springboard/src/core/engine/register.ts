@@ -71,3 +71,6 @@ export const springboard: SpringboardRegistry = {
         springboard.registerSplashScreen = registerSplashScreen;
     },
 };
+
+// Add default export for files that import as: import springboard from './register'
+export default springboard;

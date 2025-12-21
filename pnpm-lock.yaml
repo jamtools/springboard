@@ -24,6 +24,9 @@ catalogs:
     commander:
       specifier: 12.1.0
       version: 12.1.0
+    esbuild:
+      specifier: 0.27.0
+      version: 0.27.0
     immer:
       specifier: 10.1.1
       version: 10.1.1
@@ -96,6 +99,9 @@ importers:
       '@vitest/ui':
         specifier: ^2.1.9
         version: 2.1.9(vitest@2.1.9)
+      esbuild:
+        specifier: 'catalog:'
+        version: 0.27.0
       eslint:
         specifier: 8.57.1
         version: 8.57.1

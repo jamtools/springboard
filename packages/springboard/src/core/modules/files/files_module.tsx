@@ -31,7 +31,7 @@ type UploadSupervisor = {
     };
 };
 
-type FilesModule = {
+export type FilesModule = {
     uploadFile: (file: File) => Promise<FileInfo>;
     createFileUploadAction: CreateFileUploadAction;
     deleteFile: (fileId: string) => Promise<void>;

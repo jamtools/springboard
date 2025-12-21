@@ -224,6 +224,8 @@ const EXTERNALS = [
     // Database
     'better-sqlite3',
     'kysely',
+    '@springboardjs/data-storage/sqlite_db',
+    '@springboardjs/data-storage/kv_api_kysely',
     // Validation
     'zod',
     // Node.js built-ins
@@ -418,6 +420,13 @@ async function buildPackage(): Promise<void> {
     console.log('='.repeat(60));
 
     const startTime = Date.now();
+
+    // Build vite-plugin first (required for vite-plugin export)
+    console.log('\nBuilding vite-plugin...');
+    execSync('pnpm --filter @springboard/vite-plugin build', {
+        cwd: REPO_ROOT,
+        stdio: 'inherit',
+    });
 
     // Clean dist directory
     console.log('\nCleaning dist directory...');
