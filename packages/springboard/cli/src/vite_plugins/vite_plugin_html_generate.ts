@@ -23,7 +23,7 @@
  * export default defineConfig({
  *   plugins: [
  *     vitePluginHtmlGenerate({
- *       templatePath: 'node_modules/@springboardjs/platforms-browser/index.html',
+ *       templatePath: 'node_modules/springboard/platforms/browser/index.html',
  *       documentMeta: {
  *         title: 'My App',
  *         'og:title': 'My App',

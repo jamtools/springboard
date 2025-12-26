@@ -57,11 +57,12 @@ program
 
     const jamToolsPackage = template === 'jamtools' ? `@jamtools/core@${version}` : '';
 
-    const installDepsCommand = `${packageManager} install springboard@${version} springboard-server@${version} @springboardjs/platforms-node@${version} @springboardjs/platforms-browser@${version} ${jamToolsPackage} react react-dom react-router`;
+    // Use consolidated springboard package with subpath imports
+    const installDepsCommand = `${packageManager} install springboard@${version} ${jamToolsPackage} react react-dom react-router`;
     console.log(installDepsCommand);
     execSync(installDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
 
-    const installDevDepsCommand = `${packageManager} install -D springboard-cli@${version} typescript @types/node @types/react @types/react-dom`;
+    const installDevDepsCommand = `${packageManager} install -D springboard-cli@${version} vite typescript @types/node @types/react @types/react-dom`;
     console.log(installDevDepsCommand);
     execSync(installDevDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
 

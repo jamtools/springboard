@@ -53,6 +53,12 @@
       "import": "./dist/react-native/index.mjs",
       "default": "./dist/react-native/index.mjs"
     },
+    "./data-storage": {
+      "types": "./dist/data-storage/index.d.ts",
+      "node": "./dist/data-storage/index.mjs",
+      "import": "./dist/data-storage/index.mjs",
+      "default": "./dist/data-storage/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -74,6 +80,9 @@
       ],
       "platforms/react-native": [
         "./dist/react-native/index.d.ts"
+      ],
+      "data-storage": [
+        "./dist/data-storage/index.d.ts"
       ],
       "core": [
         "./dist/core/index.d.ts"
@@ -144,6 +153,7 @@
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-router": "catalog:",
     "rxjs": "catalog:",
+    "vite": "catalog:",
     "ws": "catalog:",
     "zod": "catalog:"
   },
@@ -188,6 +198,9 @@
       "optional": true
     },
     "rxjs": {
+      "optional": true
+    },
+    "vite": {
       "optional": true
     },
     "ws": {

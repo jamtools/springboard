@@ -199,7 +199,7 @@ describe('Platform Macro Mapping', () => {
 });
 
 describe('Virtual Module IDs', () => {
-  it('should have consistent virtual module prefixes', () => {
+  it('should have consistent virtual module prefixes', async () => {
     const { VIRTUAL_MODULES, RESOLVED_VIRTUAL_MODULES } =
       await import('../../packages/springboard/vite-plugin/src/types.js');
 

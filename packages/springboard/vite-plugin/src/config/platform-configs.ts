@@ -89,6 +89,27 @@ export function getBrowserConfig(options: NormalizedOptions): UserConfig {
  * Get Vite configuration for Node.js platform
  */
 export function getNodeConfig(options: NormalizedOptions): UserConfig {
+    // List of packages that should be externalized (not bundled)
+    const externalPackages = [
+        ...NODE_BUILTINS,
+        ...NODE_BUILTINS.map(m => `node:${m}`),
+        // Externalize React and other peer dependencies
+        'react',
+        'react-dom',
+        'react-dom/server',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'springboard',
+        'hono',
+        '@hono/node-server',
+        '@hono/node-ws',
+        'rxjs',
+        'immer',
+        'json-rpc-2.0',
+        /^react\//,  // All react imports
+        /^springboard\//,  // All springboard imports
+    ];
+
     return {
         build: {
             outDir: `${options.outDir}/node`,
@@ -96,25 +117,7 @@ export function getNodeConfig(options: NormalizedOptions): UserConfig {
             ssr: true,
             rollupOptions: {
                 input: 'virtual:springboard-entry',
-                external: [
-                    ...NODE_BUILTINS,
-                    ...NODE_BUILTINS.map(m => `node:${m}`),
-                    // Externalize React and other peer dependencies
-                    'react',
-                    'react-dom',
-                    'react-dom/server',
-                    'react/jsx-runtime',
-                    'react/jsx-dev-runtime',
-                    'springboard',
-                    'hono',
-                    '@hono/node-server',
-                    '@hono/node-ws',
-                    'rxjs',
-                    'immer',
-                    'json-rpc-2.0',
-                    /^react\//,  // All react imports
-                    /^springboard\//,  // All springboard imports
-                ],
+                external: externalPackages,
                 output: {
                     format: 'es',
                     entryFileNames: '[name].js',
@@ -127,7 +130,8 @@ export function getNodeConfig(options: NormalizedOptions): UserConfig {
         },
         ssr: {
             target: 'node',
-            noExternal: true,
+            // Note: rollupOptions.external already handles externalization
+            // ssr.external only accepts string[], not RegExp, so we omit it here
         },
         define: {
             __PLATFORM__: JSON.stringify('node'),
@@ -143,6 +147,22 @@ export function getNodeConfig(options: NormalizedOptions): UserConfig {
  * Get Vite configuration for PartyKit platform
  */
 export function getPartykitConfig(options: NormalizedOptions): UserConfig {
+    // List of packages that should be externalized (not bundled)
+    const externalPackages = [
+        /^cloudflare:.*/,
+        'partykit',
+        'partysocket',
+        // Externalize React and other peer dependencies
+        'react',
+        'react-dom',
+        'react-dom/server',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'springboard',
+        /^react\//,
+        /^springboard\//,
+    ];
+
     return {
         build: {
             outDir: `${options.outDir}/partykit/server`,
@@ -150,20 +170,7 @@ export function getPartykitConfig(options: NormalizedOptions): UserConfig {
             ssr: true,
             rollupOptions: {
                 input: 'virtual:springboard-entry',
-                external: [
-                    /^cloudflare:.*/,
-                    'partykit',
-                    'partysocket',
-                    // Externalize React and other peer dependencies
-                    'react',
-                    'react-dom',
-                    'react-dom/server',
-                    'react/jsx-runtime',
-                    'react/jsx-dev-runtime',
-                    'springboard',
-                    /^react\//,
-                    /^springboard\//,
-                ],
+                external: externalPackages,
                 output: {
                     format: 'es',
                     entryFileNames: 'index.js',
@@ -176,7 +183,8 @@ export function getPartykitConfig(options: NormalizedOptions): UserConfig {
         },
         ssr: {
             target: 'webworker',
-            noExternal: true,
+            // Note: rollupOptions.external already handles externalization
+            // ssr.external only accepts string[], not RegExp, so we omit it here
         },
         define: {
             __PLATFORM__: JSON.stringify('partykit'),

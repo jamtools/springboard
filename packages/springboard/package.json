@@ -58,6 +58,48 @@
       "import": "./src/core/*.ts",
       "default": "./src/core/*.ts"
     },
+    "./engine": {
+      "types": "./src/core/engine/engine.tsx",
+      "import": "./src/core/engine/engine.tsx",
+      "default": "./src/core/engine/engine.tsx"
+    },
+    "./engine/*": {
+      "types": "./src/core/engine/*.ts",
+      "import": "./src/core/engine/*.ts",
+      "default": "./src/core/engine/*.ts"
+    },
+    "./test": {
+      "types": "./src/core/test/mock_core_dependencies.ts",
+      "import": "./src/core/test/mock_core_dependencies.ts",
+      "default": "./src/core/test/mock_core_dependencies.ts"
+    },
+    "./test/*": {
+      "types": "./src/core/test/*.ts",
+      "import": "./src/core/test/*.ts",
+      "default": "./src/core/test/*.ts"
+    },
+    "./types": {
+      "types": "./src/core/types/module_types.ts",
+      "import": "./src/core/types/module_types.ts",
+      "default": "./src/core/types/module_types.ts"
+    },
+    "./types/*": {
+      "types": "./src/core/types/*.ts",
+      "import": "./src/core/types/*.ts",
+      "default": "./src/core/types/*.ts"
+    },
+    "./data-storage": {
+      "types": "./src/data-storage/index.ts",
+      "node": "./src/data-storage/index.ts",
+      "import": "./src/data-storage/index.ts",
+      "default": "./src/data-storage/index.ts"
+    },
+    "./data-storage/*": {
+      "types": "./src/data-storage/*.ts",
+      "node": "./src/data-storage/*.ts",
+      "import": "./src/data-storage/*.ts",
+      "default": "./src/data-storage/*.ts"
+    },
     "./package.json": "./package.json",
     "./vite-plugin": {
       "types": "./vite-plugin/dist/index.d.ts",
@@ -75,6 +117,14 @@
       "platforms/react-native": ["./src/platforms/react-native/index.ts"],
       "core": ["./src/core/index.ts"],
       "core/*": ["./src/core/*"],
+      "engine": ["./src/core/engine/engine.tsx"],
+      "engine/*": ["./src/core/engine/*"],
+      "test": ["./src/core/test/mock_core_dependencies.ts"],
+      "test/*": ["./src/core/test/*"],
+      "types": ["./src/core/types/module_types.ts"],
+      "types/*": ["./src/core/types/*"],
+      "data-storage": ["./src/data-storage/index.ts"],
+      "data-storage/*": ["./src/data-storage/*"],
       "vite-plugin": ["./vite-plugin/dist/index.d.ts"]
     }
   },
@@ -142,6 +192,7 @@
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-router": "catalog:",
     "rxjs": "catalog:",
+    "vite": "catalog:",
     "ws": "catalog:",
     "zod": "catalog:"
   },
@@ -160,6 +211,7 @@
     "react-dom": { "optional": true },
     "react-router": { "optional": true },
     "rxjs": { "optional": true },
+    "vite": { "optional": true },
     "ws": { "optional": true },
     "zod": { "optional": true }
   },

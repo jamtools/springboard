@@ -14,6 +14,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { execSync } from 'child_process';
 import * as path from 'path';
+import { readFile } from 'fs/promises';
 import {
   startVerdaccio,
   publishToVerdaccio,
@@ -179,12 +180,11 @@ describe('Verdaccio E2E Workflow', () => {
 
     // Check that @platform markers are removed
     for (const jsFile of jsFiles) {
-      const content = await readJson<string>(jsFile);
-      const contentStr = typeof content === 'string' ? content : JSON.stringify(content);
+      const content = await readFile(jsFile, 'utf8');
 
       // Platform markers should not be in the output
-      expect(contentStr).not.toContain('@platform');
-      expect(contentStr).not.toContain('@platform end');
+      expect(content).not.toContain('@platform');
+      expect(content).not.toContain('@platform end');
     }
 
     console.log(`✓ Platform injection working correctly`);
@@ -194,12 +194,9 @@ describe('Verdaccio E2E Workflow', () => {
   it('should build for multiple platforms', async () => {
     console.log('\nTest: Building for multiple platforms...');
 
-    // Read vite.config.ts to determine which platforms are configured
-    const viteConfig = path.join(testAppDir, 'vite.config.ts');
-    const configContent = await readJson<string>(viteConfig);
-
     // The test app should build browser, node, and partykit platforms
-    const expectedPlatforms = ['browser'];
+    // (based on vite.config.ts configuration)
+    const expectedPlatforms = ['browser', 'node', 'partykit'];
 
     for (const platform of expectedPlatforms) {
       const platformDistPath = path.join(testAppDir, `dist/${platform}`);

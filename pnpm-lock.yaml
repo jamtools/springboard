@@ -6,12 +6,6 @@ settings:
 
 catalogs:
   default:
-    '@tauri-apps/api':
-      specifier: 2.9.0
-      version: 2.9.0
-    '@tauri-apps/plugin-shell':
-      specifier: 2.3.3
-      version: 2.3.3
     '@types/node':
       specifier: 20.17.48
       version: 20.17.48
@@ -24,9 +18,6 @@ catalogs:
     commander:
       specifier: 12.1.0
       version: 12.1.0
-    esbuild:
-      specifier: 0.27.0
-      version: 0.27.0
     immer:
       specifier: 10.1.1
       version: 10.1.1
@@ -48,6 +39,9 @@ catalogs:
     typescript:
       specifier: 5.9.3
       version: 5.9.3
+    vite:
+      specifier: 5.4.19
+      version: 5.4.19
     ws:
       specifier: 8.18.3
       version: 8.18.3
@@ -100,7 +94,7 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(vitest@2.1.9)
       esbuild:
-        specifier: 'catalog:'
+        specifier: 0.27.0
         version: 0.27.0
       eslint:
         specifier: 8.57.1
@@ -436,6 +430,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vite:
+        specifier: 'catalog:'
+        version: 5.4.19(@types/node@20.17.48)
       vitest:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.17.48)(@vitest/ui@2.1.9)(jsdom@25.0.1)
@@ -6383,6 +6380,14 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 1.2.0
 
+  '@vitest/mocker@2.1.9(vite@5.4.19(@types/node@20.17.48))':
+    dependencies:
+      '@vitest/spy': 2.1.9
+      estree-walker: 2.0.2
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 5.4.19(@types/node@20.17.48)
+
   '@vitest/mocker@2.1.9(vite@5.4.19(@types/node@24.10.1))':
     dependencies:
       '@vitest/spy': 2.1.9
@@ -6419,7 +6424,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 1.2.0
-      vitest: 2.1.9(@types/node@24.10.1)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+      vitest: 2.1.9(@types/node@20.17.48)(@vitest/ui@2.1.9)(jsdom@25.0.1)
 
   '@vitest/utils@2.1.9':
     dependencies:
@@ -9820,7 +9825,7 @@ snapshots:
   vitest@2.1.9(@types/node@20.17.48)(@vitest/ui@2.1.9)(jsdom@25.0.1):
     dependencies:
       '@vitest/expect': 2.1.9
-      '@vitest/mocker': 2.1.9(vite@5.4.19(@types/node@24.10.1))
+      '@vitest/mocker': 2.1.9(vite@5.4.19(@types/node@20.17.48))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.9
       '@vitest/snapshot': 2.1.9

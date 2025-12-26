@@ -7,7 +7,7 @@ import {createNodeWebSocket} from '@hono/node-ws';
 import {cors} from 'hono/cors';
 
 import {NodeAppDependencies} from '../platforms/node/entrypoints/main';
-import {KVStoreFromKysely} from '@springboardjs/data-storage/kv_api_kysely';
+import {KVStoreFromKysely} from '../data-storage/kv_api_kysely';
 import {NodeKVStoreService} from '../platforms/node/services/node_kvstore_service';
 import {NodeLocalJsonRpcClientAndServer} from '../platforms/node/services/node_local_json_rpc';
 import type {DocumentMeta} from '../core/module_registry/module_registry';

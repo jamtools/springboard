@@ -188,6 +188,16 @@ const ENTRY_POINTS: EntryPointConfig[] = [
         esbuildPlatform: 'neutral',
         condition: 'react-native',
     },
+
+    // Data Storage module - Node.js only
+    {
+        exportPath: './data-storage',
+        input: 'data-storage/index.ts',
+        output: 'data-storage/index',
+        platformMacro: 'node',
+        esbuildPlatform: 'node',
+        condition: 'node',
+    },
 ];
 
 /**
@@ -224,8 +234,9 @@ const EXTERNALS = [
     // Database
     'better-sqlite3',
     'kysely',
-    '@springboardjs/data-storage/sqlite_db',
-    '@springboardjs/data-storage/kv_api_kysely',
+    'springboard/data-storage',
+    'springboard/data-storage/sqlite_db',
+    'springboard/data-storage/kv_api_kysely',
     // Validation
     'zod',
     // Node.js built-ins
@@ -380,6 +391,12 @@ async function generatePublishPackageJson(): Promise<void> {
             import: './dist/react-native/index.mjs',
             default: './dist/react-native/index.mjs',
         },
+        './data-storage': {
+            types: './dist/data-storage/index.d.ts',
+            node: './dist/data-storage/index.mjs',
+            import: './dist/data-storage/index.mjs',
+            default: './dist/data-storage/index.mjs',
+        },
         './package.json': './package.json',
     };
 
@@ -398,6 +415,7 @@ async function generatePublishPackageJson(): Promise<void> {
                 'platforms/tauri': ['./dist/tauri/index.d.ts'],
                 'platforms/partykit': ['./dist/partykit/index.d.ts'],
                 'platforms/react-native': ['./dist/react-native/index.d.ts'],
+                'data-storage': ['./dist/data-storage/index.d.ts'],
                 core: ['./dist/core/index.d.ts'],
             },
         },

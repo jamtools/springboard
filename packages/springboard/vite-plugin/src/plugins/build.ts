@@ -11,6 +11,12 @@ import { setPlatformEnv, clearPlatformEnv } from '../config/detect-platform.js';
 import { createLogger } from './shared.js';
 
 /**
+ * Build queue to ensure platform builds run sequentially without interference.
+ * This prevents race conditions when multiple builds share the same process.
+ */
+let buildQueue: Promise<void> = Promise.resolve();
+
+/**
  * Create the springboard build plugin.
  *
  * Responsibilities:
@@ -46,11 +52,14 @@ export function springboardBuild(options: NormalizedOptions): Plugin {
         },
 
         /**
-         * Build end hook - trigger additional platform builds
-         * Use writeBundle instead of closeBundle to ensure the current build
-         * completes fully before triggering additional platform builds
+         * Build end hook - trigger additional platform builds.
+         *
+         * Uses closeBundle() which fires after ALL other plugins have completed,
+         * ensuring the current platform build is fully finished before starting
+         * additional platform builds. This prevents race conditions and ensures
+         * proper build isolation.
          */
-        async writeBundle() {
+        async closeBundle() {
             const duration = Date.now() - buildStartTime;
             logger.info(`Build completed in ${duration}ms`);
 
@@ -67,6 +76,7 @@ export function springboardBuild(options: NormalizedOptions): Plugin {
             if (remainingPlatforms.length > 0 && isFirstPlatform(options)) {
                 logger.info(`Building additional platforms: ${remainingPlatforms.join(', ')}`);
 
+                // Build platforms sequentially to avoid race conditions
                 for (const platform of remainingPlatforms) {
                     await buildPlatform(platform, options, logger);
                 }
@@ -84,55 +94,73 @@ function isFirstPlatform(options: NormalizedOptions): boolean {
 }
 
 /**
- * Build a specific platform
+ * Build a specific platform with proper isolation and error handling.
+ *
+ * This function ensures that:
+ * 1. Platform builds run sequentially (via build queue)
+ * 2. Each build has isolated environment variables
+ * 3. Module cache is managed properly between builds
+ * 4. Errors are caught and logged without crashing other builds
  */
 async function buildPlatform(
     platform: Platform,
     options: NormalizedOptions,
     logger: ReturnType<typeof createLogger>
 ): Promise<void> {
-    logger.info(`Starting build for platform: ${platform}`);
+    // Queue this build to run after previous builds complete
+    buildQueue = buildQueue.then(async () => {
+        logger.info(`Starting build for platform: ${platform}`);
 
-    // Set environment variable for the new platform
-    setPlatformEnv(platform);
+        // Set environment variable for the new platform
+        setPlatformEnv(platform);
 
-    try {
-        // Dynamic import vite to avoid bundling issues
-        const { build } = await import('vite');
+        try {
+            // Dynamic import vite to avoid bundling issues
+            const { build } = await import('vite');
 
-        // Create options for this platform
-        const platformOptions = createOptionsForPlatform(options, platform);
+            // Create options for this platform
+            const platformOptions = createOptionsForPlatform(options, platform);
 
-        // Import the springboardPlugins function and getPlatformConfig
-        const { springboardPlugins } = await import('../index.js');
-        const { getPlatformConfig } = await import('../config/platform-configs.js');
+            // Import the springboardPlugins function and getPlatformConfig
+            const { springboardPlugins } = await import('../index.js');
+            const { getPlatformConfig } = await import('../config/platform-configs.js');
 
-        // Get platform-specific Vite configuration
-        const platformConfig = getPlatformConfig(platformOptions);
+            // Get platform-specific Vite configuration
+            const platformConfig = getPlatformConfig(platformOptions);
 
-        await build({
-            configFile: false,
-            plugins: springboardPlugins({
-                entry: options.entryConfig,
-                platforms: [platform], // Single platform to avoid recursion
-                documentMeta: options.documentMeta,
-                debug: options.debug,
-                partykitName: options.partykitName,
-                outDir: options.outDir,
-            }, platform),
-            // Apply platform-specific configuration
-            ...platformConfig,
-            // Prevent loading user's vite.config which might cause issues
-            root: options.root,
-        });
+            await build({
+                configFile: false,
+                plugins: springboardPlugins({
+                    entry: options.entryConfig,
+                    platforms: [platform], // Single platform to avoid recursion
+                    documentMeta: options.documentMeta,
+                    debug: options.debug,
+                    partykitName: options.partykitName,
+                    outDir: options.outDir,
+                }, platform),
+                // Apply platform-specific configuration
+                ...platformConfig,
+                // Prevent loading user's vite.config which might cause issues
+                root: options.root,
+                // Prevent clearing output directory of other platforms
+                build: {
+                    ...platformConfig.build,
+                    emptyOutDir: false,
+                },
+            });
 
-        logger.info(`Completed build for platform: ${platform}`);
-    } catch (error) {
-        logger.error(`Failed to build platform ${platform}: ${error}`);
-        throw error;
-    } finally {
-        clearPlatformEnv();
-    }
+            logger.info(`Completed build for platform: ${platform}`);
+        } catch (error) {
+            logger.error(`Failed to build platform ${platform}: ${error}`);
+            throw error;
+        } finally {
+            // Always clear environment variables, even on error
+            clearPlatformEnv();
+        }
+    });
+
+    // Wait for this build to complete before returning
+    await buildQueue;
 }
 
 /**

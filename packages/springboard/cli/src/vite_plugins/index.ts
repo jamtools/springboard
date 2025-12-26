@@ -31,14 +31,14 @@
  *   vitePluginPlatformInject,
  *   vitePluginHtmlGenerate,
  *   vitePluginSpringboardConditions,
- * } from '@springboardjs/cli/vite_plugins';
+ * } from 'springboard-cli/vite_plugins';
  *
  * export default defineConfig({
  *   plugins: [
  *     vitePluginSpringboardConditions({ target: 'browser' }),
  *     vitePluginPlatformInject('browser'),
  *     vitePluginHtmlGenerate({
- *       templatePath: 'node_modules/@springboardjs/platforms-browser/index.html',
+ *       templatePath: 'node_modules/springboard/platforms/browser/index.html',
  *     }),
  *   ]
  * })
@@ -190,12 +190,12 @@ export interface CreateSpringboardPluginsOptions {
  *
  * @example
  * // vite.config.ts
- * import { createSpringboardPlugins } from '@springboardjs/cli/vite_plugins';
+ * import { createSpringboardPlugins } from 'springboard-cli/vite_plugins';
  *
  * export default defineConfig({
  *   plugins: createSpringboardPlugins({
  *     platform: 'browser',
- *     htmlTemplatePath: 'node_modules/@springboardjs/platforms-browser/index.html',
+ *     htmlTemplatePath: 'node_modules/springboard/platforms/browser/index.html',
  *     documentMeta: { title: 'My App' },
  *   })
  * })

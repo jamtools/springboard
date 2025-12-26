@@ -4,6 +4,7 @@
  */
 
 import { afterAll, beforeAll } from 'vitest';
+import { execSync } from 'child_process';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -19,6 +20,30 @@ const TEST_TEMP_ROOT = path.join(process.cwd(), 'tests', 'temp');
 // Global setup
 beforeAll(async () => {
   console.log('[Setup] Initializing test environment...');
+
+  // Build vite-plugin before tests run
+  console.log('[Setup] Building vite-plugin...');
+  try {
+    const vitePluginPath = path.join(process.cwd(), 'packages/springboard/vite-plugin');
+
+    // Check if dist directory exists
+    const distPath = path.join(vitePluginPath, 'dist');
+    try {
+      await fs.access(distPath);
+      console.log('[Setup] Vite-plugin already built, skipping build...');
+    } catch {
+      // Build only if dist doesn't exist
+      console.log('[Setup] Building vite-plugin (dist not found)...');
+      execSync('pnpm build', {
+        cwd: vitePluginPath,
+        stdio: 'inherit',
+      });
+      console.log('[Setup] Vite-plugin built successfully');
+    }
+  } catch (error) {
+    console.error('[Setup] Failed to build vite-plugin:', error);
+    throw error;
+  }
 
   // Create temp directory for tests
   await fs.mkdir(TEST_TEMP_ROOT, { recursive: true });
