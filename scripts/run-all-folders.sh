@@ -83,56 +83,27 @@ publish_package() {
   pnpm publish --access public --tag "$tag" --no-git-checks
 }
 
-bump_version "$root_dir/packages/springboard/data_storage"
-bump_version "$root_dir/packages/springboard/core"
-bump_version "$root_dir/packages/springboard/platforms/webapp"
-bump_version "$root_dir/packages/springboard/platforms/node"
-bump_version "$root_dir/packages/springboard/platforms/react-native"
-bump_version "$root_dir/packages/springboard/platforms/partykit"
-bump_version "$root_dir/packages/springboard/server"
-bump_version "$root_dir/packages/springboard/external/mantine"
-bump_version "$root_dir/packages/springboard/external/shoelace"
+# Core packages
+bump_version "$root_dir/packages/springboard"
 bump_version "$root_dir/packages/jamtools/core"
 bump_version "$root_dir/packages/jamtools/features"
+
+# CLI and tooling
 bump_version "$root_dir/packages/springboard/cli"
 bump_version "$root_dir/packages/springboard/create-springboard-app"
+bump_version "$root_dir/packages/springboard/vite-plugin"
+
+# External integrations
+bump_version "$root_dir/packages/springboard/external/mantine"
+bump_version "$root_dir/packages/springboard/external/shoelace"
+
+# Plugins
 bump_version "$root_dir/packages/springboard/plugins/svelte"
 
 pnpm i
 
-publish_package "$root_dir/packages/springboard/data_storage"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/core"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/platforms/webapp"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/platforms/node"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/platforms/react-native"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/platforms/partykit"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/server"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/external/mantine"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/external/shoelace"
+# Publish core packages first (dependencies)
+publish_package "$root_dir/packages/springboard"
 
 sleep 1
 
@@ -144,14 +115,28 @@ publish_package "$root_dir/packages/jamtools/features"
 
 sleep 1
 
+# Publish vite plugin (may be needed by CLI)
+publish_package "$root_dir/packages/springboard/vite-plugin"
+
+sleep 1
+
+# Publish external integrations
+publish_package "$root_dir/packages/springboard/external/mantine"
+
+sleep 1
+
+publish_package "$root_dir/packages/springboard/external/shoelace"
+
+sleep 1
+
+# Publish plugins
+publish_package "$root_dir/packages/springboard/plugins/svelte"
+
+sleep 1
+
+# Publish CLI and tooling last (likely depend on core packages)
 publish_package "$root_dir/packages/springboard/cli"
 
 sleep 1
 
 publish_package "$root_dir/packages/springboard/create-springboard-app"
-
-sleep 1
-
-publish_package "$root_dir/packages/springboard/plugins/svelte"
-
-# # npm i
