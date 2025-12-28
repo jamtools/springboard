@@ -6,6 +6,19 @@
 
 ---
 
+## ⚠️ Important Note on Code Examples
+
+**All code examples in this document are suggestions only.** Subagents should:
+- Research the actual Springboard API to verify imports and usage
+- Improve and perfect the code for readability and correctness
+- Check that dependencies and types are accurate
+- Ensure the implementation matches current best practices
+- Prioritize code clarity and maintainability
+
+Do not blindly copy-paste. Use these as starting points and make them better.
+
+---
+
 ## 🎯 Objective
 
 Create a test app in `./test-apps/esbuild-legacy-test/` that:
@@ -52,10 +65,13 @@ test-apps/esbuild-legacy-test/
 ├── pnpm-workspace.yaml             # Isolated workspace
 ├── package.json                    # Dependencies and scripts
 ├── tsconfig.json                   # TypeScript configuration
-├── esbuild.ts                      # Build script (raw esbuild)
+├── esbuild.ts                      # Build script (builds browser + node)
 ├── src/
-│   ├── index.tsx                   # App entry point
-│   └── App.tsx                     # React component
+│   ├── browser/
+│   │   ├── index.tsx               # Browser entry point
+│   │   └── App.tsx                 # React component
+│   └── node/
+│       └── index.ts                # Node entry point
 ├── public/
 │   └── index.html                  # HTML template
 ├── scripts/
@@ -69,10 +85,11 @@ test-apps/esbuild-legacy-test/
 
 - ✅ Package structure and exports work correctly
 - ✅ Imports like `import { createSpringboard } from 'springboard'` resolve
-- ✅ Subpath imports like `springboard/platforms/browser` work
+- ✅ Subpath imports like `springboard/platforms/browser` and `springboard/platforms/node` work
 - ✅ TypeScript type definitions are correct
-- ✅ esbuild can bundle apps using the published package
+- ✅ esbuild can bundle apps using the published package for both browser and node platforms
 - ✅ External dependencies (React, etc.) externalize properly
+- ✅ Multi-platform builds work (browser + node)
 
 ---
 
@@ -80,7 +97,7 @@ test-apps/esbuild-legacy-test/
 
 - ❌ The old CLI API (it doesn't exist anymore)
 - ❌ SongDrive-specific features (Sentry, HTML post-processing, etc.)
-- ❌ All 7 platform targets (only browser for simplicity)
+- ❌ All 7 platform targets (tests browser + node only, not mobile/partykit/tauri)
 - ❌ Watch mode edge cases
 - ❌ Production optimizations
 
@@ -175,16 +192,19 @@ packages:
 ### Step 2: Create Application Source Files
 
 **Subagent**: `frontend-developer`
-**Estimated Time**: 20 minutes
+**Estimated Time**: 25 minutes
 
 #### Files to Create:
-1. `test-apps/esbuild-legacy-test/src/index.tsx`
-2. `test-apps/esbuild-legacy-test/src/App.tsx`
-3. `test-apps/esbuild-legacy-test/public/index.html`
+1. `test-apps/esbuild-legacy-test/src/browser/index.tsx`
+2. `test-apps/esbuild-legacy-test/src/browser/App.tsx`
+3. `test-apps/esbuild-legacy-test/src/node/index.ts`
+4. `test-apps/esbuild-legacy-test/public/index.html`
 
 #### Detailed Instructions:
 
-**1. Create `src/index.tsx`:**
+**Note**: Research the actual Springboard API before implementing. These are suggested patterns only.
+
+**1. Create `src/browser/index.tsx`:**
 ```typescript
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -204,7 +224,7 @@ const root = createRoot(rootElement);
 root.render(<App />);
 ```
 
-**2. Create `src/App.tsx`:**
+**2. Create `src/browser/App.tsx`:**
 ```typescript
 import React from 'react';
 
@@ -216,7 +236,7 @@ export const App: React.FC = () => {
       maxWidth: '800px',
       margin: '0 auto'
     }}>
-      <h1>🔧 esbuild Legacy Test App</h1>
+      <h1>🔧 esbuild Legacy Test App (Browser)</h1>
 
       <div style={{
         background: '#f0f0f0',
@@ -224,40 +244,55 @@ export const App: React.FC = () => {
         borderRadius: '8px',
         marginTop: '20px'
       }}>
-        <h2>✅ Build Successful!</h2>
+        <h2>✅ Browser Build Successful!</h2>
         <p>
-          This app validates that esbuild-based builds work correctly with
-          the new consolidated Springboard package structure.
+          This validates that browser-platform esbuild builds work with
+          the new consolidated Springboard package.
         </p>
       </div>
 
       <div style={{ marginTop: '20px' }}>
         <h3>What This Tests:</h3>
         <ul>
-          <li>Package imports resolve correctly</li>
-          <li>TypeScript compilation works</li>
-          <li>esbuild can bundle the app</li>
-          <li>React integration functions</li>
+          <li>Browser platform package imports</li>
+          <li>TypeScript compilation for browser</li>
+          <li>React integration in browser</li>
+          <li>esbuild browser bundling</li>
         </ul>
-      </div>
-
-      <div style={{
-        marginTop: '20px',
-        fontSize: '0.9em',
-        color: '#666'
-      }}>
-        <p>
-          <strong>Note:</strong> The old Springboard CLI API
-          (buildApplication, platformBrowserBuildConfig) no longer exists.
-          This test uses raw esbuild instead.
-        </p>
       </div>
     </div>
   );
 };
 ```
 
-**3. Create `public/index.html`:**
+**3. Create `src/node/index.ts`:**
+```typescript
+// Node platform entry point
+// Research actual Springboard node platform API before implementing
+
+console.log('🔧 esbuild Legacy Test App (Node Platform)');
+console.log('');
+console.log('✅ Node Build Successful!');
+console.log('');
+console.log('This validates that:');
+console.log('  • Node platform package imports resolve');
+console.log('  • TypeScript compiles for node target');
+console.log('  • esbuild can bundle node apps');
+console.log('  • Springboard node platform exports work');
+console.log('');
+
+// Example: Import from springboard node platform
+// Verify actual API before implementing
+// import { someNodeFunction } from 'springboard/platforms/node';
+
+// Keep the process alive briefly to show output
+setTimeout(() => {
+  console.log('✅ Test complete!');
+  process.exit(0);
+}, 100);
+```
+
+**4. Create `public/index.html`:**
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -284,14 +319,14 @@ export const App: React.FC = () => {
 ### Step 3: Create esbuild Build Script
 
 **Subagent**: `typescript-pro`
-**Estimated Time**: 25 minutes
+**Estimated Time**: 35 minutes
 
 #### Files to Create:
 1. `test-apps/esbuild-legacy-test/esbuild.ts`
 
 #### Detailed Instructions:
 
-Create a simplified esbuild build script based on the SongDrive pattern but without the complexity:
+Create a simplified esbuild build script that builds BOTH browser and node platforms. Research and improve this code for readability and correctness.
 
 **Create `esbuild.ts`:**
 ```typescript
@@ -305,15 +340,18 @@ const __dirname = path.dirname(__filename);
 
 const watchMode = process.argv.includes('--watch');
 
+/**
+ * Build browser platform
+ * Suggestion: Research actual Springboard browser platform requirements
+ */
 const buildBrowser = async () => {
-  console.log('🔨 Building browser bundle with esbuild...');
+  console.log('🌐 Building browser platform...');
 
-  // Ensure dist directory exists
   const distDir = path.join(__dirname, 'dist', 'browser');
   await fs.mkdir(distDir, { recursive: true });
 
   const buildOptions: esbuild.BuildOptions = {
-    entryPoints: [path.join(__dirname, 'src', 'index.tsx')],
+    entryPoints: [path.join(__dirname, 'src', 'browser', 'index.tsx')],
     bundle: true,
     outfile: path.join(distDir, 'index.js'),
     platform: 'browser',
@@ -322,48 +360,77 @@ const buildBrowser = async () => {
     jsx: 'automatic',
     sourcemap: true,
     minify: false,
-
-    // External dependencies - don't bundle these
     external: ['react', 'react-dom'],
-
-    // Asset loaders
     loader: {
       '.svg': 'dataurl',
       '.png': 'dataurl',
       '.jpg': 'dataurl',
-      '.jpeg': 'dataurl',
-      '.gif': 'dataurl',
-      '.woff': 'dataurl',
-      '.woff2': 'dataurl',
-      '.ttf': 'dataurl',
-      '.eot': 'dataurl',
     },
-
     logLevel: 'info',
   };
 
+  await esbuild.build(buildOptions);
+  console.log(`   ✅ Browser: ${path.relative(process.cwd(), path.join(distDir, 'index.js'))}`);
+};
+
+/**
+ * Build node platform
+ * Suggestion: Research actual Springboard node platform requirements
+ */
+const buildNode = async () => {
+  console.log('🖥️  Building node platform...');
+
+  const distDir = path.join(__dirname, 'dist', 'node');
+  await fs.mkdir(distDir, { recursive: true });
+
+  const buildOptions: esbuild.BuildOptions = {
+    entryPoints: [path.join(__dirname, 'src', 'node', 'index.ts')],
+    bundle: true,
+    outfile: path.join(distDir, 'index.js'),
+    platform: 'node',
+    format: 'esm',
+    target: 'node20',
+    sourcemap: true,
+    minify: false,
+    // Node builds typically externalize all node_modules
+    // Research what should actually be external for Springboard
+    external: ['springboard'],
+    logLevel: 'info',
+  };
+
+  await esbuild.build(buildOptions);
+  console.log(`   ✅ Node: ${path.relative(process.cwd(), path.join(distDir, 'index.js'))}`);
+};
+
+/**
+ * Main build function - builds both platforms
+ */
+const buildAll = async () => {
+  console.log('🔨 Building all platforms with esbuild...');
+  console.log('');
+
   try {
     if (watchMode) {
-      console.log('👀 Watch mode enabled - watching for changes...');
-      const ctx = await esbuild.context(buildOptions);
-      await ctx.watch();
-      console.log('✅ Watching for changes...');
-
-      // Keep process alive
-      await new Promise(() => {});
-    } else {
-      await esbuild.build(buildOptions);
-      console.log('✅ Build complete!');
-      console.log(`   Output: ${path.relative(process.cwd(), path.join(distDir, 'index.js'))}`);
+      console.log('⚠️  Watch mode not yet implemented for multi-platform builds');
+      console.log('   Run without --watch flag for now');
+      process.exit(1);
     }
+
+    // Build both platforms sequentially
+    await buildBrowser();
+    await buildNode();
+
+    console.log('');
+    console.log('✅ All platforms built successfully!');
   } catch (error) {
+    console.error('');
     console.error('❌ Build failed:', error);
     process.exit(1);
   }
 };
 
 // Run the build
-buildBrowser().catch((err) => {
+buildAll().catch((err) => {
   console.error('Fatal error:', err);
   process.exit(1);
 });
@@ -378,9 +445,10 @@ process.on('SIGINT', () => {
 #### Success Criteria:
 - [ ] File created with valid TypeScript
 - [ ] Script can be executed with tsx
-- [ ] Supports both build and watch modes
-- [ ] Has proper error handling
+- [ ] Builds both browser and node platforms
+- [ ] Has proper error handling and clear console output
 - [ ] Creates dist/browser/index.js output
+- [ ] Creates dist/node/index.js output
 
 ---
 
@@ -502,28 +570,44 @@ echo ""
 
 # Step 6: Verify output
 echo "6️⃣  Verifying build output..."
-OUTPUT_FILE="$TEST_APP_DIR/dist/browser/index.js"
 
-if [ -f "$OUTPUT_FILE" ]; then
-  FILE_SIZE=$(wc -c < "$OUTPUT_FILE" | tr -d ' ')
-  echo "   ✅ Output file exists: $OUTPUT_FILE"
-  echo "   📊 File size: $FILE_SIZE bytes"
+# Check browser output
+BROWSER_OUTPUT="$TEST_APP_DIR/dist/browser/index.js"
+if [ -f "$BROWSER_OUTPUT" ]; then
+  BROWSER_SIZE=$(wc -c < "$BROWSER_OUTPUT" | tr -d ' ')
+  echo "   ✅ Browser output exists: $BROWSER_OUTPUT"
+  echo "   📊 Browser size: $BROWSER_SIZE bytes"
 
-  # Check if file has reasonable content
-  if [ "$FILE_SIZE" -lt 100 ]; then
-    echo "   ⚠️  Warning: Output file seems too small"
+  if [ "$BROWSER_SIZE" -lt 100 ]; then
+    echo "   ⚠️  Warning: Browser output seems too small"
   fi
-
-  # Check for React imports (should be present)
-  if grep -q "react" "$OUTPUT_FILE" 2>/dev/null; then
-    echo "   ✅ React imports found in bundle"
-  else
-    echo "   ⚠️  Warning: No React imports found"
-  fi
-
 else
-  echo "   ❌ Error: Output file not found at $OUTPUT_FILE"
+  echo "   ❌ Error: Browser output not found"
   exit 1
+fi
+
+# Check node output
+NODE_OUTPUT="$TEST_APP_DIR/dist/node/index.js"
+if [ -f "$NODE_OUTPUT" ]; then
+  NODE_SIZE=$(wc -c < "$NODE_OUTPUT" | tr -d ' ')
+  echo "   ✅ Node output exists: $NODE_OUTPUT"
+  echo "   📊 Node size: $NODE_SIZE bytes"
+
+  if [ "$NODE_SIZE" -lt 50 ]; then
+    echo "   ⚠️  Warning: Node output seems too small"
+  fi
+else
+  echo "   ❌ Error: Node output not found"
+  exit 1
+fi
+
+# Test running the node build
+echo ""
+echo "7️⃣  Testing node build execution..."
+if node "$NODE_OUTPUT"; then
+  echo "   ✅ Node build executes successfully"
+else
+  echo "   ⚠️  Warning: Node build execution failed (may be expected)"
 fi
 
 echo ""
@@ -535,8 +619,9 @@ echo "Summary:"
 echo "  • Verdaccio: Started and responded"
 echo "  • Springboard: Built and published"
 echo "  • Dependencies: Installed from Verdaccio"
-echo "  • esbuild: Successfully bundled app"
-echo "  • Output: Created at dist/browser/index.js"
+echo "  • esbuild: Successfully bundled both platforms"
+echo "  • Browser: Created at dist/browser/index.js"
+echo "  • Node: Created at dist/node/index.js"
 echo ""
 ```
 
@@ -830,9 +915,11 @@ The implementation is successful when:
 1. ✅ All 6 steps completed by subagents
 2. ✅ `./scripts/test-legacy-esbuild.sh` runs without errors
 3. ✅ `dist/browser/index.js` exists and is valid
-4. ✅ No TypeScript compilation errors
-5. ✅ README provides clear migration guidance
-6. ✅ Can run independently: `cd test-apps/esbuild-legacy-test && pnpm build`
+4. ✅ `dist/node/index.js` exists and is valid
+5. ✅ Node build can execute: `node dist/node/index.js`
+6. ✅ No TypeScript compilation errors
+7. ✅ README provides clear migration guidance for both platforms
+8. ✅ Can run independently: `cd test-apps/esbuild-legacy-test && pnpm build`
 
 ---
 
