@@ -89,11 +89,11 @@ const buildBrowser = async (): Promise<void> => {
         // Externalize React and ReactDOM - they'll be provided at runtime
         // (In a real app, these might be loaded via CDN or separate bundles)
         buildOptions.external = buildOptions.external || [];
-        buildOptions.external.push('react', 'react-dom');
+        // buildOptions.external.push('react', 'react-dom');
 
-        // Externalize springboard's dependencies (they should be bundled separately)
-        buildOptions.external.push('rxjs', 'immer', 'dexie', 'reconnecting-websocket');
-        buildOptions.external.push('esbuild'); // esbuild itself shouldn't be bundled
+        // // Externalize springboard's dependencies (they should be bundled separately)
+        // buildOptions.external.push('rxjs', 'immer', 'dexie', 'reconnecting-websocket');
+        // buildOptions.external.push('esbuild'); // esbuild itself shouldn't be bundled
 
         // Log the final configuration for debugging
         console.log('Browser Build Configuration:');
@@ -156,11 +156,11 @@ const buildNode = async (): Promise<void> => {
       editBuildOptions: (buildOptions) => {
         // Externalize the springboard package - it's available at runtime
         buildOptions.external = buildOptions.external || [];
-        buildOptions.external.push('springboard');
+        // buildOptions.external.push('springboard');
 
-        // Externalize springboard's dependencies
-        buildOptions.external.push('rxjs', 'immer', 'dexie', 'better-sqlite3', 'kysely');
-        buildOptions.external.push('esbuild'); // esbuild itself shouldn't be bundled
+        // // Externalize springboard's dependencies
+        // buildOptions.external.push('rxjs', 'immer', 'dexie', 'better-sqlite3', 'kysely');
+        // buildOptions.external.push('esbuild'); // esbuild itself shouldn't be bundled
 
         // Log the final configuration for debugging
         console.log('Node Build Configuration:');
