@@ -22,16 +22,18 @@ Do not blindly copy-paste. Use these as starting points and make them better.
 ## 🎯 Objective
 
 Create a test app in `./test-apps/esbuild-legacy-test/` that:
-- Uses raw esbuild (not Vite) to build a Springboard application
+- **Preserves the legacy CLI** from the main branch in `packages/springboard/src/legacy-cli/`
+- Uses the **exact same API** that SongDrive currently uses (`buildApplication`, `platformBrowserBuildConfig`)
 - Consumes the published `springboard` package from Verdaccio
-- Validates that the package structure, imports, and type definitions work correctly
-- Documents the migration path for apps like SongDrive that use the legacy esbuild workflow
+- Validates that the package structure, imports, and legacy build workflow work correctly
+- **Proves that SongDrive's current build system will continue to work** after package consolidation
+- Documents the path forward for apps using the legacy esbuild workflow
 
 ---
 
 ## 🔍 Critical Discovery
 
-**The old Springboard CLI API no longer exists.**
+**The old Springboard CLI API was removed in this branch.**
 
 ### Old API (used by SongDrive):
 ```typescript
@@ -43,7 +45,7 @@ import {
 } from 'springboard-cli/src/build';
 ```
 
-### New API (current):
+### New API (current Vite-based CLI):
 ```typescript
 import {
   buildAllPlatforms,
@@ -53,7 +55,22 @@ import {
 } from 'springboard-cli';
 ```
 
-**Implication**: Apps that want to continue using esbuild need to use **raw esbuild** directly, without the old CLI helpers. This test demonstrates that pattern.
+### Solution: Preserve Legacy CLI
+
+**We will copy the old CLI from the main branch** into `packages/springboard/src/legacy-cli/` so that:
+- SongDrive can continue using the exact same API
+- The legacy build workflow is preserved and validated
+- Apps don't need to migrate immediately
+- The old API is available from the consolidated `springboard` package
+
+### New Import Path:
+```typescript
+import {
+  buildApplication,
+  platformBrowserBuildConfig,
+  platformNodeBuildConfig
+} from 'springboard/legacy-cli';
+```
 
 ---
 
@@ -83,29 +100,108 @@ test-apps/esbuild-legacy-test/
 
 ## ✅ What This Test Validates
 
+- ✅ **Legacy CLI API is preserved** and works from `springboard/legacy-cli`
+- ✅ **SongDrive's exact build pattern works** (buildApplication, platformBrowserBuildConfig)
 - ✅ Package structure and exports work correctly
-- ✅ Imports like `import { createSpringboard } from 'springboard'` resolve
 - ✅ Subpath imports like `springboard/platforms/browser` and `springboard/platforms/node` work
 - ✅ TypeScript type definitions are correct
-- ✅ esbuild can bundle apps using the published package for both browser and node platforms
+- ✅ esbuild-based builds work for both browser and node platforms using legacy CLI
 - ✅ External dependencies (React, etc.) externalize properly
 - ✅ Multi-platform builds work (browser + node)
+- ✅ **Backward compatibility is maintained for existing apps**
 
 ---
 
 ## ❌ What This Test Does NOT Validate
 
-- ❌ The old CLI API (it doesn't exist anymore)
-- ❌ SongDrive-specific features (Sentry, HTML post-processing, etc.)
-- ❌ All 7 platform targets (tests browser + node only, not mobile/partykit/tauri)
-- ❌ Watch mode edge cases
-- ❌ Production optimizations
+- ❌ The **new** Vite-based CLI API (that's tested in vite-multi-platform)
+- ❌ SongDrive-specific features (Sentry integration, custom HTML post-processing, etc.)
+- ❌ All 7 platform targets (tests browser + node only, not mobile/partykit/tauri/desktop)
+- ❌ Watch mode with HMR
+- ❌ Production optimizations and minification
+- ❌ Custom esbuild plugins from SongDrive (that's app-specific)
 
 ---
 
 ## 🔄 Sequential Implementation Steps
 
 **Each step should be handled by a dedicated subagent to avoid conflicts.**
+
+---
+
+### Step 0: Copy Legacy CLI from Main Branch
+
+**Subagent**: `code-reviewer`
+**Estimated Time**: 20 minutes
+
+#### Task:
+
+Copy the old Springboard CLI code from the main branch into the consolidated `springboard` package to preserve the legacy esbuild build API.
+
+#### Detailed Instructions:
+
+1. **Checkout the old CLI files from main branch:**
+   ```bash
+   # From repo root
+   git show origin/main:packages/springboard/cli/src/build.ts > /tmp/legacy-cli-build.ts
+   git show origin/main:packages/springboard/cli/src/esbuild_plugins/ > /tmp/legacy-esbuild-plugins/
+   # Copy any other necessary files from the old CLI
+   ```
+
+2. **Create new location in springboard package:**
+   ```
+   packages/springboard/src/legacy-cli/
+   ├── build.ts                          # Old buildApplication, buildServer APIs
+   ├── config/
+   │   ├── platform-configs.ts           # platformBrowserBuildConfig, etc.
+   │   └── types.ts                      # Build configuration types
+   └── esbuild-plugins/
+       ├── platform-inject.ts            # @platform directive plugin
+       └── ... (other necessary plugins)
+   ```
+
+3. **Update imports and paths:**
+   - Change internal imports to work from the new location
+   - Update any references to `springboard-cli` to use relative imports
+   - Ensure all types are exported properly
+
+4. **Add export to main package:**
+   In `packages/springboard/src/index.ts`, add:
+   ```typescript
+   // Legacy CLI exports (for backward compatibility)
+   export {
+     buildApplication,
+     buildServer,
+     platformBrowserBuildConfig,
+     platformNodeBuildConfig,
+   } from './legacy-cli/build.js';
+   ```
+
+5. **Add subpath export to package.json:**
+   In `packages/springboard/package.json`, add:
+   ```json
+   {
+     "exports": {
+       "./legacy-cli": {
+         "import": "./src/legacy-cli/build.ts",
+         "types": "./src/legacy-cli/build.ts"
+       }
+     }
+   }
+   ```
+
+#### Success Criteria:
+- [ ] Legacy CLI files copied from main branch
+- [ ] Files placed in `packages/springboard/src/legacy-cli/`
+- [ ] Imports updated to work from new location
+- [ ] Main package exports the legacy API
+- [ ] Can import: `import { buildApplication } from 'springboard/legacy-cli'`
+
+#### Notes:
+- This preserves the old API without maintaining it in the new CLI package
+- Apps like SongDrive can continue using the old pattern
+- Mark as deprecated in JSDoc comments
+- Consider adding a console warning when these functions are used
 
 ---
 
@@ -319,109 +415,117 @@ setTimeout(() => {
 ### Step 3: Create esbuild Build Script
 
 **Subagent**: `typescript-pro`
-**Estimated Time**: 35 minutes
+**Estimated Time**: 30 minutes
 
 #### Files to Create:
 1. `test-apps/esbuild-legacy-test/esbuild.ts`
 
 #### Detailed Instructions:
 
-Create a simplified esbuild build script that builds BOTH browser and node platforms. Research and improve this code for readability and correctness.
+Create a build script that uses the LEGACY CLI from the springboard package (copied in Step 0). This validates that the old SongDrive pattern continues to work.
 
 **Create `esbuild.ts`:**
 ```typescript
-import esbuild from 'esbuild';
+import process from 'node:process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import fs from 'node:fs/promises';
+
+// Import the legacy CLI API from springboard package
+// This is the SAME API that SongDrive currently uses
+import {
+  buildApplication,
+  buildServer,
+  platformBrowserBuildConfig,
+  platformNodeBuildConfig,
+} from 'springboard/legacy-cli';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const cwd = process.cwd();
 
 const watchMode = process.argv.includes('--watch');
 
 /**
- * Build browser platform
- * Suggestion: Research actual Springboard browser platform requirements
+ * Build browser platform using legacy CLI
+ * This matches the SongDrive pattern exactly
  */
 const buildBrowser = async () => {
-  console.log('🌐 Building browser platform...');
+  console.log('🌐 Building browser platform with legacy CLI...');
 
-  const distDir = path.join(__dirname, 'dist', 'browser');
-  await fs.mkdir(distDir, { recursive: true });
-
-  const buildOptions: esbuild.BuildOptions = {
-    entryPoints: [path.join(__dirname, 'src', 'browser', 'index.tsx')],
-    bundle: true,
-    outfile: path.join(distDir, 'index.js'),
-    platform: 'browser',
-    format: 'esm',
-    target: 'es2020',
-    jsx: 'automatic',
-    sourcemap: true,
-    minify: false,
-    external: ['react', 'react-dom'],
-    loader: {
-      '.svg': 'dataurl',
-      '.png': 'dataurl',
-      '.jpg': 'dataurl',
+  await buildApplication(
+    {
+      ...platformBrowserBuildConfig,
+      // Add any additional files needed
+      additionalFiles: {},
     },
-    logLevel: 'info',
-  };
+    {
+      dev: {
+        reloadCss: false,
+        reloadJs: false,
+      },
+      documentMeta: {
+        title: 'esbuild Legacy Test App',
+        description: 'Test app validating legacy esbuild workflow',
+      },
+      nodeModulesParentFolder: cwd,
+      applicationEntrypoint: path.join(__dirname, 'src', 'browser', 'index.tsx'),
+      editBuildOptions: (buildOptions) => {
+        // Customize esbuild options if needed
+        buildOptions.external = buildOptions.external || [];
+        buildOptions.external.push('react', 'react-dom');
+      },
+      watch: watchMode,
+    }
+  );
 
-  await esbuild.build(buildOptions);
-  console.log(`   ✅ Browser: ${path.relative(process.cwd(), path.join(distDir, 'index.js'))}`);
+  console.log('   ✅ Browser build complete');
 };
 
 /**
- * Build node platform
- * Suggestion: Research actual Springboard node platform requirements
+ * Build node platform using legacy CLI
+ * This matches the SongDrive pattern exactly
  */
 const buildNode = async () => {
-  console.log('🖥️  Building node platform...');
+  console.log('🖥️  Building node platform with legacy CLI...');
 
-  const distDir = path.join(__dirname, 'dist', 'node');
-  await fs.mkdir(distDir, { recursive: true });
+  await buildApplication(
+    {
+      ...platformNodeBuildConfig,
+    },
+    {
+      nodeModulesParentFolder: cwd,
+      applicationEntrypoint: path.join(__dirname, 'src', 'node', 'index.ts'),
+      editBuildOptions: (buildOptions) => {
+        // Customize for node builds
+        buildOptions.external = buildOptions.external || [];
+        buildOptions.external.push('springboard');
+      },
+      watch: watchMode,
+    }
+  );
 
-  const buildOptions: esbuild.BuildOptions = {
-    entryPoints: [path.join(__dirname, 'src', 'node', 'index.ts')],
-    bundle: true,
-    outfile: path.join(distDir, 'index.js'),
-    platform: 'node',
-    format: 'esm',
-    target: 'node20',
-    sourcemap: true,
-    minify: false,
-    // Node builds typically externalize all node_modules
-    // Research what should actually be external for Springboard
-    external: ['springboard'],
-    logLevel: 'info',
-  };
-
-  await esbuild.build(buildOptions);
-  console.log(`   ✅ Node: ${path.relative(process.cwd(), path.join(distDir, 'index.js'))}`);
+  console.log('   ✅ Node build complete');
 };
 
 /**
  * Main build function - builds both platforms
  */
 const buildAll = async () => {
-  console.log('🔨 Building all platforms with esbuild...');
+  console.log('🔨 Building platforms with legacy CLI API...');
   console.log('');
 
   try {
-    if (watchMode) {
-      console.log('⚠️  Watch mode not yet implemented for multi-platform builds');
-      console.log('   Run without --watch flag for now');
-      process.exit(1);
-    }
-
-    // Build both platforms sequentially
+    // Build both platforms
     await buildBrowser();
     await buildNode();
 
     console.log('');
-    console.log('✅ All platforms built successfully!');
+    console.log('✅ All platforms built successfully using legacy CLI!');
+    console.log('');
+    console.log('This validates that:');
+    console.log('  • The old buildApplication API still works');
+    console.log('  • SongDrive can continue using this pattern');
+    console.log('  • Legacy esbuild workflow is preserved');
   } catch (error) {
     console.error('');
     console.error('❌ Build failed:', error);
@@ -444,11 +548,13 @@ process.on('SIGINT', () => {
 
 #### Success Criteria:
 - [ ] File created with valid TypeScript
+- [ ] Uses legacy CLI API (buildApplication, platformBrowserBuildConfig)
 - [ ] Script can be executed with tsx
 - [ ] Builds both browser and node platforms
 - [ ] Has proper error handling and clear console output
 - [ ] Creates dist/browser/index.js output
 - [ ] Creates dist/node/index.js output
+- [ ] Successfully validates the SongDrive pattern still works
 
 ---
 
@@ -912,14 +1018,17 @@ For **existing large apps**: Option 1 may be easier short-term
 
 The implementation is successful when:
 
-1. ✅ All 6 steps completed by subagents
-2. ✅ `./scripts/test-legacy-esbuild.sh` runs without errors
-3. ✅ `dist/browser/index.js` exists and is valid
-4. ✅ `dist/node/index.js` exists and is valid
-5. ✅ Node build can execute: `node dist/node/index.js`
-6. ✅ No TypeScript compilation errors
-7. ✅ README provides clear migration guidance for both platforms
-8. ✅ Can run independently: `cd test-apps/esbuild-legacy-test && pnpm build`
+1. ✅ Step 0: Legacy CLI copied from main branch to `packages/springboard/src/legacy-cli/`
+2. ✅ Legacy CLI can be imported: `import { buildApplication } from 'springboard/legacy-cli'`
+3. ✅ All remaining steps (1-6) completed by subagents
+4. ✅ `./scripts/test-legacy-esbuild.sh` runs without errors
+5. ✅ `dist/browser/index.js` exists and is valid
+6. ✅ `dist/node/index.js` exists and is valid
+7. ✅ Node build can execute: `node dist/node/index.js`
+8. ✅ No TypeScript compilation errors
+9. ✅ README provides clear migration guidance for both platforms
+10. ✅ Can run independently: `cd test-apps/esbuild-legacy-test && pnpm build`
+11. ✅ **Validates that SongDrive's current build pattern continues to work**
 
 ---
 
