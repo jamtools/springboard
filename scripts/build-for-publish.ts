@@ -198,6 +198,16 @@ const ENTRY_POINTS: EntryPointConfig[] = [
         esbuildPlatform: 'node',
         condition: 'node',
     },
+
+    // Legacy CLI - deprecated esbuild-based build system
+    {
+        exportPath: './legacy-cli',
+        input: 'legacy-cli/index.ts',
+        output: 'legacy-cli/index',
+        platformMacro: 'node',
+        esbuildPlatform: 'node',
+        condition: 'node',
+    },
 ];
 
 /**
@@ -239,6 +249,8 @@ const EXTERNALS = [
     'springboard/data-storage/kv_api_kysely',
     // Validation
     'zod',
+    // Build tools (for legacy CLI)
+    'esbuild',
     // Node.js built-ins
     'fs',
     'path',
@@ -336,6 +348,56 @@ async function generateDeclarations(): Promise<void> {
 }
 
 /**
+ * Resolve catalog: dependencies to actual versions from pnpm-workspace.yaml
+ */
+async function resolveCatalogDependencies(dependencies: Record<string, string>): Promise<Record<string, string>> {
+    const workspaceYamlPath = path.join(REPO_ROOT, 'pnpm-workspace.yaml');
+    const workspaceYaml = await fs.readFile(workspaceYamlPath, 'utf8');
+
+    // Parse catalog entries (simple YAML parsing for our specific case)
+    // Match lines like:   json-rpc-2.0: "1.7.1"  or   "json-rpc-2.0": "1.7.1"
+    const catalog: Record<string, string> = {};
+    const lines = workspaceYaml.split('\n');
+    let inCatalog = false;
+
+    for (const line of lines) {
+        if (line.trim().startsWith('catalog:')) {
+            inCatalog = true;
+            continue;
+        }
+        if (inCatalog && line && !line.startsWith('  ')) {
+            // End of catalog section
+            break;
+        }
+        if (inCatalog && !line.trim().startsWith('#')) {
+            // Match catalog entry: key: "value"
+            const match = line.match(/^\s+["']?([^:"']+)["']?:\s*["']([^"']+)["']/);
+            if (match) {
+                catalog[match[1]] = match[2];
+            }
+        }
+    }
+
+    // Resolve catalog: references
+    const resolved: Record<string, string> = {};
+    for (const [dep, version] of Object.entries(dependencies)) {
+        if (version === 'catalog:') {
+            if (catalog[dep]) {
+                resolved[dep] = `^${catalog[dep]}`;
+                console.log(`  Resolved ${dep}: catalog: -> ^${catalog[dep]}`);
+            } else {
+                console.warn(`  Warning: No catalog entry found for ${dep}, keeping as-is`);
+                resolved[dep] = version;
+            }
+        } else {
+            resolved[dep] = version;
+        }
+    }
+
+    return resolved;
+}
+
+/**
  * Update package.json exports to point to dist files for publishing
  */
 async function generatePublishPackageJson(): Promise<void> {
@@ -343,6 +405,17 @@ async function generatePublishPackageJson(): Promise<void> {
 
     const packageJsonPath = path.join(PACKAGE_DIR, 'package.json');
     const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
+
+    // Resolve catalog dependencies
+    if (packageJson.dependencies) {
+        packageJson.dependencies = await resolveCatalogDependencies(packageJson.dependencies);
+    }
+    if (packageJson.optionalDependencies) {
+        packageJson.optionalDependencies = await resolveCatalogDependencies(packageJson.optionalDependencies);
+    }
+    if (packageJson.peerDependencies) {
+        packageJson.peerDependencies = await resolveCatalogDependencies(packageJson.peerDependencies);
+    }
 
     // Create exports that point to dist/ for the published package
     const publishExports: Record<string, unknown> = {
@@ -397,6 +470,21 @@ async function generatePublishPackageJson(): Promise<void> {
             import: './dist/data-storage/index.mjs',
             default: './dist/data-storage/index.mjs',
         },
+        './legacy-cli': {
+            types: './dist/legacy-cli/index.d.ts',
+            node: './dist/legacy-cli/index.mjs',
+            import: './dist/legacy-cli/index.mjs',
+            default: './dist/legacy-cli/index.mjs',
+        },
+        // Entrypoint source files for legacy CLI
+        './platforms/browser/entrypoints/online_entrypoint.ts': './src/platforms/browser/entrypoints/online_entrypoint.ts',
+        './platforms/browser/entrypoints/offline_entrypoint.ts': './src/platforms/browser/entrypoints/offline_entrypoint.ts',
+        './platforms/node/entrypoints/node_flexible_entrypoint.ts': './src/platforms/node/entrypoints/node_flexible_entrypoint.ts',
+        './platforms/partykit/entrypoints/partykit_browser_entrypoint.tsx': './src/platforms/partykit/entrypoints/partykit_browser_entrypoint.tsx',
+        './platforms/partykit/entrypoints/partykit_server_entrypoint.ts': './src/platforms/partykit/entrypoints/partykit_server_entrypoint.ts',
+        './platforms/tauri/entrypoints/*': './src/platforms/tauri/entrypoints/*',
+        './platforms/react-native/entrypoints/*': './src/platforms/react-native/entrypoints/*',
+        './platforms/browser/index.html': './src/platforms/browser/index.html',
         './package.json': './package.json',
     };
 
@@ -416,6 +504,7 @@ async function generatePublishPackageJson(): Promise<void> {
                 'platforms/partykit': ['./dist/partykit/index.d.ts'],
                 'platforms/react-native': ['./dist/react-native/index.d.ts'],
                 'data-storage': ['./dist/data-storage/index.d.ts'],
+                'legacy-cli': ['./dist/legacy-cli/index.d.ts'],
                 core: ['./dist/core/index.d.ts'],
             },
         },

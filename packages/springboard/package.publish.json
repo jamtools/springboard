@@ -59,6 +59,20 @@
       "import": "./dist/data-storage/index.mjs",
       "default": "./dist/data-storage/index.mjs"
     },
+    "./legacy-cli": {
+      "types": "./dist/legacy-cli/index.d.ts",
+      "node": "./dist/legacy-cli/index.mjs",
+      "import": "./dist/legacy-cli/index.mjs",
+      "default": "./dist/legacy-cli/index.mjs"
+    },
+    "./platforms/browser/entrypoints/online_entrypoint.ts": "./src/platforms/browser/entrypoints/online_entrypoint.ts",
+    "./platforms/browser/entrypoints/offline_entrypoint.ts": "./src/platforms/browser/entrypoints/offline_entrypoint.ts",
+    "./platforms/node/entrypoints/node_flexible_entrypoint.ts": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts",
+    "./platforms/partykit/entrypoints/partykit_browser_entrypoint.tsx": "./src/platforms/partykit/entrypoints/partykit_browser_entrypoint.tsx",
+    "./platforms/partykit/entrypoints/partykit_server_entrypoint.ts": "./src/platforms/partykit/entrypoints/partykit_server_entrypoint.ts",
+    "./platforms/tauri/entrypoints/*": "./src/platforms/tauri/entrypoints/*",
+    "./platforms/react-native/entrypoints/*": "./src/platforms/react-native/entrypoints/*",
+    "./platforms/browser/index.html": "./src/platforms/browser/index.html",
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -83,6 +97,9 @@
       ],
       "data-storage": [
         "./dist/data-storage/index.d.ts"
+      ],
+      "legacy-cli": [
+        "./dist/legacy-cli/index.d.ts"
       ],
       "core": [
         "./dist/core/index.d.ts"
@@ -126,36 +143,36 @@
   "homepage": "https://springboard.js.org",
   "dependencies": {
     "dexie": "^4.2.1",
-    "json-rpc-2.0": "catalog:",
-    "reconnecting-websocket": "catalog:"
+    "json-rpc-2.0": "^1.7.1",
+    "reconnecting-websocket": "^4.4.0"
   },
   "optionalDependencies": {
     "@hono/node-server": "^1.19.6",
     "@hono/node-ws": "^1.2.0",
     "better-sqlite3": "^12.4.1",
-    "hono": "catalog:",
+    "hono": "^4.6.17",
     "partysocket": "^1.1.6",
-    "ws": "catalog:",
-    "zod": "catalog:"
+    "ws": "^8.18.3",
+    "zod": "^3.25.7"
   },
   "peerDependencies": {
     "@hono/node-server": "^1.19.6",
     "@hono/node-ws": "^1.2.0",
-    "@tauri-apps/api": "catalog:",
-    "@tauri-apps/plugin-shell": "catalog:",
+    "@tauri-apps/api": "^2.9.0",
+    "@tauri-apps/plugin-shell": "^2.3.3",
     "better-sqlite3": "^12.4.1",
-    "hono": "catalog:",
-    "immer": "catalog:",
+    "hono": "^4.6.17",
+    "immer": "^10.1.1",
     "isomorphic-ws": "^4.0.1",
     "kysely": ">= 0.24.0",
     "partysocket": "^1.1.6",
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-router": "catalog:",
-    "rxjs": "catalog:",
-    "vite": "catalog:",
-    "ws": "catalog:",
-    "zod": "catalog:"
+    "react-router": "^7.9.6",
+    "rxjs": "^7.8.1",
+    "vite": "^5.4.19",
+    "ws": "^8.18.3",
+    "zod": "^3.25.7"
   },
   "peerDependenciesMeta": {
     "@hono/node-server": {
@@ -216,6 +233,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/ws": "^8.18.1",
+    "esbuild": "catalog:",
     "partykit": "^0.0.115",
     "react": "catalog:",
     "react-dom": "catalog:",

@@ -73,3 +73,6 @@ export { IndexedDBFileStorageProvider } from './core/modules/files/file_storage_
 
 // Export test utilities
 export { makeMockCoreDependencies } from './core/test/mock_core_dependencies';
+
+// Legacy CLI is available via springboard/legacy-cli import
+// Do NOT export it from the main entry point as it contains Node.js-only code
