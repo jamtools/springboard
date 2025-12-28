@@ -1,0 +1,4251 @@
+{
+	"name": "reconnecting-websocket",
+	"versions": {
+		"1.0.0": {
+			"name": "reconnecting-websocket",
+			"version": "1.0.0",
+			"description": "Reconnecting WebSocket",
+			"main": "index.js",
+			"scripts": {
+				"test": "ava"
+			},
+			"keywords": [
+				"websocket",
+				"reconnecting",
+				"reconnect",
+				"forever",
+				"persistent",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"_id": "reconnecting-websocket@1.0.0",
+			"_shasum": "7a5dfce71fb8cfbcb518d2f44dbfd188d9327325",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "7a5dfce71fb8cfbcb518d2f44dbfd188d9327325",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.0.0.tgz",
+				"integrity": "sha512-cVkGLFSP0A9oOia8pzrHr/fz6/Vc7iQA8jC1Hh9AfkubhHffN01w94ME4240Udr0N0fU8A47mkXKnaFShRFLig==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQCZgix8mZ24H8kqz1TSrxME4tPNO07xoz4qZ7DKuYSxAQIhAPW2o7j20zpQ2EXrr1xxDLmNpTuj8wTAqQ1vjHq3WiSB"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.0.0.tgz_1467141825348_0.15705601661466062"
+			},
+			"directories": {},
+			"contributors": []
+		},
+		"1.1.0": {
+			"name": "reconnecting-websocket",
+			"version": "1.1.0",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.6.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"sinon": "^1.17.4",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "4c21194a8e899fb1c49ec4fb288f52c45f572978",
+			"_id": "reconnecting-websocket@1.1.0",
+			"_shasum": "9680dd9e924f8989f88ed743af0ead9e5613ed8d",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "9680dd9e924f8989f88ed743af0ead9e5613ed8d",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.1.0.tgz",
+				"integrity": "sha512-dA2KF0oqIOf3so+EUaJukyeJq5eaacrRo21AWp9uCCj00IjRA8RwRGxYcJ6d/awL055PfAiVxzmWU9RwCSpHrg==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCIEjzGM5WPXYqd6RT85xmNn3ZDc/XpzlZ1dIKG3huiel0AiBJj+7yMGQ5r9bkI8PGqvsslHrSFyCbQydtx5kuzDjggQ=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.1.0.tgz_1467506788548_0.08966243593022227"
+			},
+			"contributors": []
+		},
+		"1.2.0": {
+			"name": "reconnecting-websocket",
+			"version": "1.2.0",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.6.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "22149374c860b5ca9aa44441943a42a1e157abcc",
+			"_id": "reconnecting-websocket@1.2.0",
+			"_shasum": "5e563795f6e325e31951e07afd0d29f7b22f2f02",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "5e563795f6e325e31951e07afd0d29f7b22f2f02",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.2.0.tgz",
+				"integrity": "sha512-y4BiFs6Wtl3NGtZflB0kdQwBu8ZHnx7723shNoZRk5rUqsGx2/SNwa8SswEstj1kls8w/S8w/Auhkvuv7zjQiw==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCIDvKeFVbtxDmdi3l0bVRJ5peM2IhlLVQOWqkImVfNyVtAiBiTBDM2iTqYljBRCDT0WSnY9yfYk0UYzm8gvIqEJu3mA=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.2.0.tgz_1467565961444_0.3031894345767796"
+			},
+			"contributors": []
+		},
+		"1.3.0": {
+			"name": "reconnecting-websocket",
+			"version": "1.3.0",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.7.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "0d4fa595403279b26db2e18318f89b007b53762b",
+			"_id": "reconnecting-websocket@1.3.0",
+			"_shasum": "8de800e756818d3cca971d4c40c76d73e3f1a20f",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "8de800e756818d3cca971d4c40c76d73e3f1a20f",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.3.0.tgz",
+				"integrity": "sha512-wQNcj8qXBKAuLH5MMH33qv+xnPLoq5cexR3rdo8hbuIIxSbEU57/BOnQAZRLFfCNIwEB1BBKFLBHD2+dvDqyJA==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQDwdu3thKl8LO7oSIb3YSLwLwiP5qP407wlsq2Bewfu0gIhAJtiu2MxK860ZcYnmKjR2OCMi009QdK+2T0yyYbXld9h"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-16-east.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.3.0.tgz_1467566383505_0.6240051609929651"
+			},
+			"contributors": []
+		},
+		"1.3.2": {
+			"name": "reconnecting-websocket",
+			"version": "1.3.2",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"typings": "build/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.7.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "6322d2450c09701b05ece5be866538a9e666faf7",
+			"_id": "reconnecting-websocket@1.3.2",
+			"_shasum": "9989fa25e52e93ff4aab9d6a08be7028849a6c59",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "9989fa25e52e93ff4aab9d6a08be7028849a6c59",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.3.2.tgz",
+				"integrity": "sha512-SPq1FZ4XJZ+T6mwIQsot8YrH3PQeuPPXHS4dnkK6pSIXZvrX7Fz4CnWlw03BmSEic2cUnXveAH4d7t9hFdXJug==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCIBndx7kWnAXpzYeVkAO0O++eah29fzU/c8Rm2804CXSSAiANL0zh5rQ01XFL1GDxVHBnavVZcIMhMkEjz/SK3vY92A=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.3.2.tgz_1470481365592_0.8192620109766722"
+			},
+			"contributors": []
+		},
+		"1.4.0": {
+			"name": "reconnecting-websocket",
+			"version": "1.4.0",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"typings": "build/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.7.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "486315a7c577300fcb6dc7a52a224ba7d1585e7f",
+			"_id": "reconnecting-websocket@1.4.0",
+			"_shasum": "745adbd70ddefabefa242ddfcaa80c8e9f4a80ad",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "745adbd70ddefabefa242ddfcaa80c8e9f4a80ad",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.0.tgz",
+				"integrity": "sha512-XiXPA6HR/jSDmNEPoXsPay0LvD3ZiullFBHD2ysz12bGsu4q4iPUnwJOw9N8PORz4pZmqOnIeVvL2mtcBzqAlQ==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQClMtMnYQV20Xkdl8sJcVTEn6m44f01kLDmfto0jGejRwIhAJAQyQjh6b+ge/K1W1zxDcPLtMfzJMKL0N3CIkEiLJmf"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.4.0.tgz_1470654681452_0.8323351165745407"
+			},
+			"contributors": []
+		},
+		"1.4.2": {
+			"name": "reconnecting-websocket",
+			"version": "1.4.2",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"typings": "build/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.7.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "5b89df026d9073dfbb53fc4d675d31905498d4ae",
+			"_id": "reconnecting-websocket@1.4.2",
+			"_shasum": "ab062e4ba09c37b8dc0baf44a0010ce18898cc21",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "ab062e4ba09c37b8dc0baf44a0010ce18898cc21",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.2.tgz",
+				"integrity": "sha512-8AiA+58HAxf1X0TO0IN+4dV27iopeyTUJLOSLwmNyLhlubBHOem4SFFQF58HlRy524XoskFK4g0QKbEwDrpB3A==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIHEUqTX/GNjwcoOfbAuIyO/Xoo5SVINBYuopPCz34aP/AiEA1+5jhkQ5atoNSjWwYYWOzDaoN66JfTxJ+Ew/vox5XtE="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.4.2.tgz_1470955198124_0.20007323753088713"
+			},
+			"contributors": []
+		},
+		"1.4.3": {
+			"name": "reconnecting-websocket",
+			"version": "1.4.3",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"typings": "build/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^0.7.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "10ea698f9640d07e558e56631a70f2b62e5fbd82",
+			"_id": "reconnecting-websocket@1.4.3",
+			"_shasum": "7e68982853647720e405ad781ee83005ace130ad",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "7e68982853647720e405ad781ee83005ace130ad",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.3.tgz",
+				"integrity": "sha512-8XeNMrgGanHzQhNNeR0vJdz8vZFxyB3f6BazWyBSWYNk/L6Q6yUYN6AHulF44QxD4f1/wV8h/wVwbo4Lv/Nlgg==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCIADRPePwE//NaWiZhUpy5KqmQz/TLTCIjOjtVR1RtA/PAiA8AgwXCjptm2QZyYfJG+jUsDr9s73Ju/IzTfbGHFJx4w=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.4.3.tgz_1470955304690_0.36729482165537775"
+			},
+			"contributors": []
+		},
+		"1.4.4": {
+			"name": "reconnecting-websocket",
+			"version": "1.4.4",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"typings": "build/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "22f4bcd7140bda58f0c632e007d3da7477138083",
+			"_id": "reconnecting-websocket@1.4.4",
+			"_shasum": "a68ca9a89ac7d326daa8d0632c58e5135d1d51aa",
+			"_from": ".",
+			"_npmVersion": "3.10.2",
+			"_nodeVersion": "6.2.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "a68ca9a89ac7d326daa8d0632c58e5135d1d51aa",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.4.tgz",
+				"integrity": "sha512-b9YGbzqrHgoe1Y5WtwEWkYO4agzJc52DHYCB6q6BE/K/D42lDC8CzrX4e7fLi5eY8R0UMcq4B9me2E0O/BtJdQ==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQCWF+Py3QIq/zG0Efh+3raF4nNhAWDp4WxthbEJlULjMgIhAOFAwo3bDil7UF0Pj60Oicv/1eaIpEQPup6z7Z6mqdCQ"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-1.4.4.tgz_1471283684481_0.4989927955903113"
+			},
+			"contributors": []
+		},
+		"2.0.0": {
+			"name": "reconnecting-websocket",
+			"version": "2.0.0",
+			"description": "Reconnecting WebSocket",
+			"main": "build/index.js",
+			"typings": "build/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"pretest": "npm run build",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "48537290b3951d93af5a515f7d217f9935cc2818",
+			"_id": "reconnecting-websocket@2.0.0",
+			"_shasum": "89e42155bbe4eaadf32ce0e0d4daa13f1975fdf7",
+			"_from": ".",
+			"_npmVersion": "3.10.5",
+			"_nodeVersion": "6.1.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "89e42155bbe4eaadf32ce0e0d4daa13f1975fdf7",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-2.0.0.tgz",
+				"integrity": "sha512-xskkeInYmQGD6SMxprs7eL0YyfDXpIRkf9io2MpqFf2XxRLW6GTSdShhgn5wYeH8NwQrO7yl6DYGKrEpNOqzSA==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCICR/8nxmBmHabE8rTuNAkxtT0rC0q2ZKdOrIBw7M0xBoAiEA7VJg3kUw8tvX/mfeXrcZyNSTCwZaED3MWn1rCbSXC6o="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-16-east.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-2.0.0.tgz_1474552262696_0.295122156618163"
+			},
+			"contributors": []
+		},
+		"3.0.0": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.0",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"pretest": "npm run build",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"prebuild": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "b3413751cc792e55ec155f852f1c0389aca3c4c3",
+			"_id": "reconnecting-websocket@3.0.0",
+			"_shasum": "eb15325240912d52a38225c0d2081670e08d8007",
+			"_from": ".",
+			"_npmVersion": "3.10.8",
+			"_nodeVersion": "4.2.2",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "eb15325240912d52a38225c0d2081670e08d8007",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.0.tgz",
+				"integrity": "sha512-RXEN13uJGBPLMbcs2/7+ZyNtv6Fh+GEcKgW20uE5Idb0B+GCH7Hw6yN5m5Y8vq2TE3VAcK69xZ3BRBIUyvrJ8g==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQD5FH5P2auD+/FEP/avsz+4vC+/Bxq3S4GhagojIo+s3wIhAMcfZu50/dpwtt3y6ZVofWj5zsRiOIraD2/BmUXiBn15"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-16-east.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-3.0.0.tgz_1476718391285_0.4323910754173994"
+			},
+			"contributors": []
+		},
+		"3.0.1": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.1",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"pretest": "npm run build",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"prebuild": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "cb3ddfb682e5da4bb1005d3ba71bc9fdf3519f3f",
+			"_id": "reconnecting-websocket@3.0.1",
+			"_shasum": "9084a6308de36f2e41aa53c463d566e5f59eca9c",
+			"_from": ".",
+			"_npmVersion": "3.10.8",
+			"_nodeVersion": "4.2.2",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "9084a6308de36f2e41aa53c463d566e5f59eca9c",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.1.tgz",
+				"integrity": "sha512-PQLKCTZEq7xM6fuO3/8DL69s0KbWUuMge1/hD+gFus1wGVE8YQOnquT16tXJVPNv4ob4seqi/66d2zu2rY9AMQ==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIBqWvzpWRkXy/KItzTFK8IEP2jjDwtNSImWDBGqbw+Q/AiEA7f8JQWcZ+NjfwbtuY48bUlUpXgYOGUUt9Ye0mPJQmm0="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-16-east.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-3.0.1.tgz_1476788115556_0.2708139622118324"
+			},
+			"contributors": []
+		},
+		"3.0.2": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.2",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"pretest": "npm run build",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"prebuild": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "edaa9c5b9635c8cff98dcfa74731e5a7c74c6668",
+			"_id": "reconnecting-websocket@3.0.2",
+			"_shasum": "fdb50f856024f50058d0423c442132edc678b952",
+			"_from": ".",
+			"_npmVersion": "3.10.8",
+			"_nodeVersion": "4.2.2",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "fdb50f856024f50058d0423c442132edc678b952",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.2.tgz",
+				"integrity": "sha512-6meTrKWyvygVtVY69waL16dkoKCWJevCMSudxu/AaXN29PDcDySudE2bY/beZmFmybfEaDh/guuNwPv8oKuRiA==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQCiA5DjiBcltWBMdsDACqrKWo5nCM+vcXmOy7rGH9fFsgIhANFQmtGC1JPbQqhCL1p+3qDJrg4kovOFDHySOBSHsnvP"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-12-west.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-3.0.2.tgz_1476796109623_0.6859676057938486"
+			},
+			"contributors": []
+		},
+		"3.0.3": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.3",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"pretest": "npm run build",
+				"test": "nyc ava --verbose --serial test/test.js",
+				"prebuild": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.15.2",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^6.6.1",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "1.8.10",
+				"ws": "^1.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "bbda17fd17ab9a2bf879982efa39da05399cc74e",
+			"_id": "reconnecting-websocket@3.0.3",
+			"_shasum": "69dcf183da484f1e6c137321a0058bf94423cb58",
+			"_from": ".",
+			"_npmVersion": "2.14.7",
+			"_nodeVersion": "4.2.2",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "69dcf183da484f1e6c137321a0058bf94423cb58",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.3.tgz",
+				"integrity": "sha512-44eKWRd02ubDY3KiiH43wGnnEtd0elrEO0+7TirUbdJULV1lq+Ctd9UckwiaQGT/XYgPawd+W+A50t2c7uLNZA==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQCAYZ7tcuj+eN00ZdTtpIgKJSZJdwj1gNzxo1cVG47Q4AIgTqIfksRGXxewdkDnJVaEFyrYUsgRF7Az41XRU7fieZA="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "packages-18-east.internal.npmjs.com",
+				"tmp": "tmp/reconnecting-websocket-3.0.3.tgz_1480362731485_0.08097975142300129"
+			},
+			"contributors": []
+		},
+		"3.0.4": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.4",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc index.ts --outDir dist",
+				"build-amd": "tsc index.ts -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"prebuild": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run build && npm run build-amd && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.19.1",
+				"coveralls": "^2.13.1",
+				"eslint": "^3.19.0",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^10.3.2",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.3.2",
+				"ws": "^3.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "3453d7661d385db68359c60bbb2636ea1a4e2164",
+			"_id": "reconnecting-websocket@3.0.4",
+			"_shasum": "b97ea99ccd6042418e3fbf90b9768b34b8cc776c",
+			"_from": ".",
+			"_npmVersion": "3.10.10",
+			"_nodeVersion": "6.10.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "b97ea99ccd6042418e3fbf90b9768b34b8cc776c",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.4.tgz",
+				"integrity": "sha512-NCFfyYl5k2iaVuemkL7w0Optsj3CNxjn+ccm1DPNoHz/S1+YeEzl2/Sjleuv5FZAxcjF3azcoStULfAEHQj97Q==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQDyn6yqKKQkd5l0t2zKzxUsPRfmwa5B814DJ2Ql6WiUfwIgCvwWwt6jI6KwDFkCBa49L/Zcj07Kt3aiH0kxOCF2yWs="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.0.4.tgz_1495283883010_0.44772755401208997"
+			},
+			"contributors": []
+		},
+		"3.0.5": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.5",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.19.1",
+				"coveralls": "^2.13.1",
+				"eslint": "^3.19.0",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^10.3.2",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.3.2",
+				"ws": "^3.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "90d39a880f42aae33bb1f91032a9012dfbf06894",
+			"_id": "reconnecting-websocket@3.0.5",
+			"_shasum": "40ed15e2a27f2c9ce48e20058e9922049629350a",
+			"_from": ".",
+			"_npmVersion": "3.10.10",
+			"_nodeVersion": "6.10.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "40ed15e2a27f2c9ce48e20058e9922049629350a",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.5.tgz",
+				"integrity": "sha512-OF/daiy0nCWScjeqPSQGlskrN4RT43i6oP5KDxD309vInClkqBplj2jo0E8gaPpmbf+M64UnCpTyObSjLbjHIw==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQCbleWtr7AtQzzdwSOmHPPoLvJsoNehQLrF2/5a/XyG5wIhAPo5iaGNipvNpJgq2hc3MYbIJCr5Xc2PMqXt3HfDDmUH"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.0.5.tgz_1495284501660_0.38053336925804615"
+			},
+			"contributors": []
+		},
+		"3.0.6": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.6",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.19.1",
+				"coveralls": "^2.13.1",
+				"eslint": "^3.19.0",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^10.3.2",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.3.2",
+				"ws": "^3.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "035dd515dc8425a5bc0354560b6e4638b1f04839",
+			"_id": "reconnecting-websocket@3.0.6",
+			"_shasum": "2783ae336eabc64085c600fd80c35c5510297931",
+			"_from": ".",
+			"_npmVersion": "3.10.10",
+			"_nodeVersion": "6.10.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "2783ae336eabc64085c600fd80c35c5510297931",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.6.tgz",
+				"integrity": "sha512-GN0k1Ea/vp4tRiV8JSndAYRgSFWTy4/QXU9RWX56i/Nek7CiPOIKrpqgbm+CE61RUgw9tSersHGTy4pGaxuAlw==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIEQNwUz6YBL+KV62LWTF28GoJoBg8dshHjoix6jn7+rQAiEAwfZL42Uznr0Crtiq6+WPsUQvz7LTKGtkt06U6pQurT4="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.0.6.tgz_1498907314670_0.07427818165160716"
+			},
+			"contributors": []
+		},
+		"3.0.7": {
+			"name": "reconnecting-websocket",
+			"version": "3.0.7",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.20.0",
+				"coveralls": "^2.13.1",
+				"html5-websocket": "^1.0.0",
+				"nyc": "^11.0.3",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.4.1",
+				"ws": "^3.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "4791587a59d4cc85b0455c0e9da5c33e42ffceaf",
+			"_id": "reconnecting-websocket@3.0.7",
+			"_shasum": "00f7dafd4cd6a87db875805a38ec84452b3b1d67",
+			"_from": ".",
+			"_npmVersion": "3.10.10",
+			"_nodeVersion": "6.10.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"shasum": "00f7dafd4cd6a87db875805a38ec84452b3b1d67",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.7.tgz",
+				"integrity": "sha512-f+9FJt997k+LIqniR6cyqOjNKWpxrl5d40GSpK4Vobkg8Glu9VeqZDiGmK34tJBYUd8ul7QBigkVNf+t5jc7IA==",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQDidVCkAduFV/NM+4F1UQn7/N02ebA6ErWs/sUFFaLNTQIhAMrhj4jgj07ltHfAeKy1KXrvrKanIOXqU7DIN/9MF6tt"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.0.7.tgz_1498909926022_0.6871583771426231"
+			},
+			"contributors": []
+		},
+		"3.1.0": {
+			"name": "reconnecting-websocket",
+			"version": "3.1.0",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.21.0",
+				"coveralls": "^2.13.1",
+				"html5-websocket": "^2.0.0",
+				"nyc": "^11.1.0",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.4.2",
+				"ws": "^3.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "e0a8638b1edc04117d062fcdcc3f6caf8ac40821",
+			"_id": "reconnecting-websocket@3.1.0",
+			"_npmVersion": "5.0.3",
+			"_nodeVersion": "8.1.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-HFqB5xWD9Wfc7HstlqfPQbRmIwjGakZbBYYSpAXYbHK9Hf0cW4SjuaCLFSArrYVVEV8U16XrtaqDBPCbui9SNg==",
+				"shasum": "5b1f7fa3ef58aeeea1aa71d763bcbe91b1713fb4",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.1.0.tgz",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCICE0iYHId5+y+aqg1+2LnuKOJ/qcO4IhlLjQomKutA77AiBt5OWqr/Nt17h11CQN9MtmYh4uEKPvBV7Q43a5ftbrHg=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.1.0.tgz_1502478837894_0.2444260106422007"
+			},
+			"contributors": []
+		},
+		"3.1.1": {
+			"name": "reconnecting-websocket",
+			"version": "3.1.1",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.21.0",
+				"coveralls": "^2.13.1",
+				"html5-websocket": "^2.0.0",
+				"nyc": "^11.1.0",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.4.2",
+				"ws": "^3.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "efcd0f78b9f0411c9015eb3a3597431a9d3afeeb",
+			"_id": "reconnecting-websocket@3.1.1",
+			"_npmVersion": "5.0.3",
+			"_nodeVersion": "8.1.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-gWdK7+5ru+cLrtkEAb9qQnrJzcQCLaqCC9XWF9eIlQLxukFRMHezuP1TKqCSl8Y2iVlVjGkwj72KPS6QBuB//w==",
+				"shasum": "1a5efb08918a645841dd1ba43f45b55de36f65e0",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.1.1.tgz",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIETprC78YEvLbCeZsZ7YFmwChCOTZw1F2o1yQDUq44oMAiEAz80lo36BWWhu6yGvEWGYohloQlOzH3+jPp25FHZEgF8="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.1.1.tgz_1502479760092_0.7330419607460499"
+			},
+			"contributors": []
+		},
+		"3.2.0": {
+			"name": "reconnecting-websocket",
+			"version": "3.2.0",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.21.0",
+				"coveralls": "^2.13.1",
+				"html5-websocket": "^2.0.0",
+				"nyc": "^11.1.0",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.4.2",
+				"ws": "^3.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "b3fc2e69852c4ea38cbb7551e6c8d56df73a5fe4",
+			"_id": "reconnecting-websocket@3.2.0",
+			"_npmVersion": "5.3.0",
+			"_nodeVersion": "8.2.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-oDWScLkToP4WpgwQIt8vlW1Rpgl9KrJIRLTlxLXT53t14L8UAThjYkC+AasLedv50lwWRMynUC9vLD2ZH3tfAg==",
+				"shasum": "8ebccc2930fb7e90d32bbbf009ccbea1728344d3",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.2.0.tgz",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIGVd34hM6l5DljxepWPFOm/Hg/V2AxHzLi7TpJ/xLb1eAiEAqwi9K/5xLT8xiv2nduXeM3CZAeEUuIGmCcxsn0QkNDM="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.2.0.tgz_1503298275331_0.45873936638236046"
+			},
+			"contributors": []
+		},
+		"3.2.1": {
+			"name": "reconnecting-websocket",
+			"version": "3.2.1",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.21.0",
+				"coveralls": "^2.13.1",
+				"html5-websocket": "^2.0.0",
+				"nyc": "^11.1.0",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.4.2",
+				"ws": "^3.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "69a1bc69a6c025793c02b78116e867f2ef77af28",
+			"_id": "reconnecting-websocket@3.2.1",
+			"_npmVersion": "5.3.0",
+			"_nodeVersion": "8.2.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-4q1OSHTlBkGmv3OmAzVMl5+HSDWygs7VGDE32nhzCwgW+F0qUmU1CG/jf8UyGplzibp6uVQLHcycurk/J8LMxQ==",
+				"shasum": "c309d07f23191f85988e99d87a5c9966545a1631",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.2.1.tgz",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQD6vzZyfPg29WYohMbESVE9xGtRZ0iZT9dXAv+QZm9krwIhAO6aZsV2Vz32iEh4AgVVc7tfekMEGZObFXdCNCptgtga"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.2.1.tgz_1503645094166_0.703642288222909"
+			},
+			"contributors": []
+		},
+		"3.2.2": {
+			"name": "reconnecting-websocket",
+			"version": "3.2.2",
+			"description": "Reconnecting WebSocket",
+			"main": "dist/index.js",
+			"typings": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsc",
+				"build-amd": "tsc -m AMD --outFile ./dist/reconnecting-websocket.amd.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "rimraf dist",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"prepublish": "npm run clean && npm run build && npm run build-amd && npm test",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.21.0",
+				"coveralls": "^2.13.1",
+				"html5-websocket": "^2.0.0",
+				"nyc": "^11.1.0",
+				"opn-cli": "^3.1.0",
+				"rimraf": "^2.5.4",
+				"typescript": "^2.4.2",
+				"ws": "^3.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"gitHead": "d4c121ec2a0316989f2dcba88a5c46028377b069",
+			"_id": "reconnecting-websocket@3.2.2",
+			"_npmVersion": "5.0.3",
+			"_nodeVersion": "8.1.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-SWSfoXiaHVOqXuPWFgGWeUxKnb5HIY7I/Fh5C/hy4wUOgeOh7YIMXEiv5/eHBlNs4tNzCrO5YDR9AH62NWle0Q==",
+				"shasum": "8097514e926e9855e03c39e76efa2e3d1f371bee",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.2.2.tgz",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQDMVeTX4aPLHULbro2EUpGsJIRgHA9fKNdNF9f1U7mqOQIgdRmuMn8WJv2o6nAVzFo7lcPyF/8c//b+7Er+OzP3jvc="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket-3.2.2.tgz_1506187305304_0.6341070409398526"
+			},
+			"contributors": []
+		},
+		"4.0.0-rc1": {
+			"name": "reconnecting-websocket",
+			"version": "4.0.0-rc1",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.0",
+				"del-cli": "^1.1.0",
+				"husky": "^0.14.3",
+				"lint-staged": "^7.1.0",
+				"nyc": "^11.7.3",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.12.1",
+				"rollup": "^0.58.2",
+				"rollup-plugin-typescript2": "^0.14.0",
+				"tslint": "^5.10.0",
+				"typescript": "^2.8.3",
+				"uglify-es": "^3.3.9",
+				"ws": "^5.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}, !dist/*": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "2e5d6f0406784da357e3213506c9b508c2b32991",
+			"_id": "reconnecting-websocket@4.0.0-rc1",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "9.9.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-ThLNUAkOdV61xewEH3/Dm4Sc+/2UNsKhWX94VKmcwFAhrUIvGp3StB5Z5kv4lloAyEDY9RUyOLtHCT97y4qc5w==",
+				"shasum": "1253607b52b73e24f44c68cf3efbce0c56000c1f",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc1.tgz",
+				"fileCount": 13,
+				"unpackedSize": 80093,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa+CtECRA9TVsSAnZWagAA+EgQAJSP9p0vr7gNvYIXC9pv\nnoJmVutlOCcOE7ECPQtS7KPVwUBDbKSB92dl73fS3R9Ef0a9vlaM3S4BLq04\nn8xcOjP59MbuJurNM4EGDKFMpZRCdySV0iwu/6x7NEirs/jKVb7aOZsszEm3\nH4lbhO5VPqw6K/JZ6X11tW5rStmCbdMGLRS+PY4baRVcMV+sesDNxuONc7/o\n/G03ZtKLniTG8tukA3DAwPC7UUb+OHV2ZX7mDsnVEXkqjcA6JoW4aRv2Rrts\neo/D0qKgUQdp2dmCygtrR9QfIUH35TxoHBEEapwm6fGNcyrfPqS1RRASFoxq\nPDLmX/86sJXGI2dJLIzOObpf7tBLc0UDVDJcuZUXHz0q2+5Fl2MoR86RNyaJ\nkJrr0NfLxZEFBMWJ5AQ4IG4+1tHR8dYxmL0GxSabWf4Z0siMI34YPUgyRQpe\nQK2Me+KKWn+1+MFyWk2aAZk7sSVfklSFSru0XI+AGm70EaSrCN+GJ2V+6Mfm\n6AsC+RWchY3prQiKdTYY5PfTQ44cAv8Oqb7I8F/8/ObOYNN7Rg/E8AppXVNJ\nU21th7HXaQC/WEQPVtNXalpNWdVHxNp/oPrxAmIinrRrO6glAKR8UaPEl/N/\nOUigivD0tZj3XX8vjsgR6iR+sFiY0MGRWmw0/pwHmFWJl7Vj0fp/pssd7Fqz\nNLFf\r\n=T4Mj\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQCG0loAWd4UrDZ5+RinGSTkH3SWDuMZ6uZjCC1tqjXY8wIgQzwWRagWjbZs5IaOY2YDiEbSD1O+K6wTb2gsxaVRj3k="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.0.0-rc1_1526213443754_0.0969286468004884"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.0.0-rc2": {
+			"name": "reconnecting-websocket",
+			"version": "4.0.0-rc2",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.0",
+				"del-cli": "^1.1.0",
+				"husky": "^0.14.3",
+				"lint-staged": "^7.1.0",
+				"nyc": "^11.7.3",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.12.1",
+				"rollup": "^0.58.2",
+				"rollup-plugin-typescript2": "^0.14.0",
+				"tslint": "^5.10.0",
+				"typescript": "^2.8.3",
+				"uglify-es": "^3.3.9",
+				"ws": "^5.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}, !dist/*": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "3f3b85537f063dd139f3f56680555c33e76c3686",
+			"_id": "reconnecting-websocket@4.0.0-rc2",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "9.9.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-hGgDRg9yBGqESezvj+baM1DwKbPGid9i1m9ADcf3uK2qDUXHN7/BugXWB+QpHAsa7l+QZu2hiMq4/4o33EsmPA==",
+				"shasum": "91582d75315f3d89ddef6bb11f3a0e5345e257cb",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc2.tgz",
+				"fileCount": 13,
+				"unpackedSize": 80067,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa+EJFCRA9TVsSAnZWagAAIJ0P/RW1++GI40Go565WlVex\nNEeKgpZafF8G6xUwA4cs1RXdwOqm/DRVd+PiQi+5jPlEqGkupi/q1qGtpe3m\ni9geiqr6epjjwgIiyrTrdasunkGFS4ShhqEYEtI3fS8HGM5NoB71Tnam14wy\nnCYSuI6Dl1ilqNkOyw/LZOgnBe3Olt1xcgiz6I+AI+jnmdXJYqTX72qy0yEe\nY4myyss42WD9R6Sx86/8Q7ZyY6h4y0MrpcjhR2i3EyWjEclpj6SwGFAR/rNL\nuYldqlLRkucHP39dEWEfaZ8lgxAkfXHM6dGnh2iDvaIbonv+HVGeniz7YrbN\nyX7qFRrOZfgvdorvKDpYOstuLq1Pyw9pcSwDbtgSJFPEbhUkEsXLSnuoedQq\nTlDZHrVcuBGvfDQdChqvAgt5nfwnMSUpPPg79DS7FAqc+c6esOIujshyI4Io\nMkt1XNqzabe6gxfWzjIJFyKaqLX+6Z+1cy0Wt5jkYUkCnqxztzibvungpnXE\nOesEeLyTYydtw15EZY5b3CM8k+vi6mOcU5XwS2Vw2eBjtH1MXI08c6s3c6zp\nx5A0jacQ7xH0xWRkqmucRAr9zzPSDFVS7geopmlVDbpUpQ0IT5oKcWob2W4y\nVjdJ6l+iqaUF+HeWXioBFtmiB/p/x9IOuJIi2K6O8Q2kQjQx1nxt3ASGDYEk\nhJAf\r\n=/ug8\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCICXFMEjrShoEvGFF0EFwH8wHp53RywzL3OoldZSN1PExAiBoEa0VI4qTAw6JoEF+8UzfV5QdMPnR90UPVH2KukXa6g=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.0.0-rc2_1526219332958_0.40490907993672987"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.0.0-rc3": {
+			"name": "reconnecting-websocket",
+			"version": "4.0.0-rc3",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.0",
+				"del-cli": "^1.1.0",
+				"husky": "^0.14.3",
+				"lint-staged": "^7.1.0",
+				"nyc": "^11.8.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.12.1",
+				"rollup": "^0.59.1",
+				"rollup-plugin-typescript2": "^0.14.0",
+				"tslint": "^5.10.0",
+				"typescript": "^2.8.3",
+				"uglify-es": "^3.3.9",
+				"ws": "^5.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}, !dist/*": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "f5ae57f3d49391ed0063059ed40f57d85e3e484f",
+			"_id": "reconnecting-websocket@4.0.0-rc3",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "8.10.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-c7fiZR3Wvt0laB1mrDbUAJQKo3UtdPcdEfDbVVtXEnOoR80KHdRav6xv4MnQQuP2VyXNd/y2YJTDnHUkvSMDjg==",
+				"shasum": "9012e61196c07fdf8461e9ce2f66149606aab54c",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc3.tgz",
+				"fileCount": 13,
+				"unpackedSize": 80114,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa/qNbCRA9TVsSAnZWagAAgLEP/A4DfaRwXEIXnCsOhwdq\n0YLSaE1CA+n0aANe9mvaNeBd/ysGlL3bm/RD04YSgVypDxQD31ybSQdM4B/A\nH/02jCQAUwheYy/1Y84mHv59oZgQmGOZA9uum6Xl0/jzzbtz5l3S6arioujG\nuwhufOptH/V09chEkse2Yw6ORINynIjDwL5uxf5ZFmGgXrnUT8oXOGN+8BaM\nhz9WI3g3Vy/XMcYaq+BbuEzD6jKLA5s78CDx+T+2uzEh3VP9rszzXckUusyQ\nntdhkkO1+tYW6YS4tpFikBh8soxvb/OKStqSY8XjtIih6l57+O2qITajrNYX\nyfMyGngOX3oNCPERuQ1zBBGPFI1POtKNteh9L+dusZ+bTsYL5GccENvsQV1k\nxrgfR6Nh47c/vvIIcuTGrlTciLre/0P+D5+eSSQS4RJx9+AqjeHvbUJCp75r\nsjeUgcxRElu6wZ/zUFmOAdo6t0PhtVeUZLLb7iMTLBxaC3mymYwAO0RoiuwA\nOH+AwNL2ZtpVgCv7d+bUndUFXNNkDwFADWDSbDQVReHMWj5/pJWQ+9ppcOvI\n3mcIAO1GQJiTWQ/21eGxleOKzuCOIPK+hy4O/zWCEdGbUoQ+D1YcmK/Vbaxn\nv8+sj1qS1SPUP7NYWWN74Zb+f6pZI6fsZQ3kQNHKAO3/m7At1QK7hxM07LWY\nKXQV\r\n=m9EC\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQDayPoltlE5m0hbNytPJlrv73azYr8+VDUp1sgCNnKdugIgMqveEOmkZ0w+l6TmZCQAdNwoV9IQvp65dGdMAmEiJXI="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.0.0-rc3_1526637402568_0.6576640128813105"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.0.0-rc4": {
+			"name": "reconnecting-websocket",
+			"version": "4.0.0-rc4",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.0",
+				"del-cli": "^1.1.0",
+				"husky": "^0.14.3",
+				"lint-staged": "^7.1.0",
+				"nyc": "^11.8.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.12.1",
+				"rollup": "^0.59.1",
+				"rollup-plugin-typescript2": "^0.14.0",
+				"tslint": "^5.10.0",
+				"typescript": "^2.8.3",
+				"uglify-es": "^3.3.9",
+				"ws": "^5.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}, !dist/*": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "99a9c979d4dfb9e65143e0233fa15010d1c060e2",
+			"_id": "reconnecting-websocket@4.0.0-rc4",
+			"_npmVersion": "5.4.2",
+			"_nodeVersion": "8.7.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-73+MMHI+/EkdX6DG54suyVHO64hu+m1J8lKM8WsBtCSQkSp2/mdc5n2CISCPMcwJHquMuNgcXqdAscEAxhuOaQ==",
+				"shasum": "a4e5dcac816fe2b929be7bbc9e71370de5a1c618",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc4.tgz",
+				"fileCount": 13,
+				"unpackedSize": 80064,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbFOItCRA9TVsSAnZWagAAP0cQAIB52t4QoxCiQG4p8yMW\nrVnwMURpJTZX4UIVYBJOVqMJm57Wiw5cYXrC6vIq90czI7vjRM+obURWiFiA\nBfvWVRBAehMoPAIpJvSckoTqChV419J7HP0xuCHVw+Ri9DLIU0JC+O1BLaVi\nBbGX00BmaQ6Qx9IqrDf8udf9F09BOrUxS7b+MGLNN490jV7Hiv4OEFKjCyi7\nX+PEjYxGi2AlrAMhrZIb0lpR9TAX4BJVKdtDohNOUdovWY4/iJbkZcrvnX8n\nQFsXziDbbtnChK8KPaLy3c+JZua8yLda0Ppd5NSGGpdyguWrdCF2gPmZ97Sw\nDV6COUrQ8x0PS1j1nIGN7n6gNTXLRoHFKx2lhnb+HzWzZozLDf4RpxqEuRZF\nV1uuf8icJODDFimNGpSjRTPJCpN9s8TsAKh5U7F1JOE0jhFg6xeSYbwHRRJ4\ngIfHBAvBiSXYluMLTYC3GbY59llhYmt8PQmp9zWtggWcOG6abh4Xj99jnmei\nQguJNK3Gmch0rDx8sBhhvBiJ2n4w6ELCN5rjdtflI+Rsbal+daRN29f7ISTt\nk3vmvEuG869AGhjhuM6v/7E5sIx92zOYNzm0Fdsuy7Li4J4MjC/wNJdU9lVw\n0gUHufBaMMyV43BR/+YBAfYJRmnsWI3qg1fVACMGlEMsjcr0detv4deLQqVL\nKk/T\r\n=tZub\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQDWjBFeqQbxM1lVWwQAKxN0Q1iws5RRvWmD0xiC5APK4AIhAKW6ATwgLn+CH3if8Ik6T18SG+irCO3T+luGE6xRIMbO"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.0.0-rc4_1528095276270_0.6261664878647164"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.0.0-rc5": {
+			"name": "reconnecting-websocket",
+			"version": "4.0.0-rc5",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.0",
+				"del-cli": "^1.1.0",
+				"husky": "^0.14.3",
+				"lint-staged": "^7.1.0",
+				"nyc": "^11.8.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.12.1",
+				"rollup": "^0.59.1",
+				"rollup-plugin-typescript2": "^0.14.0",
+				"tslint": "^5.10.0",
+				"typescript": "^2.8.3",
+				"uglify-es": "^3.3.9",
+				"ws": "^5.1.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}, !dist/*": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "9b3eaee429253eb92d0f7e6aec38ac953ef681a3",
+			"_id": "reconnecting-websocket@4.0.0-rc5",
+			"_npmVersion": "5.4.2",
+			"_nodeVersion": "8.7.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-ew+Twq9j66vhRtW9mT0xIgkLCQsDpslAideVYuB1JjW4U9wm27XZfA786K6pCKcUFkDWmktL+uI92ITLdn2eOQ==",
+				"shasum": "d6b5eb1d3c263ffa70fa4d4c3bf95bebe373ea5b",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc5.tgz",
+				"fileCount": 13,
+				"unpackedSize": 81543,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbFRFUCRA9TVsSAnZWagAAZfgP/2jwDDCxCKIWU83lXKyq\n6WBd5L/il3+CxSg41Mp0fQC1qOdR1xUYTqd57CN0Yd7DzvIKZKn5wBhWSyok\nXPgG0AXPMGvP7j3o5Gy4ztONiaFgiCqubzigO9mHExpF2Qjqr496mffp9yHW\nFejHIGIbMBES0Z6uF8zgX4YpG/bN6LZ931fUVKGWqQks+GKhu+DM1aiHVRwa\nnn/F18/UgpG68z5hdJ9nmEKdJdsBpej0yTctUskrN+Adb+1LRUbx9GCVHN5K\nvmF8VqNx00j3DA2G8sUqkbaEo62DwbpsfP13dOIK+WcCTcicBhalBHXCTVYS\nvLlWMMOy34NaJ9YQcrmqjinws/+01RHYt0CAxIdcSUaVsqzcjt6uc+yi6dT5\nhbogKcgz3Il1+WKKK7nXwSvzpoAYPMjB6FoRiyWh2D6KwjRxg92hFdPpofUD\nPItTYU2CF/4/dFWgIB6isJTo8QpEhkiGw9y55BDStLtpCxic+j3m/wnHQp0C\naOlK0VqU2AGyqoCUobKL88p8xcc9UYEMBean74KoEYP0rjaBFFkO6h6Sfnor\nUjDb9I72jqz0R0G+fGbt661MaoPaUXCl83kJG36ySCyUZmNKpnjuqZKQNCZM\nlbw3qwqHslJLO1h6b1RbFx2Un1I15w0LINzNbnZLrw/zP3PldMNo2oSeZDrB\nJKqN\r\n=aAzq\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQDTNWu7GNYM0vRxUSKCtS1rB6LTFbAsTU8l06cG/t401AIhANRnFhTIDRK1OIpecQr8uGoVCAojrX9OVa1sBgSbB4+m"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.0.0-rc5_1528107348148_0.7916169254212195"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.0": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.0",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "npm run build && nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "6ed1006fb5d3da44f5e33ef78d4e99fac5d2c27c",
+			"_id": "reconnecting-websocket@4.1.0",
+			"_npmVersion": "6.4.1",
+			"_nodeVersion": "8.12.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-AjEhSJMLIBWAzngCiZoMyrC8cL5s6yUS5eaaV/lif78aqtdjc1tMPqVpbwakRGu8phOkAbfXz2qtQz6T2Q21EA==",
+				"shasum": "40c42b25a2060a055e25c179487125eff89ee0e2",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.0.tgz",
+				"fileCount": 14,
+				"unpackedSize": 123891,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbr5JXCRA9TVsSAnZWagAA5MMP+wRN/jGAt/TbwYUxXqfq\naZhA/t3t8l4xiiSTXZCBsrydDIcAqrYeNs6MZEQFNhGEdsvU782GIwzxy37D\nIB89D/eg5Bt4kEbtlCoOi5kZR3HXoQ1cM8TmFytMDsT6KNJqZ3Ia2ik7JBaR\n79AABNew9AYe9IfWuN72QbNWHWOHhiJqEfhU/O3+BsYK7iQa/X5kkI9fMwyL\nUcvL70Mehu290UosmMk2fBm2ySrezLdxHQ7a/yLTye68uKveZmQfewVWotew\n/ECnzQJl0BPrvy9vejuKNIego34m1+8K1QkYuJGBpahZqRQnEFfn3RQNUcnb\nx7CCRxehsfgwQes8eUDsX/HPy3HKzr44Mxv4Me3qgYIPDo/7cAl1AQq5d+5S\n2A6+ylkp8sbRxmjYM3hdWOHidSu7tK35WFMiFu1C4ibqfAEZalgzXN8bRdbO\n5tlKwiZHZxW7P6iKaAqw4b4lvGMVim/Iz4bIjVTqPRlAl4sG0D95M6CtqOB1\n7U5L5/N+Q67tVkzgvHEW+781a8hCB86AALJ3SPAciN4MMDYFZ+rZjf7ujwvS\nJcF8BH1fvbaVVPPynUjsnU7Xc47LRj+AHYx70zSGpgcvrD3zjgY8fVfjCAMr\nEw2VZNqkPh3sIyX11meEzbkIinB/Es5/dj5lJ7DXyVxqMWu2B6TfT6nqrYKp\n6lMF\r\n=Wh98\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQD2HPHGd1lC8sxKw+1oNwyI3xu4G93ru1GXUw75JG9pYwIhAP9QTFpu09Yg1R+/alSA5dVVh7FNzqB3sbgYhDvdZ9xS"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.0_1538232918551_0.7461009324650956"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.1": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.1",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "npm run build && nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "dfa1b77dfa8342dfb5b1ce9cfe110d7538ca2c2b",
+			"_id": "reconnecting-websocket@4.1.1",
+			"_npmVersion": "5.4.2",
+			"_nodeVersion": "8.11.4",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-18Q1QOrJeDc1X8T+BfTJpbA8uV97XDawjPW/El9P0hBEf4B7JTaFTJd6PxC3l6mmAo3flv/CF79N/eSsmgUXwA==",
+				"shasum": "18fa7d49dae7c234144f5f7cce8d122a8181e01a",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.1.tgz",
+				"fileCount": 14,
+				"unpackedSize": 125391,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbscJYCRA9TVsSAnZWagAA6KUP/AqA+/ZqWe7jY7ZGVKsN\nP70AFMyYtqc0Jw0zrtC+h1I+EC75/uoT7V3Ai4b01tTkH+pjCHX0fl8Inrsl\nHxUvVVNzsytFjhBeb1QHMX+aj1uEl5vOGkyg3gS7rY0mQ5q36OrC64DoNJC2\n831jNqNDou1Z3UZdYdYMfsE1AH265jAyK+ABHoDwlAn9ohvRwWhw+Zd9xFcE\nkNyyZ94PdgJPqUqk/lGcvmQcWmgrMgvE8OYe2oveqGTuWob9/g13Mie93iVY\nPHc0wceFxwO0hsQG+YO3cdYhD5XEkQ8Tfks39Vn6v/uWXuwpOaJLCMFGluaO\n6i7Lkjxzr0sXM8NraPX2L6rFSSGwohRgtsHjtAHC00U0ZTWXfKVDKpkfxshd\nlrXY45KBqIsYQ18O6gnRuT6PHDCqjf0Xw1VLhamnKF26eOwSOP7wDOUBUDLH\nRF3MmDlQ6rCL5sKY8md44tRN3F0IJWrS3ess7nmjOXwd5miZkoGNWGclwN9X\nmPisxfv7PfnX10H3ZkpUY3AxmoOsTh/WJDYzr2U2MdPeTIlO0qsYs17c5czZ\nhTiAI/3ppY0Q4fzn9F9VI751vJhePDgsnmBqY8Z4MIlCv56MY1a/e8O6BV4r\na3/Vp4tl/EO4EyboSwpYfuyJro1/AU7qhboa3T6scLH2oLO7YqDZ+GjZDtLw\nQlgl\r\n=Qa3w\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCIHH6pN/8fv6FZ8tC8Id5MQaMD7A5HZ0r6dhq7lwZ/tdxAiAPoyPG3vPP/1AyIct/Pgr9byvrNzz8I5g8hE5mm+wDNg=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.1_1538376280246_0.8127759236052794"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.2": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.2",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "npm run build && nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "344c65bb08afe798afeeef4f07c75c8e6e5a8ead",
+			"_id": "reconnecting-websocket@4.1.2",
+			"_npmVersion": "6.4.1",
+			"_nodeVersion": "8.12.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-HOXsEUKesmuumcqeYN3LXxl1pyC9rqyglQ4R+ubvQWu+00uiZpNwnJlIfqKbzzbu9dJxgXV4v/qpjnHg0+yhGQ==",
+				"shasum": "d06c2f9a61ddee30c41ce03a000904181415110e",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.2.tgz",
+				"fileCount": 14,
+				"unpackedSize": 125633,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbtbdlCRA9TVsSAnZWagAABVYP/AyT4bg/3TNk/61x75FK\neeKkL1WREN1kJVYp0i/4gpbIWEcSjNZrplVmKZZmc2UxdfEhsbFl5HduuJPm\nPWybUz7JJ30K74SKNmbR/1ZsEntE1xdGcQp0CvrA+3LC9cXy6Nqejua360E+\nYDvErmE5NGG4xRePOiHBas19IsvgY1anl7D8RCwRloELRkvYI3wntRnWvu2s\nDdi+Y6sgkFZVjkxPeZmzx9TgUohQDSYuV6E6tkyC4wdcxASDlY+7tBEsQrj/\nd1tFhO2vyVrBEROTKKqbagL96vOm6eSmgN/4b/yXxuAM31yh5YaiKd9kIO8g\n+jB4rz8CY0DKjRFaTsXq9Pyf9ol0aAd6UnOetO8p7kKZqGCCR5tCoY0OSdY3\nIMx3FDU348IdW9a46r/1q89LToPz8gqwetXgRQ+AY19QfP31sHgPGgxg0EB6\nwbZcqz9GgOhqhyc+GeShTf3LHxv8uVAh9kRaGdxvMu5iiCoTj0ig6WbWeEMo\nbN9TXP5GaJH7yQc6TEJ118OnXnXba/qQ4oZm4z6QtVy/jKSU03mi0GbPAso8\nlcR9ekiRTbSSqoit7lPv3fqn1Hl2m5WaQgq6SmAPWym+Yk1OQ1NtytdrmhBL\nfNZOqkZ5vpnfKDHSfCcdveHMX9gBM1ne3FlajT9xUYSeXaIIiFvS8cTFbgdj\np2cY\r\n=r6NA\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIBabJQ1tla/+70d4PJ/Mz2v7ABzc13pBb6e8falWnWQUAiEA69ZOTRKT6GpDq7NSa8ylpsm3mNmnqt7Hw3TNGFrIU78="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.2_1538635621076_0.2208488454428621"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.3": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.3",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "fae300efded0812c4cb7faa0a533143558dcf3e5",
+			"_id": "reconnecting-websocket@4.1.3",
+			"_npmVersion": "6.4.1",
+			"_nodeVersion": "8.12.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-NvOFJcXGuOodol497bV6dkqTuFP2cMceB3JzwhimnvQln/yoqqD/gJcAV6KlT4Jh1xEq0446yyiwYyPb6xnZEQ==",
+				"shasum": "b384638838f6925fde7f0925a0f59607a07a083e",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.3.tgz",
+				"fileCount": 14,
+				"unpackedSize": 128371,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbtv2hCRA9TVsSAnZWagAAG3wP/2coQax4VZ0y9wpVIgnl\nNzQcIQPAE1bj1UmYD1wzYUySWT7RSxy4ZNCpZUfOPyGzIDKE4INsbU92Pezc\n8JtOMCbK1biHixzafAE5RccDcOyTsVD/ccmQtMf3rVlTRRwSsE5Fc1gH1khs\nHAMSDjdtWvY+QiL94/SBBc98a2nbEEELsP8ZDjcgd09xjlsPyji2ZSwytgxL\nBlZA7vlnwQtwcmocA/DNo2KFW6Ai++k1byT6IUTOuNgEXORpnfdD9QmTXrXQ\ntT9tnSe1uiSJqzLw2EysCXaRiCe4BTnBjgkyAf7UW6HaWeABWaUSo5I0RkGT\nuPvv9BGg9HP95wOWBLiXnlUUjyjykb1N0P328RZ/A+h9DioWa6hW3miQFB3g\n+af6tdIKiiyL8U5eK4aI9RXLWCHHKdBfThY8m4YxC1is7vX5R9pvWJETMMpI\npEbOm9PB9ADEdlo+wKEPqy2giQLC2Fk/Wai4TDzbrEc7d/FSqB7WIcQxtWIC\nRfVZ8DaqSfAlFSGBU8b5YVVAuCakfY9nOWMD9a5nCY/5DZ+/mH6F+Pc672UK\nnOTLLN7DNf+sJu/zj++VREoqy+EZIAILeKZM8fAELEhrmRXmfOyz2Fzi3k+k\nv373IwCXcAL7vbmVb4LI0iHw8uPDEENp7iQ1CanDOYiSgWS6/K7caJtCxLa+\naQ1E\r\n=Xcgl\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQCEzQg9hu6J6LaAgLN0JVV8yd0t9zpr3rcJirkpuMqUTAIgVIEvvLRspyTCaSYGGAolvEQP5Cqlg7JhhxD4iNpeRz0="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.3_1538719136338_0.16363197713850575"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.4": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.4",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "579a5d37e0b1e604ce4e3b5f2e576cf521264fee",
+			"_id": "reconnecting-websocket@4.1.4",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "8.11.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-RNM1KvCLTz57LrqQQBzIMAxP+V0x7YnPBvr6dYfI/0x7pLWAd8wqiN6ZBhECyCgj3OaqA8rQ9/wrK2PrXPGQzA==",
+				"shasum": "56da779e52968ca2dbdaaa0541d118ac5cfee97c",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.4.tgz",
+				"fileCount": 14,
+				"unpackedSize": 127782,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbuK07CRA9TVsSAnZWagAAXUgP/241xk9Uf9HkNUbwKx/u\nr4ZDgHdB994bSvFNZbNW7IvWyZ7Z6EZMgfUKD5D3rOn8D9ItHJzlEwK3LPvm\nZSf4MAqBSusv+pfZ59zFg15LzXfXbuhNWqACf9Re525w9frPkxK/USqYvl2h\n8U9OgN6G+3v9hf+Yuygdgl7/cIl2Gwnw4S4aimkmhxDdJdBNrwaI8lBYvm3u\nGvx8sRZLCX1zOlv4J3ilt3drrG/2fg6NUgA4TlT1sIFgOif5AE4nQY4rRvtk\n3vUHaXhfJUSYb9iM41JO+tjGlTxlnerJT07pxtqfKFVf5Zc3E34/WxrPgpHh\nkujBrzWWCNHeoXo7ECYaYhgZQ45+g2jLTayN/Yc9R7+7OCC1RnpiQc5Q1ZIv\n+fSFVo/K5M7wm/TL1nbhBNfsc1At/jLJVMQPWlGb2DkMr05QMnUfhEJnfDcr\ngJ4vr8UaKbaY0eDUffZJZZy+Z9hKSSCHkKodRERlytpBqH/2slUyrtsZViKU\nyPUF73ZudcaQeRgafWnswvLJ/a2/qNhmQnptBHra7TUyCjqJBQzTXofUHNkw\nkbCfBqTh34Zuc7ilt7IY57DEdyauWDNjQKY7kZHyblmP4bF673tyrKTq7ctO\nE0IMANarW+MImh/DmwtSpq9qbpyDJzfRj8cvsGIH9WhFdLazvRKPmaCMhngT\n0hgV\r\n=AHWx\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQCnt8s72L7XoUT4XJiVg+DBAEcWIVj5xclICP6cksqjxQIhAJxLEnQPcx9nU2xPsR9hXj5dO6A6S+cqznLTNoi98xl+"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.4_1538829626134_0.2593023224387694"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.5": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.5",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "c2486607f52f0872c5981d7aac7ccf3c4e005371",
+			"_id": "reconnecting-websocket@4.1.5",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "8.11.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-NZvNhK+N2Z/hTCJb/xDDfK7zfypoDBKajLwMe7vDzQfRIUl5vyGWYATFuMcoEc393LipmU9rzVMczU1zybhW4w==",
+				"shasum": "c74baed55de0a04bc256935f62d2e4ed650d5a6f",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.5.tgz",
+				"fileCount": 14,
+				"unpackedSize": 128195,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbuLeDCRA9TVsSAnZWagAAUZ8P+QCUdCZonVl3at98e6u4\nF6Oo2YxJl1AVkhqExy+v01MJ7THhnzV9kJo6r+q9pksyqTZ+riS75lI/xNvv\nsMf96uJ0dlmA6Wt5Q/2n8rEXMGJQ2exyPfo1ufrUH6CqJUpicIYY8C+oOyKN\nfLI6GIyYeE+SpMOFCpvyNSAH8bDJhN2XTScPEjGlgvhvgB94uSiOzSTc6y8b\nMBy58LQiq24Nq2gG94X7a0XdzEty7eyW9uG3PKASWhO1kr8EQUmCJSafUE5n\nz1j8MaL08ZMzTBAk1ckhRQCACL8RlzTEY6u7chFDQPW80byKkWw6qUkfXBaF\nf7zMrz2I0b8UuCh5UaeafQnCxDvwim9DBuSuj8m4LxbZjlLGbov5ZcW8LNfv\n/erb0fkQMll2zZU9CeEGPp9EmSDki0zXR78O2Nvw7arinuL7ot/wStvrdWsd\nQkyJGbFDnBLcvV5FeJxcUmPinow5XKZCupzJAnDuI2MzcS8LqYS1kbFn7J7W\ncOce2brWzj7HBWjUT9jxBjTrvkBMV80po3hwGAsYULrXX/HLhG3fHX/SFRcy\nTwi8sfguZtRo1OEJpAZCDC8VUp4tbFyjqcBZz/0IWwB9CpTXcGiNomT/FADp\nzRykk3zJiEVrXEWNXjwwo5Hp62ekrDsXP505Fe2k+s3ihIKa1PFOjAcLL85Y\nBOUo\r\n=LKP1\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQC/23o2DR7p+yfQvya1x3Me53NI8/bYvbtZ2OkzL8uwYQIgBzRLcpALT1LQ+2DDd9elweck0N5bqR/0kj9tCOY5Gq4="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.5_1538832258492_0.8143054662421707"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.6": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.6",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.0.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.0.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.2",
+				"rollup-plugin-typescript2": "^0.17.0",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.1",
+				"uglify-es": "^3.3.9",
+				"ws": "^6.0.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "7fc52d07974aee2f011d2711f67a4f64beb846f7",
+			"_id": "reconnecting-websocket@4.1.6",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "8.11.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-9Fhi+ETAqzm4ntCFHJlumNrkcSVEQTipNA+cTIljbKh3zZGCJoIhmTAgqTJf02NY1uYqa4TY0n2DCO0Ju/efYA==",
+				"shasum": "b5058c138bc7ac47c8bb439c401780ebe70cbafd",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.6.tgz",
+				"fileCount": 14,
+				"unpackedSize": 128264,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbwNUgCRA9TVsSAnZWagAAgSsP/RPFEXiVaWxFixp6ZAru\nUsBR20TV5GMWnnOc0yyv3xDj+Y+Rx/2r6BN1HEyuEZnDmeSOM00NqFLU8LAZ\neaeHWowV9NP3GpbzDXZ/XNmTWlJPMvDxm/B/RchSXtwKATiwB0S/MbCGdb8P\nDBoUinE3uC7Kn3jEkWkBFfcIsHVW6VfuOw8el1XtZKAghAZVGa+xR7yhd9uP\nlyqH9FvTx1/lUIr82W1PCOWrEAPCCS8aNBseJ46gX/G7/5AJaaObpJiPZIcj\nGCSefV+x5r4lv9ku02DoSeul337OQV2NmVVyLGK+F+IpVGHy2ksPAanY3iG2\n1VTZxkmiQaqY+AhkM1VI9/6wUArPOgHVdJVanzyFuZ/F3AkdOGBUAwOF+vjy\n0WODqi5+vNypeAW3FgRkZDs0U5JUVdPpDWiVg4xgC0QIN97Eailj2FWKEsry\nCBGKSrdDmgMHZ7nRoR1ZZjAZzy1Dw6dw0dNZkElfY1E7bwTyi4/VzMqJ9HJH\nI7pAgMw91SxtbTlOq4HvCH/rgU4RLhAnCr7oSvattT1/PSNmVUrAfZU0NPEP\n/kGwtcpRRoBN0Zr70ngA2cKwxqX9FOwk6Y6trsF77QCEW2D6kEdSqmFhp1aJ\noSsGjjApxQjcAmBoOxuKQBo7KUPnPg57MQ6uPF2zfCeh+LDx1r7SpmDxK/Me\n8n7H\r\n=rss3\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQDEufjS7VkCPom2ZWNVDwVlZQPaLsNIrTTrstNWtzLWTAIhALH1TxvDcbOWxFOlVG0xJPUcz8/SOzJwd7IN6pOV4pGs"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.6_1539364127472_0.9282257870569093"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.7": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.7",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.1.2",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.1.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.17.1",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.3",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "c6889dcd9c29e347c57a92b172ee4c090c273d4a",
+			"_id": "reconnecting-websocket@4.1.7",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "8.11.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-zv/TICRfPqyjoXMsFnr2quuzGBxeqWSfGCMw5Ax41yMYl2nXjZPdBUJjfa1FPYQEeYyXROSKSG4Ncs9j0cdo9A==",
+				"shasum": "bce749e2b20b1dbeea55f62967406b72762b5cde",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.7.tgz",
+				"fileCount": 14,
+				"unpackedSize": 123885,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbwTMtCRA9TVsSAnZWagAA/aEP/1139lajuS0ceaLMNxno\nPvQuxkA4zur4Uh7uIuMohjHVKP/nK8lK5rf1wyvkxY0fYYvWYpFBtUbVO91U\naWensETgVYfi0xqWgvf3YJ3/9eAdfbi11nSulDi8mhoSC1n02Ykg+KAjj9GD\nFaVJtAlF2OpNaoyEi9plBcGHbfslHhKqXzSKTPojs/AnJazmCZx+DwoSSJZY\nAOAlKwGz60bi3vL1DL3bp/kbIbX47zUI/HO83+sFovh0m0Uwpo9jC/pjph+S\nI6wli10DE5knorrjnWAcRuvgBuriBnAO2HQ/DnUMS6tvW1zTdc0GDvuW1NQc\nwB5J/vRcm/W26a2eJgqMacQkkzWTKTibnLtPYwxjYU2gxCFwi0fyT9bUZavp\ntKXjoKfpPOIpK4qA5bNQ364hw0QdjJFmgLq7fJUf9awhvB5dXFEstvjLJF/9\n27CWpS+LCWAue+Q+GLmB0XzOWM/2ugnbq+qpJvmYqRz+1uq0z7MBiGAl0fPO\nJ9srjw+WEcpJtNsjT+Qx1f/VkkwrvBfOJRtzXo6orcyPIDlWrePPoYaZe/wH\n+3vuLqDGKGOjPiIZBUKZBbiKuimVhNED9KuSwKKaW6S339y6YDFbhAVHpCfU\nGPtcMnIK7xfarVfBsbg4mwRLVY3qN05SMFcGjcpMIUfe88ihJGO63gpuD/Rv\nN4IO\r\n=oGcm\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIAFxBB/2BAkFvQ/p+fP64FxMIdR2ANbNC7uBrJL1TVXzAiEAwX4runZDc904ejyOQ0eV06iDI92oBICfNLpVyMiQw2k="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.7_1539388204570_0.933412795045238"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.8": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.8",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.1.2",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.1.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.17.1",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.3",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "f67d5c2ccedae5f23605286cf513525396c1eb18",
+			"_id": "reconnecting-websocket@4.1.8",
+			"_npmVersion": "5.6.0",
+			"_nodeVersion": "8.11.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-35XPikVfszfMhNJcZ/3LWkyYzHcWQxR+RdFDUul0KmqDvKdb3P7Ybf8oLNAziN82bHdKaNGaYv3Oh32yTLojwg==",
+				"shasum": "f6d29d237c330f193f42b98075099ec9dccfe3da",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.8.tgz",
+				"fileCount": 14,
+				"unpackedSize": 121873,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbwccxCRA9TVsSAnZWagAAQuAP/R3JVn/BG/A8faej6No8\nEJY7qPefwlMo49Uxp02bKYiLCZKC40TcfXzZeLHVw3xcGFILn5xrGVyiAYcO\n5gsyae+otyG/5qoUzs2Hhftmoeh2of24fqYFW5g5lmLDGupy51hf+TkPda9D\nWtZr3UfyC4x0b9BWBD9sCMZ7BiamsHDWKWje/5AJcub/Th5mP7dK1pkJcsDi\nC9I3tSXBEfbxE4Zio9nMML02QpAPe3+kfCPF2N5w5UKVo+b0MdANWyJsws7B\nwU3YUCX6y3HTliVydnp/S2Un+qpt9FBOfsVby5Pn6vGo75l/Hflyk0THWSYM\ns5K5BKdcjhj4Q2vHNdwgNMXYtaG9g/s843LmP8m0NITu1dXRpsn6OF1wmnmk\npqARhrW8SdaAWxwU8qpZIB2f4/nLSRBEj9h92kiP5IW3+6O58xE3PUjOE5dq\ntl0RniduGPrH0xniV5dp4iwRepMBh0JnysHsRcWE+4AhxmO7jDPF/ckPW9Lr\n3hvgrbeJmroHN9rtIjx2l7/cLgTpwEEJC5GGUTqzIaBvEGimtolYifoFa5YC\n8DloaTrj6ROLxNGwB/uFT4kyNEUW0zYdGNHWizaJjjyXNNpk7JJqY4nAuhU1\nAit4rr4OFEVVGfWmF0lCozx3RUUyNs/sFu6+bQoucw42T129fydznLw/unN8\nvYwI\r\n=PlNs\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEYCIQD7tox3zFeYJ3N5UwBY9nzzBFNU2ttxWZSf5WOVpOmWvwIhAMYv3U6wdlca2zhKe1anA8SLDSz93gPPTI3S2WD0qvkr"
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.8_1539426097164_0.23441946918403023"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.9": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.9",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.1.2",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.1.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.17.1",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.3",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "844fdbb353d4cab8d6a0e4deb360a1e2d97bb763",
+			"_id": "reconnecting-websocket@4.1.9",
+			"_npmVersion": "6.4.1",
+			"_nodeVersion": "8.11.3",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-UVJ8FGO9FKyEhMmSc0LJ38+W0UxYH5+AGpOzOsPVu61u/RO1/KgqyMzOiqkYEj4YuKmdSoz+Y2+DWSZhjqEJSg==",
+				"shasum": "85f7c602af93ce22707cb49d84c81355f24a468b",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.9.tgz",
+				"fileCount": 14,
+				"unpackedSize": 122125,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbxjMDCRA9TVsSAnZWagAAvP4P/jImcQFuOa646j0QrozV\nH++dC2VYpDxOVE1XNZl0acpNYd87izH4O6zCUOR2toW+DCkEzt+o/nm1b+s3\np6RfPhwqkllgjR8LmQO0x2b1kEFEYYVkv/75EDkaozFcGv+uInAxLvsISsml\nG3SW7Fnn/D9do63iiG0vw/LDgpSygZE/unQkiDaHLd6jWhGbunHIms1H/KtG\nZzTZIGXcAU9EzniDa7+nKeKUgBqCJpQlN7GjL32sI9zfi5aDkgG0xZJYWkhW\nrUZSoT0IWYlFGoHUXiJjaLCe6GMt0SmVyLbLC5VKLudH5mKwU6vyO0lKKNd7\nV5C+TlnWqg7QwxsMHdNtqQpzcN+vo23EwGfiY/CIOf4YbeOcnW9crLWDw5Mm\nAuVKVSx6RPSgTjfxw/GQH3NEvpeUutAiX8UauCXQMKsa0GWqcLUhJgUurWKh\nFlnuBQGVYZrtloEw6h6LffvHwa6YhAqJ95MUgqhowrl0fuedMhm2cXR+fVmf\nl0G9YFlr9ed6tSAuKtrPo2Z3K4G1xp8EbiK7UUnZ4rZt0N6BYiwkKkJ9aDTJ\n2Ul4PG3n6nqLqPoniOvXiI8eb1AMS3tm9t8NMcnamKdrxQeQBi7AmIyAoffT\nT7Sk9Gtz7zlshNjO65miSM7E9PGu+y/MiC9cjMYIY5MYDn9ULSSfddK0Pg+K\n1Qhj\r\n=oiIr\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIDRQxrlkRd3Hjq2Y8YdTPrJeZEFxsV5b6uTXsMGkZNEIAiEAoCSvJN+li3LRF00CIZ+kJkKAsycOZKYdfAAIVqfOdOE="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.9_1539715842450_0.3012497877135756"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.1.10": {
+			"name": "reconnecting-websocket",
+			"version": "4.1.10",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket.mjs",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^0.25.0",
+				"coveralls": "^3.0.2",
+				"del-cli": "^1.1.0",
+				"husky": "^1.1.2",
+				"lint-staged": "^7.3.0",
+				"nyc": "^13.1.0",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.14.3",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.17.1",
+				"tslib": "^1.9.3",
+				"tslint": "^5.11.0",
+				"typescript": "^3.1.3",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.1.0"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "ab3d78f38289d505fefcc1787670cf1bf29e7b92",
+			"_id": "reconnecting-websocket@4.1.10",
+			"_npmVersion": "6.4.1",
+			"_nodeVersion": "8.12.0",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-x6vgqa8q9KRuJyFkOvBKH1TfyTmN5OWQUf1MIsblfOSY29VE+iI9cKqmIuPvg9TO/hUBxdmUIVutDkcdbqFwZg==",
+				"shasum": "15485b5c5266ab6dd99187e23e8da207d24c4270",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.10.tgz",
+				"fileCount": 15,
+				"unpackedSize": 141950,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbyWJdCRA9TVsSAnZWagAAypQP/12dlkX0EZ4dr0SaxTlM\nheTgPBirI5eDTZjlZhYjoy0BEnOCZ4ey7Zw82Ct1ICRsCHDlyOa+FfIym+bh\n9l9sNi5kByAHKNAEcdbTwJBxCrQ4YF8MWMWgZo8EvV/7gedusuO644pUB8tV\nCrEtYmxw/aY+dlOdp5OF0Q62yV3BEDMybBUvZiCdisUrBN1jp1FstxQxDFRF\nze/Qh9087LkVB3CkpwyL3TMQqlLxJqt048Y0KoWbNVYiGn58811yL6qBUZZH\nnSsqqy22AYUudIwFGa+0tyyFXvkwwIrXe3a0rG/0cHDtmzlkSmdVjYISiJX4\nx2q+5ph6QqY4CGa2XVTRK1hKIGCW6DFUrY4qm+WgLEnKWDCNLHMY70fE5IFy\nycBLV9Blp3Yxzc84HOxG1HXRkxCpMMt28KK43nkj0IvzDauoZxYZQ3W+QBnD\nDx5Lx/vjqx0VhXD2N25AOUOyd4mw7MS84brKBOJqHzNd1Sd53DnssaS2tIIk\njdKleJTmTnwGRJ07ysAPM9+8A8HsWfZJC+X9eO2FEb2VmsAZG6t/PPLI8vyz\nSBIuYL8i8/dl/a5+7PBS+eOmvrYtFaQVXCXlB9QXQAUi668War6WDCd3/nC9\n22ZO2pmargvwRURz4qp8nYjb3lTfuPJDX5rpAHZd+S/2rCqaSsf2+fnLZLoP\nK76r\r\n=vVaq\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIDX2tWFLfdfGOdTXCW6riwgdOEL/5F2MXYEW/5LIpgQMAiEAmtCb8ROWqmUoCFOrS9xfsNBvcM+dpC0qg3WaJrjrG+0="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.1.10_1539924572094_0.5848362012158503"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.2.0": {
+			"name": "reconnecting-websocket",
+			"version": "4.2.0",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket-mjs.js",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^2.3.0",
+				"coveralls": "^3.0.6",
+				"del-cli": "^1.1.0",
+				"husky": "^1.3.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^14.1.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.18.2",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.23.0",
+				"tslib": "^1.10.0",
+				"tslint": "^5.19.0",
+				"typescript": "^3.5.3",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.2.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "94557aefa42f1b4dd5472832536a245931cc8253",
+			"_id": "reconnecting-websocket@4.2.0",
+			"_npmVersion": "6.5.0",
+			"_nodeVersion": "10.14.1",
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"dist": {
+				"integrity": "sha512-HMD8A0sv40xhkHf/T4qxktyOvHx7K3d2A9i1QG2wRIYdMecxQJMhTIBH4aQ8KfQLfQW4UOqNSfxTgv0C+MbPIA==",
+				"shasum": "2395f84b5d0acee439ff5df34c3fd0853d11be7c",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.2.0.tgz",
+				"fileCount": 16,
+				"unpackedSize": 148547,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdZ3rXCRA9TVsSAnZWagAAhpUP/RRddU9fG9g92EJNNoYf\nJ0EQLyWbQ9EZB35+irI4+SlNOniHXPcGQ2pAPm9fo9t2lBbbwGNHIjbGq8TN\nvIloYRv4Gxa4svA78Tv0cVwgpnuJrL4Q0nvQMtDBQeQNcN9Yc9Ulzi66t5WR\nx1X7zZwusi6UW5rNAJ/reEnX30uUfYHY+zcGJO2E67eOBJdqmadnrTVhwAbC\n7MwBur5gkyJ+cDB1pBg0Oy3GyYvXN79miwA24fHsaAPzhZzY7xK59bZde9We\nN7XyvqrRZdFJuo+9en8Eg1v5gXDlwc932MI3f7jj9haM+L0jUwhECzAHFfEx\n7uP8HebHBj3t+s40ltvRpr1pw+dd6t9Qvn3FHkFtSKlS8tEVhS8wMv7y/PBN\na014S8HJnUSQ7eHdAJ02cf3eI414Y2GlM0Val6jD8Ge28zEuK5g9z5NSr+kY\n4VmBJd1dPkSvg4HFoxpMSdQOvc37gYQjvcIUGnRckoup3xPUqdU3+FM0Pdjw\n/6aMTQpWTU9LRotYsio0V5XfvLgBWA/d5Ds0tHMqdLH/v/pk4msSipcBznOv\nxkP0PVkWYs9WkZH0MInnYKLiBpMk9odv1vtMel2m2xpI4dQEocqQFBzKoV8i\n0MG0ToTJLMa+Erdny4mmbxGj4iKFLhC954gKEUuMPrSpLLd51YeEraaybj/1\nooc5\r\n=TJpR\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQD/nSLC19RoclXflSZEzwvepRwD26Qtx3P8jCDNMBW2LAIgamhtokN0sLBJViNW32eUtIF0bs3y+pXVy/ZWkFZxuUU="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.2.0_1567062743274_0.9755662483556715"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.3.0": {
+			"name": "reconnecting-websocket",
+			"version": "4.3.0",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket-mjs.js",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^2.3.0",
+				"coveralls": "^3.0.6",
+				"del-cli": "^1.1.0",
+				"husky": "^1.3.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^14.1.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.18.2",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.23.0",
+				"tslib": "^1.10.0",
+				"tslint": "^5.19.0",
+				"typescript": "^3.7.5",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.2.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "179751a6fd07c9a5cc21dd28da4690fbd800f9f1",
+			"_id": "reconnecting-websocket@4.3.0",
+			"_nodeVersion": "12.13.1",
+			"_npmVersion": "6.12.1",
+			"dist": {
+				"integrity": "sha512-3eaHIEVYB9Zb0GfYy1xdEHKJLA2JaawAegByZ1AZ8Npb3AiRgUN5l89cvE2H+pHTsFcoC88t32ky9qET6DJ75Q==",
+				"shasum": "aaefbc7629a89450aa45324b89aec2276e728cc5",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.3.0.tgz",
+				"fileCount": 16,
+				"unpackedSize": 149406,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeNIKLCRA9TVsSAnZWagAA4loP/iCbsM9wINJlB/VMEqVW\ncx1yX9tPIc39gwlLaKjC/RIk/EK/NzwTpLHuZoo8UdEaST17l1uV6pfEGzsP\nr9VrdUkR09NjO7AGFS+14WLXSpZFJbM8dYd41otgy2fAyJg/9v/x8Udybt1U\nPkeyZMr9F9EEdRUaQXwDY0EVEdrzBwLK72oNNaNHopBLjV+qOgQu+OlRnYV+\nQ1p3Y1dKjafCb/nZhGhv3ZepLN0NvM6ha08xVc4QZZTYGKmrgOwkbZJHsRmn\nAC1rCtwA8Cgh1IPDVgK9dDpHHZNMnJgPIyfe/hBswq137wqnO/Bbjqhrzfd7\nS2y/UzkISwMb2wCvng8ZUc6wTwwFqm1P8X807iFyXKIabUsx7LmTWlLLW8tl\nlPACny3qigIsfQXlqOI1fiI44dJCsBgD17+5ZFcByIM0HP+tQu6HS0I2WIHZ\nrJA+1EtBb5Irj+xApKRCiwYAmqeXCT0jG4l2bWcf7un80+2VD24V4OOOQVLO\nMThsE3mpOqJpuNxqJHD5y4CnIl3Cm39ej4mLh5ZRVpUpa3fEUBCwqYfsRT5S\nPnA9F5mecYeXJ06maHYIGO0YGh+Sw34eS8U3X46Od0cPGgZYzIZfyend2uQF\nbgm0rArPw5imr3F+/kIC2CC8WFuIqS2g96YXWRq3i/ILlkN4EjeIsSuJ9Dc9\nl3cl\r\n=ohkX\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEQCIGsm1QdzJW7KCH0zgrFkrqJ9I2weY5hVB/SLB9X13g4PAiAb+sCvRfPbtPa7lQTGdL3kqTwGROEgV2MXktaNcsd5Ag=="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.3.0_1580499595309_0.42171861679497735"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"4.4.0": {
+			"name": "reconnecting-websocket",
+			"version": "4.4.0",
+			"description": "Reconnecting WebSocket",
+			"main": "./dist/reconnecting-websocket-cjs.js",
+			"module": "./dist/reconnecting-websocket-mjs.js",
+			"types": "./dist/reconnecting-websocket.d.ts",
+			"scripts": {
+				"build": "npm run clean && rollup -c && uglifyjs --compress --mangle -o dist/reconnecting-websocket-iife.min.js dist/reconnecting-websocket-iife.js",
+				"test": "npm run build && nyc --reporter=text-summary --reporter=lcov ava --verbose --serial test/test.js",
+				"clean": "del dist && del coverage && del .nyc_output",
+				"report": "nyc report --reporter=html && opn coverage/index.html",
+				"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+				"lint": "tslint *.ts",
+				"precommit": "lint-staged",
+				"prepublishOnly": "npm run clean && npm run lint && npm run build && npm test"
+			},
+			"keywords": [
+				"websocket",
+				"client",
+				"reconnecting",
+				"reconnection",
+				"reconnect",
+				"forever",
+				"persistent",
+				"forever",
+				"automatic"
+			],
+			"author": {
+				"name": "Pedro Ladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"license": "MIT",
+			"devDependencies": {
+				"ava": "^2.3.0",
+				"coveralls": "^3.0.6",
+				"del-cli": "^1.1.0",
+				"husky": "^1.3.1",
+				"lint-staged": "^7.3.0",
+				"nyc": "^14.1.1",
+				"opn-cli": "^3.1.0",
+				"prettier": "^1.18.2",
+				"rollup": "^0.66.6",
+				"rollup-plugin-typescript2": "^0.23.0",
+				"tslib": "^1.10.0",
+				"tslint": "^5.19.0",
+				"typescript": "^3.7.5",
+				"uglify-es": "^3.3.10",
+				"ws": "^6.2.1"
+			},
+			"dependencies": {},
+			"directories": {
+				"test": "test"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/pladaria/reconnecting-websocket.git"
+			},
+			"bugs": {
+				"url": "https://github.com/pladaria/reconnecting-websocket/issues"
+			},
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org"
+			},
+			"homepage": "https://github.com/pladaria/reconnecting-websocket#readme",
+			"lint-staged": {
+				"linters": {
+					"*.{js,md,ts}": [
+						"prettier --write",
+						"git add"
+					]
+				}
+			},
+			"gitHead": "ef6e6a7fc9d5078753cf36ba270e382af1f11d9e",
+			"_id": "reconnecting-websocket@4.4.0",
+			"_nodeVersion": "12.13.1",
+			"_npmVersion": "6.12.1",
+			"dist": {
+				"integrity": "sha512-D2E33ceRPga0NvTDhJmphEgJ7FUYF0v4lr1ki0csq06OdlxKfugGzN0dSkxM/NfqCxYELK4KcaTOUOjTV6Dcng==",
+				"shasum": "3b0e5b96ef119e78a03135865b8bb0af1b948783",
+				"tarball": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.4.0.tgz",
+				"fileCount": 16,
+				"unpackedSize": 155681,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJePQfzCRA9TVsSAnZWagAAWucQAJHMoUjhEhfW8T4Uw7R0\nb1bFOhDEWP1f4MG4yOdqDGtqd+7Ldd/+XDfpSVqiptwQ16dr6bbR/0989R6Q\nQkj9gq4AP2r27TpJ70oQdUZCncWj1lEKnQ25WairF2e5PEYL9besOqxX1B3t\nJt2wL2KEYEUIK/WBFUEI/FyzJTXmisV4NQoG6DlY/YvJmDU4rZO4k8O0fY7o\nLZgxIOCWHetukrLzOaQw6HhdVULmnb2tOHR/k7br3Cgipm2+jopS6Fiq7RZM\ndl9kOdxtGdCfcLwXdKGWLToCDW0iRCMY8xdwy0/umcT0GQHko0mlnQNziIy1\njRHKe30bIJpPZiaC7UJvT4dpG+zVi9wudkkG7XFwzV6BZtWfNoqf5YnkUdJM\nUIEbnGmyansKJEGlhZfS6XyqRG6QtSZffsiwWlbR/GzXCrKov3h62azgk1Qh\nK8smVDW5WGKh2TQxpxBUor5XL7r+qnkT9H/++Xf5Meao0dbw96TIYnwhmVsA\nVG4zqZJ9ReMhV61idKCIDGXlezCGA1oUe/JHGuMk4UvQdP6aioBpwrie7vB/\nuI5JFmqOhxd0DoDNUhPQXoRXf3dLRp4F0dILKJ4KSjPaIDAqmq7vS8ramGM4\nzisbVEkYMPSnNxFYqce4GoCcqA4swWdbb8HEU6HSufCVSNLtgA7Db91v4UCz\npq88\r\n=5kIW\r\n-----END PGP SIGNATURE-----\r\n",
+				"signatures": [
+					{
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+						"sig": "MEUCIQDDzR7NpEM8G0wdwHNOMSyzpn7zk16j8F43Jj69qa1C7AIgX1yKLTyO3flwCydiMxlxD/dvk8QRVS8nNTsXuEIgAVs="
+					}
+				]
+			},
+			"maintainers": [
+				{
+					"name": "pladaria",
+					"email": "pedro.ladaria@gmail.com"
+				}
+			],
+			"_npmUser": {
+				"name": "pladaria",
+				"email": "pedro.ladaria@gmail.com"
+			},
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/reconnecting-websocket_4.4.0_1581058035344_0.08088041527463452"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		}
+	},
+	"time": {
+		"modified": "2022-06-26T09:33:26.876Z",
+		"created": "2015-11-21T18:58:36.599Z",
+		"1.0.2": "2015-11-21T18:58:36.599Z",
+		"1.0.3": "2015-11-21T19:01:01.153Z",
+		"1.0.4": "2015-11-21T19:04:18.355Z",
+		"1.0.0": "2016-06-28T19:23:47.817Z",
+		"1.1.0": "2016-07-03T00:46:30.996Z",
+		"1.2.0": "2016-07-03T17:12:44.042Z",
+		"1.3.0": "2016-07-03T17:19:45.607Z",
+		"1.3.2": "2016-08-06T11:02:47.435Z",
+		"1.4.0": "2016-08-08T11:11:23.433Z",
+		"1.4.2": "2016-08-11T22:40:00.204Z",
+		"1.4.3": "2016-08-11T22:41:46.552Z",
+		"1.4.4": "2016-08-15T17:54:46.304Z",
+		"2.0.0": "2016-09-22T13:51:03.440Z",
+		"3.0.0": "2016-10-17T15:33:13.167Z",
+		"3.0.1": "2016-10-18T10:55:17.604Z",
+		"3.0.2": "2016-10-18T13:08:31.299Z",
+		"3.0.3": "2016-11-28T19:52:12.091Z",
+		"3.0.4": "2017-05-20T12:38:04.184Z",
+		"3.0.5": "2017-05-20T12:48:22.591Z",
+		"3.0.6": "2017-07-01T11:08:35.594Z",
+		"3.0.7": "2017-07-01T11:52:07.066Z",
+		"3.1.0": "2017-08-11T19:13:59.116Z",
+		"3.1.1": "2017-08-11T19:29:21.035Z",
+		"3.2.0": "2017-08-21T06:51:16.230Z",
+		"3.2.1": "2017-08-25T07:11:35.124Z",
+		"3.2.2": "2017-09-23T17:21:46.328Z",
+		"4.0.0-rc1": "2018-05-13T12:10:44.123Z",
+		"4.0.0-rc2": "2018-05-13T13:48:53.076Z",
+		"4.0.0-rc3": "2018-05-18T09:56:42.670Z",
+		"4.0.0-rc4": "2018-06-04T06:54:36.359Z",
+		"4.0.0-rc5": "2018-06-04T10:15:48.284Z",
+		"4.1.0": "2018-09-29T14:55:18.765Z",
+		"4.1.1": "2018-10-01T06:44:40.351Z",
+		"4.1.2": "2018-10-04T06:47:01.223Z",
+		"4.1.3": "2018-10-05T05:58:56.516Z",
+		"4.1.4": "2018-10-06T12:40:26.458Z",
+		"4.1.5": "2018-10-06T13:24:18.677Z",
+		"4.1.6": "2018-10-12T17:08:47.626Z",
+		"4.1.7": "2018-10-12T23:50:04.797Z",
+		"4.1.8": "2018-10-13T10:21:37.359Z",
+		"4.1.9": "2018-10-16T18:50:42.634Z",
+		"4.1.10": "2018-10-19T04:49:32.244Z",
+		"4.2.0": "2019-08-29T07:12:23.461Z",
+		"4.3.0": "2020-01-31T19:39:55.419Z",
+		"4.4.0": "2020-02-07T06:47:15.475Z"
+	},
+	"users": {},
+	"dist-tags": {
+		"latest": "4.4.0",
+		"beta": "3.0.1"
+	},
+	"_uplinks": {
+		"npmjs": {
+			"etag": "W/\"815ba26ce177efc140565aa027f0a62c\"",
+			"fetched": 1766917312537
+		}
+	},
+	"_distfiles": {
+		"reconnecting-websocket-1.0.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.0.0.tgz",
+			"sha": "7a5dfce71fb8cfbcb518d2f44dbfd188d9327325",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.1.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.1.0.tgz",
+			"sha": "9680dd9e924f8989f88ed743af0ead9e5613ed8d",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.2.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.2.0.tgz",
+			"sha": "5e563795f6e325e31951e07afd0d29f7b22f2f02",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.3.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.3.0.tgz",
+			"sha": "8de800e756818d3cca971d4c40c76d73e3f1a20f",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.3.2.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.3.2.tgz",
+			"sha": "9989fa25e52e93ff4aab9d6a08be7028849a6c59",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.4.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.0.tgz",
+			"sha": "745adbd70ddefabefa242ddfcaa80c8e9f4a80ad",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.4.2.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.2.tgz",
+			"sha": "ab062e4ba09c37b8dc0baf44a0010ce18898cc21",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.4.3.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.3.tgz",
+			"sha": "7e68982853647720e405ad781ee83005ace130ad",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-1.4.4.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-1.4.4.tgz",
+			"sha": "a68ca9a89ac7d326daa8d0632c58e5135d1d51aa",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-2.0.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-2.0.0.tgz",
+			"sha": "89e42155bbe4eaadf32ce0e0d4daa13f1975fdf7",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.0.tgz",
+			"sha": "eb15325240912d52a38225c0d2081670e08d8007",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.1.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.1.tgz",
+			"sha": "9084a6308de36f2e41aa53c463d566e5f59eca9c",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.2.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.2.tgz",
+			"sha": "fdb50f856024f50058d0423c442132edc678b952",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.3.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.3.tgz",
+			"sha": "69dcf183da484f1e6c137321a0058bf94423cb58",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.4.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.4.tgz",
+			"sha": "b97ea99ccd6042418e3fbf90b9768b34b8cc776c",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.5.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.5.tgz",
+			"sha": "40ed15e2a27f2c9ce48e20058e9922049629350a",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.6.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.6.tgz",
+			"sha": "2783ae336eabc64085c600fd80c35c5510297931",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.0.7.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.0.7.tgz",
+			"sha": "00f7dafd4cd6a87db875805a38ec84452b3b1d67",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.1.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.1.0.tgz",
+			"sha": "5b1f7fa3ef58aeeea1aa71d763bcbe91b1713fb4",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.1.1.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.1.1.tgz",
+			"sha": "1a5efb08918a645841dd1ba43f45b55de36f65e0",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.2.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.2.0.tgz",
+			"sha": "8ebccc2930fb7e90d32bbbf009ccbea1728344d3",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.2.1.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.2.1.tgz",
+			"sha": "c309d07f23191f85988e99d87a5c9966545a1631",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-3.2.2.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-3.2.2.tgz",
+			"sha": "8097514e926e9855e03c39e76efa2e3d1f371bee",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.0.0-rc1.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc1.tgz",
+			"sha": "1253607b52b73e24f44c68cf3efbce0c56000c1f",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.0.0-rc2.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc2.tgz",
+			"sha": "91582d75315f3d89ddef6bb11f3a0e5345e257cb",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.0.0-rc3.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc3.tgz",
+			"sha": "9012e61196c07fdf8461e9ce2f66149606aab54c",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.0.0-rc4.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc4.tgz",
+			"sha": "a4e5dcac816fe2b929be7bbc9e71370de5a1c618",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.0.0-rc5.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.0.0-rc5.tgz",
+			"sha": "d6b5eb1d3c263ffa70fa4d4c3bf95bebe373ea5b",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.0.tgz",
+			"sha": "40c42b25a2060a055e25c179487125eff89ee0e2",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.1.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.1.tgz",
+			"sha": "18fa7d49dae7c234144f5f7cce8d122a8181e01a",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.2.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.2.tgz",
+			"sha": "d06c2f9a61ddee30c41ce03a000904181415110e",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.3.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.3.tgz",
+			"sha": "b384638838f6925fde7f0925a0f59607a07a083e",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.4.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.4.tgz",
+			"sha": "56da779e52968ca2dbdaaa0541d118ac5cfee97c",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.5.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.5.tgz",
+			"sha": "c74baed55de0a04bc256935f62d2e4ed650d5a6f",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.6.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.6.tgz",
+			"sha": "b5058c138bc7ac47c8bb439c401780ebe70cbafd",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.7.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.7.tgz",
+			"sha": "bce749e2b20b1dbeea55f62967406b72762b5cde",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.8.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.8.tgz",
+			"sha": "f6d29d237c330f193f42b98075099ec9dccfe3da",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.9.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.9.tgz",
+			"sha": "85f7c602af93ce22707cb49d84c81355f24a468b",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.1.10.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.1.10.tgz",
+			"sha": "15485b5c5266ab6dd99187e23e8da207d24c4270",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.2.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.2.0.tgz",
+			"sha": "2395f84b5d0acee439ff5df34c3fd0853d11be7c",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.3.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.3.0.tgz",
+			"sha": "aaefbc7629a89450aa45324b89aec2276e728cc5",
+			"registry": "npmjs"
+		},
+		"reconnecting-websocket-4.4.0.tgz": {
+			"url": "https://registry.npmjs.org/reconnecting-websocket/-/reconnecting-websocket-4.4.0.tgz",
+			"sha": "3b0e5b96ef119e78a03135865b8bb0af1b948783",
+			"registry": "npmjs"
+		}
+	},
+	"_attachments": {},
+	"_rev": "1-ab00c7c1e3a41a9f",
+	"_id": "reconnecting-websocket",
+	"readme": "# Reconnecting WebSocket\n\n[![Build Status](https://travis-ci.org/pladaria/reconnecting-websocket.svg?branch=master)](https://travis-ci.org/pladaria/reconnecting-websocket)\n[![Coverage Status](https://coveralls.io/repos/github/pladaria/reconnecting-websocket/badge.svg?branch=master&v=1)](https://coveralls.io/github/pladaria/reconnecting-websocket?branch=master)\n\nWebSocket that will automatically reconnect if the connection is closed.\n\n## Features\n\n-   WebSocket API compatible (same interface, Level0 and Level2 event model)\n-   Fully configurable\n-   Multi-platform (Web, ServiceWorkers, Node.js, React Native)\n-   Dependency free (does not depend on Window, DOM or any EventEmitter library)\n-   Handle connection timeouts\n-   Allows changing server URL between reconnections\n-   Buffering. Will send accumulated messages on open\n-   Multiple builds available (see dist folder)\n-   Debug mode\n\n## Install\n\n```bash\nnpm install --save reconnecting-websocket\n```\n\n## Usage\n\n### Compatible with WebSocket Browser API\n\nSo this documentation should be valid:\n[MDN WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket).\n\nPing me if you find any problems. Or, even better, write a test for your case and make a pull\nrequest :)\n\n### Simple usage\n\n```javascript\nimport ReconnectingWebSocket from 'reconnecting-websocket';\n\nconst rws = new ReconnectingWebSocket('ws://my.site.com');\n\nrws.addEventListener('open', () => {\n    rws.send('hello!');\n});\n```\n\n### Update URL\n\nThe `url` parameter will be resolved before connecting, possible types:\n\n-   `string`\n-   `() => string`\n-   `() => Promise<string>`\n\n```javascript\nimport ReconnectingWebSocket from 'reconnecting-websocket';\n\nconst urls = ['ws://my.site.com', 'ws://your.site.com', 'ws://their.site.com'];\nlet urlIndex = 0;\n\n// round robin url provider\nconst urlProvider = () => urls[urlIndex++ % urls.length];\n\nconst rws = new ReconnectingWebSocket(urlProvider);\n```\n\n```javascript\nimport ReconnectingWebSocket from 'reconnecting-websocket';\n\n// async url provider\nconst urlProvider = async () => {\n    const token = await getSessionToken();\n    return `wss://my.site.com/${token}`;\n};\n\nconst rws = new ReconnectingWebSocket(urlProvider);\n```\n\n### Options\n\n#### Sample with custom options\n\n```javascript\nimport ReconnectingWebSocket from 'reconnecting-websocket';\nimport WS from 'ws';\n\nconst options = {\n    WebSocket: WS, // custom WebSocket constructor\n    connectionTimeout: 1000,\n    maxRetries: 10,\n};\nconst rws = new ReconnectingWebSocket('ws://my.site.com', [], options);\n```\n\n#### Available options\n\n```typescript\ntype Options = {\n    WebSocket?: any; // WebSocket constructor, if none provided, defaults to global WebSocket\n    maxReconnectionDelay?: number; // max delay in ms between reconnections\n    minReconnectionDelay?: number; // min delay in ms between reconnections\n    reconnectionDelayGrowFactor?: number; // how fast the reconnection delay grows\n    minUptime?: number; // min time in ms to consider connection as stable\n    connectionTimeout?: number; // retry connect if not connected after this time, in ms\n    maxRetries?: number; // maximum number of retries\n    maxEnqueuedMessages?: number; // maximum number of messages to buffer until reconnection\n    startClosed?: boolean; // start websocket in CLOSED state, call `.reconnect()` to connect\n    debug?: boolean; // enables debug output\n};\n```\n\n#### Default values\n\n```javascript\nWebSocket: undefined,\nmaxReconnectionDelay: 10000,\nminReconnectionDelay: 1000 + Math.random() * 4000,\nreconnectionDelayGrowFactor: 1.3,\nminUptime: 5000,\nconnectionTimeout: 4000,\nmaxRetries: Infinity,\nmaxEnqueuedMessages: Infinity,\nstartClosed: false,\ndebug: false,\n```\n\n## API\n\n### Methods\n\n```typescript\nconstructor(url: UrlProvider, protocols?: string | string[], options?: Options)\n\nclose(code?: number, reason?: string)\nreconnect(code?: number, reason?: string)\n\nsend(data: string | ArrayBuffer | Blob | ArrayBufferView)\n\naddEventListener(type: 'open' | 'close' | 'message' | 'error', listener: EventListener)\nremoveEventListener(type:  'open' | 'close' | 'message' | 'error', listener: EventListener)\n```\n\n### Attributes\n\n[More info](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)\n\n```typescript\nbinaryType: string;\nbufferedAmount: number;\nextensions: string;\nonclose: EventListener;\nonerror: EventListener;\nonmessage: EventListener;\nonopen: EventListener;\nprotocol: string;\nreadyState: number;\nurl: string;\nretryCount: number;\n```\n\n### Constants\n\n```text\nCONNECTING 0 The connection is not yet open.\nOPEN       1 The connection is open and ready to communicate.\nCLOSING    2 The connection is in the process of closing.\nCLOSED     3 The connection is closed or couldn't be opened.\n```\n\n## Contributing\n\n[Read here](./CONTRIBUTING.md)\n\n## License\n\nMIT"
+}

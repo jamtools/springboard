@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 
-import type { Plugin as SpringboardPlugin } from 'springboard-cli/src/build';
+import type { Plugin as SpringboardPlugin } from 'springboard-cli/dist/types';
 
 import esbuildSvelte from 'esbuild-svelte';
 import { sveltePreprocess } from 'svelte-preprocess';
@@ -12,7 +12,7 @@ const sveltePlugin = (
     return {
         name: 'svelte',
         esbuildPlugins: () =>
-            buildConfig.platform === 'browser'
+            buildConfig.platformMacro === 'browser'
                 ? [
                     esbuildSvelte({
                         ...svelteOptions,

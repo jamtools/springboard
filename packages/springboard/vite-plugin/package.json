@@ -1,6 +1,6 @@
 {
   "name": "@springboard/vite-plugin",
-  "version": "0.0.1",
+  "version": "0.15.0-test2",
   "description": "Springboard Vite plugin for multi-platform builds",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,0 +1,4965 @@
+{
+	"name": "@springboardjs/shoelace",
+	"versions": {
+		"0.14.0-rc3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "59172940420199c33aa972a1b68d4d7b03d4e8f1",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc3.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-BBudi9yKkw44Pf3izZW+sZG3VyQ2+9OWk1sQDwIuSOkhxpM3R4bAwspGG0L2KoGR/yVdWGNpLZEsK/as8C02gA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDXQTT3O0S/7+mWgec6z8xFWVL7ceAIK4ZOzBjhKkQWHAIgMjO3lFUZYkd8+0P6zZXeAYCpzpMo6WGvcEK6PbUR4vw=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4216
+			},
+			"main": "index.js",
+			"gitHead": "df500094244c3731cb7045a6aa45f01e4a327411",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc3_1734766452754_0.11072552574256389",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0-rc4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "c03192835eed7a8d26a7492e8c179f75b0b441c4",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc4.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-JTpfHTLRq9UOThKJK8p/vjRDOdKGQ37Z5MpnUVqBHzCW+T8NOH5KLUC7Zo7HJeW1c4LyngKQO+IMPZ20KqznFA==",
+				"signatures": [
+					{
+						"sig": "MEQCICvPq+JWOhBcml6BBSAPAFfGY/tiAF+KgZpLzYaJHWRhAiBS/89EwcEBbTL6BzcVe6wARfRapN/9Jy8v/T3bCqNzzA==",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4216
+			},
+			"main": "index.js",
+			"gitHead": "2d61ad47f811faa69d4a37c0512805cefc964672",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc4_1735670835528_0.9143352108997944",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0-rc5": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc5",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc5",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "2bf3cc086037e9ec9b42712edad13bbe13a6ac83",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc5.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-0UyLMHAxUE/B0niyvOtJQDRs5DTRNNVtnVHNHyfrLQ0NgZlWIy7HQRP3FiA/9vKxBvHJ3dQ4aLgZ0bU2fKKIMA==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCWTgQOtx4BWiogKmEbaVcx3Syg6eM08XzJEioayHisfAIhAJVEzYCO6b2QMN0SbGEcNBGSjmyoHrKvWsPs1xz0XccY",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4216
+			},
+			"main": "index.js",
+			"gitHead": "b92d1f2db2e4b767ee77ec8205e1dd52e9aea612",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc5"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc5_1735693102258_0.3814518159426006",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0-rc6": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc6",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc6",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "cac84182beced4fe1070917be45f7e3283614914",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc6.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-zgjvOaVmMWFTEaPhQR+ChePqo95cHsMlIBJN28c4C8ej/lRu/jraFjnZDEcSTs2EJARJKsIFQR6MEnANmPeYzg==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDm9kwS4DND15mVSaYQV9arTMh5p9gOQhdPC0crD0szuQIgaslX6/ww6S+UD4aQFOEQDAjoCfKOVJTd5RXGbkoogBk=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4216
+			},
+			"main": "index.js",
+			"gitHead": "b92d1f2db2e4b767ee77ec8205e1dd52e9aea612",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc6"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc6_1735923980774_0.5188872017337338",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0-rc7": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc7",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc7",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "fd626772e3a9c393d37b4d92d4fb74b736b1828a",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc7.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-7w01H5D4PKwKfc1npuumNhUkE2HmblRwGrG34aHyh/wRh1EHrTCWB0is0N0MKdzv0LNa13vUmBNS3m8WNbGqfg==",
+				"signatures": [
+					{
+						"sig": "MEUCIAUUqaW6V7Tzt5Op1PzyObaa6uAk13DjaDgCr9zDOGMeAiEAxJ5WVqvStk9gfB2EF+0JVZmRDdeSGBK0FK77PbZ1i44=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "02026f975a644b93fda5a454ec9c60ab789fa0fd",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc7"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc7_1736301300380_0.6768593603216884",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0-rc10": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc10",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc10",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "a6f6dd1271da51a13465ccda3e948d3ee8ea1118",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc10.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-mHes9ioPOsUI/8724YcHxA2fVLZ9RPxd6vjbjlluc5MSoptR7dT2A94dS3hMd4JHxCAIPzS505IPVYNqvVeWGg==",
+				"signatures": [
+					{
+						"sig": "MEYCIQC2R81i4uMXoxR2Jq3Op8cxB2PYe8JiX3fE7X8AH+gAAAIhAKvNTO5U6IZ01a0xFAhDrVoLyV1M+cwYvBqo1gH0aibr",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4462
+			},
+			"main": "index.js",
+			"gitHead": "315ab5ec63680eab5a415fb76317723d9b7d2d48",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc10"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc10_1736885048116_0.4633381857691017",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0-rc11": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0-rc11",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0-rc11",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "cb6bf18b5f515b49b66e53b4c54839b2a008842a",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc11.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-qyPZ7MGvQi4Rlf+cNLYqaVVjODcJ5q5nfY5JOxn/FQcwIMnysxCz8A8hoSsbbqKhtMHdjk/KrSL+/NZEFOgyVw==",
+				"signatures": [
+					{
+						"sig": "MEQCIDzh5NcqzWYwE7QPzq8+XbqZO2pTPuX12QlfEK5KcTGhAiAuovDx12Dj9/aFiMUSOrZ0Bff/GXtgpzbe0Ghpv6S7bw==",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4462
+			},
+			"main": "index.js",
+			"gitHead": "315ab5ec63680eab5a415fb76317723d9b7d2d48",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0-rc11"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0-rc11_1736885247255_0.4795844852907052",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.0": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.0",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.0",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "1417eb51a544a3f274e639be54dbb6521bd9659a",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-MepQKVF5jD3rdQLzuD2hU5NpmRM6SMpCqtJWjsi9eUcn52BPXVUMeSEufxH02kh81az4mAqzo4zJ5s+LZolW9Q==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD9rv0ogQ54zvdsYFB7aVTP5rXid153eKqRo4hsOmVN8gIgCc87rOuNua8FhBA2xkN4f27ondqN+YMNmfIq3iLGEVI=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4452
+			},
+			"main": "index.js",
+			"gitHead": "c9fa5ed68299cf990d17b4ff7dd7099cf83b1c05",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.0"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.0_1736885507820_0.860302642898479",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.1-rc1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.1-rc1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.1-rc1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "1c56f10ccc98f778669710575813c7f4c73d44cb",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.1-rc1.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-6QAo1HAE3dihbDQINWq7g5YRoi6tJeS/cK53sEkJRpdhbmeaQ0tkbJMvDfoQq0USGKd2fPog8qjnP/3XCJMP8A==",
+				"signatures": [
+					{
+						"sig": "MEUCIB0CkZZjjQbwQFrLp82eEK6mYg5JmMnE5wWTGtGUVNKZAiEAun8kQpkYIRI5FIDBHvjOpk8uazM5W3FgzC+ZlRbenoo=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "165d49c36318e3b5c8ae916a4fac8902b428d108",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.1-rc1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.1-rc1_1736887338834_0.36635720760929913",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.14.1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.14.1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.14.1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "3a57780c1a9994cd76b2c1e8bab9a653c7f56e0f",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.1.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-6GqjA2o5uwG6Gz48ROi/Ao2HOk19rsRt1TH7YcwVds8AWDkFaxPUKiaas6gQMBiNVn1L9aOzkFIA9Nx4AdgPWQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDIei8xSgU6jiVxa93GBn4GnvsXDw+I1uNW3ffpngxfNgIhAN7n68CowGvMbSljwDC1PNwATF+z/O8KHgjdyg0YXD4w",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 4452
+			},
+			"main": "index.js",
+			"gitHead": "165d49c36318e3b5c8ae916a4fac8902b428d108",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.14.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.14.1_1736887507120_0.22212362935140528",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "742a1d3f0443586229f7d17169d290ad42618712",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc2.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-ZfcvXzQI5/VINSBLbbQMRhBXHFMJGt47dMTrxnhIzT5tCFw8zWKAZwjEGgIeBaBS1iXh71lxs0ZbBTOsLryvIg==",
+				"signatures": [
+					{
+						"sig": "MEQCIHZMtxTrmMXOELgq3nSWXgrSPBAX0PBOzsIeWEl5GlRqAiBppHFkY/6YNY+SP0O+7tM5diiP1ehEe74xni+6fzulAQ==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "25fc988c8b9f5ac6810128d292ef694bf2573b95",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc2_1738717174655_0.014165948279857288",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "b9d33aa6d7da37cb16c001fc017bcb1f88a04ce4",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc3.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-6T+hk9aj2cVFiacPC4JixJbTsPY/lDBhswfuN7+HOwcYQLgqJcu8D+xwz1i61rQpCa8/UHVidrsx4+QDo9Eyvg==",
+				"signatures": [
+					{
+						"sig": "MEUCIEz7bCEdmZ2KtUKM0zgULaxo4wwu2dX40lHeNlZi4BZsAiEAym2mIrJURGAzfLfRnJMCTObK7kB4TKe+FugfpCAkfzw=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "894616b2c02861cfdf72d45d2bb083d5f4d4eeb6",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc3_1739384961559_0.31013878118435034",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "ac1949409017d248daaa4acb27fd03e4a5bafb42",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc4.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-P6mVUjVFjIAjqkkqnJkCZL/yms24Nsyrsv4Ku8DPg514pCSHb8TNn4gO7p8niZNyYADEpOl8QhRHTDqMdnQyIg==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCRYYTDppbCH7arNsLKbNQ4/K4LC/ru6lIZU/UKy67KZgIhAIkuvIiRrI4KVO5v2CIvihi2pS/nwjHJcl/OVQnuJ49D",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "894616b2c02861cfdf72d45d2bb083d5f4d4eeb6",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc4_1739385151934_0.5464697177429765",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc5": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc5",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc5",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "2448129b65271fdfd48524bc4cf2dba6368d7ab1",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc5.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-RgA5BYzr/TBAQKqYZJAaxgpGgUMQ93tbWpHf52ZeVKsvak7mpZo+dEUrWFDIkBSZioyh/G8cF7BOlkaiWxGqcA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCg7w6bWbA0TV1Abm8OzmTmzYfZnDUfoSXIxK2jCYliJgIgTu+aBEBD3IWRGU8uhVg8191CxkSa8CmLnUXtTXqoaUE=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "45176688abf41b86401378b4dc38eb63f646d670",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc5"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc5_1740511246459_0.1264109560020441",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc6": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc6",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc6",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "07500b9aff43415a989d15fa8d29e166e8fb4701",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc6.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-OhQTfV/0DDZyCODzd2xL5Eo1JUdrdRSzUJiyLmuLnesqhFpUurWOOmkqfkEbFPRSmGT7b+6khfOeTn9G1HCSsw==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCZG0XD6Dd4lZuZ80G6t3F0+kcLYag/1mZd7c91Mu4TBAIhAK/8LtZklftZZQvFsHHYWY2pX2cDTfuC5tfb5VmVCBEN",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "45176688abf41b86401378b4dc38eb63f646d670",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc6"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc6_1740761779355_0.22119116392422877",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc7": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc7",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc7",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "01ceab662498fc1e6c28da0cc37b3529f304bcca",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc7.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-nYVPygz/Ix1sL351NWzBI77nyXa45IOq+XfhdhWhFT9eIdBUiDyLj9Ofzambq2/3D789u/VRTG5Hjqp5CUblbQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDFdpz23zEzQMshcYkAmuJzGlmDaGQ+o01EMO+5K/1B9AIgMs15lz4QsT5T6f6RjapmkiEJOm/4ZyHAUwNtmBcgnXg=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "3f0582d3a860bc6d8e3f32fbdfcc6d40d9dbfe03",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc7"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc7_1740763258724_0.39579034083349485",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc8": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc8",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc8",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "38d5a4cd0799f5f87417ae8b0c536a3e737dc824",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc8.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-TTJtLdSukK+BRX9uMi92i2+KaqNEFV1acWEvinu5Tr94nVlmYgYjTxMZpg1ZrN+kPKQpg1mnzV4qQcwYDZYWOg==",
+				"signatures": [
+					{
+						"sig": "MEUCIHdFrNtooBCb5PDYrsoK98VmodD/+C1j1L9B1x6iw7+PAiEA0WvuLbAhe+x12ag0EY3Obaa4MN5eXjgr5hn3g+aKZeM=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "3f0582d3a860bc6d8e3f32fbdfcc6d40d9dbfe03",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc8"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc8_1741018128172_0.9181961175687183",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc9": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc9",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc9",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "6cc53233f9b4f92c08989c66be8fecdd98eaf3b8",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc9.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-tei+kObKKs0i17Y1Mw26BetJMGY46fYea7v64CTUxOMctVUaxKGc3NOdExPjoSxSUhwNqfn45aO8x4EpL6QMBw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQC+TGUUguaIEKoJlzD3GMtW/erzqbGdii4dMYZPpkIiRQIgVMrcXtX38V+NWYJWylSKbnAyIW8dp00VNm3mHskYtwc=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4460
+			},
+			"main": "index.js",
+			"gitHead": "0cee6fbd5407464d66995caf3e26875e2d65d164",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc9"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc9_1741214374229_0.6633149943221355",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc10": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc10",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc10",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "11f6c032f7f8469a8a2a130408159368cbf4e5dd",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc10.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-riObdTIJQY+JpiFgVlRnsyRRErN4vbrhSRFu9U4ceyaIg4qNK5Ey5bhiIh8cdKT3VZP4abcx5OFDhXoCJFGcWw==",
+				"signatures": [
+					{
+						"sig": "MEQCIAOn172EV96Z5P3toa+xBfew+8FmgiPrXIgIah5J8ilZAiAa/u+SEZUhNBcqhHW9+LQB+DsZLHm92EObU4wUZQm9Ew==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4462
+			},
+			"main": "index.js",
+			"gitHead": "a8778a6748cf98726042627b21960df7733516bf",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc10"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc10_1741214759042_0.7970853192104002",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc11": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc11",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc11",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "15786470a3519920be29d1b7118cf97235b90216",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc11.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-GGF++ez55W6jcK0rpqRJAm5JGgahMkysiD67SAAT/qSWJbmSi8YRGzIrlyjtFXFFZ9MMmOElYHzM7zaPx0n5Vw==",
+				"signatures": [
+					{
+						"sig": "MEUCIArsUBNG16qzApxvpMPMMuh4LAYLOl44LlIwaUzJbSG9AiEAnbr+YpcTTVPf5AADfHoyOpeUPXvll1+a0A9GN8I4Wcs=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4513
+			},
+			"main": "index.js",
+			"gitHead": "d663c423e3205e08faa30fea78dfabf75136d104",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc11"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc11_1741742719380_0.38374480390030885",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc12": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc12",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc12",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "ec8558ccd611b929f1d37f8b4e3ee1baf00651a1",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc12.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-8DzL1ku2Cg9tE1vAwWYpFTTDHpp6JyWJWSdOTPveBshbTXJBozSafEvB4egKd0gNlJsAfd397DqhD7jLHxAAsw==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCi+B5Avqg7xZplCWw5xFuOjmob/SEvzKpB58nvW/sCIgIhAPfxIJeAh9r/5knGBfyw751raBlyC7wFl2QYMSaM5JUx",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4513
+			},
+			"main": "index.js",
+			"gitHead": "d663c423e3205e08faa30fea78dfabf75136d104",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc12"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc12_1742620019850_0.5472664051874003",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc13": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc13",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc13",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "498482bc1dfeba3529a6790ff975ac3484e77766",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc13.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-Px3DcnhCwLRnb0koYcFlFtM8qZbKUaY7Zss7LD5uYZw7cQwoH22KGXpYqkQe6IwsEVsCbnhV5vmM1mG0edEO8A==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDwlrGB5gsDe035/4tLGMryXPro/OsxXzmHBl/2BvgOswIhAOGCeC8Trj0OZktE+0bqlZJ6EHrZIyTxuE2O2UkX4er5",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4513
+			},
+			"main": "index.js",
+			"gitHead": "3e0441e9bbcd3f6e144af4232f15f6b778754cca",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc13"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc13_1742627155379_0.6587366786245743",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc14": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc14",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc14",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "fffa295092b405ad78721344206ec6daf305fe29",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc14.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-59d3vlVi0Ema6cFp9i1YVHx6mHYqnhHLQw/TiKfCEwEEs/ILN+vPPOj1sY8imWzzqeGkBBtEjkbAiNjSISSNNQ==",
+				"signatures": [
+					{
+						"sig": "MEQCIFUKSrPCDrXxcfjupyBBpMmG1VhNVXbOg94yE+Sz3QFlAiAU4+ZtxrQB5/7KWjwHE1JSYyITB4/pax3xVyH5tJqvvA==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4513
+			},
+			"main": "index.js",
+			"gitHead": "3e0441e9bbcd3f6e144af4232f15f6b778754cca",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc14"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc14_1743103389872_0.2246738253612992",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc15": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc15",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc15",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "d242886a6e1ee006a09ed0556692c0a76e0600da",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc15.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-8sEZpIgha0HTxwntJx1AzZZ1Cm8PAKtx7OvIioFDmgV2pjkM79ZAIGvSyn7i++EiulDIZrXDJU/7O0rwCcaz1Q==",
+				"signatures": [
+					{
+						"sig": "MEUCIBRO2nY0n9HuuKcvryD2SiU1VnTLZqnFOwtGF012MqqvAiEAw7dE/q98DeUBUsgM+HvpoWO2ahNcAI3/FY+jSIicyy0=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "b406f3da996000d2121e573fccf49ac652e7857a",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc15"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc15_1744746402587_0.6294841116031358",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc16": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc16",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc16",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "9f76a9a67368de1ff767df1ff6b87977426f62cb",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc16.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-HoJvCf2C9Y4qogP6YAZKDVfUzPY2VBu/113IK4QDrelFOi+CiJtXEIewvVAH5qwp0h5zzpFRzBQLXLZpGNAF8w==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDYiSDeDD+pVsoQwf+pczYtrv6GLVfJcwdNLAIIKR52VAIgDzx7tk86U1MbDoCpUKBPzKNKIGttbyvUkzt24FpBfUc=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "b406f3da996000d2121e573fccf49ac652e7857a",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc16"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc16_1744810177482_0.047583578361748646",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc17": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc17",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc17",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "d3513886c115c53422383f2be14d859ae49966d8",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc17.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-DvNns304AsSWBhZhrdpEDDmN6vBG1r+UQf2GRMI1e9XGOfniJzTlBcYBz2MsyK/VewUVEFYc2JWtLClVZPLvww==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDTvvTEUX3XJFLs9t0e0OqQTU2IanFfpLjWmlx8J8h59wIhANkH1v6HHCX8qwJCQxEpNgxRUOGBkD6iM4pE04Nkeim6",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "b406f3da996000d2121e573fccf49ac652e7857a",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc17"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc17_1744821233182_0.4212119657666451",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc18": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc18",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc18",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "dbb84dc2a13e6ef117ed782a30c37114331ef1e3",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc18.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-j7QWWXU4Ra83kiNDBesfyetozB4Qn6b5egy7QFHLPaS2S9FV6JX/uplPIE5y2KClEIKVHGzSrFZzfdz8wjQQMQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDUebY55xjxxZ3bvDrS8/19PCxF5SuH409VshJnFqBQvQIgQAbECowpfelAu9dp7AgxVeYvZDhkLLrjqzIj4lN6a1Q=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "b406f3da996000d2121e573fccf49ac652e7857a",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc18"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc18_1744823371189_0.06342274289526495",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc19": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc19",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc19",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "8041aeeb986f81fd122d576e844c97b00e3e856e",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc19.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-7Zuf0YuhvuPhr3rTCIHGqKKsRopiUMyN9NRwdl7glwIYw6jNeIpZCzqtzCU8Al/fORe+HV6uIgmC77RJxjfWnw==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDw89B4UHilgvXeWE2FYqh/2uKJUE6Gu45x3/AOlQv76QIhAIlPKLLEkurlR17sbj1idV/C/bZx/Hl1E12tfm3y0XXw",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "51dc6e067be881e0abdd84b7cac5a9b954835879",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc19"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc19_1744906064999_0.623626570927335",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc20": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc20",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc20",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "9212061f8485b26492fe7fb05d8e962e871a07b6",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc20.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-aH2b+fzbxL0lL+b8yB0sxpStwUbOwrQp71bScsRcIpJDbbs6HKmjhQgBv6QdIWzoYfL0sVurkH/Ddq7lkEaACA==",
+				"signatures": [
+					{
+						"sig": "MEUCIBC3COKuBYtIXZpNbA4OANdVvCfjWUcyyitsx7VVSyqYAiEAmFtWp4zUF0AALzrOOJSTmtb7Xjr6xu5epR/KS8Szl1M=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "51dc6e067be881e0abdd84b7cac5a9b954835879",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc20"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc20_1745077338290_0.6670937286352541",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc21": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc21",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc21",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "867980b13f150092aad667050423a8ad6abc7565",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc21.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-jxbfnQ6z8pyJXaycms8w8xlRsh8nVpKE0IsXEPOoETKMULOqj+NrYhZl2Ltitrq40YY54yc3DMr5JWV43OhS1w==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDDjYCoW5MHECTdJ5p/6eYNriugN220VxzE6e33nb7WJAIgVRQ0Uos5ije00njVpZ78pS8GUH1FdrhlJ0awKCxXeU4=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "51dc6e067be881e0abdd84b7cac5a9b954835879",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc21"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc21_1745562360533_0.2802733271802367",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc22": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc22",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc22",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "29450726ad7fab697494d0f5a6b223122f890e75",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc22.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-MWLCMKjgcICGhyLHIi22pSWRwy9+t+18tdXOVvRCVyXhsPVkSXpY1czn8zPi+K+T/rOA1AqoNv70cjyHAYsvtw==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCQ4KiXDuGOBv1WNmskzCmpdhPrCdrfsDxtCi+k9+1d8gIhAOq/cauIj2ut6ck7VbTHeTqbwt+r6lcK8TmhYzlCAlVN",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "51dc6e067be881e0abdd84b7cac5a9b954835879",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc22"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc22_1745562820794_0.14693902035925688",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc23": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc23",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc23",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "b371b753a735bc464f99bf2aea757866cc143d1a",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc23.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-jU+skn3MiXo0cGIytDpVJoL+P/0wYasGIP9uv6zLJYfF512T4+G6Ggo4vRlGmz9xjJ8aNcHx11ECGhNoXs+h2A==",
+				"signatures": [
+					{
+						"sig": "MEUCIBAEXFcMqcqONotueNpn4BV5IaKi6hjLf7MAIL/CKxipAiEA9uCHaj587G+zAEe5/bAayAtiPAgKjQvOf6kpFlw/8gw=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "51dc6e067be881e0abdd84b7cac5a9b954835879",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc23"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc23_1745563464679_0.828579119271365",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc24": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc24",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc24",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "376d5fc1a4d3479a57a8235d48113ba39bead12e",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc24.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-w3IvwgYf5zO1wCz8o5hDkZ/pGCLksXdykCLnIqf4tfj3DcxwtCKzz176YZDWwG5vVlZ3WrGh5E8Arj3LcJL8oA==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDOFREoJ3ehyz7B2eA/iHJMUInNEzIp69MIbnfRt5GM2QIhAIZoA9KeFuPW8+XibjdPaZsJa/auBd7tB9AZpgxtDcx4",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "f07cb71ac56699ce311b3b30bc94e35525e1aaba",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc24"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc24_1745854188400_0.7387983742416493",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-rc25": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-rc25",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-rc25",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "8a0dca5128ef461b0c4fd52d1ef490018b7759d2",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc25.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-rsNJsicgsLhSvTMuYmUsu4hy3SsHSCd42hiNrV0lV+a6967sRdSITiuriug99+FnaF5UoITDXR3nQ4xnIveaPg==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD7H80LBsfpueIn2fLGXndTxGDnidmeld1XGbLPTBQQWwIgH238a4sRITFpXOzWQ2OgGSg7N3DIeiuLNRTs0Pto5uk=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "1c0740ddc2f45b8bbb5a96c04b0b41e27253d2ac",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.8.2",
+			"directories": {},
+			"_nodeVersion": "20.17.0",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-rc25"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-rc25_1746060931047_0.10828078876964331",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-dev4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-dev4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-dev4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "a9874bbd3b6e5620ad589a739a3c8d7475218d3d",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev4.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-GL6dpK9a+vhzhRxZOw8eQf7ABADVLPPzHO6BsFBHSCGvivXGM7Nzn9LEhmWga7oqtOKHF4lDnX8XR7Y9oLcJiw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQC14cp62Lal4C26sgmqWBbW53ChjhQT3OZ2kRrlO/1PZwIgPXMdKHmrHWuLLEeEM+zp0GkRI09gJEQCUOpsFUUFxMo=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "a7fb9cafb92d8ce580bcf12045cecc25aa2c7a84",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.5.0",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-dev4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-dev4_1746835821728_0.2188603986478843",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-dev5": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-dev5",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-dev5",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "d55cb9b720c2432aaccff3b80d23fb7b299879c4",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev5.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-VqJhZY61sebwiHOfONDFBk9My5+g5MdmEobJEOTLUGUM95l1SnU7IhvXce61h1cs3vQZCiJxoS6UlEx7HrsaFQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDOhwVbl9EZE67scaw58N6bllea10eQscCQRQJKY5KX0QIhAPeiMaPkjQKW0EzRLKTIK2txJAAdXWURJdj2pqaawlO6",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "a71830a7950f814efdba9041d19d3e89dea75b81",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.5.0",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-dev5"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-dev5_1746836213218_0.45037451409334617",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-dev6": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-dev6",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-dev6",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "de5b2b9fa2911408bfbac60e3213c5eb134f094d",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev6.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-Goob2BFNTAKBsTVgCGiTsNtVQS+jdGWr4qTSq0PL5UYfm0giEfDgD0tMEvfA2fnNlz25h1/c3qgyDgdoRXF6SQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDPAA9UoQc9WBbYq+GAHjrk0elCn8R6AbqTfdaEOsrJ+AIhALrFqPtEZbuFY9Z/EAfm9evBe+nkUucU3Jnj7CDM9HJ8",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "783d46eb36c112387f6528259ee63aad09e2ef34",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.5.0",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-dev6"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-dev6_1747375964100_0.5965792538279466",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-dev7": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-dev7",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-dev7",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "da653886ff0b7a57a2de489a6c1be17e0909f440",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev7.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-ZQGE1Wa/dkSPmt4xYRcogLACVLzMG+IbRPsZpdpo5rYtwflQO04NIJCxlHGXnjN3tF+gAhZOInTEMeeE8I/dNA==",
+				"signatures": [
+					{
+						"sig": "MEYCIQC4RYNLFzElCdkPP/r+nzuJ+hx080LzHR1HSOgcAL+ACQIhAKRE3ZfVkJJyluTUZh/ijNqPAMlEXLSVv3Zi4bjgfmOD",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "66772de8d8a6409b6b6dc47a6d4deb5601e50a72",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.5.0",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-dev7"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-dev7_1747416685538_0.5123579328080743",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0-dev8": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-dev8",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0-dev8",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "74aa3203231bf90d509b1380887d093724f93571",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev8.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-g6OnaVL54ta74yAUFn7uYqIym/ATofCO8Goaj83MsFkOUge3Duvao9J7KSl8yn+bOC+unfA3l+eqVNTWaE8+XA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCz1dRP/A+kKyqR/wuM5DNa5PywsiiAv3JVi5pRqDKQ/gIgQXtN7lYlsOD/TMVrSvpT5BNlTjAdFCn0i4gnPhEVsRc=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4566
+			},
+			"main": "index.js",
+			"gitHead": "c8a9cc8a66f1861a96d48a9a6a40e55968003f5f",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.5.0",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0-dev8"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0-dev8_1747432943655_0.03790871938496232",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.15.0": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.15.0",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "fd8e3cb463d5da92342133f34755954d6668d10f",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0.tgz",
+				"fileCount": 3,
+				"integrity": "sha512-bsA2BvsJGYPctGoivKF7N7jZFBy+wXvCHBRfTzJMcqTZI3YySi9Hmpl2GAToe9nknGqVHzVHQxNPpGcGnBe+qA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDFaJs7yisrnsahJ06HmkO4UQlXEIi5b1vCmRVAdHlBowIgci+sWDrDM/KwBXOoyvJCGslMUYCs1UC30IMTLnm/Qdk=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 4556
+			},
+			"main": "index.js",
+			"gitHead": "b4514598ba3839bd2b374f73350c5763d7ba5cf7",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_npmVersion": "10.5.0",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"peerDependencies": {
+				"springboard": "0.15.0"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.15.0_1747444869912_0.7945858348538322",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "30987e400366baa947fdf983d8b5e8fe0ef8d0bc",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev3.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-XRT2PTXJ3/20siiVKqnYiLnRrah7i6AHU+OnoA89+/hyrv+9jYf+AMXIT5TXsUFTf33bn6YjOLXsZC2Uge6AFw==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCOip24mPHQf76WjYVvCXoNCRXswEaM3B54QIhvqzjUVgIhAIome5E6ZUZvZGfxllkcHsNkpgynAHMgWPRiXUqDDEci",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev3.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/633e4422655c8c939d06396559c12e0a/springboardjs-shoelace-0.16.0-dev3.tgz",
+			"_integrity": "sha512-XRT2PTXJ3/20siiVKqnYiLnRrah7i6AHU+OnoA89+/hyrv+9jYf+AMXIT5TXsUFTf33bn6YjOLXsZC2Uge6AFw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev3",
+				"@springboardjs/platforms-browser": "0.16.0-dev3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev3_1747932998473_0.6950054648861301",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "2e5378a4a3d2987eefbe855626a5c453f7db7b1d",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev4.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-ybsw+bvhmCCw4/Ggh7TNdSgy0MVXkDVsmj+4Dh5cqttxywdnosRA2OxF7fp+umpGKnOYkomTvxQhahQfDm6kQg==",
+				"signatures": [
+					{
+						"sig": "MEQCIDcWGZPtm2AmEVnZvP1j1ndLgoNU4gaW/vVuWatAFEjrAiAu7cALkjNwh5yDKdMcQWbOARJ9zO5pvq0JDuYqPf0qqg==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev4.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/81eb9e9196335768ffaf655a6eee6b85/springboardjs-shoelace-0.16.0-dev4.tgz",
+			"_integrity": "sha512-ybsw+bvhmCCw4/Ggh7TNdSgy0MVXkDVsmj+4Dh5cqttxywdnosRA2OxF7fp+umpGKnOYkomTvxQhahQfDm6kQg==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev4",
+				"@springboardjs/platforms-browser": "0.16.0-dev4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev4_1748018661747_0.056094718186837866",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev5": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev5",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev5",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "52b5f2969c6aec6fd17351219e910d9e67ec0a6e",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev5.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-/KfZkrCOW1K3SDS+AeXLA0+H+7obRTGjHuAGhZEHguk9Tv+H5wfHNoPhFoauL7xsl7uROaZYWYAzzM4HJ1dasg==",
+				"signatures": [
+					{
+						"sig": "MEQCIE1VzH6owrRS4L6Q7jbx+9pAizp6crv0xAbZm/xArKNiAiAQlylv8E0/dPNolkt7GAlvGfS2D/34V10w5Q0fgeHB8w==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev5.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/437354c693987cccdca06224ab0d041a/springboardjs-shoelace-0.16.0-dev5.tgz",
+			"_integrity": "sha512-/KfZkrCOW1K3SDS+AeXLA0+H+7obRTGjHuAGhZEHguk9Tv+H5wfHNoPhFoauL7xsl7uROaZYWYAzzM4HJ1dasg==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev5",
+				"@springboardjs/platforms-browser": "0.16.0-dev5"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev5_1748022081524_0.6047038333191945",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev6": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev6",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev6",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "4d24feafc98b2e96e6452c9d8a073dd98567b2a9",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev6.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-eanpEq2UWWZtvRz8NV1HFtG1MFpL35wG/oohuQEoAKtIuMW2Ehtt5eUDA2wHgEMYFJRviRHHw63j02GPhz4kCw==",
+				"signatures": [
+					{
+						"sig": "MEQCIBVn7zP/OmQiRY4Bq4boEONmi9zaRkqZn5Ms8zuKfsBBAiAL1qSAoA7Ui/3ZArNfMYTCSMvMwZO2EZMzUqde0WF1Bg==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev6.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/8400bdc517816f69b6c3f9eb9c2a5697/springboardjs-shoelace-0.16.0-dev6.tgz",
+			"_integrity": "sha512-eanpEq2UWWZtvRz8NV1HFtG1MFpL35wG/oohuQEoAKtIuMW2Ehtt5eUDA2wHgEMYFJRviRHHw63j02GPhz4kCw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev6",
+				"@springboardjs/platforms-browser": "0.16.0-dev6"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev6_1748022871588_0.17898139294872784",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev7": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev7",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev7",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "582e0e11c10586a0b42951305d804a738efe60c0",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev7.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-mJxHePIu3qts7+sPfPj5Zxc1XlqhFXbG6ZxY9TTvG8CB2wchP55iw74cOueIoioW6teDBS1n2Effzc9Kpbd8NQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQD86Q4ZNTI4e0lFv2HgqWgQ/1SOewbpUBugWbIyLAISEQIhAKjsATpdgLcu4o5miw16R5/ZoRbYFjWiETqskTq3iI4e",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev7.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/2e5704a2cd48664f772d9a5cfd1d13e7/springboardjs-shoelace-0.16.0-dev7.tgz",
+			"_integrity": "sha512-mJxHePIu3qts7+sPfPj5Zxc1XlqhFXbG6ZxY9TTvG8CB2wchP55iw74cOueIoioW6teDBS1n2Effzc9Kpbd8NQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev7",
+				"@springboardjs/platforms-browser": "0.16.0-dev7"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev7_1748023695375_0.0021896350726107183",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev8": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev8",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev8",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "0970fec61804ca0a6ae580e2dac8ffca8df2f5b5",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev8.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-QYFP57yQtMpePXt0aNbwwKD8h/8ObBBZZxS+1+ESnHJbrSpte8M29k3/9kjxOfusk60/Y5FmNgceLzThebrNLw==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCnAussyJeD7sYov895vsFdUfwPT7lhJzJnseI5BsSAGwIhAJ3kT6maHd1aN7LP1caRDKyz3bAooYa/eMkivO+UhFKx",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev8.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/7f55a5008fae14ad0ded90c2cb5e9049/springboardjs-shoelace-0.16.0-dev8.tgz",
+			"_integrity": "sha512-QYFP57yQtMpePXt0aNbwwKD8h/8ObBBZZxS+1+ESnHJbrSpte8M29k3/9kjxOfusk60/Y5FmNgceLzThebrNLw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev8",
+				"@springboardjs/platforms-browser": "0.16.0-dev8"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev8_1748025390912_0.8377311049168659",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev9": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev9",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev9",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "f88d6f7b79620be7c238fcb73eb3f072ace89b84",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev9.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-KFpH8T4yVu1p8QryEEB3Em12SyxmojD+6ahnoC6BAu0Q5/8jCNvwPhQ2n4zZrR+LmpgKXn+kqYN+b4SlNI1MpQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCrGGbpMYo1TDAZ8V2fnhG9Luj+YuoNWzgX4vy1G+JJGQIgIcFtYRQGPKbjh4HriAT+vzr9kjCyFtrHxWncIkr8vFY=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5772
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev9.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/049a13a5b92ba109671a441e02639976/springboardjs-shoelace-0.16.0-dev9.tgz",
+			"_integrity": "sha512-KFpH8T4yVu1p8QryEEB3Em12SyxmojD+6ahnoC6BAu0Q5/8jCNvwPhQ2n4zZrR+LmpgKXn+kqYN+b4SlNI1MpQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev9",
+				"@springboardjs/platforms-browser": "0.16.0-dev9"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev9_1748475480209_0.028345530880966585",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-svelte-dev2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-svelte-dev2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-svelte-dev2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "403f76d2e2e2da133e91b975b4abf19a03957d8b",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-svelte-dev2.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-PxeOiHoB95WCIpycp4gQyqswtUiTk75ZHRfK/oxmAb2HiyzzNMnb3ua56cjhxOOO1wN8XbIdFWdaSv3DlCS6AQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCKtUOlXv1ZIgVDQGMJReuZO0t3iDtjXIO7lKMWZmp4IgIhAJ0JJm7UEzTLWMyzJsDBJHj1CFUnjhJ1aOxNyRW/nY4s",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5793
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-svelte-dev2.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"actor": {
+					"name": "mickmister",
+					"type": "user",
+					"email": "mjkochell@gmail.com"
+				},
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/5d76a5b5f7039654e81b1299c284e587/springboardjs-shoelace-0.16.0-svelte-dev2.tgz",
+			"_integrity": "sha512-PxeOiHoB95WCIpycp4gQyqswtUiTk75ZHRfK/oxmAb2HiyzzNMnb3ua56cjhxOOO1wN8XbIdFWdaSv3DlCS6AQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-svelte-dev2",
+				"@springboardjs/platforms-browser": "0.16.0-svelte-dev2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-svelte-dev2_1750405188003_0.24154743715363258",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-svelte-dev3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-svelte-dev3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-svelte-dev3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "eaf1ed5e33e2658ef6fa54f849570b2674fc6b15",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-svelte-dev3.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-6F6cm9AZPN497EgpImoL3rlo3tdrqT65L48oV4Zni08WYxH0H0Iwph0K3b+JZh7m0ncT6gOIMWXvWLVEoor/sQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIAkFKwIz/n+69qAqT8ZVEj4td40LdHuIgvATtfWM28YMAiEAlObXh+CF03PlBfNaI4DfIlC6WSIrkJUL0ciYRK20iTI=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5793
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-svelte-dev3.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"actor": {
+					"name": "mickmister",
+					"type": "user",
+					"email": "mjkochell@gmail.com"
+				},
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/2ac5b7c44783fb2b0879109ec0d3eac1/springboardjs-shoelace-0.16.0-svelte-dev3.tgz",
+			"_integrity": "sha512-6F6cm9AZPN497EgpImoL3rlo3tdrqT65L48oV4Zni08WYxH0H0Iwph0K3b+JZh7m0ncT6gOIMWXvWLVEoor/sQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-svelte-dev3",
+				"@springboardjs/platforms-browser": "0.16.0-svelte-dev3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-svelte-dev3_1751428868452_0.9708008888733033",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev10-splash": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev10-splash",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev10-splash",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "25affe96eb72891e089efa8a7b1547142b2bd1bb",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev10-splash.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-bMUtU2sokCrSTklHr4iXhP6Q+qrqe5JYZ5tAWB6w/9qbaCHrUlgU/maPhox1PkCw0ZCGQvcbHnXGfIqG1v+tLQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD0k/D5MNFFCaVlWm/KwES2VPEp80i25mZ7KL2QPAQyIAIgWIYcmZg6JrvuzQ4N4MVIA37Bonyj3rgP993GZlGAC58=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev10-splash.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/0f253b0b500869067ddbcf6ca1d58794/springboardjs-shoelace-0.16.0-dev10-splash.tgz",
+			"_integrity": "sha512-bMUtU2sokCrSTklHr4iXhP6Q+qrqe5JYZ5tAWB6w/9qbaCHrUlgU/maPhox1PkCw0ZCGQvcbHnXGfIqG1v+tLQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev10-splash",
+				"@springboardjs/platforms-browser": "0.16.0-dev10-splash"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev10-splash_1753129701250_0.9469661094500064",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev11-fix-publish-deps": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev11-fix-publish-deps",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev11-fix-publish-deps",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "3f802f44bff6fac18b1c1acbb3b5c32eee311a36",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev11-fix-publish-deps.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-bQhG8qgwuT8QPSvlwYNCWT2reCsoBelX+MFtM2hy4Z89JNrzI0UVEH9NaY/qfb9n20pakgABQAyK9UxY7hfNlw==",
+				"signatures": [
+					{
+						"sig": "MEQCIEPnRWiNXWuDF8mhbFM6LKLyiJ27XKN+vVaHA3FUG6adAiBGu99R97820RvlNHUXJRRfFVxt+KR37p/sYmKvuqfCkQ==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5826
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev11-fix-publish-deps.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/a6075f5525ac642c410e218e2c036570/springboardjs-shoelace-0.16.0-dev11-fix-publish-deps.tgz",
+			"_integrity": "sha512-bQhG8qgwuT8QPSvlwYNCWT2reCsoBelX+MFtM2hy4Z89JNrzI0UVEH9NaY/qfb9n20pakgABQAyK9UxY7hfNlw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev11-fix-publish-deps",
+				"@springboardjs/platforms-browser": "0.16.0-dev11-fix-publish-deps"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev11-fix-publish-deps_1753131256690_0.09825703341558079",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev12-http-based-rpc": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev12-http-based-rpc",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev12-http-based-rpc",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "69249556449f97636f25309f5b357393094f50d8",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev12-http-based-rpc.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-B/i1dJZXPy6N0ugdnSGhZW8OqCiCqxkIO4lX7Ee6Bxx4HIa/Ka30Ioj+mhU/AtsQmB9r1EMjTOLZRsthU4K0Vg==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDDni3HKQOaQDfrWeqCxDzSKmJI+V39OgpWwdOK/JTMegIgC6YB31aEOyb4GT5MKWSI747xDxZAQ4O2D/KKexZzhsI=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5820
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev12-http-based-rpc.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/6fba969d20c80767560b785c6e942ce8/springboardjs-shoelace-0.16.0-dev12-http-based-rpc.tgz",
+			"_integrity": "sha512-B/i1dJZXPy6N0ugdnSGhZW8OqCiCqxkIO4lX7Ee6Bxx4HIa/Ka30Ioj+mhU/AtsQmB9r1EMjTOLZRsthU4K0Vg==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev12-http-based-rpc",
+				"@springboardjs/platforms-browser": "0.16.0-dev12-http-based-rpc"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev12-http-based-rpc_1753157510857_0.627224169993295",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev13-http-based-rpc": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev13-http-based-rpc",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev13-http-based-rpc",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "710121fd9d022aca4abceb9ce1e09e92f986e3ed",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev13-http-based-rpc.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-mRebZC+pLzykoilmo27vp6kitN8mUIx4hmbjNhcCX+R++UesOIzyRzjI//sm8VYqCSrCLIaLAKJxwQgYN2WdlA==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDKQILD3IivpTdez21AotZq7kOhcRxDb6AYIYwTkcBuiAIhALY4ekTz/c4hgu4nDx8RPnViS8eYQbSkLWzyclA43yo6",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5820
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev13-http-based-rpc.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/3bb3c4a7c4064bf89d59992acfe84330/springboardjs-shoelace-0.16.0-dev13-http-based-rpc.tgz",
+			"_integrity": "sha512-mRebZC+pLzykoilmo27vp6kitN8mUIx4hmbjNhcCX+R++UesOIzyRzjI//sm8VYqCSrCLIaLAKJxwQgYN2WdlA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev13-http-based-rpc",
+				"@springboardjs/platforms-browser": "0.16.0-dev13-http-based-rpc"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev13-http-based-rpc_1754419121331_0.6340373908287189",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev14-http-based-rpc": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev14-http-based-rpc",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev14-http-based-rpc",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "71f47ec8ea453c80cc4e144d17d16f7f68a89fb1",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev14-http-based-rpc.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-46Feygq+Yc40c9gd3t1Na28dC4slakGxsYWKDkpgjWa3Xe7e/uiZ67I6GZDkOkyr3LaZk5nKICL3npQ8rRIQzA==",
+				"signatures": [
+					{
+						"sig": "MEQCICDx3FA7tQtoipJLhYEAey4CVqFN2Yq06Z+jIntLowlrAiBMP5bqXCaVFTJCXL0YauIe3t8Q3tYs0f9JJsVLpEP/2g==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5820
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev14-http-based-rpc.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/f8c7ec3d4106f66ac568df91bf1554b1/springboardjs-shoelace-0.16.0-dev14-http-based-rpc.tgz",
+			"_integrity": "sha512-46Feygq+Yc40c9gd3t1Na28dC4slakGxsYWKDkpgjWa3Xe7e/uiZ67I6GZDkOkyr3LaZk5nKICL3npQ8rRIQzA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev14-http-based-rpc",
+				"@springboardjs/platforms-browser": "0.16.0-dev14-http-based-rpc"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev14-http-based-rpc_1754419306096_0.6025367213561954",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev15-http-based-rpc": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev15-http-based-rpc",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev15-http-based-rpc",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "2b13af8fb0f90dbb5ac18694708ccfbb42ab43a3",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev15-http-based-rpc.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-vJTg0DRh3sqTmojtjlH9xvzVTuJTanFLDD92vO0atZHLfiu7gnPxR05OEooqh26cSuAdqlDpPzi+sCuI43Absw==",
+				"signatures": [
+					{
+						"sig": "MEQCIBp4OuSh/DgYRwf6UqZtYM7oVH2t9gnWn7+zZZIL3v59AiARe1oK4ychR1+/Gst/w2pA7XFIP8U85oyBbtbapduZ4w==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5820
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev15-http-based-rpc.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/1215555e51cc2a53993d9ffaea828012/springboardjs-shoelace-0.16.0-dev15-http-based-rpc.tgz",
+			"_integrity": "sha512-vJTg0DRh3sqTmojtjlH9xvzVTuJTanFLDD92vO0atZHLfiu7gnPxR05OEooqh26cSuAdqlDpPzi+sCuI43Absw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev15-http-based-rpc",
+				"@springboardjs/platforms-browser": "0.16.0-dev15-http-based-rpc"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev15-http-based-rpc_1754536734317_0.523301197323023",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-rc1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-rc1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-rc1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "2de3d9dcaf548dbf4c51676e61065a00d158efa4",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-rc1.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-lkBjRg8IsPgrupqrAVb7rjumxx5k1uCN4DkGCQEifuX/vplpZmkJrh/ZlCqJ/uUc5UwTX3uecG1OXrOSLrirNQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDphdrc9NbWA5ovRqgFQmfIJTCvIPgM/unJoy2YPFn82wIhAKmCOSfBknAKmpRB4aeWzo9Xd8/Jt3qgNgVESKSp/Ij3",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5769
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-rc1.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/7471ce358c411002fa21c6216d200e7c/springboardjs-shoelace-0.16.0-rc1.tgz",
+			"_integrity": "sha512-lkBjRg8IsPgrupqrAVb7rjumxx5k1uCN4DkGCQEifuX/vplpZmkJrh/ZlCqJ/uUc5UwTX3uecG1OXrOSLrirNQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-rc1",
+				"@springboardjs/platforms-browser": "0.16.0-rc1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-rc1_1754715590541_0.4051732092739522",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev16-fix-register-server-module-race-condition": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev16-fix-register-server-module-race-condition",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev16-fix-register-server-module-race-condition",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "30a008b6bdfb6fa743b57c4db9fa5506ce6e7801",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev16-fix-register-server-module-race-condition.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-s6mhU6zlo6aYWULH/3UnheHp9lYTBu0DykJnqeUCk+BiR2Fosjn2Hq7cTUDL2f/aVEoc4odo24TwrvYqh88LNA==",
+				"signatures": [
+					{
+						"sig": "MEUCIHm9Yzp8EdMgjd4f+akNK+PRuuu58xIJEyucBQ9u0krLAiEA1cMcyCSUHj91KhX/cFH0V1cICia8Vt1AlNTkKI8QGQ4=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5901
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev16-fix-register-server-module-race-condition.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/419f3961ad25c8eb042f942dde0a9c54/springboardjs-shoelace-0.16.0-dev16-fix-register-server-module-race-condition.tgz",
+			"_integrity": "sha512-s6mhU6zlo6aYWULH/3UnheHp9lYTBu0DykJnqeUCk+BiR2Fosjn2Hq7cTUDL2f/aVEoc4odo24TwrvYqh88LNA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev16-fix-register-server-module-race-condition",
+				"@springboardjs/platforms-browser": "0.16.0-dev16-fix-register-server-module-race-condition"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev16-fix-register-server-module-race-condition_1755818800435_0.8375922687911184",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev17-fix-catch-all-route": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev17-fix-catch-all-route",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev17-fix-catch-all-route",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "c9bf16c983ddef17424d674e756ee18dcb8957e6",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev17-fix-catch-all-route.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-DfkwCyX/TT5Bti7KSQxudDBc9lvqM0M49B3WcGugAuFrSjVJXRbbth2tHKcMh9AVDIWyFX01DIwdf7MEXMqs3w==",
+				"signatures": [
+					{
+						"sig": "MEQCIDp0gxBAgW3KSYFK8Jumh3t3nqW9uYgGpNo5wLGcphAbAiBohYJLXvJYWFUplhb5pjLIZZxuY786UgKoUVYUHGQVew==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5835
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev17-fix-catch-all-route.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/3069e170ac6466464b2df0197c735eea/springboardjs-shoelace-0.16.0-dev17-fix-catch-all-route.tgz",
+			"_integrity": "sha512-DfkwCyX/TT5Bti7KSQxudDBc9lvqM0M49B3WcGugAuFrSjVJXRbbth2tHKcMh9AVDIWyFX01DIwdf7MEXMqs3w==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev17-fix-catch-all-route",
+				"@springboardjs/platforms-browser": "0.16.0-dev17-fix-catch-all-route"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev17-fix-catch-all-route_1755892219400_0.5016350607464981",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev-svelte-20": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev-svelte-20",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev-svelte-20",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "259d11518ce267a77f2f12137e47b4c869928bbb",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev-svelte-20.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-BqoaSe8u3dSprtPaHCQjsoEsK2TgMw/0W0/bwR/vlhm3GFOMbE1wQXR+vZLOzKk0FFkGn9kSsYMSLtPMzomMuA==",
+				"signatures": [
+					{
+						"sig": "MEUCIE4lNfHpk6qi7jnUUoAWv3WPmsmtWPoex6Se+3RD7JszAiEA3Xq5KpXMqYaWLoZrR06GRK8IZMchpyMf3jesEd3GYOI=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5799
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev-svelte-20.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/c776ceb50e5fcedf6b123bf5680f935b/springboardjs-shoelace-0.16.0-dev-svelte-20.tgz",
+			"_integrity": "sha512-BqoaSe8u3dSprtPaHCQjsoEsK2TgMw/0W0/bwR/vlhm3GFOMbE1wQXR+vZLOzKk0FFkGn9kSsYMSLtPMzomMuA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev-svelte-20",
+				"@springboardjs/platforms-browser": "0.16.0-dev-svelte-20"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev-svelte-20_1756101169155_0.5917035633592407",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev21-svelte": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev21-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev21-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "992711dd9b0987fb1a4bca8700e6ef48b6d7e3ff",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev21-svelte.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-6+y6Q/frdNjs4pHOCT4HAFxc+9pyTejn+FqT5rguqyb9OzJazp482JRWaDZ3WWXpKTtIu99xsyc4qDiMV4HxNA==",
+				"signatures": [
+					{
+						"sig": "MEQCIAKIWc4Qk/IUpy6a6iTTRTTh4AS+tBJBplNDIfb/6cJWAiAkoRa+isMB8Fik5UKPwLkOSpa3AGUHmpONohcGNRgFCw==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev21-svelte.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/08f20e4eac94331277bda92c8a86cc44/springboardjs-shoelace-0.16.0-dev21-svelte.tgz",
+			"_integrity": "sha512-6+y6Q/frdNjs4pHOCT4HAFxc+9pyTejn+FqT5rguqyb9OzJazp482JRWaDZ3WWXpKTtIu99xsyc4qDiMV4HxNA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev21-svelte",
+				"@springboardjs/platforms-browser": "0.16.0-dev21-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev21-svelte_1756107709192_0.4189618370835695",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev22-svelte": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev22-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev22-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "9edeec90deb3a2bc9a6462e884d6182470af8aa5",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev22-svelte.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-0yu+Di5ocrZZZj9jHEvAiNpM0ePmJbbZwXESkZC5OqFv2zkuXb8HUn/O1JfR5i6Ycd5AXo3SNXey+iFnipGaYQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIHSR+rrJolCJDdCCMEtGc36R0xiLtjqBHrR0OkA4thn7AiEAzEAlG63aH/wa4T3bVduTBUomeeSMww2OffkFSC1PJYo=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev22-svelte.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/e5f1bb7234fbbaf0aec968bc06b41f20/springboardjs-shoelace-0.16.0-dev22-svelte.tgz",
+			"_integrity": "sha512-0yu+Di5ocrZZZj9jHEvAiNpM0ePmJbbZwXESkZC5OqFv2zkuXb8HUn/O1JfR5i6Ycd5AXo3SNXey+iFnipGaYQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev22-svelte",
+				"@springboardjs/platforms-browser": "0.16.0-dev22-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev22-svelte_1756108532469_0.4853995501695818",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev23-svelte": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev23-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev23-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "5dea6900047c76e8c917c88c365ab588e450a30d",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev23-svelte.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-Gej0W2zYTB08hLiD84ozGsJv4VfD4Y0MN99HWt7SUZU862vPvjTCI7PUGFx2PkDONN/+UisuNE4Yh+wJvxC2cg==",
+				"signatures": [
+					{
+						"sig": "MEUCIDbcIvv54XBXsd8+ul51iW5uo+iswVQSU5NHZuw6e5NKAiEA1L/zWRtuFjm6+HpGotTBJHh1FH1xMsGBwWa+RzXKFm0=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev23-svelte.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/5acbdaf1a3dc01103235d3aecb5258c5/springboardjs-shoelace-0.16.0-dev23-svelte.tgz",
+			"_integrity": "sha512-Gej0W2zYTB08hLiD84ozGsJv4VfD4Y0MN99HWt7SUZU862vPvjTCI7PUGFx2PkDONN/+UisuNE4Yh+wJvxC2cg==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev23-svelte",
+				"@springboardjs/platforms-browser": "0.16.0-dev23-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev23-svelte_1756110287277_0.5233595336718535",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev24-svelte": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev24-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev24-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "6593a3ee2b2026158ba69c8ea9833bd8c2e0c596",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev24-svelte.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-ScX/24etBCkXpEd3zbeibbEyOMy4D5LryfXI9JaVtsNKrddaa8bm0TJdHZ+A71Qe5vqCi5uoM1pjPwxctk9Xkw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDjsIbyl/dCLD4eXjq0kjltNonLOl71aQkAepgkcNGgaAIgGWpGSOUizhPlBd9akCO+/oZvUlxvr43Kycxadumm48g=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev24-svelte.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/b898abb755c1c745b393340919fef54f/springboardjs-shoelace-0.16.0-dev24-svelte.tgz",
+			"_integrity": "sha512-ScX/24etBCkXpEd3zbeibbEyOMy4D5LryfXI9JaVtsNKrddaa8bm0TJdHZ+A71Qe5vqCi5uoM1pjPwxctk9Xkw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev24-svelte",
+				"@springboardjs/platforms-browser": "0.16.0-dev24-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev24-svelte_1756111797626_0.9297581654185296",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev25-svelte": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev25-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev25-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "05e0c2cb192efc51b9af015d0b5fed91071d9b2b",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev25-svelte.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-9bfnGKO4f8ZHUjzeaY3fyoDO9/s3hFJ5+fcCZweGVNWnzh1InrHUwDb8TYLvo9JxDfXyZKj604I6SkzNQdKxTQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDgf/rxozheP0rQUuY4AulKtg0gRtTNlGzN75HnsY5rywIhALUKGf1oK9Os7p6m+QH6JarWq6vQ6J+Op2eff0dDuPay",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev25-svelte.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/a476011c8a9565bc863deee108e86027/springboardjs-shoelace-0.16.0-dev25-svelte.tgz",
+			"_integrity": "sha512-9bfnGKO4f8ZHUjzeaY3fyoDO9/s3hFJ5+fcCZweGVNWnzh1InrHUwDb8TYLvo9JxDfXyZKj604I6SkzNQdKxTQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev25-svelte",
+				"@springboardjs/platforms-browser": "0.16.0-dev25-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev25-svelte_1756112061151_0.1552012413547379",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev26-svelte": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0-dev26-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0-dev26-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "25ab328d48c72a493ee6fe8e4a435a35a351f059",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev26-svelte.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-Xfcm/G4NNSzYmAYIYjTuwy41WaX/HD68GHliBJ/XdtTUO+m0Bv+z2D2i8jTiUK9r8xtSo/hbcOWaHZfWTK0joQ==",
+				"signatures": [
+					{
+						"sig": "MEQCIGcltXiq4n9yqbAzEepGX0WETwHyCyypAzXTqylaNrCrAiA/HbXuOtOxTU7z0xbm3yLk6HgrUdfv3lpKCvhd6Wwgag==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5796
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0-dev26-svelte.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/044578bbbe2ed5085773930fe497199e/springboardjs-shoelace-0.16.0-dev26-svelte.tgz",
+			"_integrity": "sha512-Xfcm/G4NNSzYmAYIYjTuwy41WaX/HD68GHliBJ/XdtTUO+m0Bv+z2D2i8jTiUK9r8xtSo/hbcOWaHZfWTK0joQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0-dev26-svelte",
+				"@springboardjs/platforms-browser": "0.16.0-dev26-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0-dev26-svelte_1756144553309_0.5399711505588849",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.0",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.0",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "21cdc79b9f800794bd9175caff02759573b54e2b",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-QXPgtRNL9jBwIPr2BhgToZvagyBhP3m7/L59SG9KHgey6j/cI6IBuA27XY0ppqxVyNxB3MrQ52PipzBSFCSutg==",
+				"signatures": [
+					{
+						"sig": "MEUCIG7YTEOZ03Z68XnHKMeQRphCZefncHBssELmpsc4mB2iAiEA6aQTeQLTYSPLVx648meQYJGOf3R4Si2Cc36XFb4mPzU=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5757
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.0.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/2ce4602632469e1963d56ad306349a73/springboardjs-shoelace-0.16.0.tgz",
+			"_integrity": "sha512-QXPgtRNL9jBwIPr2BhgToZvagyBhP3m7/L59SG9KHgey6j/cI6IBuA27XY0ppqxVyNxB3MrQ52PipzBSFCSutg==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.0",
+				"@springboardjs/platforms-browser": "0.16.0"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.0_1756145319141_0.20850970347633369",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.1-dev1-fix-offline-import-path": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.16.1-dev1-fix-offline-import-path",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.16.1-dev1-fix-offline-import-path",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "55011c8e8ddd1543d0a0ecbb819433503e976f99",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.1-dev1-fix-offline-import-path.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-scsTtBOSl8vLSdH7hBOBir6kMTq3qLAwvGtYOnzIp51Cj+Wbq8lVEizXHUkrNKdgkVUkoP3mM1FllWItBrD5uw==",
+				"signatures": [
+					{
+						"sig": "MEUCIBuW8IwXq7tn6euXurs8X4Hwz9FIQRvMN4rx26noM1A3AiEAiwE8uA6gpWII+ZyEeDLiBb8hgI9Scd7721OZWPJXjC8=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5844
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.16.1-dev1-fix-offline-import-path.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/1e8e750059d579396dc35421eb0eba53/springboardjs-shoelace-0.16.1-dev1-fix-offline-import-path.tgz",
+			"_integrity": "sha512-scsTtBOSl8vLSdH7hBOBir6kMTq3qLAwvGtYOnzIp51Cj+Wbq8lVEizXHUkrNKdgkVUkoP3mM1FllWItBrD5uw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.16.1-dev1-fix-offline-import-path",
+				"@springboardjs/platforms-browser": "0.16.1-dev1-fix-offline-import-path"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.16.1-dev1-fix-offline-import-path_1756915252519_0.1632574568604961",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-midipoller-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-midipoller-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "afe7b513af9105951c3934d1cbfb4d07e52cc0a3",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-1.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-ODhjCvXQH7fCdy9UQejmSlrbmMkztx9MFbot9Lp0p567MnNezTFPFEp29dHHrL0oGlHEzgAlmtoC2w2ZJddfJQ==",
+				"signatures": [
+					{
+						"sig": "MEQCIHHp6dRR9PK7H8Mbvljr0tfeV236QtNc43qz6qiNsVq6AiB2GXFge5bYgmDqGu+lL3tRoDpNf/2TnwopZ/P8B3U7vQ==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5805
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-midipoller-1.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/b0591a7c6c35d3927592ea5936f9c093/springboardjs-shoelace-0.0.1-dev-midipoller-1.tgz",
+			"_integrity": "sha512-ODhjCvXQH7fCdy9UQejmSlrbmMkztx9MFbot9Lp0p567MnNezTFPFEp29dHHrL0oGlHEzgAlmtoC2w2ZJddfJQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-midipoller-1",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-midipoller-1_1757568128581_0.6335215823785647",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-midipoller-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-midipoller-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "34e4ae825a6c59a10e655c5a275cc39078f06974",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-2.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-paZA+KLse3TU5wmNUEd3/Ahf4a3vnQ2qDvg4M/Sf9scjWr5EJJvh4VZpLUbUbIulUEnNFTToKaABAP3xM6tiPQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIHyipqYoTi/PJmCtut3VulyPyNG2idQjkDUFAFHAlOajAiEAmENkU6kRqAWop9jBk6Iqivpruwp1LbPHn0sZZMMBuGg=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5805
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-midipoller-2.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/a47ff472e45286ecb2d64473c12144e9/springboardjs-shoelace-0.0.1-dev-midipoller-2.tgz",
+			"_integrity": "sha512-paZA+KLse3TU5wmNUEd3/Ahf4a3vnQ2qDvg4M/Sf9scjWr5EJJvh4VZpLUbUbIulUEnNFTToKaABAP3xM6tiPQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-midipoller-2",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-midipoller-2_1758413048877_0.940365181196795",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-midipoller-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-midipoller-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "16de7a269df635d4187d94ebb4cf5dc69c95e797",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-3.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-nTwfJkqPDCCtyCipNOCOf6TWD+7jTm2KCzldGzu4zzT5N4hsOL03fKiv8+5yTFKt2WhIXXkXQjRJ6AfaGvg56Q==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD/uXV2J+bni6MAYMwkif/9tDMo+aM+sa0GggZjNHHL2QIgDmorwfywXUMC+TdPGMANa5CllIpNDxmb/u8DcjjYhEI=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5805
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-midipoller-3.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/3600d00a8eb344cbec8d77f15cbbb492/springboardjs-shoelace-0.0.1-dev-midipoller-3.tgz",
+			"_integrity": "sha512-nTwfJkqPDCCtyCipNOCOf6TWD+7jTm2KCzldGzu4zzT5N4hsOL03fKiv8+5yTFKt2WhIXXkXQjRJ6AfaGvg56Q==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-midipoller-3",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-midipoller-3_1758418477318_0.16100200095765316",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-midipoller-4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-midipoller-4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "01f7b67a2511ffd2b80198377b6d7f675ff36b70",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-4.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-Vv7Qoz9W7niXO719S4PLbsmD6jNYoAkWwNH96MyGFz9OVQNKuesNa2TQbr0gwz36gNeE4wXBIaRfTdVyDA8MPA==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCi7RBROC7X5cLGemRI+qZHBGNm/dYLK0KkieDw/DiPjwIhAKumgTCm7My0BYJfCIQhg3t4QYkF42+ot4JSAArRt4dh",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5805
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-midipoller-4.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/d1aa8f9df370ae03795a8cb713344798/springboardjs-shoelace-0.0.1-dev-midipoller-4.tgz",
+			"_integrity": "sha512-Vv7Qoz9W7niXO719S4PLbsmD6jNYoAkWwNH96MyGFz9OVQNKuesNa2TQbr0gwz36gNeE4wXBIaRfTdVyDA8MPA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-midipoller-4",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-midipoller-4_1758512759046_0.6442125140657313",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.17.0-dev-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.17.0-dev-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "eb0928353d69a7a882d22b7a11ba3e9d7ce3b273",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-1.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-P0mTo2ADJKEFCRdjcqwGEBUmmtnrJgv2UAVmnst5o1Y0i0qeKrt4WVgePg7s9YfRDBCfnjD78rF3fWR6k+pvsA==",
+				"signatures": [
+					{
+						"sig": "MEUCIFq1sFF5dqra70WXGLEuMHJ0PlMX7yi0iFXH2aZwp0TLAiEAhUwdZrjGzlL2Fn6zBrCBRaP9Ma5pvqG1eTXK0NXJk+U=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5775
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.17.0-dev-1.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/5ce0f5f6344f200118697f11f426bdce/springboardjs-shoelace-0.17.0-dev-1.tgz",
+			"_integrity": "sha512-P0mTo2ADJKEFCRdjcqwGEBUmmtnrJgv2UAVmnst5o1Y0i0qeKrt4WVgePg7s9YfRDBCfnjD78rF3fWR6k+pvsA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.17.0-dev-1",
+				"@springboardjs/platforms-browser": "0.17.0-dev-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.17.0-dev-1_1758609891744_0.4145860414508673",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.17.0-dev-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.17.0-dev-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "3b1beb7f95187c8626eced8865bf0a709dfda0f4",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-2.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-GD3rqarSpqkMIJr83asHtIRNrrwktfiDlnBA+iv2RO97LWixz/tw6SRM1CjXkIv9CAiHR9MaUkld9qKNL9vyBw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD0NGYEqhMOT6m6OQ1ZzEJp6EjxsrG6A+BLwGA+gKM6awIgIj2fInRDYYuFOYueOpjA8vtZAQHp2uL1mJMbsNdzu1w=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5775
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.17.0-dev-2.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/0f1007c66016193e7c7f7321e12ec0d0/springboardjs-shoelace-0.17.0-dev-2.tgz",
+			"_integrity": "sha512-GD3rqarSpqkMIJr83asHtIRNrrwktfiDlnBA+iv2RO97LWixz/tw6SRM1CjXkIv9CAiHR9MaUkld9qKNL9vyBw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.17.0-dev-2",
+				"@springboardjs/platforms-browser": "0.17.0-dev-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.17.0-dev-2_1758733836678_0.38893610512797183",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.17.0-dev-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.17.0-dev-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "63507ca3553d25bb32b050df649c62f1771c4372",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-3.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-AyD9T1yDFEC8zj2LhOmaTSz30VkcBfjUzVV5m24NOjiUOw6ko3EnyBKNx1eK0t7V1xRiiydaDruCgLM4qSBjew==",
+				"signatures": [
+					{
+						"sig": "MEYCIQC4myCo8cwZ2V5aFXElgQsOvhGb1weAFzusHEZ33LaMKQIhAKSqyVljQKqlqPqT7cj6qjeUKMLgYRvgnVdJc2bvKnpq",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5775
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.17.0-dev-3.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/707cff0e7b3193acafce39f453052ce1/springboardjs-shoelace-0.17.0-dev-3.tgz",
+			"_integrity": "sha512-AyD9T1yDFEC8zj2LhOmaTSz30VkcBfjUzVV5m24NOjiUOw6ko3EnyBKNx1eK0t7V1xRiiydaDruCgLM4qSBjew==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.17.0-dev-3",
+				"@springboardjs/platforms-browser": "0.17.0-dev-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.17.0-dev-3_1758747242620_0.752517711375644",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.17.0-dev-4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.17.0-dev-4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "a5d02d8f2039ccf5257fbfda95a5cb06bcd6d4ea",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-4.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-hnkrHV87xXUS+LsZDF1FX7qZcer9SH+/LQW1jVN2cm+CWpm572KGCQoDWp8h+5q6XX4VV8Yi3v8DPbSUVVvG6w==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCvYM7+myUzMFcaXy3d3wl7Q3hqAJzTy+/01d04f419tAIhAKJBFw1EsSNWiMG/FnU4jMnqukaizCHMJ9kwXM0bTvyX",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5775
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.17.0-dev-4.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/cf9caf015543e0590ebaf11e2af034c1/springboardjs-shoelace-0.17.0-dev-4.tgz",
+			"_integrity": "sha512-hnkrHV87xXUS+LsZDF1FX7qZcer9SH+/LQW1jVN2cm+CWpm572KGCQoDWp8h+5q6XX4VV8Yi3v8DPbSUVVvG6w==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.17.0-dev-4",
+				"@springboardjs/platforms-browser": "0.17.0-dev-4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.17.0-dev-4_1758748583828_0.17288674056738929",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-tanstack-1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-tanstack-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-tanstack-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "19814f8d6dc705f3f1a65dba4c243f942e5059d9",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-tanstack-1.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-n2/2YwuW61IgMZf0flQs5HYQIXE531Sht15VwlWq9pw4PyCQ5pzvVpoeSop0vC7mSPw1e+nvxeA3AIecH0TG3w==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDqnjn7Z0Qb0ms8IG6czNhMPxZvcxGHPoTHfUcZPREfyQIhANnkUH57WetVid/eerMf5lbJ9oEXm4QdwQjbE+pmw6jX",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5799
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-tanstack-1.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/2bb47a329e660ea0569081cc0ff218e1/springboardjs-shoelace-0.0.1-dev-tanstack-1.tgz",
+			"_integrity": "sha512-n2/2YwuW61IgMZf0flQs5HYQIXE531Sht15VwlWq9pw4PyCQ5pzvVpoeSop0vC7mSPw1e+nvxeA3AIecH0TG3w==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-tanstack-1",
+				"@springboardjs/platforms-browser": "0.0.1-dev-tanstack-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-tanstack-1_1758756503182_0.2939518541381614",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-tanstack-2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-tanstack-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-tanstack-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "5fe38cceb639fdee7a5167bbfa1e3ef799157ca0",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-tanstack-2.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-gaEjTUDaCQQcosCwK2qZ4nlNvota4LqSbPO7Urh1FG+DWIrGD7LFUbYDHSPIAWWhNreLE7GqENcomNQs8qKayw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCZPCa9hNJE5TWDQd+0auahAez7SmgrTRv6wniR7c1BHwIgchtOjbE/tm9PXKIljNniDUPT8TJD64VJEc8daWUZ++E=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5799
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-tanstack-2.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/3240f501265bd8b68b45cbe9cbb36451/springboardjs-shoelace-0.0.1-dev-tanstack-2.tgz",
+			"_integrity": "sha512-gaEjTUDaCQQcosCwK2qZ4nlNvota4LqSbPO7Urh1FG+DWIrGD7LFUbYDHSPIAWWhNreLE7GqENcomNQs8qKayw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-tanstack-2",
+				"@springboardjs/platforms-browser": "0.0.1-dev-tanstack-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-tanstack-2_1758756771387_0.03886832874185897",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-tanstack-3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-tanstack-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-tanstack-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "f70a8d05bd284f4ce8b90e6b9e5b73d6791606c3",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-tanstack-3.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-fDsAqVOvny/qaqOm9nv4VgJCOz8cHkZCEemlZxIQ0VBShHIwoIr4eHMxhcHVBN8p+yhTuki0f28E3cn5ZG6WdQ==",
+				"signatures": [
+					{
+						"sig": "MEQCIB2Rpa9wqcL1zut+wW5j5ZuDGyDMbdm7AnogQnNUG6sMAiB9qvcKbJtjZV1ZWKFjS156tn4WGtkonEtEQzQGrLNdaQ==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5801
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-tanstack-3.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/8d5ef22cb53e4aa3724c8999aed3326b/springboardjs-shoelace-0.0.1-dev-tanstack-3.tgz",
+			"_integrity": "sha512-fDsAqVOvny/qaqOm9nv4VgJCOz8cHkZCEemlZxIQ0VBShHIwoIr4eHMxhcHVBN8p+yhTuki0f28E3cn5ZG6WdQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"@tanstack/react-router": "^1.130.12"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-tanstack-3",
+				"@springboardjs/platforms-browser": "0.0.1-dev-tanstack-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-tanstack-3_1758759076191_0.9923082500361968",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-server-state-1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-server-state-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-server-state-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "3d642750e55f03405ace622c3b9773f13acdab46",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-1.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-gp3aHqjhg+MF321WnsWsKeL8VlxcDqUDrcsnxnRszQp0bCiycQDAVcR6OXTdgRG4EdqnzBNWkw09Btmu6CzO7g==",
+				"signatures": [
+					{
+						"sig": "MEUCIHOFzZJzbnodhcx/BHq8k+1uqVi359/XYvZihGhP5FHHAiEAy4+WO6zTD/tIRungcKiQXj9nExwE+vAQdbsaYLQ2aC8=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5811
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-server-state-1.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/f80887eadc3031782d25956a08aea64f/springboardjs-shoelace-0.0.1-dev-server-state-1.tgz",
+			"_integrity": "sha512-gp3aHqjhg+MF321WnsWsKeL8VlxcDqUDrcsnxnRszQp0bCiycQDAVcR6OXTdgRG4EdqnzBNWkw09Btmu6CzO7g==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-server-state-1",
+				"@springboardjs/platforms-browser": "0.0.1-dev-server-state-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-server-state-1_1762760773489_0.44774943678099843",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-server-state-2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-server-state-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-server-state-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "494a4d776c5432b529bd250fad5746dae6f095a7",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-2.tgz",
+				"fileCount": 4,
+				"integrity": "sha512-K8+oKKyCHiB+gFQ/DohkwWf8DgTfpy+DOBpF0vMcEarW5k4Bk2EFd7DkPj+Escpdkccs4W+fLiOPnVeSmRIFTw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDOsAioW8/2tjnkkLoJN+NT7UUWas1L8jPSb8QVyLav5QIgevCYghiEDEFhGVONfzZo54zu6ZnDkwyzxGZsQ+vTsjM=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5811
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-server-state-2.tgz",
+			"scripts": {},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/bc01152443051b9369fbbdde4e16fb6b/springboardjs-shoelace-0.0.1-dev-server-state-2.tgz",
+			"_integrity": "sha512-K8+oKKyCHiB+gFQ/DohkwWf8DgTfpy+DOBpF0vMcEarW5k4Bk2EFd7DkPj+Escpdkccs4W+fLiOPnVeSmRIFTw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"springboard": "0.0.1-dev-server-state-2",
+				"@springboardjs/platforms-browser": "0.0.1-dev-server-state-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-server-state-2_1762999628271_0.8768823799902061",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-server-state-3": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-server-state-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/shoelace@0.0.1-dev-server-state-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "4615bcbea4cc3b11418be56af5e1378c575f8004",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-3.tgz",
+				"fileCount": 5,
+				"integrity": "sha512-ywf4G8ypd7AN59rlTw5qHC0I15O8zrmJGxBdro6Md+0V93ns203xtGfgSBWXnF9aEbhJg6hbixks2dZUbNakUw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDzpGadD0Ns54PAJLxrVOj11axUxLHrNvc6AibhbvuYNgIgC+Fsvcl71/yAp9qwk27rNgJC/SsbMO0LokrdZCUdLRs=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 5989
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-server-state-3.tgz",
+			"scripts": {
+				"check-types": "tsc --noEmit"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/d90b8bb1dc072593865aa64603f334a3/springboardjs-shoelace-0.0.1-dev-server-state-3.tgz",
+			"_integrity": "sha512-ywf4G8ypd7AN59rlTw5qHC0I15O8zrmJGxBdro6Md+0V93ns203xtGfgSBWXnF9aEbhJg6hbixks2dZUbNakUw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"@types/react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"peerDependencies": {
+				"react": "*",
+				"springboard": "0.0.1-dev-server-state-3",
+				"@springboardjs/platforms-browser": "0.0.1-dev-server-state-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/shoelace_0.0.1-dev-server-state-3_1763804530330_0.07682924478349507",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-server-state-4": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.0.1-dev-server-state-4",
+			"main": "index.js",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.16.0"
+			},
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"description": "",
+			"peerDependencies": {
+				"react": "*",
+				"@springboardjs/platforms-browser": "0.0.1-dev-server-state-4",
+				"springboard": "0.0.1-dev-server-state-4"
+			},
+			"devDependencies": {
+				"@types/react": "^19.1.0",
+				"react": "^19.1.0",
+				"react-router-dom": "^6.28.1"
+			},
+			"scripts": {
+				"check-types": "tsc --noEmit"
+			},
+			"_id": "@springboardjs/shoelace@0.0.1-dev-server-state-4",
+			"_integrity": "sha512-U+Meg51Tj/FpLcgbO1fZsUyh8lw3pWoelxhI1aVo2hycQNHGA6AyAICfJRWOt7tpMNnVda8iHnaW4qJXXgsRBw==",
+			"_resolved": "/tmp/e5a1c52b206d175ff8b41c0eeff6445e/springboardjs-shoelace-0.0.1-dev-server-state-4.tgz",
+			"_from": "file:springboardjs-shoelace-0.0.1-dev-server-state-4.tgz",
+			"_nodeVersion": "21.7.3",
+			"_npmVersion": "10.5.0",
+			"dist": {
+				"integrity": "sha512-U+Meg51Tj/FpLcgbO1fZsUyh8lw3pWoelxhI1aVo2hycQNHGA6AyAICfJRWOt7tpMNnVda8iHnaW4qJXXgsRBw==",
+				"shasum": "3c6e80b440b30a1318afbdc627721092c6ca7c61",
+				"tarball": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-4.tgz",
+				"fileCount": 5,
+				"unpackedSize": 5989,
+				"signatures": [
+					{
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+						"sig": "MEYCIQDS/VL6oo271ncE8hNcLV5UjeJ5NvBt+IprxvdKkXy6sQIhAJ70JVpG57JAQiHq1dar/slckA5SfoA0bkgcLV2ZnXnv"
+					}
+				]
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"directories": {},
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages-npm-production",
+				"tmp": "tmp/shoelace_0.0.1-dev-server-state-4_1764129276326_0.6102719502586316"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"0.15.0-test1": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-test1",
+			"main": "index.js",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.20.1"
+			},
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"description": "",
+			"peerDependencies": {
+				"springboard": "0.15.0-test1"
+			},
+			"devDependencies": {
+				"react": "19.2.0",
+				"react-router": "7.9.6"
+			},
+			"scripts": {},
+			"_id": "@springboardjs/shoelace@0.15.0-test1",
+			"_integrity": "sha512-udFTuRK5bEj9dJrToEzC1fCOEYwuEYNXkq+dDbnZ6XO6fFB8Kets7jGQnRftr1Ttyn7zRsrRqifmWlVNyTcUfw==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/3e5cea19082991ce744a367b5c6a98a7/springboardjs-shoelace-0.15.0-test1.tgz",
+			"_from": "file:springboardjs-shoelace-0.15.0-test1.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-udFTuRK5bEj9dJrToEzC1fCOEYwuEYNXkq+dDbnZ6XO6fFB8Kets7jGQnRftr1Ttyn7zRsrRqifmWlVNyTcUfw==",
+				"shasum": "48f3dd9d22b60151da83c4c10f694b8724e1c57d",
+				"tarball": "http://localhost:4873/@springboardjs/shoelace/-/@springboardjs/shoelace-0.15.0-test1.tgz"
+			},
+			"contributors": []
+		},
+		"0.15.0-test2": {
+			"name": "@springboardjs/shoelace",
+			"version": "0.15.0-test2",
+			"main": "index.js",
+			"dependencies": {
+				"@shoelace-style/shoelace": "^2.20.1"
+			},
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"description": "",
+			"peerDependencies": {
+				"springboard": "0.15.0-test2"
+			},
+			"devDependencies": {
+				"react": "19.2.0",
+				"react-router": "7.9.6"
+			},
+			"scripts": {},
+			"_id": "@springboardjs/shoelace@0.15.0-test2",
+			"_integrity": "sha512-RCs4uwOl+d5lO9i7xfOZe8vUnV/WR2XIQHClV2elkSpj6j0UmMp8B3FkmmjLuqfWql3dYKpSD/OwG77+liE5Qg==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/7c3b98eca0dccb0417a1bfdab18359d4/springboardjs-shoelace-0.15.0-test2.tgz",
+			"_from": "file:springboardjs-shoelace-0.15.0-test2.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-RCs4uwOl+d5lO9i7xfOZe8vUnV/WR2XIQHClV2elkSpj6j0UmMp8B3FkmmjLuqfWql3dYKpSD/OwG77+liE5Qg==",
+				"shasum": "b6b8ce92612d7e2fe7e8ab611443597490adffba",
+				"tarball": "http://localhost:4873/@springboardjs/shoelace/-/@springboardjs/shoelace-0.15.0-test2.tgz"
+			},
+			"contributors": []
+		}
+	},
+	"time": {
+		"created": "2024-12-21T07:34:12.688Z",
+		"modified": "2025-12-28T10:20:39.685Z",
+		"0.14.0-rc3": "2024-12-21T07:34:12.923Z",
+		"0.14.0-rc4": "2024-12-31T18:47:15.696Z",
+		"0.14.0-rc5": "2025-01-01T00:58:22.430Z",
+		"0.14.0-rc6": "2025-01-03T17:06:21.029Z",
+		"0.14.0-rc7": "2025-01-08T01:55:00.563Z",
+		"0.14.0-rc10": "2025-01-14T20:04:08.339Z",
+		"0.14.0-rc11": "2025-01-14T20:07:27.416Z",
+		"0.14.0": "2025-01-14T20:11:47.978Z",
+		"0.14.1-rc1": "2025-01-14T20:42:19.003Z",
+		"0.14.1": "2025-01-14T20:45:07.287Z",
+		"0.15.0-rc2": "2025-02-05T00:59:34.816Z",
+		"0.15.0-rc3": "2025-02-12T18:29:21.719Z",
+		"0.15.0-rc4": "2025-02-12T18:32:32.109Z",
+		"0.15.0-rc5": "2025-02-25T19:20:46.617Z",
+		"0.15.0-rc6": "2025-02-28T16:56:19.534Z",
+		"0.15.0-rc7": "2025-02-28T17:20:58.884Z",
+		"0.15.0-rc8": "2025-03-03T16:08:48.335Z",
+		"0.15.0-rc9": "2025-03-05T22:39:34.412Z",
+		"0.15.0-rc10": "2025-03-05T22:45:59.228Z",
+		"0.15.0-rc11": "2025-03-12T01:25:19.544Z",
+		"0.15.0-rc12": "2025-03-22T05:07:00.035Z",
+		"0.15.0-rc13": "2025-03-22T07:05:55.583Z",
+		"0.15.0-rc14": "2025-03-27T19:23:10.094Z",
+		"0.15.0-rc15": "2025-04-15T19:46:42.746Z",
+		"0.15.0-rc16": "2025-04-16T13:29:37.659Z",
+		"0.15.0-rc17": "2025-04-16T16:33:53.376Z",
+		"0.15.0-rc18": "2025-04-16T17:09:31.369Z",
+		"0.15.0-rc19": "2025-04-17T16:07:45.334Z",
+		"0.15.0-rc20": "2025-04-19T15:42:18.467Z",
+		"0.15.0-rc21": "2025-04-25T06:26:00.688Z",
+		"0.15.0-rc22": "2025-04-25T06:33:40.946Z",
+		"0.15.0-rc23": "2025-04-25T06:44:24.880Z",
+		"0.15.0-rc24": "2025-04-28T15:29:48.573Z",
+		"0.15.0-rc25": "2025-05-01T00:55:31.216Z",
+		"0.15.0-dev4": "2025-05-10T00:10:21.898Z",
+		"0.15.0-dev5": "2025-05-10T00:16:53.386Z",
+		"0.15.0-dev6": "2025-05-16T06:12:44.253Z",
+		"0.15.0-dev7": "2025-05-16T17:31:25.725Z",
+		"0.15.0-dev8": "2025-05-16T22:02:23.868Z",
+		"0.15.0": "2025-05-17T01:21:10.096Z",
+		"0.16.0-dev3": "2025-05-22T16:56:38.644Z",
+		"0.16.0-dev4": "2025-05-23T16:44:21.939Z",
+		"0.16.0-dev5": "2025-05-23T17:41:21.704Z",
+		"0.16.0-dev6": "2025-05-23T17:54:31.772Z",
+		"0.16.0-dev7": "2025-05-23T18:08:15.586Z",
+		"0.16.0-dev8": "2025-05-23T18:36:31.106Z",
+		"0.16.0-dev9": "2025-05-28T23:38:00.470Z",
+		"0.16.0-svelte-dev2": "2025-06-20T07:39:48.175Z",
+		"0.16.0-svelte-dev3": "2025-07-02T04:01:08.646Z",
+		"0.16.0-dev10-splash": "2025-07-21T20:28:21.429Z",
+		"0.16.0-dev11-fix-publish-deps": "2025-07-21T20:54:16.862Z",
+		"0.16.0-dev12-http-based-rpc": "2025-07-22T04:11:51.020Z",
+		"0.16.0-dev13-http-based-rpc": "2025-08-05T18:38:41.502Z",
+		"0.16.0-dev14-http-based-rpc": "2025-08-05T18:41:46.269Z",
+		"0.16.0-dev15-http-based-rpc": "2025-08-07T03:18:54.513Z",
+		"0.16.0-rc1": "2025-08-09T04:59:50.733Z",
+		"0.16.0-dev16-fix-register-server-module-race-condition": "2025-08-21T23:26:40.662Z",
+		"0.16.0-dev17-fix-catch-all-route": "2025-08-22T19:50:19.596Z",
+		"0.16.0-dev-svelte-20": "2025-08-25T05:52:49.336Z",
+		"0.16.0-dev21-svelte": "2025-08-25T07:41:49.369Z",
+		"0.16.0-dev22-svelte": "2025-08-25T07:55:32.633Z",
+		"0.16.0-dev23-svelte": "2025-08-25T08:24:47.471Z",
+		"0.16.0-dev24-svelte": "2025-08-25T08:49:57.801Z",
+		"0.16.0-dev25-svelte": "2025-08-25T08:54:21.343Z",
+		"0.16.0-dev26-svelte": "2025-08-25T17:55:53.493Z",
+		"0.16.0": "2025-08-25T18:08:39.309Z",
+		"0.16.1-dev1-fix-offline-import-path": "2025-09-03T16:00:52.729Z",
+		"0.0.1-dev-midipoller-1": "2025-09-11T05:22:08.771Z",
+		"0.0.1-dev-midipoller-2": "2025-09-21T00:04:09.055Z",
+		"0.0.1-dev-midipoller-3": "2025-09-21T01:34:37.511Z",
+		"0.0.1-dev-midipoller-4": "2025-09-22T03:45:59.230Z",
+		"0.17.0-dev-1": "2025-09-23T06:44:51.918Z",
+		"0.17.0-dev-2": "2025-09-24T17:10:36.863Z",
+		"0.17.0-dev-3": "2025-09-24T20:54:02.806Z",
+		"0.17.0-dev-4": "2025-09-24T21:16:24.025Z",
+		"0.0.1-dev-tanstack-1": "2025-09-24T23:28:23.403Z",
+		"0.0.1-dev-tanstack-2": "2025-09-24T23:32:51.586Z",
+		"0.0.1-dev-tanstack-3": "2025-09-25T00:11:16.381Z",
+		"0.0.1-dev-server-state-1": "2025-11-10T07:46:13.667Z",
+		"0.0.1-dev-server-state-2": "2025-11-13T02:07:08.447Z",
+		"0.0.1-dev-server-state-3": "2025-11-22T09:42:10.530Z",
+		"0.0.1-dev-server-state-4": "2025-11-26T03:54:36.522Z",
+		"0.15.0-test1": "2025-12-28T10:19:17.713Z",
+		"0.15.0-test2": "2025-12-28T10:20:39.685Z"
+	},
+	"users": {},
+	"dist-tags": {
+		"rc": "0.16.0-rc1",
+		"latest": "0.16.0",
+		"dev": "0.15.0-test2"
+	},
+	"_uplinks": {
+		"npmjs": {
+			"etag": "W/\"438990fbd33af19eb1a10f97aa137f38\"",
+			"fetched": 1766917157704
+		}
+	},
+	"_distfiles": {
+		"shoelace-0.14.0-rc3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc3.tgz",
+			"sha": "59172940420199c33aa972a1b68d4d7b03d4e8f1",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0-rc4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc4.tgz",
+			"sha": "c03192835eed7a8d26a7492e8c179f75b0b441c4",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0-rc5.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc5.tgz",
+			"sha": "2bf3cc086037e9ec9b42712edad13bbe13a6ac83",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0-rc6.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc6.tgz",
+			"sha": "cac84182beced4fe1070917be45f7e3283614914",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0-rc7.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc7.tgz",
+			"sha": "fd626772e3a9c393d37b4d92d4fb74b736b1828a",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0-rc10.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc10.tgz",
+			"sha": "a6f6dd1271da51a13465ccda3e948d3ee8ea1118",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0-rc11.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0-rc11.tgz",
+			"sha": "cb6bf18b5f515b49b66e53b4c54839b2a008842a",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.0.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.0.tgz",
+			"sha": "1417eb51a544a3f274e639be54dbb6521bd9659a",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.1-rc1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.1-rc1.tgz",
+			"sha": "1c56f10ccc98f778669710575813c7f4c73d44cb",
+			"registry": "npmjs"
+		},
+		"shoelace-0.14.1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.14.1.tgz",
+			"sha": "3a57780c1a9994cd76b2c1e8bab9a653c7f56e0f",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc2.tgz",
+			"sha": "742a1d3f0443586229f7d17169d290ad42618712",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc3.tgz",
+			"sha": "b9d33aa6d7da37cb16c001fc017bcb1f88a04ce4",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc4.tgz",
+			"sha": "ac1949409017d248daaa4acb27fd03e4a5bafb42",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc5.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc5.tgz",
+			"sha": "2448129b65271fdfd48524bc4cf2dba6368d7ab1",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc6.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc6.tgz",
+			"sha": "07500b9aff43415a989d15fa8d29e166e8fb4701",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc7.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc7.tgz",
+			"sha": "01ceab662498fc1e6c28da0cc37b3529f304bcca",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc8.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc8.tgz",
+			"sha": "38d5a4cd0799f5f87417ae8b0c536a3e737dc824",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc9.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc9.tgz",
+			"sha": "6cc53233f9b4f92c08989c66be8fecdd98eaf3b8",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc10.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc10.tgz",
+			"sha": "11f6c032f7f8469a8a2a130408159368cbf4e5dd",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc11.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc11.tgz",
+			"sha": "15786470a3519920be29d1b7118cf97235b90216",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc12.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc12.tgz",
+			"sha": "ec8558ccd611b929f1d37f8b4e3ee1baf00651a1",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc13.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc13.tgz",
+			"sha": "498482bc1dfeba3529a6790ff975ac3484e77766",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc14.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc14.tgz",
+			"sha": "fffa295092b405ad78721344206ec6daf305fe29",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc15.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc15.tgz",
+			"sha": "d242886a6e1ee006a09ed0556692c0a76e0600da",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc16.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc16.tgz",
+			"sha": "9f76a9a67368de1ff767df1ff6b87977426f62cb",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc17.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc17.tgz",
+			"sha": "d3513886c115c53422383f2be14d859ae49966d8",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc18.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc18.tgz",
+			"sha": "dbb84dc2a13e6ef117ed782a30c37114331ef1e3",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc19.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc19.tgz",
+			"sha": "8041aeeb986f81fd122d576e844c97b00e3e856e",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc20.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc20.tgz",
+			"sha": "9212061f8485b26492fe7fb05d8e962e871a07b6",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc21.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc21.tgz",
+			"sha": "867980b13f150092aad667050423a8ad6abc7565",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc22.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc22.tgz",
+			"sha": "29450726ad7fab697494d0f5a6b223122f890e75",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc23.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc23.tgz",
+			"sha": "b371b753a735bc464f99bf2aea757866cc143d1a",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc24.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc24.tgz",
+			"sha": "376d5fc1a4d3479a57a8235d48113ba39bead12e",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-rc25.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-rc25.tgz",
+			"sha": "8a0dca5128ef461b0c4fd52d1ef490018b7759d2",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-dev4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev4.tgz",
+			"sha": "a9874bbd3b6e5620ad589a739a3c8d7475218d3d",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-dev5.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev5.tgz",
+			"sha": "d55cb9b720c2432aaccff3b80d23fb7b299879c4",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-dev6.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev6.tgz",
+			"sha": "de5b2b9fa2911408bfbac60e3213c5eb134f094d",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-dev7.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev7.tgz",
+			"sha": "da653886ff0b7a57a2de489a6c1be17e0909f440",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0-dev8.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0-dev8.tgz",
+			"sha": "74aa3203231bf90d509b1380887d093724f93571",
+			"registry": "npmjs"
+		},
+		"shoelace-0.15.0.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.15.0.tgz",
+			"sha": "fd8e3cb463d5da92342133f34755954d6668d10f",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev3.tgz",
+			"sha": "30987e400366baa947fdf983d8b5e8fe0ef8d0bc",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev4.tgz",
+			"sha": "2e5378a4a3d2987eefbe855626a5c453f7db7b1d",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev5.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev5.tgz",
+			"sha": "52b5f2969c6aec6fd17351219e910d9e67ec0a6e",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev6.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev6.tgz",
+			"sha": "4d24feafc98b2e96e6452c9d8a073dd98567b2a9",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev7.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev7.tgz",
+			"sha": "582e0e11c10586a0b42951305d804a738efe60c0",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev8.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev8.tgz",
+			"sha": "0970fec61804ca0a6ae580e2dac8ffca8df2f5b5",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev9.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev9.tgz",
+			"sha": "f88d6f7b79620be7c238fcb73eb3f072ace89b84",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-svelte-dev2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-svelte-dev2.tgz",
+			"sha": "403f76d2e2e2da133e91b975b4abf19a03957d8b",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-svelte-dev3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-svelte-dev3.tgz",
+			"sha": "eaf1ed5e33e2658ef6fa54f849570b2674fc6b15",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev10-splash.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev10-splash.tgz",
+			"sha": "25affe96eb72891e089efa8a7b1547142b2bd1bb",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev11-fix-publish-deps.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev11-fix-publish-deps.tgz",
+			"sha": "3f802f44bff6fac18b1c1acbb3b5c32eee311a36",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev12-http-based-rpc.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev12-http-based-rpc.tgz",
+			"sha": "69249556449f97636f25309f5b357393094f50d8",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev13-http-based-rpc.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev13-http-based-rpc.tgz",
+			"sha": "710121fd9d022aca4abceb9ce1e09e92f986e3ed",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev14-http-based-rpc.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev14-http-based-rpc.tgz",
+			"sha": "71f47ec8ea453c80cc4e144d17d16f7f68a89fb1",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev15-http-based-rpc.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev15-http-based-rpc.tgz",
+			"sha": "2b13af8fb0f90dbb5ac18694708ccfbb42ab43a3",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-rc1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-rc1.tgz",
+			"sha": "2de3d9dcaf548dbf4c51676e61065a00d158efa4",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev16-fix-register-server-module-race-condition.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev16-fix-register-server-module-race-condition.tgz",
+			"sha": "30a008b6bdfb6fa743b57c4db9fa5506ce6e7801",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev17-fix-catch-all-route.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev17-fix-catch-all-route.tgz",
+			"sha": "c9bf16c983ddef17424d674e756ee18dcb8957e6",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev-svelte-20.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev-svelte-20.tgz",
+			"sha": "259d11518ce267a77f2f12137e47b4c869928bbb",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev21-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev21-svelte.tgz",
+			"sha": "992711dd9b0987fb1a4bca8700e6ef48b6d7e3ff",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev22-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev22-svelte.tgz",
+			"sha": "9edeec90deb3a2bc9a6462e884d6182470af8aa5",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev23-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev23-svelte.tgz",
+			"sha": "5dea6900047c76e8c917c88c365ab588e450a30d",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev24-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev24-svelte.tgz",
+			"sha": "6593a3ee2b2026158ba69c8ea9833bd8c2e0c596",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev25-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev25-svelte.tgz",
+			"sha": "05e0c2cb192efc51b9af015d0b5fed91071d9b2b",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0-dev26-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0-dev26-svelte.tgz",
+			"sha": "25ab328d48c72a493ee6fe8e4a435a35a351f059",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.0.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.0.tgz",
+			"sha": "21cdc79b9f800794bd9175caff02759573b54e2b",
+			"registry": "npmjs"
+		},
+		"shoelace-0.16.1-dev1-fix-offline-import-path.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.16.1-dev1-fix-offline-import-path.tgz",
+			"sha": "55011c8e8ddd1543d0a0ecbb819433503e976f99",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-midipoller-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-1.tgz",
+			"sha": "afe7b513af9105951c3934d1cbfb4d07e52cc0a3",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-midipoller-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-2.tgz",
+			"sha": "34e4ae825a6c59a10e655c5a275cc39078f06974",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-midipoller-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-3.tgz",
+			"sha": "16de7a269df635d4187d94ebb4cf5dc69c95e797",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-midipoller-4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-midipoller-4.tgz",
+			"sha": "01f7b67a2511ffd2b80198377b6d7f675ff36b70",
+			"registry": "npmjs"
+		},
+		"shoelace-0.17.0-dev-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-1.tgz",
+			"sha": "eb0928353d69a7a882d22b7a11ba3e9d7ce3b273",
+			"registry": "npmjs"
+		},
+		"shoelace-0.17.0-dev-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-2.tgz",
+			"sha": "3b1beb7f95187c8626eced8865bf0a709dfda0f4",
+			"registry": "npmjs"
+		},
+		"shoelace-0.17.0-dev-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-3.tgz",
+			"sha": "63507ca3553d25bb32b050df649c62f1771c4372",
+			"registry": "npmjs"
+		},
+		"shoelace-0.17.0-dev-4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.17.0-dev-4.tgz",
+			"sha": "a5d02d8f2039ccf5257fbfda95a5cb06bcd6d4ea",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-tanstack-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-tanstack-1.tgz",
+			"sha": "19814f8d6dc705f3f1a65dba4c243f942e5059d9",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-tanstack-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-tanstack-2.tgz",
+			"sha": "5fe38cceb639fdee7a5167bbfa1e3ef799157ca0",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-tanstack-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-tanstack-3.tgz",
+			"sha": "f70a8d05bd284f4ce8b90e6b9e5b73d6791606c3",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-server-state-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-1.tgz",
+			"sha": "3d642750e55f03405ace622c3b9773f13acdab46",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-server-state-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-2.tgz",
+			"sha": "494a4d776c5432b529bd250fad5746dae6f095a7",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-server-state-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-3.tgz",
+			"sha": "4615bcbea4cc3b11418be56af5e1378c575f8004",
+			"registry": "npmjs"
+		},
+		"shoelace-0.0.1-dev-server-state-4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/shoelace/-/shoelace-0.0.1-dev-server-state-4.tgz",
+			"sha": "3c6e80b440b30a1318afbdc627721092c6ca7c61",
+			"registry": "npmjs"
+		}
+	},
+	"_attachments": {
+		"shoelace-0.15.0-test1.tgz": {
+			"shasum": "48f3dd9d22b60151da83c4c10f694b8724e1c57d",
+			"version": "0.15.0-test1"
+		},
+		"shoelace-0.15.0-test2.tgz": {
+			"shasum": "b6b8ce92612d7e2fe7e8ab611443597490adffba",
+			"version": "0.15.0-test2"
+		}
+	},
+	"_rev": "7-5c41728d8ca483a6",
+	"_id": "@springboardjs/shoelace",
+	"readme": "ERROR: No README data found!"
+}

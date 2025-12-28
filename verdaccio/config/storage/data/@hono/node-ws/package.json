@@ -1,0 +1,1699 @@
+{
+	"name": "@hono/node-ws",
+	"versions": {
+		"1.0.0": {
+			"name": "@hono/node-ws",
+			"version": "1.0.0",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.0",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "1a8f8c37d89cca99d211220a7f66d60df2293dd2",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.0.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-kH66I6x2B8gIcpIhVi6V2DhE5FsC749dJafjaFfMOKdBq9vWAtNSE1XJ3dFg8QAlR4wdUQB4GDtQCFvFG7dUbA==",
+				"signatures": [
+					{
+						"sig": "MEQCIBIABpypl0t2TeUnoxBijLhRkQdeM/9jplOTNx5MxwJDAiBmxQ7ghCQGQINXZ9BwOZE70lFxUtEpl52c2zLJ+enbyw==",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 9223
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "b0c94cd840765885ce3b95705f8d132166d2f141",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.5.0",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.2",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.2.9",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.0_1715259472799_0.47262077444178274",
+				"host": "s3://npm-registry-packages"
+			},
+			"contributors": []
+		},
+		"1.0.1": {
+			"name": "@hono/node-ws",
+			"version": "1.0.1",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.1",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "0296f5ba41aafc6bffcc89786d96289b334d880f",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.1.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-mY2oXLq0DPBDT99cT+eJy2YDufB6GYHU1LnUkE8d/Ej/yKp1+VTPrD88oYh79pXHUP0yMeHZV2dTt5O4OpkndA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDnKgs1tf6p0LbLV408uPNBIvPHiyijt69v84zbo2c6CAIgd7vhB+EfB9B1s1ZJ4c56ElhONYq5xdJdWIT1CumPa98=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 8729
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "39edec1249ec3f9dae474b1abc4ebc1cf97a51c2",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.5.0",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.2",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.2.9",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.1_1716691256925_0.6383505157063609",
+				"host": "s3://npm-registry-packages"
+			},
+			"contributors": []
+		},
+		"1.0.2": {
+			"name": "@hono/node-ws",
+			"version": "1.0.2",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.2",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "9e6ed7e59eccd7132849edff36a8013e87a9f608",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.2.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-+31N3u00ZBVYVihN1lnlVEY/liCKWxIaXBJgYOzxuYm+0eFW44AXKwaIiSP/rkscoJoAZwgwqZtOqymWFIZIPA==",
+				"signatures": [
+					{
+						"sig": "MEQCICYDPorXEtwOKqnwdJKRwSOelKmglZ2vAkS6L6PDk2cxAiAx1cPAUVU/WAE0hvnuq5d3yb7kGAc/bIvvmPYj5HobGw==",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 9659
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "67b83e5d4cc1bcbbf1d7024a721cec69f3d4ead0",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.7.0",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.3",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.2.9",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.2_1720071310702_0.6725111662751702",
+				"host": "s3://npm-registry-packages"
+			},
+			"contributors": []
+		},
+		"1.0.3": {
+			"name": "@hono/node-ws",
+			"version": "1.0.3",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.3",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "66f0db42c9c4b9e8e81379894ed4f48c2a754ea8",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.3.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-twg2lyD3+VyguV4YXJVdb3CrLEHX32tCt1xuP7O4HH7ZvZIorDlqLuQnDgVOGIcOq/ht9aGXUleNsORYUd3Yfg==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDNIhV/41DhkZ+X65wghvXEQpD/eLneRJbQF6YbQRg9HQIgcFuy3tJoBeJ3cQNm5Tew2PADXw0e0kfRegUezS1LMtU=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 9473
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "e6afa4bd3d2e47d0de5583f80e2627aa777e41bf",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.7.0",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.3",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.2.9",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.3_1721032636414_0.47213028123816003",
+				"host": "s3://npm-registry-packages"
+			},
+			"contributors": []
+		},
+		"1.0.4": {
+			"name": "@hono/node-ws",
+			"version": "1.0.4",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.4",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "dbba98896ac7d43a5b6170211e10641757ef75be",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.4.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-0j1TMp67U5ym0CIlvPKcKtD0f2ZjaS/EnhOxFLs3bVfV+/4WInBE7hVe2x/7PLEsNIUK9+jVL8lPd28rzTAcZg==",
+				"signatures": [
+					{
+						"sig": "MEQCIEWeLnnm+bC6AZbi9kMTxATA6MbNolk0F2cCu8SMpvn9AiA5KI0fzhCElPFhEOmDftgY9XqiP6YLmSdLw/eLYrv10A==",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 10351
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "20c2d1c0e1237680ec2dc6be1f0d873633aec57d",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.7.0",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.4",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.2.9",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.4_1721341102401_0.08864734494372661",
+				"host": "s3://npm-registry-packages"
+			},
+			"contributors": []
+		},
+		"1.0.5": {
+			"name": "@hono/node-ws",
+			"version": "1.0.5",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.5",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "ff8e7627e5465f258f401db7f958f6ef20323381",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.5.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-p1q3Q+ThKZ28xNB0mZa2MAMPBMhX8rbk6CYs/XYbTAhLa/pccsORUoNQjEEXqTB0liRDj4WJpMaSY4qWXsAPuA==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDlj8OVd1veGOFD6FrMOiX8SrzI3mZUjhwCx78v8TPePgIhAMaSE0uUxEpGtnNLmyPQ6NqvfJUEskjUGAcYwBM3HsLS",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 10381
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "27ff98f26e0312b92a40e17d20b634609603891b",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.8.2",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.5",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.2.9",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.5_1733803496330_0.6134480936246083",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.0.6": {
+			"name": "@hono/node-ws",
+			"version": "1.0.6",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.6",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "7d2a2ba531ffdba4f0af7510b6abc85d276a510b",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.6.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-0ivqF6ixLOquLMzrJ02oFGMie+VUDngGg7oyPwAVAPQo6UcRhFwSYoieymwEQoNU5cKmI+p4UB8J8q69Tx3ueQ==",
+				"signatures": [
+					{
+						"sig": "MEUCICN4vtoYqumBWSDmGVZB3Z0fa/91xHT2cE7f+mM0wC01AiEA+/EbMag9Kt7urwIqXroWmytSxNx3u1YQQpe2DJcMcsQ=",
+						"keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+					}
+				],
+				"unpackedSize": 10489
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "6691c0e28e8ae24147e23f09e490073807b93d04",
+			"scripts": {
+				"test": "vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.8.2",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.5",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.6.0",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.6_1737452796922_0.7124119589401114",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.0.7": {
+			"name": "@hono/node-ws",
+			"version": "1.0.7",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.7",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "6ee6f36ad5902df49a1c70a75169c8d4d1e9076f",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.7.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-gHddO9TD2FglD56dwfZTjGCO3O2vW99+o1f7wCyux/dx8pw0HMm2Qm9jybFFqMPtto7gGcpQDZDW+Xkn8sgQUA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQC1DH2btUSMtGRwE3YKdd7gn4hxs2YCiouDQiyEBfbuPAIgPokNsCrBBcSrORxMaWcbK62QNF9lxcndcXIyZidt//E=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 10535
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "deae708dde39d76c14e4d51d7a143633c471f5df",
+			"scripts": {
+				"test": "tsc --noEmit && vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.8.2",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.6",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.6.0",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.7_1738499577069_0.7214519748756003",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.0.8": {
+			"name": "@hono/node-ws",
+			"version": "1.0.8",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.0.8",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "a867734ac4e687a5335fe871c2694a80765680a0",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.8.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-LhoJeaFsrgP9prhudqI/9finYjtjTyv4oXd0IjORRV7BGpmGkKaleYyT2zEl7I4scv0e0HJfvNcVMnzxGAHvQw==",
+				"signatures": [
+					{
+						"sig": "MEUCIAbhNd4aOgN1TF9tmxQRXS1EIp21fwRLt1nduCdCsZDrAiEAz3F/S1JBS0OkgwCJBKVBbT5ME1DzjWiIsoCbuB2jYTg=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 10535
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "0ebb6854fc62f4d38a5b08a90477035bf1d397e3",
+			"scripts": {
+				"test": "tsc --noEmit && vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.8.2",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.6",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.6.0",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.0.8_1739179003309_0.8990931861479166",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.0": {
+			"name": "@hono/node-ws",
+			"version": "1.1.0",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.0",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "aefb18f31a2e67d71787a5838110f156fa819183",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.0.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-uHaz1EPguJqsUmA+Jmhdi/DTRAMs2Fvcy7qno9E48rlK3WBtyGQw4u4DKlc+o18Nh1DGz2oA1n9hCzEyhVBeLw==",
+				"signatures": [
+					{
+						"sig": "MEQCIGcT6/asTGQSD0hBAvvrlfmrli9VxNbC5PD74+FWjJeDAiA9ayYx0Uk389BUx2GxNeO2DeILlZlKsoHLiJscmQDcXQ==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11297
+			},
+			"main": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.mjs",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"types": "./dist/index.d.mts",
+					"import": "./dist/index.mjs",
+					"require": "./dist/index.js"
+				}
+			},
+			"gitHead": "fa8ed2804fa59d50bd63c3a4d19fe26228904a9a",
+			"scripts": {
+				"test": "tsc --noEmit && vitest --run",
+				"build": "tsup ./src/index.ts --format esm,cjs --dts",
+				"publint": "publint",
+				"release": "yarn build && yarn test && yarn publint && yarn publish"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git"
+			},
+			"_npmVersion": "10.8.2",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "18.20.6",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"hono": "^4.6.0",
+				"tsup": "^8.0.1",
+				"vitest": "^1.0.4",
+				"@types/ws": "^8",
+				"@hono/node-server": "^1.11.1"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.0_1740292685835_0.5390653419928944",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.1": {
+			"name": "@hono/node-ws",
+			"version": "1.1.1",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.1",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"bugs": {
+				"url": "https://github.com/honojs/middleware/issues"
+			},
+			"dist": {
+				"shasum": "e578ce4498498c09572bbccd400d21aac61353f9",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.1.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-iFJrAw5GuBTstehBzLY2FyW5rRlXmO3Uwpijpm4Liv75owNP/UjZe3KExsLuEK4w+u+xhvHqOoQUyEKWUvyghw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDxPXIBl5AqAheC74j8Rw9xVLucdjvWmlNFbzbtxPKCUwIgONf06mujPNXCP+idSNEwgbUHfQRjP++mEnpygZG0fhA=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11823
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "5dd598f49911f525951e2ab1fb95d3ecc5864341",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"_npmVersion": "10.8.2",
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"_nodeVersion": "20.19.0",
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"@types/ws": "^8.18.0",
+				"@types/node": "^20.14.8",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.1_1743511601647_0.4567890313936045",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.2": {
+			"name": "@hono/node-ws",
+			"version": "1.1.2",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.2",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"dist": {
+				"shasum": "1518ac235e2378a5c382cbc76c35ccf2c4e7fc07",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.2.tgz",
+				"fileCount": 7,
+				"integrity": "sha512-fhn9QFxqL3wXVigZ5xq7AL5+6h597zlh6KbGJfRB68T3Rj8vPdvBlmRN6R4AUyC9QAryU3/t9sT/17CHyjpu/g==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDGR1WTSuUCIoNeiyGrugm2frAqf5+TPBoB6YScB+4cLQIgGZjBVwIEXL32KkLpbn/juJ9QwKIsj+jA7xGxYjsQWBU=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 15773
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "a756d2235b3622a1ecd57daaad74f9f1a5e81a52",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"typescript": "^5.8.2",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.2_1745640917324_0.2441087364539838",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.3": {
+			"name": "@hono/node-ws",
+			"version": "1.1.3",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.3",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"dist": {
+				"shasum": "360d25248fa7af39fb06351101d6ff50438ec3ee",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.3.tgz",
+				"fileCount": 7,
+				"integrity": "sha512-pOFrhNxz06I9mJRmUxH4Cs/8exJDLoBCzUQJHa+db012JmuTHCvAPEVO0j3fdRWDT87z8eZ/DCskOEzLdSDfqQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDQ/BMfkpiGiH9aAjJDbkwtVGnM/DloTMrkAeemycqDRgIhAMvcxHZ9y7rB8R0Y9SizGIQNfcrSefcnvxy65FE58I9N",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 17517
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "928f8cd5b827acf1d0adc663b7888beac6ef8b3d",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"typescript": "^5.8.2",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.3_1745754081101_0.29879034220345724",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.4": {
+			"name": "@hono/node-ws",
+			"version": "1.1.4",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.4",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"dist": {
+				"shasum": "f530ac84c8ea924c3c6f9c754f03c440217a5c5a",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.4.tgz",
+				"fileCount": 7,
+				"integrity": "sha512-eS/L5+xIgz5/FJOv1fiSIf5rCBO4rnVqEEqNKGN7CiA52tsdTSETDOQD6BuTDr+r5sbhdp0OuJXvMpEWOsAtXA==",
+				"signatures": [
+					{
+						"sig": "MEUCIEdu7WoHKr7QH/u9BfRV7FAk/jaRSk0ZhB88iTHPStoeAiEAn2XNovgVEEf7Evk5Hr7b7REQkl4+/9C+vFz46lEO2DM=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 18360
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "bed23c62f5136ad8e8198225068f0f20c2164113",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"typescript": "^5.8.2",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.4_1745919514201_0.08803916728501093",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.5": {
+			"name": "@hono/node-ws",
+			"version": "1.1.5",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.5",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"dist": {
+				"shasum": "a2783c96908522ddc460ebc31b62a94282c8b2a6",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.5.tgz",
+				"fileCount": 7,
+				"integrity": "sha512-PXEioArWbwRECpZpi2tRqlgRlZp5MjszJhYGQ3uq3tmzpDwy5+57WwCFTWjolVWb5Rct3+X0wZUqXOest2ozVA==",
+				"signatures": [
+					{
+						"sig": "MEUCIFtouqgK8HhhVE3hnZE2UFB+d8ckPMdQ+7Cd7npzAsOTAiEA87ajsbr+HGNxduJ9wyj/LAdjTlj9kTHDeP8Nx9Z5yec=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 19611
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "858c6b4fc38842624009b49b5e6743eb0fcf4a60",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"typescript": "^5.8.2",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.5_1748744912776_0.09204066305371894",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.6": {
+			"name": "@hono/node-ws",
+			"version": "1.1.6",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.6",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"dist": {
+				"shasum": "db6d590caa3beedb60e2c6136f67c54ee3d8469b",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.6.tgz",
+				"fileCount": 7,
+				"integrity": "sha512-8ab2e0sr5FUbQJVYo0OxzaToQkiyeA9pOkLauzWHYNKfarhQ7XlISWsM3lShQYOOgrWpgXXxr1FTXXE0V7P/uw==",
+				"signatures": [
+					{
+						"sig": "MEUCIBGG3QwEGCbWcu47T0uXqxzncsLKe0GdXV0iFVESubMEAiEAh8xI8GlO8mI2EpRYaiFfM/BY4sK/Q5QsBKdshSpYPoo=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 19808
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "d05b6158ec7eec98dc63ae3cd7f316dcb556ba0f",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"typescript": "^5.8.2",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.6_1748866399757_0.4643438793501711",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.1.7": {
+			"name": "@hono/node-ws",
+			"version": "1.1.7",
+			"license": "MIT",
+			"_id": "@hono/node-ws@1.1.7",
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"homepage": "https://github.com/honojs/middleware",
+			"dist": {
+				"shasum": "51397bb22cb3e384e9bcd06d5430c42cf8f4e9c4",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.7.tgz",
+				"fileCount": 7,
+				"integrity": "sha512-O+sJXeruHlAAdSHUoyol8s2kTVqixdGIfKqakyN6z2RKR2O8LDOFr1CpTye7xfwmUsBe6uoXKSLmGvLbCfPFgw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDAM0qqowFZrjyauFOEYeFgben7tkEfGdQR+PHib1tDJQIgMtUjNhJYwrsTFlh9Xjf10xZ2+Mmaa5kwkbYI1EXGKtE=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 20123
+			},
+			"main": "dist/index.js",
+			"type": "module",
+			"types": "dist/index.d.ts",
+			"module": "dist/index.js",
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"gitHead": "d4cc24f75432195dce1a5a02b207e581c121e89c",
+			"scripts": {
+				"test": "vitest",
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json"
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com"
+			},
+			"repository": {
+				"url": "git+https://github.com/honojs/middleware.git",
+				"type": "git",
+				"directory": "packages/node-ws"
+			},
+			"description": "WebSocket helper for Node.js",
+			"directories": {},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"publishConfig": {
+				"access": "public",
+				"registry": "https://registry.npmjs.org"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"tsup": "^8.4.0",
+				"vitest": "^3.0.8",
+				"publint": "^0.3.9",
+				"typescript": "^5.8.2",
+				"@hono/node-server": "^1.11.1",
+				"@arethetypeswrong/cli": "^0.17.4"
+			},
+			"peerDependencies": {
+				"hono": "^4.6.0",
+				"@hono/node-server": "^1.11.1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/node-ws_1.1.7_1749463735527_0.102014080565199",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"1.2.0": {
+			"name": "@hono/node-ws",
+			"version": "1.2.0",
+			"description": "WebSocket helper for Node.js",
+			"type": "module",
+			"main": "dist/index.js",
+			"module": "dist/index.js",
+			"types": "dist/index.d.ts",
+			"scripts": {
+				"build": "tsup ./src/index.ts",
+				"prepack": "yarn build",
+				"publint": "attw --pack && publint",
+				"typecheck": "tsc -b tsconfig.json",
+				"test": "vitest"
+			},
+			"exports": {
+				".": {
+					"import": {
+						"types": "./dist/index.d.ts",
+						"default": "./dist/index.js"
+					},
+					"require": {
+						"types": "./dist/index.d.cts",
+						"default": "./dist/index.cjs"
+					}
+				}
+			},
+			"license": "MIT",
+			"publishConfig": {
+				"registry": "https://registry.npmjs.org",
+				"access": "public"
+			},
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/honojs/middleware.git",
+				"directory": "packages/node-ws"
+			},
+			"homepage": "https://github.com/honojs/middleware",
+			"devDependencies": {
+				"@arethetypeswrong/cli": "^0.17.4",
+				"@hono/node-server": "^1.11.1",
+				"publint": "^0.3.9",
+				"tsup": "^8.4.0",
+				"typescript": "^5.8.2",
+				"vitest": "^3.2.4"
+			},
+			"dependencies": {
+				"ws": "^8.17.0"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.11.1",
+				"hono": "^4.6.0"
+			},
+			"engines": {
+				"node": ">=18.14.1"
+			},
+			"_id": "@hono/node-ws@1.2.0",
+			"gitHead": "95845a50ca9978a9525919caef504ae9c4ac659a",
+			"dist": {
+				"shasum": "93041d045a92aebc0e6e5b98d263ff32d37312cd",
+				"integrity": "sha512-OBPQ8OSHBw29mj00wT/xGYtB6HY54j0fNSdVZ7gZM3TUeq0So11GXaWtFf1xWxQNfumKIsj0wRuLKWfVsO5GgQ==",
+				"tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.2.0.tgz",
+				"fileCount": 7,
+				"unpackedSize": 20556,
+				"signatures": [
+					{
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+						"sig": "MEYCIQCPwlMGD0ArfYDKFZMCtKA7tiJt14zFuaJ/+iOpVPo9+wIhAMPG3+EMytbmHheUlNmhgP5wKl8/RDoQPlYrg/X+PhBc"
+					}
+				]
+			},
+			"_npmUser": {
+				"name": "yusukebe",
+				"email": "yusuke@kamawada.com",
+				"actor": {
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com",
+					"type": "user"
+				}
+			},
+			"directories": {},
+			"maintainers": [
+				{
+					"name": "yusukebe",
+					"email": "yusuke@kamawada.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages-npm-production",
+				"tmp": "tmp/node-ws_1.2.0_1750565648604_0.16857765544207526"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		}
+	},
+	"time": {
+		"created": "2024-05-09T12:57:52.679Z",
+		"modified": "2025-06-22T04:14:09.010Z",
+		"1.0.0": "2024-05-09T12:57:52.937Z",
+		"1.0.1": "2024-05-26T02:40:57.083Z",
+		"1.0.2": "2024-07-04T05:35:10.849Z",
+		"1.0.3": "2024-07-15T08:37:16.575Z",
+		"1.0.4": "2024-07-18T22:18:22.536Z",
+		"1.0.5": "2024-12-10T04:04:56.524Z",
+		"1.0.6": "2025-01-21T09:46:37.097Z",
+		"1.0.7": "2025-02-02T12:32:57.244Z",
+		"1.0.8": "2025-02-10T09:16:43.485Z",
+		"1.1.0": "2025-02-23T06:38:06.024Z",
+		"1.1.1": "2025-04-01T12:46:41.847Z",
+		"1.1.2": "2025-04-26T04:15:17.518Z",
+		"1.1.3": "2025-04-27T11:41:21.284Z",
+		"1.1.4": "2025-04-29T09:38:34.438Z",
+		"1.1.5": "2025-06-01T02:28:32.991Z",
+		"1.1.6": "2025-06-02T12:13:19.969Z",
+		"1.1.7": "2025-06-09T10:08:55.892Z",
+		"1.2.0": "2025-06-22T04:14:08.805Z"
+	},
+	"users": {},
+	"dist-tags": {
+		"latest": "1.2.0"
+	},
+	"_uplinks": {
+		"npmjs": {
+			"etag": "W/\"cbf48f929012bd0e00faf448d99bfa8a\"",
+			"fetched": 1766917312347
+		}
+	},
+	"_distfiles": {
+		"node-ws-1.0.0.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.0.tgz",
+			"sha": "1a8f8c37d89cca99d211220a7f66d60df2293dd2",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.1.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.1.tgz",
+			"sha": "0296f5ba41aafc6bffcc89786d96289b334d880f",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.2.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.2.tgz",
+			"sha": "9e6ed7e59eccd7132849edff36a8013e87a9f608",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.3.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.3.tgz",
+			"sha": "66f0db42c9c4b9e8e81379894ed4f48c2a754ea8",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.4.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.4.tgz",
+			"sha": "dbba98896ac7d43a5b6170211e10641757ef75be",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.5.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.5.tgz",
+			"sha": "ff8e7627e5465f258f401db7f958f6ef20323381",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.6.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.6.tgz",
+			"sha": "7d2a2ba531ffdba4f0af7510b6abc85d276a510b",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.7.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.7.tgz",
+			"sha": "6ee6f36ad5902df49a1c70a75169c8d4d1e9076f",
+			"registry": "npmjs"
+		},
+		"node-ws-1.0.8.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.0.8.tgz",
+			"sha": "a867734ac4e687a5335fe871c2694a80765680a0",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.0.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.0.tgz",
+			"sha": "aefb18f31a2e67d71787a5838110f156fa819183",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.1.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.1.tgz",
+			"sha": "e578ce4498498c09572bbccd400d21aac61353f9",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.2.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.2.tgz",
+			"sha": "1518ac235e2378a5c382cbc76c35ccf2c4e7fc07",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.3.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.3.tgz",
+			"sha": "360d25248fa7af39fb06351101d6ff50438ec3ee",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.4.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.4.tgz",
+			"sha": "f530ac84c8ea924c3c6f9c754f03c440217a5c5a",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.5.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.5.tgz",
+			"sha": "a2783c96908522ddc460ebc31b62a94282c8b2a6",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.6.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.6.tgz",
+			"sha": "db6d590caa3beedb60e2c6136f67c54ee3d8469b",
+			"registry": "npmjs"
+		},
+		"node-ws-1.1.7.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.1.7.tgz",
+			"sha": "51397bb22cb3e384e9bcd06d5430c42cf8f4e9c4",
+			"registry": "npmjs"
+		},
+		"node-ws-1.2.0.tgz": {
+			"url": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.2.0.tgz",
+			"sha": "93041d045a92aebc0e6e5b98d263ff32d37312cd",
+			"registry": "npmjs"
+		}
+	},
+	"_attachments": {},
+	"_rev": "1-7a8f987e99671657",
+	"_id": "@hono/node-ws",
+	"readme": ""
+}
