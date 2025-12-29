@@ -365,13 +365,9 @@ initApp();
         stopNodeServer();
       });
 
-      // Also handle process signals for cleanup
-      const cleanup = () => {
-        stopNodeServer();
-      };
-
-      process.on('SIGTERM', cleanup);
-      process.on('SIGINT', cleanup);
+      // Note: We DON'T add our own SIGINT/SIGTERM handlers here
+      // because Vite already handles those and will trigger the 'close' event
+      // Adding our own handlers would interfere with Vite's shutdown process
     },
   };
 }
