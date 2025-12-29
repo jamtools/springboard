@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.0-test-final",
+  "version": "0.15.4",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./src/index.ts",
@@ -52,6 +52,14 @@
     "./platforms/node/entrypoints/node_flexible_entrypoint.ts": {
       "types": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts",
       "import": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts"
+    },
+    "./platforms/node/entrypoints/node_server_entrypoint": {
+      "types": "./src/platforms/node/entrypoints/node_server_entrypoint.ts",
+      "import": "./src/platforms/node/entrypoints/node_server_entrypoint.ts"
+    },
+    "./platforms/node/entrypoints/node_server_entrypoint.ts": {
+      "types": "./src/platforms/node/entrypoints/node_server_entrypoint.ts",
+      "import": "./src/platforms/node/entrypoints/node_server_entrypoint.ts"
     },
     "./platforms/partykit": {
       "types": "./src/platforms/partykit/index.ts",

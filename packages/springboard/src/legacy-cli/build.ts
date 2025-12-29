@@ -143,16 +143,25 @@ export const platformOfflineBrowserBuildConfig: BuildConfig = {
 export const platformNodeBuildConfig: BuildConfig = {
     platform: 'node',
     platformEntrypoint: () => {
-        const entrypoint = 'springboard/platforms/node/entrypoints/node_flexible_entrypoint.ts';
+        const entrypoint = 'springboard/platforms/node/entrypoints/node_server_entrypoint.ts';
         return entrypoint;
     },
     esbuildPlugins: () => [
         esbuildPluginPlatformInject('node'),
     ],
     externals: () => {
-        let externals = ['@julusian/midi', 'easymidi', 'jsdom'];
+        let externals = [
+            '@julusian/midi',
+            'easymidi',
+            'jsdom',
+            // Server dependencies (needed by node_server_entrypoint.ts)
+            'better-sqlite3',
+            'kysely',
+            '@hono/node-server',
+            'hono'
+        ];
         if (process.env.DISABLE_IO === 'true') {
-            externals = ['jsdom'];
+            externals = ['jsdom', 'better-sqlite3', 'kysely', '@hono/node-server', 'hono'];
         }
         return externals;
     },
@@ -403,6 +412,9 @@ export default initApp;
 /**
  * @deprecated Use Vite build system with springboard/vite-plugin instead.
  * Options for building a server.
+ *
+ * NOTE: The buildServer function has been removed. Node builds are now self-contained
+ * using the node_server_entrypoint.ts which creates its own server infrastructure.
  */
 export type ServerBuildOptions = {
     coreFile?: string;
@@ -414,97 +426,107 @@ export type ServerBuildOptions = {
     plugins?: Plugin[];
 };
 
-/**
- * @deprecated Use Vite build system with springboard/vite-plugin instead.
- *
- * Builds a server using the legacy esbuild-based build system.
- *
- * @param options - Server build options
- */
-export const buildServer = async (options?: ServerBuildOptions) => {
-    const externals = ['better-sqlite3', '@julusian/midi', 'easymidi', 'jsdom'];
-
-    const parentOutDir = process.env.ESBUILD_OUT_DIR || './dist';
-    const childDir = options?.esbuildOutDir;
-
-    let outDir = parentOutDir;
-    if (childDir) {
-        outDir += '/' + childDir;
-    }
-
-    const fullOutDir = `${outDir}/server/dist`;
-
-    if (!fs.existsSync(fullOutDir)) {
-        fs.mkdirSync(fullOutDir, { recursive: true });
-    }
-
-    const outFile = path.join(fullOutDir, 'local-server.cjs');
-
-    let coreFile = options?.coreFile || 'springboard-server/src/entrypoints/local-server.entrypoint.ts';
-    let applicationDistPath = options?.applicationDistPath || '../../node/dist/dynamic-entry.js';
-    let serverEntrypoint = process.env.SERVER_ENTRYPOINT || options?.serverEntrypoint;
-
-    if (path.isAbsolute(coreFile)) {
-        coreFile = path.relative(fullOutDir, coreFile).replace(/\\/g, '/');
-    }
-
-    if (path.isAbsolute(applicationDistPath)) {
-        applicationDistPath = path.relative(fullOutDir, applicationDistPath).replace(/\\/g, '/');
-    }
-
-    if (serverEntrypoint && path.isAbsolute(serverEntrypoint)) {
-        serverEntrypoint = path.relative(fullOutDir, serverEntrypoint).replace(/\\/g, '/');
-    }
-
-    let allImports = `import createDeps from '${coreFile}';`;
-    if (serverEntrypoint) {
-        allImports += `import '${serverEntrypoint}';`;
-    }
-
-    allImports += `import app from '${applicationDistPath}';
-createDeps().then(deps => app(deps));
-`;
-
-    const dynamicEntryPath = path.join(fullOutDir, 'dynamic-entry.js');
-    fs.writeFileSync(dynamicEntryPath, allImports);
-
-    const buildOptions: EsbuildOptions = {
-        entryPoints: [dynamicEntryPath],
-        metafile: shouldOutputMetaFile,
-        bundle: true,
-        sourcemap: true,
-        outfile: outFile,
-        platform: 'node',
-        minify: process.env.NODE_ENV === 'production',
-        target: 'es2020',
-        plugins: [
-            esbuildPluginLogBuildTime('server'),
-            esbuildPluginPlatformInject('node'),
-            ...(options?.plugins?.map(p => p({ platform: 'node', platformEntrypoint: () => '' }).esbuildPlugins?.({
-                outDir: fullOutDir,
-                nodeModulesParentDir: '',
-                documentMeta: {},
-            })?.filter(p => isNotUndefined(p)) || []).flat() || []),
-        ],
-        external: externals,
-        define: {
-            'process.env.NODE_ENV': `"${process.env.NODE_ENV || ''}"`,
-        },
-    };
-
-    options?.editBuildOptions?.(buildOptions);
-
-    if (options?.watch) {
-        const ctx = await esbuild.context(buildOptions);
-        await ctx.watch();
-        console.log('Watching for changes for server build...');
-    } else {
-        const result = await esbuild.build(buildOptions);
-        if (shouldOutputMetaFile) {
-            await fs.promises.writeFile('esbuild_meta_server.json', JSON.stringify(result.metafile));
-        }
-    }
-};
+// /**
+//  * @deprecated REMOVED - Use platformNodeBuildConfig instead.
+//  *
+//  * The buildServer function has been removed because Node builds are now self-contained.
+//  * The node_server_entrypoint.ts creates its own Hono + WebSocket server infrastructure
+//  * and calls startNodeApp() with the proper dependencies.
+//  *
+//  * Previously, buildServer was used to create a separate server bundle that would:
+//  * 1. Import server infrastructure from local-server.entrypoint.ts
+//  * 2. Import the built node application
+//  * 3. Wire them together at runtime
+//  *
+//  * Now, platformNodeBuildConfig points to node_server_entrypoint.ts which handles
+//  * all of this in a single self-contained bundle.
+//  *
+//  * @param options - Server build options (no longer used)
+//  */
+// export const buildServer = async (options?: ServerBuildOptions) => {
+//     const externals = ['better-sqlite3', '@julusian/midi', 'easymidi', 'jsdom'];
+//
+//     const parentOutDir = process.env.ESBUILD_OUT_DIR || './dist';
+//     const childDir = options?.esbuildOutDir;
+//
+//     let outDir = parentOutDir;
+//     if (childDir) {
+//         outDir += '/' + childDir;
+//     }
+//
+//     const fullOutDir = `${outDir}/server/dist`;
+//
+//     if (!fs.existsSync(fullOutDir)) {
+//         fs.mkdirSync(fullOutDir, { recursive: true });
+//     }
+//
+//     const outFile = path.join(fullOutDir, 'local-server.cjs');
+//
+//     let coreFile = options?.coreFile || 'springboard-server/src/entrypoints/local-server.entrypoint.ts';
+//     let applicationDistPath = options?.applicationDistPath || '../../node/dist/dynamic-entry.js';
+//     let serverEntrypoint = process.env.SERVER_ENTRYPOINT || options?.serverEntrypoint;
+//
+//     if (path.isAbsolute(coreFile)) {
+//         coreFile = path.relative(fullOutDir, coreFile).replace(/\\/g, '/');
+//     }
+//
+//     if (path.isAbsolute(applicationDistPath)) {
+//         applicationDistPath = path.relative(fullOutDir, applicationDistPath).replace(/\\/g, '/');
+//     }
+//
+//     if (serverEntrypoint && path.isAbsolute(serverEntrypoint)) {
+//         serverEntrypoint = path.relative(fullOutDir, serverEntrypoint).replace(/\\/g, '/');
+//     }
+//
+//     let allImports = `import createDeps from '${coreFile}';`;
+//     if (serverEntrypoint) {
+//         allImports += `import '${serverEntrypoint}';`;
+//     }
+//
+//     allImports += `import app from '${applicationDistPath}';
+// createDeps().then(deps => app(deps));
+// `;
+//
+//     const dynamicEntryPath = path.join(fullOutDir, 'dynamic-entry.js');
+//     fs.writeFileSync(dynamicEntryPath, allImports);
+//
+//     const buildOptions: EsbuildOptions = {
+//         entryPoints: [dynamicEntryPath],
+//         metafile: shouldOutputMetaFile,
+//         bundle: true,
+//         sourcemap: true,
+//         outfile: outFile,
+//         platform: 'node',
+//         minify: process.env.NODE_ENV === 'production',
+//         target: 'es2020',
+//         plugins: [
+//             esbuildPluginLogBuildTime('server'),
+//             esbuildPluginPlatformInject('node'),
+//             ...(options?.plugins?.map(p => p({ platform: 'node', platformEntrypoint: () => '' }).esbuildPlugins?.({
+//                 outDir: fullOutDir,
+//                 nodeModulesParentDir: '',
+//                 documentMeta: {},
+//             })?.filter(p => isNotUndefined(p)) || []).flat() || []),
+//         ],
+//         external: externals,
+//         define: {
+//             'process.env.NODE_ENV': `"${process.env.NODE_ENV || ''}"`,
+//         },
+//     };
+//
+//     options?.editBuildOptions?.(buildOptions);
+//
+//     if (options?.watch) {
+//         const ctx = await esbuild.context(buildOptions);
+//         await ctx.watch();
+//         console.log('Watching for changes for server build...');
+//     } else {
+//         const result = await esbuild.build(buildOptions);
+//         if (shouldOutputMetaFile) {
+//             await fs.promises.writeFile('esbuild_meta_server.json', JSON.stringify(result.metafile));
+//         }
+//     }
+// };
 
 const findNodeModulesParentFolder = async () => {
     let currentDir = process.cwd();

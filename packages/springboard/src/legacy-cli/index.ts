@@ -19,7 +19,7 @@
 // Main build APIs
 export {
     buildApplication,
-    buildServer,
+    // buildServer - Removed: Node builds are now self-contained via node_server_entrypoint.ts
     platformBrowserBuildConfig,
     platformOfflineBrowserBuildConfig,
     platformNodeBuildConfig,

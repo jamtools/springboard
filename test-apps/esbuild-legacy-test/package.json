@@ -13,6 +13,10 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
+    "@hono/node-server": "^1.19.7",
+    "better-sqlite3": "^12.5.0",
+    "hono": "^4.11.3",
+    "kysely": "^0.28.9",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
@@ -23,7 +27,7 @@
     "esbuild": "^0.27.2",
     "immer": "^11.1.0",
     "rxjs": "^7.8.2",
-    "springboard": "0.15.0-rc26",
+    "springboard": "0.15.4",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
