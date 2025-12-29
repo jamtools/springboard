@@ -18,6 +18,13 @@ We’d love to hear from you. Choose the channel that works best for you:
 
 - **Community support:** Join us on [Discord](https://jam.tools/discord) for quick questions and community help.
 - **GitHub:** File issues or feature requests in the [Jam Tools repository](https://github.com/jamtools/springboard).
-- **Email:** Reach out directly at [hello@jam.tools](mailto:hello@jam.tools).
+- **Email:** Reach out directly at [support@jam.tools](mailto:support@jam.tools).
+
+Address:
+
+Jam Tools, Inc.
+5625 N German Church Rd
+Indianapolis, IN 46235
+
 
 We’ll get back to you as soon as we can.
