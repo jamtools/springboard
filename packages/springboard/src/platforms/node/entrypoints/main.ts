@@ -6,8 +6,8 @@ import {ExtraModuleDependencies} from '../../../core/module_registry/module_regi
 
 const port = process.env.PORT || 1337;
 
-export type NodeAppDependencies = Pick<CoreDependencies, 'rpc' | 'storage'> & Partial<CoreDependencies> & {
-    injectEngine: (engine: Springboard) => void;
+export type NodeAppDependencies = Partial<Pick<CoreDependencies, 'rpc' | 'storage'>> & Partial<CoreDependencies> & {
+    injectEngine?: (engine: Springboard) => void;
 };
 
 export const startNodeApp = async (deps: NodeAppDependencies): Promise<Springboard> => {
@@ -28,6 +28,6 @@ export const startNodeApp = async (deps: NodeAppDependencies): Promise<Springboa
     const engine = new Springboard(coreDeps, extraDeps);
 
     await engine.initialize();
-    deps.injectEngine(engine);
+    deps.injectEngine?.(engine);
     return engine;
 };

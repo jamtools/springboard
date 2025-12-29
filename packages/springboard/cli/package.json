@@ -1,6 +1,6 @@
 {
   "name": "springboard-cli",
-  "version": "0.15.0-test-1766977042",
+  "version": "0.15.0-rc26",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
