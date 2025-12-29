@@ -46,8 +46,8 @@ importers:
         specifier: ^7.8.2
         version: 7.8.2
       springboard:
-        specifier: 0.15.4
-        version: 0.15.4(immer@11.1.3)(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)
+        specifier: 0.15.5
+        version: 0.15.5(immer@11.1.3)(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -403,8 +403,8 @@ packages:
   simple-get@4.0.1:
     resolution: {integrity: sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==}
 
-  springboard@0.15.4:
-    resolution: {integrity: sha512-SwG5xgSksx6jUfqIzsuDU50FED2Vcj71CjJ9OWDRS4Us7ExF6rcqdtm3Z4PuSL0mYfj+rBpoQ8WqFq1GoUZTpg==}
+  springboard@0.15.5:
+    resolution: {integrity: sha512-1WwqLzKLqR4na3jvHzC5tSY1/c2wgdI2N/rOXezeWKQME+SwmHBk4M8Ti3LK8s+jTEfGunYiVn+vsMw8vFjN2Q==}
     peerDependencies:
       '@tauri-apps/api': ^2.9.0
       '@tauri-apps/plugin-shell': ^2.3.3
@@ -782,7 +782,7 @@ snapshots:
       once: 1.4.0
       simple-concat: 1.0.1
 
-  springboard@0.15.4(immer@11.1.3)(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rxjs@7.8.2):
+  springboard@0.15.5(immer@11.1.3)(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rxjs@7.8.2):
     dependencies:
       dexie: 4.2.1
       json-rpc-2.0: 1.7.1

@@ -40,23 +40,37 @@ export default async () => {
         const engine = await startNodeApp(nodeAppDependencies);
         console.log('Node application started successfully');
 
-        // Keep the process alive - the server will handle incoming requests
-        // The server.close() would be called on SIGTERM/SIGINT if needed
-        process.on('SIGTERM', () => {
-            console.log('Received SIGTERM, shutting down...');
-            server.close(() => {
-                console.log('Server closed');
-                process.exit(0);
-            });
-        });
+        // Set up graceful shutdown handlers
+        let isShuttingDown = false;
+        const shutdown = () => {
+            if (isShuttingDown) {
+                // Force exit if already shutting down
+                console.log('Force shutting down...');
+                process.exit(1);
+            }
+            isShuttingDown = true;
 
-        process.on('SIGINT', () => {
-            console.log('Received SIGINT, shutting down...');
+            console.log('Received shutdown signal, closing server...');
+
+            // Force exit after 5 seconds if graceful shutdown fails
+            const forceExitTimeout = setTimeout(() => {
+                console.log('Graceful shutdown timed out, forcing exit...');
+                process.exit(1);
+            }, 5000);
+
+            // Close the server and exit
             server.close(() => {
-                console.log('Server closed');
+                clearTimeout(forceExitTimeout);
+                console.log('Server closed successfully');
                 process.exit(0);
             });
-        });
+
+            // Also immediately stop accepting new connections
+            server.closeAllConnections?.();
+        };
+
+        process.on('SIGTERM', shutdown);
+        process.on('SIGINT', shutdown);
 
         return engine;
     } catch (error) {

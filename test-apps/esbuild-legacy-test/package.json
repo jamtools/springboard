@@ -27,11 +27,13 @@
     "esbuild": "^0.27.2",
     "immer": "^11.1.0",
     "rxjs": "^7.8.2",
-    "springboard": "0.15.4",
+    "springboard": "0.15.5",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["better-sqlite3"]
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
   }
 }
