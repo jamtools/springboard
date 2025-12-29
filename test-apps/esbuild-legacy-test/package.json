@@ -7,6 +7,9 @@
   "scripts": {
     "build": "tsx esbuild.ts",
     "build:watch": "tsx esbuild.ts --watch",
+    "build:vite": "./vite-build.sh",
+    "build:vite:web": "SPRINGBOARD_PLATFORM=web vite build",
+    "build:vite:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
     "check-types": "tsc --noEmit"
   },
   "engines": {
@@ -28,9 +31,10 @@
     "esbuild": "^0.27.2",
     "immer": "^11.1.0",
     "rxjs": "^7.8.2",
-    "springboard": "0.15.7",
+    "springboard": "0.15.8",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

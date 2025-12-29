@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.7",
+  "version": "0.15.8",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./src/index.ts",
@@ -39,6 +39,14 @@
     "./platforms/browser/entrypoints/offline_entrypoint.ts": {
       "types": "./src/platforms/browser/entrypoints/offline_entrypoint.ts",
       "import": "./src/platforms/browser/entrypoints/offline_entrypoint.ts"
+    },
+    "./platforms/browser/entrypoints/react_entrypoint": {
+      "types": "./src/platforms/browser/entrypoints/react_entrypoint.tsx",
+      "import": "./src/platforms/browser/entrypoints/react_entrypoint.tsx"
+    },
+    "./platforms/browser/entrypoints/react_entrypoint.tsx": {
+      "types": "./src/platforms/browser/entrypoints/react_entrypoint.tsx",
+      "import": "./src/platforms/browser/entrypoints/react_entrypoint.tsx"
     },
     "./platforms/browser/index.html": "./src/platforms/browser/index.html",
     "./platforms/node": {
