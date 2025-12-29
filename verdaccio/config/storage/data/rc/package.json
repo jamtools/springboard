@@ -3229,7 +3229,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"410ece6125a62d2156782adb7945cabf\"",
-			"fetched": 1766917313161
+			"fetched": 1766919722960
 		}
 	},
 	"_distfiles": {
@@ -3475,7 +3475,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-4a2e873013456305",
+	"_rev": "2-6fab96d405ca281e",
 	"_id": "rc",
 	"readme": ""
 }

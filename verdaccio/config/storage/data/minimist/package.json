@@ -2654,7 +2654,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"a5c52d8ee21fb9275025c172efe8d9b3\"",
-			"fetched": 1766917313200
+			"fetched": 1766919722973
 		}
 	},
 	"_distfiles": {
@@ -2815,7 +2815,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-406c1ceaddb64d4a",
+	"_rev": "2-b83d4bdd1c47f461",
 	"_id": "minimist",
 	"readme": ""
 }

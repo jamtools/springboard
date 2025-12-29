@@ -4647,11 +4647,41 @@
 				"tarball": "http://localhost:4873/@springboardjs/mantine/-/@springboardjs/mantine-0.15.0-test2.tgz"
 			},
 			"contributors": []
+		},
+		"0.15.0-test-1766977042": {
+			"name": "@springboardjs/mantine",
+			"version": "0.15.0-test-1766977042",
+			"main": "index.js",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"description": "",
+			"peerDependencies": {
+				"@mantine/core": "^7.13.4",
+				"@mantine/dropzone": "^7.13.4",
+				"@mantine/hooks": "^7.13.4",
+				"@mantine/modals": "^7.13.4",
+				"@mantine/notifications": "^7.13.4",
+				"springboard": "0.15.0-test-1766977042"
+			},
+			"scripts": {},
+			"_id": "@springboardjs/mantine@0.15.0-test-1766977042",
+			"_integrity": "sha512-Lks8hHIT8QiMKUTtj2NoPJDuJ2Gim0U7r4EIQY5IkZoY4K+OULwD7Mc+DSSxh1lakE3+vEbWJXBrezB80L9MMQ==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/f2674877eef120a1702c7132838c43a1/springboardjs-mantine-0.15.0-test-1766977042.tgz",
+			"_from": "file:springboardjs-mantine-0.15.0-test-1766977042.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-Lks8hHIT8QiMKUTtj2NoPJDuJ2Gim0U7r4EIQY5IkZoY4K+OULwD7Mc+DSSxh1lakE3+vEbWJXBrezB80L9MMQ==",
+				"shasum": "e5bf7ea0922f8be559b7517f30786deb505e91fa",
+				"tarball": "http://localhost:4873/@springboardjs/mantine/-/@springboardjs/mantine-0.15.0-test-1766977042.tgz"
+			},
+			"contributors": []
 		}
 	},
 	"time": {
 		"created": "2024-11-10T17:11:51.134Z",
-		"modified": "2025-12-28T10:20:38.091Z",
+		"modified": "2025-12-28T11:01:31.130Z",
 		"0.10.0": "2024-11-10T17:11:51.439Z",
 		"0.11.0": "2024-11-19T22:57:21.358Z",
 		"0.11.4": "2024-11-27T08:03:34.029Z",
@@ -4740,13 +4770,14 @@
 		"0.0.1-dev-server-state-3": "2025-11-22T09:42:07.195Z",
 		"0.0.1-dev-server-state-4": "2025-11-26T03:54:33.238Z",
 		"0.15.0-test1": "2025-12-28T10:19:15.706Z",
-		"0.15.0-test2": "2025-12-28T10:20:38.091Z"
+		"0.15.0-test2": "2025-12-28T10:20:38.091Z",
+		"0.15.0-test-1766977042": "2025-12-28T11:01:31.130Z"
 	},
 	"users": {},
 	"dist-tags": {
 		"rc": "0.16.0-rc1",
 		"latest": "0.16.0",
-		"dev": "0.15.0-test2"
+		"dev": "0.15.0-test-1766977042"
 	},
 	"_uplinks": {
 		"npmjs": {
@@ -5199,9 +5230,13 @@
 		"mantine-0.15.0-test2.tgz": {
 			"shasum": "b9b5a60d983f977aab0747e2337b7b17c9e7f090",
 			"version": "0.15.0-test2"
+		},
+		"mantine-0.15.0-test-1766977042.tgz": {
+			"shasum": "e5bf7ea0922f8be559b7517f30786deb505e91fa",
+			"version": "0.15.0-test-1766977042"
 		}
 	},
-	"_rev": "7-0090abf61fee8b21",
+	"_rev": "10-fee0888e405ec79a",
 	"_id": "@springboardjs/mantine",
 	"readme": "ERROR: No README data found!"
 }

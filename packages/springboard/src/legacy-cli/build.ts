@@ -296,14 +296,19 @@ export const buildApplication = async (buildConfig: BuildConfig, options?: Appli
         applicationEntrypoint = path.relative(fullOutDir, applicationEntrypoint).replace(/\\/g, '/');
     }
 
-    const allImports = `import initApp from '${coreFile}';
+    let allImports = `import initApp from '${coreFile}';
 import '${applicationEntrypoint}';
 export default initApp;
 `;
 
+    // For Node platform, auto-execute the entry point
+    if (buildConfig.platform === 'node') {
+        allImports += `\ninitApp();`;
+    }
+
     fs.writeFileSync(dynamicEntryPath, allImports);
 
-    const outFile = path.join(fullOutDir, 'index.js');
+    const outFile = path.join(fullOutDir, buildConfig.platform === 'node' ? 'index.cjs' : 'index.js');
 
     const externals = buildConfig.externals?.() || [];
     externals.push('better-sqlite3');

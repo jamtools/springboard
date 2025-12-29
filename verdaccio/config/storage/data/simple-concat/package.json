@@ -163,7 +163,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"a6974f2f4c6d9d259df0e9c377bef262\"",
-			"fetched": 1766917313413
+			"fetched": 1766919723098
 		}
 	},
 	"_distfiles": {
@@ -179,7 +179,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-8c2d12a794cc5c72",
+	"_rev": "2-41a95b816aa89d39",
 	"_id": "simple-concat",
 	"readme": "# simple-concat [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]\n\n[travis-image]: https://img.shields.io/travis/feross/simple-concat/master.svg\n[travis-url]: https://travis-ci.org/feross/simple-concat\n[npm-image]: https://img.shields.io/npm/v/simple-concat.svg\n[npm-url]: https://npmjs.org/package/simple-concat\n[downloads-image]: https://img.shields.io/npm/dm/simple-concat.svg\n[downloads-url]: https://npmjs.org/package/simple-concat\n[standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg\n[standard-url]: https://standardjs.com\n\n### Super-minimalist version of [`concat-stream`](https://github.com/maxogden/concat-stream). Less than 15 lines!\n\n## install\n\n```\nnpm install simple-concat\n```\n\n## usage\n\nThis example is longer than the implementation.\n\n```js\nvar s = new stream.PassThrough()\nconcat(s, function (err, buf) {\n  if (err) throw err\n  console.error(buf)\n})\ns.write('abc')\nsetTimeout(function () {\n  s.write('123')\n}, 10)\nsetTimeout(function () {\n  s.write('456')\n}, 20)\nsetTimeout(function () {\n  s.end('789')\n}, 30)\n```\n\n## license\n\nMIT. Copyright (c) [Feross Aboukhadijeh](http://feross.org)."
 }

@@ -1,6 +1,6 @@
 {
   "name": "@jamtools/features",
-  "version": "0.15.0-test2",
+  "version": "0.15.0-test-1766977042",
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint --ext ts --ext tsx .",

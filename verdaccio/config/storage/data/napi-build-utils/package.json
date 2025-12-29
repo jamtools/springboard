@@ -325,7 +325,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"3a5ac7ba86e37b82617a17ac2309422b\"",
-			"fetched": 1766917313233
+			"fetched": 1766919722958
 		}
 	},
 	"_distfiles": {
@@ -351,7 +351,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-992ecbace60d137e",
+	"_rev": "2-4611a4382d75781b",
 	"_id": "napi-build-utils",
 	"readme": "# napi-build-utils\n\n[![npm](https://img.shields.io/npm/v/napi-build-utils.svg)](https://www.npmjs.com/package/napi-build-utils)\n![Node version](https://img.shields.io/node/v/prebuild.svg)\n![Build Status](https://github.com/inspiredware/napi-build-utils/actions/workflows/run-npm-tests.yml/badge.svg)\n[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n\nA set of utilities to assist developers of tools that build [Node-API](https://nodejs.org/api/n-api.html#n_api_n_api) native add-ons.\n\n## Background\n\nThis module is targeted to developers creating tools that build Node-API native add-ons.\n\nIt implements a set of functions that aid in determining the Node-API version supported by the currently running Node instance and the set of Node-API versions against which the Node-API native add-on is designed to be built. Other functions determine whether a particular Node-API version can be built and can issue console warnings for unsupported Node-API versions.\n\nUnlike the modules this code is designed to facilitate building, this module is written entirely in JavaScript.\n\n## Quick start\n\n```bash\nnpm install napi-build-utils\n```\n\nThe module exports a set of functions documented [here](./index.md). For example:\n\n```javascript\nvar napiBuildUtils = require('napi-build-utils');\nvar napiVersion = napiBuildUtils.getNapiVersion(); // Node-API version supported by Node, or undefined.\n```\n\n## Declaring supported Node-API versions\n\nNative modules that are designed to work with [Node-API](https://nodejs.org/api/n-api.html#n_api_n_api) must explicitly declare the Node-API version(s) against which they are coded to build. This is accomplished by including a `binary.napi_versions` property in the module's `package.json` file. For example:\n\n```json\n\"binary\": {\n  \"napi_versions\": [2,3]\n}\n```\n\nIn the absence of a need to compile against a specific Node-API version, the value `3` is a good choice as this is the Node-API version that was supported when Node-API left experimental status.\n\nModules that are built against a specific Node-API version will continue to operate indefinitely, even as later versions of Node-API are introduced.\n\n## History\n\n**v2.0.0** This version was introduced to address a limitation when the Node-API version reached `10` in NodeJS `v23.6.0`. There was no change in the API, but a SemVer bump to `2.0.0` was made out of an abundance of caution.\n\n## Support\n\nIf you run into problems or limitations, please file an issue and we'll take a look. Pull requests are also welcome."
 }

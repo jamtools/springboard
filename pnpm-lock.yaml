@@ -434,7 +434,7 @@ importers:
         specifier: ^9.2.1
         version: 9.2.1
       springboard:
-        specifier: workspace:0.15.0-test2
+        specifier: workspace:*
         version: link:..
       tslib:
         specifier: 'catalog:'

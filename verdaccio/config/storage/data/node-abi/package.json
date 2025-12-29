@@ -12926,7 +12926,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"5aef4a237ea8f25af3f00bb38e759c28\"",
-			"fetched": 1766917313210
+			"fetched": 1766919722972
 		}
 	},
 	"_distfiles": {
@@ -13697,7 +13697,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-b16aeb061dbb5e71",
+	"_rev": "2-8d216bdc4ed56eba",
 	"_id": "node-abi",
 	"readme": "# Node.js ABI\n\n[![Build Status](https://github.com/electron/node-abi/actions/workflows/test.yml/badge.svg)](https://github.com/electron/node-abi/actions/workflows/test.yml)\n[![Auto-update ABI JSON file](https://github.com/electron/node-abi/actions/workflows/update-abi.yml/badge.svg)](https://github.com/electron/node-abi/actions/workflows/update-abi.yml)\n[![Snyk badge](https://snyk.io/test/github/electron/node-abi/badge.svg)](https://snyk.io/test/github/electron/node-abi)\n[![npm version](http://img.shields.io/npm/v/node-abi.svg)](https://npmjs.org/package/node-abi)\n\nGet the Node ABI (application binary interface) for a given target and runtime, and vice versa.\n\n## Installation\n\n```shell\nnpm install node-abi\n```\n\n## Usage\n\n```javascript\nconst nodeAbi = require('node-abi')\n\nnodeAbi.getAbi('7.2.0', 'node')\n// '51'\nnodeAbi.getAbi('1.4.10', 'electron')\n// '50'\nnodeAbi.getTarget('51', 'node')\n// '7.2.0'\nnodeAbi.getTarget('50', 'electron')\n// '1.4.15'\n\nnodeAbi.allTargets\n// [\n//  { runtime: 'node', target: '0.10.48', abi: '11', lts: false },\n//  { runtime: 'node', target: '0.12.17', abi: '14', lts: false },\n//  { runtime: 'node', target: '4.6.1', abi: '46', lts: true },\n//  { runtime: 'node', target: '5.12.0', abi: '47', lts: false },\n//  { runtime: 'node', target: '6.9.4', abi: '48', lts: true },\n//  { runtime: 'node', target: '7.4.0', abi: '51', lts: false },\n//  { runtime: 'electron', target: '1.0.2', abi: '47', lts: false },\n//  { runtime: 'electron', target: '1.2.8', abi: '48', lts: false },\n//  { runtime: 'electron', target: '1.3.13', abi: '49', lts: false },\n//  { runtime: 'electron', target: '1.4.15', abi: '50', lts: false }\n// ]\nnodeAbi.deprecatedTargets\nnodeAbi.supportedTargets\nnodeAbi.additionalTargets\nnodeAbi.futureTargets\n// ...\n```\n\n## References\n\n- https://github.com/lgeiger/electron-abi\n- https://nodejs.org/en/download/releases/\n- https://github.com/nodejs/Release"
 }

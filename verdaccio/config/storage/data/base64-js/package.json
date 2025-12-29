@@ -1653,7 +1653,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"18b4d2884b44ff9c72ef21b02e90e59c\"",
-			"fetched": 1766917313689
+			"fetched": 1766919723390
 		}
 	},
 	"_distfiles": {
@@ -1774,7 +1774,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-21a38b8e1af574b2",
+	"_rev": "2-7585b6b73d69edd0",
 	"_id": "base64-js",
 	"readme": "base64-js\n=========\n\n`base64-js` does basic base64 encoding/decoding in pure JS.\n\n[![build status](https://secure.travis-ci.org/beatgammit/base64-js.png)](http://travis-ci.org/beatgammit/base64-js)\n\nMany browsers already have base64 encoding/decoding functionality, but it is for text data, not all-purpose binary data.\n\nSometimes encoding/decoding binary data in the browser is useful, and that is what this module does.\n\n## install\n\nWith [npm](https://npmjs.org) do:\n\n`npm install base64-js` and `var base64js = require('base64-js')`\n\nFor use in web browsers do:\n\n`<script src=\"base64js.min.js\"></script>`\n\n[Get supported base64-js with the Tidelift Subscription](https://tidelift.com/subscription/pkg/npm-base64-js?utm_source=npm-base64-js&utm_medium=referral&utm_campaign=readme)\n\n## methods\n\n`base64js` has three exposed functions, `byteLength`, `toByteArray` and `fromByteArray`, which both take a single argument.\n\n* `byteLength` - Takes a base64 string and returns length of byte array\n* `toByteArray` - Takes a base64 string and returns a byte array\n* `fromByteArray` - Takes a byte array and returns a base64 string\n\n## license\n\nMIT"
 }

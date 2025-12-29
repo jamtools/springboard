@@ -6832,7 +6832,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"e3c7b289cd5c4a221205c94a069e53eb\"",
-			"fetched": 1766917312319
+			"fetched": 1766919722452
 		}
 	},
 	"_distfiles": {
@@ -7243,7 +7243,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-78205ec1a1078da3",
+	"_rev": "2-064105b12eedb309",
 	"_id": "undici-types",
 	"readme": "# undici-types\n\nThis package is a dual-publish of the [undici](https://www.npmjs.com/package/undici) library types. The `undici` package **still contains types**. This package is for users who _only_ need undici types (such as for `@types/node`). It is published alongside every release of `undici`, so you can always use the same version.\n\n- [GitHub nodejs/undici](https://github.com/nodejs/undici)\n- [Undici Documentation](https://undici.nodejs.org/#/)"
 }

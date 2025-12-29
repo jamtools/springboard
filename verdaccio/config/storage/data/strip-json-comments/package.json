@@ -1725,7 +1725,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"0e3a3de64b8bfa0e016a3114b1345a53\"",
-			"fetched": 1766917313396
+			"fetched": 1766919723098
 		}
 	},
 	"_distfiles": {
@@ -1831,7 +1831,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-de78f2b15671fba8",
+	"_rev": "2-4daceccf3036fa53",
 	"_id": "strip-json-comments",
 	"readme": "# strip-json-comments\n\n> Strip comments from JSON. Lets you use comments in your JSON files!\n\nThis is now possible:\n\n```js\n{\n\t// Rainbows\n\t\"unicorn\": /* ❤ */ \"cake\"\n}\n```\n\nIt will replace single-line comments `//` and multi-line comments `/**/` with whitespace. This allows JSON error positions to remain as close as possible to the original source.\n\nAlso available as a [Gulp](https://github.com/sindresorhus/gulp-strip-json-comments)/[Grunt](https://github.com/sindresorhus/grunt-strip-json-comments)/[Broccoli](https://github.com/sindresorhus/broccoli-strip-json-comments) plugin.\n\n## Install\n\n```sh\nnpm install strip-json-comments\n```\n\n## Usage\n\n```js\nimport stripJsonComments from 'strip-json-comments';\n\nconst json = `{\n\t// Rainbows\n\t\"unicorn\": /* ❤ */ \"cake\"\n}`;\n\nJSON.parse(stripJsonComments(json));\n//=> {unicorn: 'cake'}\n```\n\n## API\n\n### stripJsonComments(jsonString, options?)\n\n#### jsonString\n\nType: `string`\n\nAccepts a string with JSON and returns a string without comments.\n\n#### options\n\nType: `object`\n\n##### trailingCommas\n\nType: `boolean`\\\nDefault: `false`\n\nStrip trailing commas in addition to comments.\n\n##### whitespace\n\nType: `boolean`\\\nDefault: `true`\n\nReplace comments and trailing commas with whitespace instead of stripping them entirely.\n\n## Benchmark\n\n```sh\nnpm run bench\n```\n\n## Related\n\n- [strip-json-comments-cli](https://github.com/sindresorhus/strip-json-comments-cli) - CLI for this module\n- [strip-css-comments](https://github.com/sindresorhus/strip-css-comments) - Strip comments from CSS"
 }

@@ -71,7 +71,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"aa172b766ed1842204d045f52f9f9666\"",
-			"fetched": 1766917313543
+			"fetched": 1766919723215
 		}
 	},
 	"_distfiles": {
@@ -82,7 +82,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-e6f4bd07d3273bbf",
+	"_rev": "2-7600d6f42b971561",
 	"_id": "fs-constants",
 	"readme": "# fs-constants\n\nSmall module that allows you to get the fs constants across\nNode and the browser. \n\n```\nnpm install fs-constants\n```\n\nPreviously you would use `require('constants')` for this in node but that has been\ndeprecated and changed to `require('fs').constants` which does not browserify.\n\nThis module uses `require('constants')` in the browser and `require('fs').constants` in node to work around this\n\n\n## Usage\n\n``` js\nvar constants = require('fs-constants')\n\nconsole.log('constants:', constants)\n```\n\n## License\n\nMIT"
 }

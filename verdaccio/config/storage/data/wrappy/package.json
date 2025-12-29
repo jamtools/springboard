@@ -270,7 +270,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"3bcba958c6b6f93281ecae10d9487373\"",
-			"fetched": 1766917313502
+			"fetched": 1766919723173
 		}
 	},
 	"_distfiles": {
@@ -296,7 +296,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-96edc96e4cb907f4",
+	"_rev": "2-b84a8c851cdbeae6",
 	"_id": "wrappy",
 	"readme": ""
 }

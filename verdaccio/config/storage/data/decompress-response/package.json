@@ -1276,7 +1276,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"f7997543332395776d00f479ea574464\"",
-			"fetched": 1766917313411
+			"fetched": 1766919723091
 		}
 	},
 	"_distfiles": {
@@ -1352,7 +1352,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-ecec600297e8779e",
+	"_rev": "2-80a6b5f08fe9e481",
 	"_id": "decompress-response",
 	"readme": "# decompress-response\n\n> Decompress a HTTP response if needed\n\nDecompresses the [response](https://nodejs.org/api/http.html#http_class_http_incomingmessage) from [`http.request`](https://nodejs.org/api/http.html#http_http_request_options_callback) if it's gzipped, deflated or compressed with Brotli, otherwise just passes it through.\n\nUsed by [`got`](https://github.com/sindresorhus/got).\n\n## Install\n\n```sh\nnpm install decompress-response\n```\n\n## Usage\n\n```js\nimport http from 'node:http';\nimport decompressResponse from 'decompress-response';\n\nhttp.get('https://sindresorhus.com', response => {\n\tresponse = decompressResponse(response);\n});\n```\n\n## API\n\n### decompressResponse(response)\n\nReturns the decompressed HTTP response stream.\n\n#### response\n\nType: [`http.IncomingMessage`](https://nodejs.org/api/http.html#http_class_http_incomingmessage)\n\nThe HTTP incoming stream with compressed data."
 }

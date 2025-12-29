@@ -1597,7 +1597,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"cbf48f929012bd0e00faf448d99bfa8a\"",
-			"fetched": 1766917312347
+			"fetched": 1766919722603
 		}
 	},
 	"_distfiles": {
@@ -1693,7 +1693,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-7a8f987e99671657",
+	"_rev": "2-b8058148df20a3fa",
 	"_id": "@hono/node-ws",
 	"readme": ""
 }

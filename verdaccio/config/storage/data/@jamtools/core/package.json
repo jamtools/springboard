@@ -6169,11 +6169,65 @@
 				"tarball": "http://localhost:4873/@jamtools/core/-/@jamtools/core-0.15.0-test2.tgz"
 			},
 			"contributors": []
+		},
+		"0.15.0-test-1766977042": {
+			"name": "@jamtools/core",
+			"version": "0.15.0-test-1766977042",
+			"type": "module",
+			"main": "./src/index.ts",
+			"module": "./src/index.ts",
+			"peerDependencies": {
+				"@tonejs/midi": "^2.0.0",
+				"svelte": ">= 5",
+				"springboard": "0.15.0-test-1766977042"
+			},
+			"peerDependenciesMeta": {
+				"svelte": {
+					"optional": true
+				}
+			},
+			"dependencies": {
+				"easymidi": "^3.1.0",
+				"immer": "10.1.1",
+				"midi-file": "^1.2.4",
+				"soundfont-player": "^0.12.0",
+				"webmidi": "^3.1.14"
+			},
+			"devDependencies": {
+				"@types/react": "19.2.6",
+				"@types/react-dom": "19.2.3",
+				"react": "19.2.0",
+				"react-dom": "19.2.0",
+				"rxjs": "7.8.1",
+				"svelte": "5.43.11"
+			},
+			"config": {
+				"dir": "../../../configs"
+			},
+			"scripts": {
+				"test": "vitest --run",
+				"test:watch": "vitest",
+				"check-types": "tsc --noEmit",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"fix": "npm run lint -- --fix"
+			},
+			"_id": "@jamtools/core@0.15.0-test-1766977042",
+			"_integrity": "sha512-ibG2QP58Wi9hNeNTRdxSXtTuCBnmcLU2A+501JlXEWfEUjQcsswKnOJ2OD+nqdB0xbb01r8DitZqBjm4x9h4dQ==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/30a7575d0d08ed3b216cc90862263f1d/jamtools-core-0.15.0-test-1766977042.tgz",
+			"_from": "file:jamtools-core-0.15.0-test-1766977042.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-ibG2QP58Wi9hNeNTRdxSXtTuCBnmcLU2A+501JlXEWfEUjQcsswKnOJ2OD+nqdB0xbb01r8DitZqBjm4x9h4dQ==",
+				"shasum": "95e8f5b6fd7e338d582761b83d38769433df604f",
+				"tarball": "http://localhost:4873/@jamtools/core/-/@jamtools/core-0.15.0-test-1766977042.tgz"
+			},
+			"contributors": []
 		}
 	},
 	"time": {
 		"created": "2024-11-10T17:11:56.851Z",
-		"modified": "2025-12-28T10:20:32.463Z",
+		"modified": "2025-12-28T11:01:26.272Z",
 		"0.10.0": "2024-11-10T17:11:57.278Z",
 		"0.11.0": "2024-11-19T22:57:23.444Z",
 		"0.11.4": "2024-11-27T08:03:37.850Z",
@@ -6262,13 +6316,14 @@
 		"0.0.1-dev-server-state-3": "2025-11-22T09:42:13.899Z",
 		"0.0.1-dev-server-state-4": "2025-11-26T03:54:40.040Z",
 		"0.15.0-test1": "2025-12-28T10:19:08.844Z",
-		"0.15.0-test2": "2025-12-28T10:20:32.463Z"
+		"0.15.0-test2": "2025-12-28T10:20:32.463Z",
+		"0.15.0-test-1766977042": "2025-12-28T11:01:26.272Z"
 	},
 	"users": {},
 	"dist-tags": {
 		"rc": "0.16.0-rc1",
 		"latest": "0.16.0",
-		"dev": "0.15.0-test2"
+		"dev": "0.15.0-test-1766977042"
 	},
 	"_uplinks": {
 		"npmjs": {
@@ -6721,9 +6776,13 @@
 		"core-0.15.0-test2.tgz": {
 			"shasum": "82bb2fa945f7e8cbeeab345085f77ebd23dac835",
 			"version": "0.15.0-test2"
+		},
+		"core-0.15.0-test-1766977042.tgz": {
+			"shasum": "95e8f5b6fd7e338d582761b83d38769433df604f",
+			"version": "0.15.0-test-1766977042"
 		}
 	},
-	"_rev": "7-e4e9f62d7241e480",
+	"_rev": "10-2494c2d656243764",
 	"_id": "@jamtools/core",
 	"readme": "ERROR: No README data found!"
 }

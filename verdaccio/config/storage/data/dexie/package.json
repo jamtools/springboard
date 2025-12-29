@@ -29746,7 +29746,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"4023e24e4ef11ff26fb28f10a0938eaf\"",
-			"fetched": 1766917312607
+			"fetched": 1766919722817
 		}
 	},
 	"_distfiles": {
@@ -30642,7 +30642,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-43de4254d9025cb2",
+	"_rev": "2-bb6c7636241c51cd",
 	"_id": "dexie",
 	"readme": ""
 }

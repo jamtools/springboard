@@ -16874,7 +16874,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"d2edd863a7030f22d8fb905b54c77054\"",
-			"fetched": 1766917310399
+			"fetched": 1766919721269
 		}
 	},
 	"_distfiles": {
@@ -17790,7 +17790,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-5012344a94afb55a",
+	"_rev": "2-24c48a5a62c8e776",
 	"_id": "@types/react-dom",
 	"readme": "[object Object]"
 }

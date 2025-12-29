@@ -5722,11 +5722,57 @@
 				"tarball": "http://localhost:4873/@jamtools/features/-/@jamtools/features-0.15.0-test2.tgz"
 			},
 			"contributors": []
+		},
+		"0.15.0-test-1766977042": {
+			"name": "@jamtools/features",
+			"version": "0.15.0-test-1766977042",
+			"dependencies": {
+				"jsdom": "25.0.1",
+				"qrcode": "^1.5.4",
+				"react-guitar": "^1.1.2",
+				"rxjs": "7.8.1",
+				"tonal": "^6.4.2",
+				"wled-client": "^0.22.1"
+			},
+			"devDependencies": {
+				"@types/qrcode": "^1.5.6",
+				"@types/react": "19.2.6",
+				"@types/react-dom": "19.2.3",
+				"react": "19.2.0",
+				"react-dom": "19.2.0",
+				"react-router": "7.9.6",
+				"@jamtools/core": "0.15.0-test-1766977042",
+				"@springboardjs/shoelace": "0.15.0-test-1766977042"
+			},
+			"config": {
+				"dir": "../../../configs"
+			},
+			"peerDependencies": {
+				"@jamtools/core": "0.15.0-test-1766977042",
+				"@springboardjs/shoelace": "0.15.0-test-1766977042"
+			},
+			"scripts": {
+				"check-types": "tsc --noEmit",
+				"lint": "eslint --ext ts --ext tsx .",
+				"fix": "npm run lint -- --fix"
+			},
+			"_id": "@jamtools/features@0.15.0-test-1766977042",
+			"_integrity": "sha512-xB1/fXJQvBOgthg/Hu+4U3g/smuY+X3/q5mf2WnpiZXyVTrMZ97sJeVcrS4kJVLj8iWgS4E47yr+b4f/OQk9Dw==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/594019e057158b7717f767b8ea254d53/jamtools-features-0.15.0-test-1766977042.tgz",
+			"_from": "file:jamtools-features-0.15.0-test-1766977042.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-xB1/fXJQvBOgthg/Hu+4U3g/smuY+X3/q5mf2WnpiZXyVTrMZ97sJeVcrS4kJVLj8iWgS4E47yr+b4f/OQk9Dw==",
+				"shasum": "65885b7287987c8b1a393623bf1637f38c94d3c0",
+				"tarball": "http://localhost:4873/@jamtools/features/-/@jamtools/features-0.15.0-test-1766977042.tgz"
+			},
+			"contributors": []
 		}
 	},
 	"time": {
 		"created": "2024-11-10T17:12:51.742Z",
-		"modified": "2025-12-28T10:20:34.784Z",
+		"modified": "2025-12-28T11:01:27.918Z",
 		"0.10.0": "2024-11-10T17:12:52.027Z",
 		"0.11.0": "2024-11-19T22:57:25.457Z",
 		"0.11.4": "2024-11-27T08:03:41.203Z",
@@ -5815,13 +5861,14 @@
 		"0.0.1-dev-server-state-3": "2025-11-22T09:42:17.257Z",
 		"0.0.1-dev-server-state-4": "2025-11-26T03:54:43.227Z",
 		"0.15.0-test1": "2025-12-28T10:19:11.725Z",
-		"0.15.0-test2": "2025-12-28T10:20:34.784Z"
+		"0.15.0-test2": "2025-12-28T10:20:34.784Z",
+		"0.15.0-test-1766977042": "2025-12-28T11:01:27.918Z"
 	},
 	"users": {},
 	"dist-tags": {
 		"rc": "0.16.0-rc1",
 		"latest": "0.16.0",
-		"dev": "0.15.0-test2"
+		"dev": "0.15.0-test-1766977042"
 	},
 	"_uplinks": {
 		"npmjs": {
@@ -6274,9 +6321,13 @@
 		"features-0.15.0-test2.tgz": {
 			"shasum": "f642f20cc593a1c2d4ed7ae73b93d54d2c1b2d04",
 			"version": "0.15.0-test2"
+		},
+		"features-0.15.0-test-1766977042.tgz": {
+			"shasum": "65885b7287987c8b1a393623bf1637f38c94d3c0",
+			"version": "0.15.0-test-1766977042"
 		}
 	},
-	"_rev": "7-49126e3d1dfd82f8",
+	"_rev": "10-8fc9e62b9b824a62",
 	"_id": "@jamtools/features",
 	"readme": "ERROR: No README data found!"
 }

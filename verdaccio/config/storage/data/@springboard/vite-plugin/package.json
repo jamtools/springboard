@@ -106,18 +106,72 @@
 				"tarball": "http://localhost:4873/@springboard/vite-plugin/-/@springboard/vite-plugin-0.15.0-test2.tgz"
 			},
 			"contributors": []
+		},
+		"0.15.0-test-1766977042": {
+			"name": "@springboard/vite-plugin",
+			"version": "0.15.0-test-1766977042",
+			"description": "Springboard Vite plugin for multi-platform builds",
+			"type": "module",
+			"main": "./dist/index.js",
+			"module": "./dist/index.js",
+			"types": "./dist/index.d.ts",
+			"exports": {
+				".": {
+					"types": "./dist/index.d.ts",
+					"import": "./dist/index.js",
+					"default": "./dist/index.js"
+				}
+			},
+			"files": [
+				"dist",
+				"src"
+			],
+			"keywords": [
+				"vite",
+				"vite-plugin",
+				"springboard",
+				"multi-platform",
+				"cross-platform"
+			],
+			"author": {
+				"name": "JamTools"
+			},
+			"license": "ISC",
+			"devDependencies": {
+				"@types/node": "20.17.48",
+				"typescript": "5.9.3",
+				"vite": "5.4.19"
+			},
+			"scripts": {
+				"build": "tsc -p tsconfig.json",
+				"build:watch": "tsc -p tsconfig.json --watch",
+				"check-types": "tsc --noEmit"
+			},
+			"_id": "@springboard/vite-plugin@0.15.0-test-1766977042",
+			"_integrity": "sha512-YnQq5QNW3SIt4aeMIDkL/pF+e1A7KARDw41L5eo/Uclt46CBCDRCvd4G+V9N20fG1MDzJLq4nOkyvbgqYyMrkw==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/172335c3970d6898632c1bce3b52edac/springboard-vite-plugin-0.15.0-test-1766977042.tgz",
+			"_from": "file:springboard-vite-plugin-0.15.0-test-1766977042.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-YnQq5QNW3SIt4aeMIDkL/pF+e1A7KARDw41L5eo/Uclt46CBCDRCvd4G+V9N20fG1MDzJLq4nOkyvbgqYyMrkw==",
+				"shasum": "335120c51d962623f3ebcf7e39ed03c764255b2f",
+				"tarball": "http://localhost:4873/@springboard/vite-plugin/-/@springboard/vite-plugin-0.15.0-test-1766977042.tgz"
+			},
+			"contributors": []
 		}
 	},
 	"time": {
-		"modified": "2025-12-28T10:20:36.471Z",
+		"modified": "2025-12-28T11:01:29.548Z",
 		"created": "2025-12-28T10:19:13.647Z",
 		"0.15.0-test1": "2025-12-28T10:19:13.647Z",
-		"0.15.0-test2": "2025-12-28T10:20:36.471Z"
+		"0.15.0-test2": "2025-12-28T10:20:36.471Z",
+		"0.15.0-test-1766977042": "2025-12-28T11:01:29.548Z"
 	},
 	"users": {},
 	"dist-tags": {
 		"latest": "0.15.0-test1",
-		"dev": "0.15.0-test2"
+		"dev": "0.15.0-test-1766977042"
 	},
 	"_uplinks": {},
 	"_distfiles": {},
@@ -129,9 +183,13 @@
 		"vite-plugin-0.15.0-test2.tgz": {
 			"shasum": "a2d69a950766fdcc80eb614f5634074907e1e6d7",
 			"version": "0.15.0-test2"
+		},
+		"vite-plugin-0.15.0-test-1766977042.tgz": {
+			"shasum": "335120c51d962623f3ebcf7e39ed03c764255b2f",
+			"version": "0.15.0-test-1766977042"
 		}
 	},
-	"_rev": "6-d60a8dfd7ac75749",
+	"_rev": "9-785d94adaecdfdfb",
 	"_id": "@springboard/vite-plugin",
 	"readme": "ERROR: No README data found!"
 }

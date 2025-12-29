@@ -1,0 +1,2087 @@
+{
+	"name": "@springboardjs/plugin-svelte",
+	"versions": {
+		"0.16.0-svelte-dev2": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-svelte-dev2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-svelte-dev2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "542e5dfd1104cf0358dfa503d77fb685aec7628a",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-svelte-dev2.tgz",
+				"fileCount": 11,
+				"integrity": "sha512-BMnJJ6bYxukuNpyI1HA5P2x7vopdbs1xAPD6Tf9WJ1N6nDg3P/hOofyS4aq70Gy0CMbXGcHiPWqiFmpvkblFsQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDx00iN26acyIHLEX4I/JrttAeo9yg6KY9mKWTUduVugwIgUwyDAevkitQ0/4eBc5mX3zJJi5/mUxuPvViAMPZPrIk=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 12976
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-svelte-dev2.tgz",
+			"scripts": {
+				"build-example": "tsx example/build/build_with_svelte_plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"actor": {
+					"name": "mickmister",
+					"type": "user",
+					"email": "mjkochell@gmail.com"
+				},
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/f225560875b03d0d7a4141645c9c8a37/springboardjs-plugin-svelte-0.16.0-svelte-dev2.tgz",
+			"_integrity": "sha512-BMnJJ6bYxukuNpyI1HA5P2x7vopdbs1xAPD6Tf9WJ1N6nDg3P/hOofyS4aq70Gy0CMbXGcHiPWqiFmpvkblFsQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"svelte": "5.34.7"
+			},
+			"peerDependencies": {
+				"react": "*",
+				"svelte": ">= 5",
+				"springboard": "0.16.0-svelte-dev2",
+				"@jamtools/core": "0.16.0-svelte-dev2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-svelte-dev2_1750405211295_0.5228909706760505",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-svelte-dev3": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-svelte-dev3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-svelte-dev3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "338d11d6122da0e75b6f61f9fab4c2aca5664495",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-svelte-dev3.tgz",
+				"fileCount": 6,
+				"integrity": "sha512-pGJZxQkvOsAN9zhQsRS4rqJlX69il7RVaHqaNDYeNFORisi6fQt1BYmOI40Z+kTIydxQBHRUGRdZO6zUTM/xpQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDFCvBIFh9UWeguHFXilhI8kM6C6/cC/d5/w5hkb+pIoQIhAI8NyHm56qjINWFoyP8rtJeXZX08s/INjC4HxwZmOzds",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 8683
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-svelte-dev3.tgz",
+			"scripts": {
+				"build-example": "tsx example/build/build_with_svelte_plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"actor": {
+					"name": "mickmister",
+					"type": "user",
+					"email": "mjkochell@gmail.com"
+				},
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/fdfa0f3ea03d18a1bf75006e240d3663/springboardjs-plugin-svelte-0.16.0-svelte-dev3.tgz",
+			"_integrity": "sha512-pGJZxQkvOsAN9zhQsRS4rqJlX69il7RVaHqaNDYeNFORisi6fQt1BYmOI40Z+kTIydxQBHRUGRdZO6zUTM/xpQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"react": "^19.1.0",
+				"svelte": "5.34.7"
+			},
+			"peerDependencies": {
+				"react": "*",
+				"svelte": ">= 5",
+				"springboard": "0.16.0-svelte-dev3",
+				"@jamtools/core": "0.16.0-svelte-dev3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-svelte-dev3_1751428889966_0.11836361144274665",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev-svelte-20": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev-svelte-20",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev-svelte-20",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "f2ca03c2a803e53b5e1d8eef063c28be2f9c44af",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev-svelte-20.tgz",
+				"fileCount": 18,
+				"integrity": "sha512-8bFiY+GMy3q0ELp6l5fOFbNxOjEtJGuPF+Bp526xDDXXlIRKEmdjNehKeegmkjFhbccKypRzRnoXyzlF8wbytA==",
+				"signatures": [
+					{
+						"sig": "MEQCIEaO2OkygxcAfu1KIxFpSqwqVXR0a3x0mnii7p718foqAiBMz1+z4km+DhU7r34lRNcnV9A6dQ7yNDZkNFYmvkI3yg==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11560879
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev-svelte-20.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"check-types": "tsc --noEmit",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins ./plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/74f7e564da1cf4ff03b80daa4c2927a2/springboardjs-plugin-svelte-0.16.0-dev-svelte-20.tgz",
+			"_integrity": "sha512-8bFiY+GMy3q0ELp6l5fOFbNxOjEtJGuPF+Bp526xDDXXlIRKEmdjNehKeegmkjFhbccKypRzRnoXyzlF8wbytA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev-svelte-20",
+				"springboard-cli": "0.16.0-dev-svelte-20",
+				"@types/react-dom": "^19.1.0",
+				"svelte-preprocess-react": "^2.1.1",
+				"@springboardjs/platforms-browser": "0.16.0-dev-svelte-20"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev-svelte-20"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev-svelte-20_1756101191753_0.8350469897868635",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev21-svelte": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev21-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev21-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "5d0aaaea4e83a8715cbc6d896786cb44c94a6bbb",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev21-svelte.tgz",
+				"fileCount": 9,
+				"integrity": "sha512-6F5X9e9s0dm2PYgtxNrU3u3thLeoYOP9Wo7ZPfsVpENWUAMrCqGw6PU+IqgxNXXDS34teXKjWrd7UgEZeWNGMg==",
+				"signatures": [
+					{
+						"sig": "MEUCIGvw3La7e8CzDaNurB6B1eUyN5xotDXTXwiDeKbNwMUlAiEA0yG1UX78oZFtPd12rDpiJ4TCO/mIXsbtqpZDTqjiExg=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 16689
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev21-svelte.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins ./plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/be4584483a40b044835edf1eb85d9a3d/springboardjs-plugin-svelte-0.16.0-dev21-svelte.tgz",
+			"_integrity": "sha512-6F5X9e9s0dm2PYgtxNrU3u3thLeoYOP9Wo7ZPfsVpENWUAMrCqGw6PU+IqgxNXXDS34teXKjWrd7UgEZeWNGMg==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev21-svelte",
+				"springboard-cli": "0.16.0-dev21-svelte",
+				"@types/react-dom": "^19.1.0",
+				"svelte-preprocess-react": "^2.1.1",
+				"@springboardjs/platforms-browser": "0.16.0-dev21-svelte"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev21-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev21-svelte_1756107733233_0.8539986300720634",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev22-svelte": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev22-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev22-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "0017b155fb291758770a9291de397cb2652ecec8",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev22-svelte.tgz",
+				"fileCount": 9,
+				"integrity": "sha512-w2dSOuGJvsFOMYNae55e0qs5YQib160+pLeLA22GZdpuNgZ6O+sXchnOJ6XSBPQSE96akUdX69IlpLOeeSLOLQ==",
+				"signatures": [
+					{
+						"sig": "MEQCIE/exQ0oX6bstginGKR/5C0fBcjbGRko3znRqLejvkWIAiARYZBpSzRSWluq5MnusHtNGYa76xV6syhag8vpbJfqJg==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 16689
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev22-svelte.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins ./plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/32f492b8e1867fc500b3e2f45f9d43cd/springboardjs-plugin-svelte-0.16.0-dev22-svelte.tgz",
+			"_integrity": "sha512-w2dSOuGJvsFOMYNae55e0qs5YQib160+pLeLA22GZdpuNgZ6O+sXchnOJ6XSBPQSE96akUdX69IlpLOeeSLOLQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev22-svelte",
+				"springboard-cli": "0.16.0-dev22-svelte",
+				"@types/react-dom": "^19.1.0",
+				"svelte-preprocess-react": "^2.1.1",
+				"@springboardjs/platforms-browser": "0.16.0-dev22-svelte"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev22-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev22-svelte_1756108554708_0.00403413728126889",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev23-svelte": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev23-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev23-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "9724226ad4ae1336a241eb2c0e08bf4b5433ac14",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev23-svelte.tgz",
+				"fileCount": 9,
+				"integrity": "sha512-RrYc3NLkwmrA6LEYVq1JhNHFDgASkUof1jyrJRyCM9nPkr5SKrdbR19+jxClWvayvb1CPdcyVbkROXENxueg2w==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDFQwoLahqF3v8sX7l4oXZaGs3DvHdQ7aPQDc2JQE5wMAIhAI9ovy242PamtlfpoZxz1G/ecIzLzWfnlXCDSdfTxc8a",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 16689
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev23-svelte.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins ./plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/453fbdd85c22329e718b3e6f232643ec/springboardjs-plugin-svelte-0.16.0-dev23-svelte.tgz",
+			"_integrity": "sha512-RrYc3NLkwmrA6LEYVq1JhNHFDgASkUof1jyrJRyCM9nPkr5SKrdbR19+jxClWvayvb1CPdcyVbkROXENxueg2w==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev23-svelte",
+				"springboard-cli": "0.16.0-dev23-svelte",
+				"@types/react-dom": "^19.1.0",
+				"svelte-preprocess-react": "^2.1.1",
+				"@springboardjs/platforms-browser": "0.16.0-dev23-svelte"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev23-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev23-svelte_1756110310258_0.5803376041292256",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev24-svelte": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev24-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev24-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "66f009adb2cb154638040a524d8771434d29fae4",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev24-svelte.tgz",
+				"fileCount": 9,
+				"integrity": "sha512-fehfnRpj6k94J7t/l84J1hH1koE/pfoTNpH3JIcEB87+D+4Fi4QZk6+PMuCLNzBKX9zBcELVm9twpvvJa7ttyQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDYTKV2iUvFFLO4rwZIrDhO6Q+zNBoYibVhRBT+Wd868AIhALkF8IzJLVpxscQa4htSQ7IBU488oJrLElmavvnSoXQH",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 16689
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev24-svelte.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins ./plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/d7e3851875fdaeeaa44674574671817a/springboardjs-plugin-svelte-0.16.0-dev24-svelte.tgz",
+			"_integrity": "sha512-fehfnRpj6k94J7t/l84J1hH1koE/pfoTNpH3JIcEB87+D+4Fi4QZk6+PMuCLNzBKX9zBcELVm9twpvvJa7ttyQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev24-svelte",
+				"springboard-cli": "0.16.0-dev24-svelte",
+				"@types/react-dom": "^19.1.0",
+				"svelte-preprocess-react": "^2.1.1",
+				"@springboardjs/platforms-browser": "0.16.0-dev24-svelte"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev24-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev24-svelte_1756111819710_0.14779886633103767",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev25-svelte": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev25-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev25-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "690ee26f0dc407cb1e9712138236f03f9188f7c2",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev25-svelte.tgz",
+				"fileCount": 9,
+				"integrity": "sha512-lN32iHg6rus3Ck0abSCZM6v9c6HmkrwdZw+4vdoC7d07VHCE6kO1YOvmFCR6sCwmB8n+p7juapjbIZAe4b7K6A==",
+				"signatures": [
+					{
+						"sig": "MEUCIBh0+6yXMRse7rywyjKAKoW95loobHxkdGBFrkvoFuybAiEAzPWa2qsvTuSjBc1/scqbOgAUMeuMsXRpV900w7Ua7ig=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 16689
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev25-svelte.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins ./plugin.ts"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/8071dd4a7f7efcef7a78609dd5d840b3/springboardjs-plugin-svelte-0.16.0-dev25-svelte.tgz",
+			"_integrity": "sha512-lN32iHg6rus3Ck0abSCZM6v9c6HmkrwdZw+4vdoC7d07VHCE6kO1YOvmFCR6sCwmB8n+p7juapjbIZAe4b7K6A==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev25-svelte",
+				"springboard-cli": "0.16.0-dev25-svelte",
+				"@types/react-dom": "^19.1.0",
+				"svelte-preprocess-react": "^2.1.1",
+				"@springboardjs/platforms-browser": "0.16.0-dev25-svelte"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev25-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev25-svelte_1756112084261_0.3565669982505413",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0-dev26-svelte": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0-dev26-svelte",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0-dev26-svelte",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "b0a1dbfd5c91b2da0abe98b468d83fe00c154dbe",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev26-svelte.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-9CzyzkJWMUNYMaXlCLRVOo3XBr7AMt4iYquIWsPaApvWXgHQ0Burk2b/A3t5QzjkqoZzEiYIwqme58xmsBrLhQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIH9l3Tij07Dao0XyP7uv279FAus1A/TRsN9CMl0Zy2w3AiEAkckwu4t/FLEWaI2qiagbapNI1Xl6rjIuoqDsnzWw7Mw=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11583
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0-dev26-svelte.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/daaaf679aab9fed38ccfddcbd4060ca5/springboardjs-plugin-svelte-0.16.0-dev26-svelte.tgz",
+			"_integrity": "sha512-9CzyzkJWMUNYMaXlCLRVOo3XBr7AMt4iYquIWsPaApvWXgHQ0Burk2b/A3t5QzjkqoZzEiYIwqme58xmsBrLhQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0-dev26-svelte",
+				"springboard-cli": "0.16.0-dev26-svelte",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.16.0-dev26-svelte"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0-dev26-svelte"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0-dev26-svelte_1756144577441_0.7972070531582602",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.0": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.0",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.0",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "35d197cce8e3944437a97fa8d937418e70414081",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-qZ5s/qcRpJsCCTfWHHAlFT2fkjRU83yVZckPQUZn3LF5lMwXvKB5E4dLZoFDFwb10/YqC2ubqPGrda8v+ys2kQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDe9LtIzE7Qx+kID8WllZXBtjH0u2H7oZfnMzy/IsiB3wIhAMbJxff2EBZH+VUq+93jB7Hvar1zLNdRV0A49/MieliF",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11518
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.0.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/bb730d4643f3e3415b9e6683c65585fa/springboardjs-plugin-svelte-0.16.0.tgz",
+			"_integrity": "sha512-qZ5s/qcRpJsCCTfWHHAlFT2fkjRU83yVZckPQUZn3LF5lMwXvKB5E4dLZoFDFwb10/YqC2ubqPGrda8v+ys2kQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.0",
+				"springboard-cli": "0.16.0",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.16.0"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.0"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.0_1756145341816_0.2087009658815",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.16.1-dev1-fix-offline-import-path": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.16.1-dev1-fix-offline-import-path",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.16.1-dev1-fix-offline-import-path",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "69b07e5ecab5d9f21c8619361b8a56356f996eef",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.1-dev1-fix-offline-import-path.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-L+o43cOacbUWsTEHVGUfdbKVNagx3LEpPH/Cb7LL/uq+osUWXJkH6qZ7Rp/Aa2hA6fdit3CBKRVqTIfRPMOp8w==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCz4Jl/5nXPEf09RYiYnJpWpu9Wsyxb74pIIiU0WSqAWQIgfz0KVGY1JrQOJX5R1ZAJPNlZyiqVWLXhHJhiWW2j3fk=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11663
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.16.1-dev1-fix-offline-import-path.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/ca3e2d8ce840264cd9a77ef40176cd4d/springboardjs-plugin-svelte-0.16.1-dev1-fix-offline-import-path.tgz",
+			"_integrity": "sha512-L+o43cOacbUWsTEHVGUfdbKVNagx3LEpPH/Cb7LL/uq+osUWXJkH6qZ7Rp/Aa2hA6fdit3CBKRVqTIfRPMOp8w==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.16.1-dev1-fix-offline-import-path",
+				"springboard-cli": "0.16.1-dev1-fix-offline-import-path",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.16.1-dev1-fix-offline-import-path"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.16.1-dev1-fix-offline-import-path"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.16.1-dev1-fix-offline-import-path_1756915275916_0.12042615195684858",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-1": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-midipoller-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-midipoller-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "80f27a68bed761c1c667514f55e7347d74ee0e98",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-1.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-7i2lfnv2ahoLjnV+llwSlvZo/jZ+sIRBTRDHjlNMpRp18LPZqAjqLCiqUe6EvJ9/Y0tiYw6TlBxUEwvEpRrauQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCyNiZ/78W2/dvlAHDSha9vl/8D0ipxVyZ/GvNs2q+auwIgC6dJhguSJsKY/hAAuYJu8zNhopNIeh3367P8uU3y4kA=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11598
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-midipoller-1.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/5b9158d70206d467963eaf0bfc7e1199/springboardjs-plugin-svelte-0.0.1-dev-midipoller-1.tgz",
+			"_integrity": "sha512-7i2lfnv2ahoLjnV+llwSlvZo/jZ+sIRBTRDHjlNMpRp18LPZqAjqLCiqUe6EvJ9/Y0tiYw6TlBxUEwvEpRrauQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-midipoller-1",
+				"springboard-cli": "0.0.1-dev-midipoller-1",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-1"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-midipoller-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-midipoller-1_1757568150988_0.8695084558039243",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-2": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-midipoller-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-midipoller-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "07060248e39280d9a30c2a58547a506cf7e1d001",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-2.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-gnfvgQ7oNToyMoK7V0VUmtfWPYO8WonttT/ijtVUlHgVzM1Cg9+xf88g+n/inr0a/3YkVl9lzHfNmeM7vLVRiw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD8xhUCTDh3Ocv9eoP1RbvjgvkZcOZ489A7dx55qSaKeAIgM2Q6AoUmb3Wu0qWbejNkxJ/TI6C+DNxJCjw3U4JVbiQ=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11598
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-midipoller-2.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/c28590037319d5a07c84db8521582f05/springboardjs-plugin-svelte-0.0.1-dev-midipoller-2.tgz",
+			"_integrity": "sha512-gnfvgQ7oNToyMoK7V0VUmtfWPYO8WonttT/ijtVUlHgVzM1Cg9+xf88g+n/inr0a/3YkVl9lzHfNmeM7vLVRiw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-midipoller-2",
+				"springboard-cli": "0.0.1-dev-midipoller-2",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-2"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-midipoller-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-midipoller-2_1758413071114_0.13593946793088718",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-3": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-midipoller-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-midipoller-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "34b4224e6bb4f1572cf6b5415a4f61186e7c0de1",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-3.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-tbCcuP2dBWwE4Cln91jv3v5eEBxw3OKZiq38ukPjwUuaT6drR7hvz1n/93EoMoyrLlV3fds2YkZylyfhafAwrQ==",
+				"signatures": [
+					{
+						"sig": "MEYCIQCoxgcckjd5BXdeACDUUTe9ZQx65nQhcxYIx2OZ31YSlQIhAL4V5fP6fiqgpRZo2OsefSx7K72rowt/TKZM65jhlNRd",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11598
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-midipoller-3.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/2b805fc8ebf5f6a04f3c1f95e46a9335/springboardjs-plugin-svelte-0.0.1-dev-midipoller-3.tgz",
+			"_integrity": "sha512-tbCcuP2dBWwE4Cln91jv3v5eEBxw3OKZiq38ukPjwUuaT6drR7hvz1n/93EoMoyrLlV3fds2YkZylyfhafAwrQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-midipoller-3",
+				"springboard-cli": "0.0.1-dev-midipoller-3",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-3"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-midipoller-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-midipoller-3_1758418500053_0.963102610996251",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-midipoller-4": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-midipoller-4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-midipoller-4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "d348868551fa88a91a9f4d4c2423c0f7f601258a",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-4.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-/SCkoHSM5yauPkKO3o5o62xRL0NJuxhfnNztHw0MbYuvyLqQMtmjiL1FR0jR82XPKMUjVk/W/H5nqaSFcBytKw==",
+				"signatures": [
+					{
+						"sig": "MEUCIQCwql7jxAhaWZmqrfjOimTp+BhoxzOYnur3mRZmd0JhNwIgYopjkZceaHx0GcodkXCOdNBzsqd0Au1s0azDuSauTdo=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11598
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-midipoller-4.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/5a00b033ce6a81a9ed1fa27857ebdb5c/springboardjs-plugin-svelte-0.0.1-dev-midipoller-4.tgz",
+			"_integrity": "sha512-/SCkoHSM5yauPkKO3o5o62xRL0NJuxhfnNztHw0MbYuvyLqQMtmjiL1FR0jR82XPKMUjVk/W/H5nqaSFcBytKw==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-midipoller-4",
+				"springboard-cli": "0.0.1-dev-midipoller-4",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-midipoller-4"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-midipoller-4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-midipoller-4_1758512782731_0.4287031685457585",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-1": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.17.0-dev-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.17.0-dev-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "fa9eaaa4d7c53b4c884e841822508d11bc449b87",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-1.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-8bGvoF7vmGpf6OKogxi5bZi1gxR5NsS0+CKpfxbfLGARzh9BAKpNWC00nsHa8LUlPODZejRRROIJPmMdipZn3g==",
+				"signatures": [
+					{
+						"sig": "MEQCIEsjRsQQIKcUR2fhdF6z8EacEvbA2cLyNJgugzB7koudAiAKrlM05t4kegYG8dZaoQ3n215Np/+1C7iBS13loSvqJA==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11548
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.17.0-dev-1.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/68a557d37e6cce5acbc27935f24896de/springboardjs-plugin-svelte-0.17.0-dev-1.tgz",
+			"_integrity": "sha512-8bGvoF7vmGpf6OKogxi5bZi1gxR5NsS0+CKpfxbfLGARzh9BAKpNWC00nsHa8LUlPODZejRRROIJPmMdipZn3g==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.17.0-dev-1",
+				"springboard-cli": "0.17.0-dev-1",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.17.0-dev-1"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.17.0-dev-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.17.0-dev-1_1758609915062_0.09832224181476845",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-2": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.17.0-dev-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.17.0-dev-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "8a607d7814c09aef634be7e77c0fd9bb373f66fd",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-2.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-yEmjivedYxVDgM3f8tOZXSmjM4ztXBQV1tAFLxtqCZrUE+hZTnOF1Ji9nYlgcu/QQ6Aek6RXxWZ+w75qTSOjtA==",
+				"signatures": [
+					{
+						"sig": "MEUCIDFAmnNcAnUmsx9bAzMNV1pWtoTunhyuAZyx16Cv6xAiAiEA5nhcBlbyekct4qh8lYT4Gp0qZ/xuXns6ulBBKduT02Q=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11548
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.17.0-dev-2.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/68acd6f3a36276d38c59f1cb472d1f56/springboardjs-plugin-svelte-0.17.0-dev-2.tgz",
+			"_integrity": "sha512-yEmjivedYxVDgM3f8tOZXSmjM4ztXBQV1tAFLxtqCZrUE+hZTnOF1Ji9nYlgcu/QQ6Aek6RXxWZ+w75qTSOjtA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.17.0-dev-2",
+				"springboard-cli": "0.17.0-dev-2",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.17.0-dev-2"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.17.0-dev-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.17.0-dev-2_1758733863336_0.4576069205662754",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-3": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.17.0-dev-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.17.0-dev-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "47ced1c79d80b89a1b24ff0860b1a8a465f9c5d7",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-3.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-f4Xo0BBMwAG9z/y9wgu95a1Kzr1TW8E+yo/MHNu+vuqBO3bCcH9vgol5uZi9ppa75kYiOOy1YrM9KaS/bXo/BQ==",
+				"signatures": [
+					{
+						"sig": "MEUCIQDclGsFi9MTUOMdRwGumTf/wuQtJUjTv3ZG03rP1xL+ZAIgA/OIeB6j3kryoOoxw0NdZsC39JFphasqaE2RO/qCGd0=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11548
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.17.0-dev-3.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/dfc1f043908ba7e334a3e6d82d401ca3/springboardjs-plugin-svelte-0.17.0-dev-3.tgz",
+			"_integrity": "sha512-f4Xo0BBMwAG9z/y9wgu95a1Kzr1TW8E+yo/MHNu+vuqBO3bCcH9vgol5uZi9ppa75kYiOOy1YrM9KaS/bXo/BQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.17.0-dev-3",
+				"springboard-cli": "0.17.0-dev-3",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.17.0-dev-3"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.17.0-dev-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.17.0-dev-3_1758747265318_0.3087118557434336",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.17.0-dev-4": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.17.0-dev-4",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.17.0-dev-4",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "3e2923785a4073d57d616415c632ea3b25290285",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-4.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-BuTWRa5hZf9WUWQx0ESJhWEEmU4H4GPLrH/R+omTKJzvQPwaDrucgJ+xjc9lehE4xjJahhqsxQrsr3XH1Km4ww==",
+				"signatures": [
+					{
+						"sig": "MEQCIAUM952S9oSv4URVXRS6vC9aqqSxjL1PyMrEuCMShosaAiBo6VodN4clA3R7nW/cEsoVAgHighczFl5HbBIWOitFLQ==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11548
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.17.0-dev-4.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/b13803faed295af74701813a9e03998a/springboardjs-plugin-svelte-0.17.0-dev-4.tgz",
+			"_integrity": "sha512-BuTWRa5hZf9WUWQx0ESJhWEEmU4H4GPLrH/R+omTKJzvQPwaDrucgJ+xjc9lehE4xjJahhqsxQrsr3XH1Km4ww==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.17.0-dev-4",
+				"springboard-cli": "0.17.0-dev-4",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.17.0-dev-4"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.17.0-dev-4"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.17.0-dev-4_1758748606494_0.03352862254396549",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-tanstack-2": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-tanstack-2",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-tanstack-2",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "6613e2a2dcb50d28f9d6ae108450d4c51fde0ba1",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-tanstack-2.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-oA0V+HzNtFE+FRaWL20dPfi60xUfXEdp8mVbCsOfYx6/oTtoqg0XeWL4VwGjTmY/oVEt3wLrO8MvuReV0yxygQ==",
+				"signatures": [
+					{
+						"sig": "MEQCIDa0jgCeoVoPKjErfk75XD2nsyb6UzvW2WXZFVBU+PMPAiB4sXhuUMOlcZiMbraav39xQ7Qnp5xcnRFeB4Aqx6NbAg==",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11588
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-tanstack-2.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/742e9ff23130b902a1671c6741693753/springboardjs-plugin-svelte-0.0.1-dev-tanstack-2.tgz",
+			"_integrity": "sha512-oA0V+HzNtFE+FRaWL20dPfi60xUfXEdp8mVbCsOfYx6/oTtoqg0XeWL4VwGjTmY/oVEt3wLrO8MvuReV0yxygQ==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-tanstack-2",
+				"springboard-cli": "0.0.1-dev-tanstack-2",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-tanstack-2"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-tanstack-2"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-tanstack-2_1758756793627_0.27360093791457696",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-tanstack-3": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-tanstack-3",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-tanstack-3",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "507aeaf060872f6e348600f5ef7774cf148a79ed",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-tanstack-3.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-L9krzm5/cG0QVL0tRUFgJEYYOfRlY2P2jwOHVNT7Wvb+zO3UeS+9oRaDIZ74KuoZSVUfxm8oukcMbJnWDzBb/Q==",
+				"signatures": [
+					{
+						"sig": "MEYCIQDl29uaAfikWeX1+BSmXPywTmujiFATrMfxzmaMmigkfwIhANYs+IdsSzkrNilw6ed3EfsNm0pVtAc5iVWQB4uw0Hbh",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11588
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-tanstack-3.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/ad69eb64f0f2a244ebecc9bd738832f6/springboardjs-plugin-svelte-0.0.1-dev-tanstack-3.tgz",
+			"_integrity": "sha512-L9krzm5/cG0QVL0tRUFgJEYYOfRlY2P2jwOHVNT7Wvb+zO3UeS+9oRaDIZ74KuoZSVUfxm8oukcMbJnWDzBb/Q==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-tanstack-3",
+				"springboard-cli": "0.0.1-dev-tanstack-3",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-tanstack-3"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-tanstack-3"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-tanstack-3_1758759099762_0.07986544486281599",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-server-state-1": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-server-state-1",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-server-state-1",
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"dist": {
+				"shasum": "6004655c79b25e8c399e85091296c8c7805f2d57",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-server-state-1.tgz",
+				"fileCount": 8,
+				"integrity": "sha512-96l/v4TjeYc+M+Djju37jUlZkThroFI0Mf1p/4/e4VhZcaMHySxtUZj9KNu3PAxVVcGsa1SPuwZ5qacgXEc3eA==",
+				"signatures": [
+					{
+						"sig": "MEUCIQD0SaevlJN/+1CXpv2KepHXc14CrA6INpgHv57Liq1BkgIgYSJoarj2JW8wUOwJbutl9S8SnIhAVlnb3aY6bKQqA10=",
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+					}
+				],
+				"unpackedSize": 11608
+			},
+			"main": "index.js",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-server-state-1.tgz",
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"fix": "npm run lint -- --fix",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"clean": "rm -rf dist",
+				"check-types": "tsc --noEmit",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte"
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"_resolved": "/tmp/e6db7c52ef2ba47782190f8a734bb4ac/springboardjs-plugin-svelte-0.0.1-dev-server-state-1.tgz",
+			"_integrity": "sha512-96l/v4TjeYc+M+Djju37jUlZkThroFI0Mf1p/4/e4VhZcaMHySxtUZj9KNu3PAxVVcGsa1SPuwZ5qacgXEc3eA==",
+			"_npmVersion": "10.5.0",
+			"description": "",
+			"directories": {},
+			"_nodeVersion": "21.7.3",
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"_hasShrinkwrap": false,
+			"devDependencies": {
+				"rxjs": "^7.0.0",
+				"react": "^19.1.0",
+				"svelte": "5.34.7",
+				"react-dom": "^19.1.0",
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"estree-walker": "^2",
+				"@jamtools/core": "0.0.1-dev-server-state-1",
+				"springboard-cli": "0.0.1-dev-server-state-1",
+				"@types/react-dom": "^19.1.0",
+				"@springboardjs/platforms-browser": "0.0.1-dev-server-state-1"
+			},
+			"peerDependencies": {
+				"rxjs": "*",
+				"react": "*",
+				"svelte": ">= 5",
+				"react-dom": "*",
+				"springboard": "0.0.1-dev-server-state-1"
+			},
+			"_npmOperationalInternal": {
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-server-state-1_1762760798692_0.6096793327592007",
+				"host": "s3://npm-registry-packages-npm-production"
+			},
+			"contributors": []
+		},
+		"0.0.1-dev-server-state-2": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.0.1-dev-server-state-2",
+			"main": "index.js",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"description": "",
+			"peerDependencies": {
+				"react": "*",
+				"react-dom": "*",
+				"rxjs": "*",
+				"svelte": ">= 5",
+				"springboard": "0.0.1-dev-server-state-2"
+			},
+			"devDependencies": {
+				"@types/node": "^20.14.2",
+				"@types/react": "^19.1.0",
+				"@types/react-dom": "^19.1.0",
+				"estree-walker": "^2",
+				"react": "^19.1.0",
+				"react-dom": "^19.1.0",
+				"rxjs": "^7.0.0",
+				"svelte": "5.34.7",
+				"@jamtools/core": "0.0.1-dev-server-state-2",
+				"@springboardjs/platforms-browser": "0.0.1-dev-server-state-2",
+				"springboard-cli": "0.0.1-dev-server-state-2"
+			},
+			"dependencies": {
+				"esbuild-svelte": "^0.9.2",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"check-types": "tsc --noEmit",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"fix": "npm run lint -- --fix",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"clean": "rm -rf dist"
+			},
+			"_id": "@springboardjs/plugin-svelte@0.0.1-dev-server-state-2",
+			"_integrity": "sha512-AiYjo7oAnmkVOa+SNOE/R6vHwZyv/MZJAZLbTTG7FstYijh+HYCdwTVXm3Sp27pBUq9/gFaXPSZ6gP7pzoRjAg==",
+			"_resolved": "/tmp/02ce9c08bedfeb631573b69bbb4c9ae5/springboardjs-plugin-svelte-0.0.1-dev-server-state-2.tgz",
+			"_from": "file:springboardjs-plugin-svelte-0.0.1-dev-server-state-2.tgz",
+			"_nodeVersion": "21.7.3",
+			"_npmVersion": "10.5.0",
+			"dist": {
+				"integrity": "sha512-AiYjo7oAnmkVOa+SNOE/R6vHwZyv/MZJAZLbTTG7FstYijh+HYCdwTVXm3Sp27pBUq9/gFaXPSZ6gP7pzoRjAg==",
+				"shasum": "5783d91bb41af321c494e50af9f0518a61494c11",
+				"tarball": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-server-state-2.tgz",
+				"fileCount": 8,
+				"unpackedSize": 11608,
+				"signatures": [
+					{
+						"keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+						"sig": "MEYCIQCp1uquuWOfbztBvq1WYc9VzlrzB5R27pZ3uZsrF81tHgIhAMwOkmZ4oXKHaAmZvr5fVpbi5vEy7CydhUyQjpxMjUYU"
+					}
+				]
+			},
+			"_npmUser": {
+				"name": "mickmister",
+				"email": "mjkochell@gmail.com"
+			},
+			"directories": {},
+			"maintainers": [
+				{
+					"name": "mickmister",
+					"email": "mjkochell@gmail.com"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages-npm-production",
+				"tmp": "tmp/plugin-svelte_0.0.1-dev-server-state-2_1762999652578_0.4421829075758765"
+			},
+			"_hasShrinkwrap": false,
+			"contributors": []
+		},
+		"0.15.0-test-1766977042": {
+			"name": "@springboardjs/plugin-svelte",
+			"version": "0.15.0-test-1766977042",
+			"main": "index.js",
+			"keywords": [],
+			"author": "",
+			"license": "ISC",
+			"description": "",
+			"peerDependencies": {
+				"react": "*",
+				"react-dom": "*",
+				"rxjs": "*",
+				"svelte": ">= 5",
+				"springboard": "0.15.0-test-1766977042"
+			},
+			"devDependencies": {
+				"@types/node": "20.17.48",
+				"@types/react": "19.2.6",
+				"@types/react-dom": "19.2.3",
+				"estree-walker": "3.0.3",
+				"react": "19.2.0",
+				"react-dom": "19.2.0",
+				"rxjs": "7.8.1",
+				"svelte": "5.43.11",
+				"@jamtools/core": "0.15.0-test-1766977042",
+				"springboard-cli": "0.15.0-test-1766977042"
+			},
+			"dependencies": {
+				"esbuild-svelte": "^0.9.3",
+				"svelte-preprocess": "^6.0.3"
+			},
+			"config": {
+				"dir": "../../../../configs"
+			},
+			"scripts": {
+				"build": "tsx example/build/build_with_svelte_plugin.ts",
+				"build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte",
+				"dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
+				"check-types": "tsc --noEmit",
+				"lint": "eslint --ext ts --ext tsx  ./",
+				"fix": "npm run lint -- --fix",
+				"build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
+				"clean": "rm -rf dist"
+			},
+			"_id": "@springboardjs/plugin-svelte@0.15.0-test-1766977042",
+			"_integrity": "sha512-MI8aqsXAbh0LXI/aB02YKrPVwK6Qv99R+UHZcDM9LBMI3Wx5TjkiA3Ti4sBM1eBEfNDiS0r3EBfRA51dHfxcfQ==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/759f750a29f22020bbb6f4c5d8929d76/springboardjs-plugin-svelte-0.15.0-test-1766977042.tgz",
+			"_from": "file:springboardjs-plugin-svelte-0.15.0-test-1766977042.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-MI8aqsXAbh0LXI/aB02YKrPVwK6Qv99R+UHZcDM9LBMI3Wx5TjkiA3Ti4sBM1eBEfNDiS0r3EBfRA51dHfxcfQ==",
+				"shasum": "143179ebe65eb8e2c65ee702b391a755e32b1a08",
+				"tarball": "http://localhost:4873/@springboardjs/plugin-svelte/-/@springboardjs/plugin-svelte-0.15.0-test-1766977042.tgz"
+			},
+			"contributors": []
+		}
+	},
+	"time": {
+		"created": "2025-06-20T07:40:11.209Z",
+		"modified": "2025-12-28T11:01:36.418Z",
+		"0.16.0-svelte-dev2": "2025-06-20T07:40:11.482Z",
+		"0.16.0-svelte-dev3": "2025-07-02T04:01:30.156Z",
+		"0.16.0-dev-svelte-20": "2025-08-25T05:53:11.983Z",
+		"0.16.0-dev21-svelte": "2025-08-25T07:42:13.421Z",
+		"0.16.0-dev22-svelte": "2025-08-25T07:55:54.879Z",
+		"0.16.0-dev23-svelte": "2025-08-25T08:25:10.460Z",
+		"0.16.0-dev24-svelte": "2025-08-25T08:50:19.903Z",
+		"0.16.0-dev25-svelte": "2025-08-25T08:54:44.453Z",
+		"0.16.0-dev26-svelte": "2025-08-25T17:56:17.632Z",
+		"0.16.0": "2025-08-25T18:09:02.010Z",
+		"0.16.1-dev1-fix-offline-import-path": "2025-09-03T16:01:16.102Z",
+		"0.0.1-dev-midipoller-1": "2025-09-11T05:22:31.196Z",
+		"0.0.1-dev-midipoller-2": "2025-09-21T00:04:31.297Z",
+		"0.0.1-dev-midipoller-3": "2025-09-21T01:35:00.260Z",
+		"0.0.1-dev-midipoller-4": "2025-09-22T03:46:22.906Z",
+		"0.17.0-dev-1": "2025-09-23T06:45:15.251Z",
+		"0.17.0-dev-2": "2025-09-24T17:11:03.518Z",
+		"0.17.0-dev-3": "2025-09-24T20:54:25.504Z",
+		"0.17.0-dev-4": "2025-09-24T21:16:46.684Z",
+		"0.0.1-dev-tanstack-2": "2025-09-24T23:33:13.819Z",
+		"0.0.1-dev-tanstack-3": "2025-09-25T00:11:39.934Z",
+		"0.0.1-dev-server-state-1": "2025-11-10T07:46:38.880Z",
+		"0.0.1-dev-server-state-2": "2025-11-13T02:07:32.795Z",
+		"0.15.0-test-1766977042": "2025-12-28T11:01:36.418Z"
+	},
+	"users": {},
+	"dist-tags": {
+		"latest": "0.16.0",
+		"dev": "0.15.0-test-1766977042"
+	},
+	"_uplinks": {
+		"npmjs": {
+			"etag": "W/\"51753bf4181074ffd3ce24a208b48d92\"",
+			"fetched": 1766919696409
+		}
+	},
+	"_distfiles": {
+		"plugin-svelte-0.16.0-svelte-dev2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-svelte-dev2.tgz",
+			"sha": "542e5dfd1104cf0358dfa503d77fb685aec7628a",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-svelte-dev3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-svelte-dev3.tgz",
+			"sha": "338d11d6122da0e75b6f61f9fab4c2aca5664495",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev-svelte-20.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev-svelte-20.tgz",
+			"sha": "f2ca03c2a803e53b5e1d8eef063c28be2f9c44af",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev21-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev21-svelte.tgz",
+			"sha": "5d0aaaea4e83a8715cbc6d896786cb44c94a6bbb",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev22-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev22-svelte.tgz",
+			"sha": "0017b155fb291758770a9291de397cb2652ecec8",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev23-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev23-svelte.tgz",
+			"sha": "9724226ad4ae1336a241eb2c0e08bf4b5433ac14",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev24-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev24-svelte.tgz",
+			"sha": "66f009adb2cb154638040a524d8771434d29fae4",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev25-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev25-svelte.tgz",
+			"sha": "690ee26f0dc407cb1e9712138236f03f9188f7c2",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0-dev26-svelte.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0-dev26-svelte.tgz",
+			"sha": "b0a1dbfd5c91b2da0abe98b468d83fe00c154dbe",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.0.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.0.tgz",
+			"sha": "35d197cce8e3944437a97fa8d937418e70414081",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.16.1-dev1-fix-offline-import-path.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.16.1-dev1-fix-offline-import-path.tgz",
+			"sha": "69b07e5ecab5d9f21c8619361b8a56356f996eef",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-midipoller-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-1.tgz",
+			"sha": "80f27a68bed761c1c667514f55e7347d74ee0e98",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-midipoller-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-2.tgz",
+			"sha": "07060248e39280d9a30c2a58547a506cf7e1d001",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-midipoller-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-3.tgz",
+			"sha": "34b4224e6bb4f1572cf6b5415a4f61186e7c0de1",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-midipoller-4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-midipoller-4.tgz",
+			"sha": "d348868551fa88a91a9f4d4c2423c0f7f601258a",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.17.0-dev-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-1.tgz",
+			"sha": "fa9eaaa4d7c53b4c884e841822508d11bc449b87",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.17.0-dev-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-2.tgz",
+			"sha": "8a607d7814c09aef634be7e77c0fd9bb373f66fd",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.17.0-dev-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-3.tgz",
+			"sha": "47ced1c79d80b89a1b24ff0860b1a8a465f9c5d7",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.17.0-dev-4.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.17.0-dev-4.tgz",
+			"sha": "3e2923785a4073d57d616415c632ea3b25290285",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-tanstack-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-tanstack-2.tgz",
+			"sha": "6613e2a2dcb50d28f9d6ae108450d4c51fde0ba1",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-tanstack-3.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-tanstack-3.tgz",
+			"sha": "507aeaf060872f6e348600f5ef7774cf148a79ed",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-server-state-1.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-server-state-1.tgz",
+			"sha": "6004655c79b25e8c399e85091296c8c7805f2d57",
+			"registry": "npmjs"
+		},
+		"plugin-svelte-0.0.1-dev-server-state-2.tgz": {
+			"url": "https://registry.npmjs.org/@springboardjs/plugin-svelte/-/plugin-svelte-0.0.1-dev-server-state-2.tgz",
+			"sha": "5783d91bb41af321c494e50af9f0518a61494c11",
+			"registry": "npmjs"
+		}
+	},
+	"_attachments": {
+		"plugin-svelte-0.15.0-test-1766977042.tgz": {
+			"shasum": "143179ebe65eb8e2c65ee702b391a755e32b1a08",
+			"version": "0.15.0-test-1766977042"
+		}
+	},
+	"_rev": "4-ae43e860515a0f4d",
+	"_id": "@springboardjs/plugin-svelte",
+	"readme": "ERROR: No README data found!"
+}

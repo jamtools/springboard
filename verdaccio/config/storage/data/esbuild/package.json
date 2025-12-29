@@ -36181,7 +36181,7 @@
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"5c511c7a8e5a85489a2ebee79a7cfbee\"",
-			"fetched": 1766917310430
+			"fetched": 1766919721270
 		}
 	},
 	"_distfiles": {
@@ -38562,7 +38562,7 @@
 		}
 	},
 	"_attachments": {},
-	"_rev": "1-a3d0f48a9b5e5df6",
+	"_rev": "2-e381632fc83b8d52",
 	"_id": "esbuild",
 	"readme": "# esbuild\n\nThis is a JavaScript bundler and minifier. See https://github.com/evanw/esbuild and the [JavaScript API documentation](https://esbuild.github.io/api/) for details."
 }

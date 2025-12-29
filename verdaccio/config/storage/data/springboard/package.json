@@ -7480,11 +7480,272 @@
 				"tarball": "http://localhost:4873/springboard/-/springboard-0.15.0-test3.tgz"
 			},
 			"contributors": []
+		},
+		"0.15.0-test-1766977042": {
+			"name": "springboard",
+			"version": "0.15.0-test-1766977042",
+			"description": "Full-stack JavaScript framework with real-time capabilities",
+			"type": "module",
+			"main": "./src/index.ts",
+			"module": "./src/index.ts",
+			"types": "./src/index.ts",
+			"sideEffects": false,
+			"exports": {
+				".": {
+					"types": "./src/index.ts",
+					"import": "./src/index.ts"
+				},
+				"./core": {
+					"types": "./src/core/index.ts",
+					"import": "./src/core/index.ts"
+				},
+				"./server": {
+					"types": "./src/server/index.ts",
+					"import": "./src/server/index.ts"
+				},
+				"./platforms/browser": {
+					"types": "./src/platforms/browser/index.ts",
+					"import": "./src/platforms/browser/index.ts"
+				},
+				"./platforms/browser/entrypoints/online_entrypoint": {
+					"types": "./src/platforms/browser/entrypoints/online_entrypoint.ts",
+					"import": "./src/platforms/browser/entrypoints/online_entrypoint.ts"
+				},
+				"./platforms/browser/entrypoints/online_entrypoint.ts": {
+					"types": "./src/platforms/browser/entrypoints/online_entrypoint.ts",
+					"import": "./src/platforms/browser/entrypoints/online_entrypoint.ts"
+				},
+				"./platforms/browser/entrypoints/offline_entrypoint": {
+					"types": "./src/platforms/browser/entrypoints/offline_entrypoint.ts",
+					"import": "./src/platforms/browser/entrypoints/offline_entrypoint.ts"
+				},
+				"./platforms/browser/entrypoints/offline_entrypoint.ts": {
+					"types": "./src/platforms/browser/entrypoints/offline_entrypoint.ts",
+					"import": "./src/platforms/browser/entrypoints/offline_entrypoint.ts"
+				},
+				"./platforms/browser/index.html": "./src/platforms/browser/index.html",
+				"./platforms/node": {
+					"types": "./src/platforms/node/index.ts",
+					"import": "./src/platforms/node/index.ts"
+				},
+				"./platforms/node/entrypoints/node_flexible_entrypoint": {
+					"types": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts",
+					"import": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts"
+				},
+				"./platforms/node/entrypoints/node_flexible_entrypoint.ts": {
+					"types": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts",
+					"import": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts"
+				},
+				"./platforms/partykit": {
+					"types": "./src/platforms/partykit/index.ts",
+					"import": "./src/platforms/partykit/index.ts"
+				},
+				"./platforms/tauri": {
+					"types": "./src/platforms/tauri/index.ts",
+					"import": "./src/platforms/tauri/index.ts"
+				},
+				"./platforms/react-native": {
+					"types": "./src/platforms/react-native/index.ts",
+					"import": "./src/platforms/react-native/index.ts"
+				},
+				"./data-storage": {
+					"types": "./src/data-storage/index.ts",
+					"import": "./src/data-storage/index.ts"
+				},
+				"./legacy-cli": {
+					"types": "./src/legacy-cli/index.ts",
+					"import": "./src/legacy-cli/index.ts"
+				},
+				"./package.json": "./package.json"
+			},
+			"typesVersions": {
+				"*": {
+					"server": [
+						"./src/server/index.ts"
+					],
+					"platforms/node": [
+						"./src/platforms/node/index.ts"
+					],
+					"platforms/browser": [
+						"./src/platforms/browser/index.ts"
+					],
+					"platforms/tauri": [
+						"./src/platforms/tauri/index.ts"
+					],
+					"platforms/partykit": [
+						"./src/platforms/partykit/index.ts"
+					],
+					"platforms/react-native": [
+						"./src/platforms/react-native/index.ts"
+					],
+					"data-storage": [
+						"./src/data-storage/index.ts"
+					],
+					"legacy-cli": [
+						"./src/legacy-cli/index.ts"
+					],
+					"core": [
+						"./src/core/index.ts"
+					]
+				}
+			},
+			"files": [
+				"src",
+				"dist",
+				"vite-plugin"
+			],
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/jamtools/springboard.git",
+				"directory": "packages/springboard"
+			},
+			"keywords": [
+				"framework",
+				"full-stack",
+				"real-time",
+				"isomorphic",
+				"react",
+				"typescript",
+				"websocket",
+				"rpc"
+			],
+			"author": {
+				"name": "JamTools"
+			},
+			"license": "ISC",
+			"bugs": {
+				"url": "https://github.com/jamtools/springboard/issues"
+			},
+			"homepage": "https://springboard.js.org",
+			"dependencies": {
+				"dexie": "^4.2.1",
+				"json-rpc-2.0": "^1.7.1",
+				"reconnecting-websocket": "^4.4.0"
+			},
+			"optionalDependencies": {
+				"@hono/node-server": "^1.19.6",
+				"@hono/node-ws": "^1.2.0",
+				"better-sqlite3": "^12.4.1",
+				"hono": "^4.6.17",
+				"partysocket": "^1.1.6",
+				"ws": "^8.18.3",
+				"zod": "^3.25.7"
+			},
+			"peerDependencies": {
+				"@hono/node-server": "^1.19.6",
+				"@hono/node-ws": "^1.2.0",
+				"@tauri-apps/api": "^2.9.0",
+				"@tauri-apps/plugin-shell": "^2.3.3",
+				"better-sqlite3": "^12.4.1",
+				"hono": "^4.6.17",
+				"immer": "^10.1.1",
+				"isomorphic-ws": "^4.0.1",
+				"kysely": ">= 0.24.0",
+				"partysocket": "^1.1.6",
+				"react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+				"react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+				"react-router": "^7.9.6",
+				"rxjs": "^7.8.1",
+				"vite": "^5.4.19",
+				"ws": "^8.18.3",
+				"zod": "^3.25.7"
+			},
+			"peerDependenciesMeta": {
+				"@hono/node-server": {
+					"optional": true
+				},
+				"@hono/node-ws": {
+					"optional": true
+				},
+				"@tauri-apps/api": {
+					"optional": true
+				},
+				"@tauri-apps/plugin-shell": {
+					"optional": true
+				},
+				"better-sqlite3": {
+					"optional": true
+				},
+				"hono": {
+					"optional": true
+				},
+				"immer": {
+					"optional": true
+				},
+				"isomorphic-ws": {
+					"optional": true
+				},
+				"kysely": {
+					"optional": true
+				},
+				"partysocket": {
+					"optional": true
+				},
+				"react": {
+					"optional": true
+				},
+				"react-dom": {
+					"optional": true
+				},
+				"react-router": {
+					"optional": true
+				},
+				"rxjs": {
+					"optional": true
+				},
+				"vite": {
+					"optional": true
+				},
+				"ws": {
+					"optional": true
+				},
+				"zod": {
+					"optional": true
+				}
+			},
+			"devDependencies": {
+				"@types/better-sqlite3": "^7.6.13",
+				"@types/node": "20.17.48",
+				"@types/react": "19.2.6",
+				"@types/react-dom": "19.2.3",
+				"@types/ws": "^8.18.1",
+				"esbuild": "0.27.0",
+				"partykit": "^0.0.115",
+				"react": "19.2.0",
+				"react-dom": "19.2.0",
+				"typescript": "5.9.3",
+				"vitest": "^2.1.9"
+			},
+			"config": {
+				"dir": "../../configs"
+			},
+			"scripts": {
+				"test": "vitest --run",
+				"test:watch": "vitest",
+				"check-types": "tsc --noEmit",
+				"lint": "eslint --ext ts --ext tsx ./src",
+				"fix": "npm run lint -- --fix",
+				"build": "tsc -p tsconfig.build.json",
+				"build:watch": "npm run build -- --watch"
+			},
+			"_id": "springboard@0.15.0-test-1766977042",
+			"readmeFilename": "README.md",
+			"_integrity": "sha512-Bb2OMpwLbUmK8RQQ7SpmnOwkelYpT9k3HkFVzd8+FoeyLh36HOaE6hW3oIApg2fxak6uy1hzjk5AE0e6eruo8w==",
+			"_resolved": "/private/var/folders/1j/j9tl30f930d27ck98gv5jpg80000gn/T/cacb4665d02c65543907d7195c20d8e9/springboard-0.15.0-test-1766977042.tgz",
+			"_from": "file:springboard-0.15.0-test-1766977042.tgz",
+			"_nodeVersion": "22.20.0",
+			"_npmVersion": "10.9.3",
+			"dist": {
+				"integrity": "sha512-Bb2OMpwLbUmK8RQQ7SpmnOwkelYpT9k3HkFVzd8+FoeyLh36HOaE6hW3oIApg2fxak6uy1hzjk5AE0e6eruo8w==",
+				"shasum": "858c0583c808dedd646b9c9ada225bb51338ba52",
+				"tarball": "http://localhost:4873/springboard/-/springboard-0.15.0-test-1766977042.tgz"
+			},
+			"contributors": []
 		}
 	},
 	"time": {
 		"created": "2024-11-10T06:14:43.203Z",
-		"modified": "2025-12-28T10:23:40.933Z",
+		"modified": "2025-12-28T11:01:24.260Z",
 		"1.0.0": "2013-03-14T01:04:32.513Z",
 		"0.10.0": "2024-11-10T06:14:43.474Z",
 		"0.11.0": "2024-11-19T22:57:02.231Z",
@@ -7575,18 +7836,19 @@
 		"0.0.1-dev-server-state-4": "2025-11-26T03:54:12.864Z",
 		"0.15.0-test1": "2025-12-28T10:19:06.820Z",
 		"0.15.0-test2": "2025-12-28T10:20:30.612Z",
-		"0.15.0-test3": "2025-12-28T10:23:40.933Z"
+		"0.15.0-test3": "2025-12-28T10:23:40.933Z",
+		"0.15.0-test-1766977042": "2025-12-28T11:01:24.260Z"
 	},
 	"users": {},
 	"dist-tags": {
 		"rc": "0.16.0-rc1",
 		"latest": "0.16.0",
-		"dev": "0.15.0-test3"
+		"dev": "0.15.0-test-1766977042"
 	},
 	"_uplinks": {
 		"npmjs": {
 			"etag": "W/\"a2eae04f0f1e1b21893c8c349962431c\"",
-			"fetched": 1766917428769
+			"fetched": 1766919761631
 		}
 	},
 	"_distfiles": {
@@ -8038,9 +8300,19 @@
 		"springboard-0.15.0-test3.tgz": {
 			"shasum": "a336d7a2a3299735f7d135d244f2e79ccfc0a66d",
 			"version": "0.15.0-test3"
+		},
+		"springboard-0.15.0-rc9.tgz": {
+			"shasum": "8148f30ada6027d8b27fe62012afb2e8fabffa8f"
+		},
+		"springboard-0.15.0-rc10.tgz": {
+			"shasum": "b804c7219add9e40bf51cc7cc75748383152294d"
+		},
+		"springboard-0.15.0-test-1766977042.tgz": {
+			"shasum": "858c0583c808dedd646b9c9ada225bb51338ba52",
+			"version": "0.15.0-test-1766977042"
 		}
 	},
-	"_rev": "12-d7cda5bdc8f277a6",
+	"_rev": "18-b377d9aa312a45e4",
 	"_id": "springboard",
 	"readme": "# springboard\n\nFull-stack JavaScript framework for real-time, multi-platform applications.\n\n---\n\n## Installation\n\n```bash\nnpm install springboard\n```\n\nFor development tooling:\n\n```bash\nnpm install -D springboard-cli\n```\n\n---\n\n## Overview\n\nSpringboard is a modular, real-time framework that enables building applications that run across multiple platforms:\n\n- **Browser** - Standard web applications\n- **Node.js** - Server-side applications\n- **Desktop** - Tauri-based desktop apps\n- **Edge** - PartyKit/Cloudflare Workers\n- **Mobile** - React Native (experimental)\n\n---\n\n## Quick Start\n\n### Basic Application\n\n```typescript\n// src/index.tsx\nimport springboard from 'springboard';\n\nspringboard.registerModule('my-app', (moduleAPI) => {\n  moduleAPI.registerRoute('/', () => ({\n    component: () => <h1>Hello, Springboard!</h1>,\n  }));\n});\n```\n\n### Run Development Server\n\n```bash\nsb dev src/index.tsx\n```\n\n### Build for Production\n\n```bash\nsb build src/index.tsx --platforms main\n```\n\n---\n\n## Imports\n\n### Main Entry Point\n\n```typescript\nimport springboard from 'springboard';\n\n// Or with named exports\nimport {\n  springboard,\n  Springboard,\n  SpringboardProvider,\n  SpringboardProviderPure,\n  useSpringboardEngine,\n  ModuleAPI,\n  ModuleRegistry,\n  useMount,\n  generateId,\n  SharedStateService,\n  HttpKvStoreClient,\n  BaseModule,\n  FilesModule,\n  IndexedDBFileStorageProvider,\n  makeMockCoreDependencies,\n} from 'springboard';\n```\n\n### Server\n\n```typescript\nimport createServer from 'springboard/server';\n\n// Named exports\nimport {\n  createHonoApp,\n  ServerJsonRpc,\n  injectMetadata,\n} from 'springboard/server';\n```\n\n### Browser Platform\n\n```typescript\nimport {\n  BrowserKVStore,\n  BrowserJsonRpc,\n} from 'springboard/platforms/browser';\n```\n\n### Node Platform\n\n```typescript\nimport {\n  NodeKVStore,\n  NodeJsonRpc,\n  NodeFileStorage,\n  NodeRpcAsyncLocalStorage,\n} from 'springboard/platforms/node';\n```\n\n### Tauri Platform\n\n```typescript\nimport {\n  TauriMaestroEntrypoint,\n} from 'springboard/platforms/tauri';\n```\n\n### PartyKit Platform\n\n```typescript\nimport {\n  PartykitKVStore,\n  PartykitRpcClient,\n  PartykitRpcServer,\n  createPartykitHonoApp,\n} from 'springboard/platforms/partykit';\n```\n\n### React Native Platform\n\n```typescript\nimport {\n  RNKVStore,\n  RNWebViewBridge,\n  RNWebViewLocalTokenService,\n} from 'springboard/platforms/react-native';\n```\n\n### Core Submodules\n\n```typescript\nimport { ModuleAPI } from 'springboard/core/engine/module_api';\nimport { SharedStateService } from 'springboard/core/services/states/shared_state_service';\nimport { generateId } from 'springboard/core/utils/generate_id';\n```\n\n---\n\n## Types\n\n```typescript\nimport type {\n  // Core types\n  CoreDependencies,\n  ModuleDependencies,\n  KVStore,\n  Rpc,\n  RpcArgs,\n  FileStorageProvider,\n\n  // Registry types\n  SpringboardRegistry,\n  RegisterModuleOptions,\n  ModuleCallback,\n  ClassModuleCallback,\n  DocumentMetaFunction,\n  RegisterRouteOptions,\n\n  // Module types\n  Module,\n  ExtraModuleDependencies,\n  DocumentMeta,\n\n  // File types\n  FileHandle,\n  FileMetadata,\n\n  // Response types\n  ErrorResponse,\n  SuccessResponse,\n  SpringboardResponse,\n} from 'springboard';\n```\n\n---\n\n## Peer Dependencies\n\nSpringboard requires the following peer dependencies based on your usage:\n\n### Core (Required)\n\n```bash\nnpm install react react-dom\n```\n\n### Browser Apps\n\n```bash\nnpm install react-router\n```\n\n### Server\n\n```bash\nnpm install hono @hono/node-server @hono/node-ws\n```\n\n### Desktop (Tauri)\n\n```bash\nnpm install @tauri-apps/api @tauri-apps/plugin-shell\n```\n\n### Edge (PartyKit)\n\n```bash\nnpm install partysocket hono\n```\n\n---\n\n## CLI Commands\n\n```bash\n# Development server with HMR\nsb dev src/index.tsx\n\n# Production build\nsb build src/index.tsx --platforms main\n\n# Build specific platforms\nsb build src/index.tsx --platforms browser\nsb build src/index.tsx --platforms browser_offline\nsb build src/index.tsx --platforms node\nsb build src/index.tsx --platforms desktop\nsb build src/index.tsx --platforms partykit\nsb build src/index.tsx --platforms all\n\n# Start production server\nsb start\n```\n\n---\n\n## Documentation\n\n- [Migration Guide](../../MIGRATION_GUIDE.md) - Migrate from v0.x\n- [Vite Integration](../../docs/VITE_INTEGRATION.md) - Build system architecture\n- [Package Structure](../../docs/PACKAGE_STRUCTURE.md) - Export map documentation\n\n---\n\n## License\n\nISC\n\n---\n\n## Links\n\n- [GitHub](https://github.com/jamtools/springboard)\n- [npm](https://www.npmjs.com/package/springboard)\n- [Documentation](https://jam.tools/docs/springboard)"
 }
