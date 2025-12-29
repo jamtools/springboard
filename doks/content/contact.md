@@ -22,9 +22,11 @@ We’d love to hear from you. Choose the channel that works best for you:
 
 Address:
 
-Jam Tools, Inc.
-5625 N German Church Rd
-Indianapolis, IN 46235
+Jam Tools, Inc.<br>
+5625 N German Church Rd<br>
+Indianapolis, IN 46235<br>
+United States<br>
+Contact: support@jam.tools
 
 
 We’ll get back to you as soon as we can.
