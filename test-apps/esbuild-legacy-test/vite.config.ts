@@ -17,6 +17,7 @@ export default defineConfig({
   plugins: [
     springboard({
       entry: './src/tic_tac_toe.tsx',
+      nodeServerPort: 3001, // Use port 3001 for node dev server
       // No platform specified - uses SPRINGBOARD_PLATFORM env var
       // Default: node,web
     })
