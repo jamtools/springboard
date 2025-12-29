@@ -23,8 +23,7 @@ We’d love to hear from you. Choose the channel that works best for you:
 
 We’ll get back to you as soon as we can.
 
-Address:
-
+Address:<br>
 Jam Tools, Inc.<br>
 5625 N German Church Rd<br>
 Indianapolis, IN 46235<br>
