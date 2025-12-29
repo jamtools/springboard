@@ -6,7 +6,8 @@
   "description": "Test app validating legacy esbuild-based build workflows with the consolidated Springboard package",
   "scripts": {
     "build": "tsx esbuild.ts",
-    "build:watch": "tsx esbuild.ts --watch"
+    "build:watch": "tsx esbuild.ts --watch",
+    "check-types": "tsc --noEmit"
   },
   "engines": {
     "node": ">=20.0.0"
