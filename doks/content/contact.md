@@ -31,5 +31,5 @@ Jam Tools, Inc.<br>
 Indianapolis, IN 46235<br>
 United States<br>
 
-Email: support@jam.tools<br>
-Website: https://jam.tools
+Email: [support@jam.tools](mailto:support@jam.tools)<br>
+Website: [https://jam.tools](https://jam.tools)
