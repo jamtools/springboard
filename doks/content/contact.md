@@ -29,3 +29,6 @@ Jam Tools, Inc.<br>
 5625 N German Church Rd<br>
 Indianapolis, IN 46235<br>
 United States<br>
+
+Email: support@jam.tools<br>
+Website: https://jam.tools
