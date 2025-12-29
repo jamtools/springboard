@@ -1,6 +1,6 @@
 {
   "name": "@jamtools/core",
-  "version": "0.15.0-rc26",
+  "version": "0.15.0-test-final",
   "type": "module",
   "scripts": {
     "test": "vitest --run",
