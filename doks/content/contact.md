@@ -20,9 +20,6 @@ We’d love to hear from you. Choose the channel that works best for you:
 - **GitHub:** File issues or feature requests in the [Jam Tools repository](https://github.com/jamtools/springboard).
 - **Email:** Reach out directly at [support@jam.tools](mailto:support@jam.tools).
 
-
-We’ll get back to you as soon as we can.
-
 ---
 
 Business Address:<br>
