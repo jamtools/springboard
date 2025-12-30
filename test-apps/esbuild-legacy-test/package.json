@@ -35,7 +35,7 @@
     "esbuild": "^0.27.2",
     "immer": "^11.1.0",
     "rxjs": "^7.8.2",
-    "springboard": "workspace:*",
+    "springboard": "*",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite": "7.3.0"
