@@ -274,10 +274,57 @@ import { startNodeApp } from 'springboard/platforms/node';
           return;
         }
 
-      // Note: We're using node-dev-server.ts temporarily due to transpilation issues
-      // The generated node entry approach doesn't work because springboard's transpiled
-      // dist files have relative imports without .js extensions, which Node ESM requires
+      // Generate node entry file for dev mode
+      if (!existsSync(SPRINGBOARD_DIR)) {
+        mkdirSync(SPRINGBOARD_DIR, { recursive: true });
+      }
 
+      const nodeEntryCode = `
+import { serve } from '@hono/node-server';
+import { initApp, makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/server';
+import { startNodeApp } from 'springboard/platforms/node';
+
+// Self-contained Node.js server entrypoint
+// Note: User entry not needed - modules register in browser
+(async () => {
+  try {
+    const coreDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
+    const { app, injectWebSocket, nodeAppDependencies } = initApp(coreDeps);
+    const port = parseInt(process.env.PORT || '1337', 10);
+
+    const server = serve({
+      fetch: app.fetch,
+      port,
+    }, (info) => {
+      console.log(\`Server listening on http://localhost:\${info.port}\`);
+    });
+
+    injectWebSocket(server);
+    await startNodeApp(nodeAppDependencies);
+    console.log('Node application started successfully');
+
+    // Graceful shutdown
+    let isShuttingDown = false;
+    const shutdown = () => {
+      if (isShuttingDown) return;
+      isShuttingDown = true;
+      console.log('Received shutdown signal, closing server...');
+      server.close(() => {
+        console.log('Server closed successfully');
+        process.exit(0);
+      });
+    };
+
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
+  } catch (error) {
+    console.error('Failed to start node server:', error);
+    process.exit(1);
+  }
+})();
+`;
+      writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
+      console.log('[springboard] Generated node entry file for dev mode');
 
       const port = options.nodeServerPort ?? 1337;
       let nodeProcess: ChildProcess | null = null;
@@ -289,13 +336,11 @@ import { startNodeApp } from 'springboard/platforms/node';
           return;
         }
 
-        const nodeServerPath = path.resolve(__dirname, 'node-dev-server.ts');
-
         console.log('[springboard] Starting node dev server...');
-        console.log(`[springboard]   Path: ${nodeServerPath}`);
+        console.log(`[springboard]   Entry: ${NODE_ENTRY_FILE}`);
         console.log(`[springboard]   Port: ${port}`);
 
-        nodeProcess = spawn('npx', ['tsx', 'watch', nodeServerPath], {
+        nodeProcess = spawn('node', ['--watch', NODE_ENTRY_FILE], {
           cwd: __dirname,
           env: {
             ...process.env,
@@ -303,7 +348,6 @@ import { startNodeApp } from 'springboard/platforms/node';
             NODE_ENV: 'development',
           },
           stdio: ['ignore', 'pipe', 'pipe'],
-          shell: true,
         });
 
         // Pipe stdout with prefix
