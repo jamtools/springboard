@@ -19,7 +19,7 @@
   "dependencies": {
     "@hono/node-server": "^1.19.7",
     "@hono/node-ws": "^1.2.0",
-    "@jamtools/core": "^0.15.19",
+    "@jamtools/core": "^0.15.21",
     "better-sqlite3": "^12.5.0",
     "hono": "^4.11.3",
     "isomorphic-ws": "^5.0.0",
@@ -27,7 +27,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router": "^7.11.0",
-    "springboard": "^0.15.38",
+    "springboard": "^0.15.40",
     "ws": "^8.18.3"
   },
   "devDependencies": {

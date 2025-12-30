@@ -89,3 +89,8 @@ if (import.meta.hot) {
     await stop();
   });
 }
+
+// Auto-start in production builds (not in dev mode)
+if (!import.meta.env.DEV) {
+  start().catch(console.error);
+}

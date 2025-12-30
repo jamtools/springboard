@@ -223,6 +223,10 @@ export function springboard(options: SpringboardOptions): Plugin {
             ssr: true,
             rollupOptions: {
               input: NODE_ENTRY_FILE, // Physical file path
+              output: {
+                format: 'esm',
+                entryFileNames: 'node-entry.mjs',
+              },
               external: [
                 'better-sqlite3',
               ],
