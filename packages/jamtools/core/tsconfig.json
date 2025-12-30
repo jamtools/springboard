@@ -51,9 +51,9 @@
     "noUncheckedIndexedAccess": true,
     "jsx": "react-jsx",
     "types": ["node"],
-    // "paths": {
-    //   "@jamtools/core/*": ["./src/*"],
-    // },
+    "paths": {
+      "@jamtools/core/*": ["./src/*"],
+    },
   },
   "include": [
     "src/**/*.ts",
