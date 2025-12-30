@@ -1,9 +1,11 @@
 /**
- * Node Dev Server Entrypoint for Vite Dev Mode
+ * REFERENCE ONLY - Not used in production
  *
- * This is a PHYSICAL file (not virtual) that can be spawned as a background
- * process during Vite dev mode. It handles:
+ * This file is kept for reference. The actual dev server entry is now
+ * generated at .springboard/node-entry.js by the Springboard Vite plugin.
  *
+ * Historical Context:
+ * This was the original Node dev server entrypoint that handled:
  * 1. SQLite database initialization (async, ~100ms)
  * 2. Hono app creation with all routes
  * 3. HTTP server startup
@@ -11,15 +13,10 @@
  * 5. Springboard engine initialization
  * 6. Graceful shutdown handling
  *
- * Why this file exists:
- * - @hono/vite-dev-server requires a physical file, not a virtual module
- * - We spawn Node server separately (not through Vite middleware)
- * - Gives full control over initialization order and error handling
- *
- * Usage:
- *   npx tsx node-dev-server.ts
- *   # or with environment variables:
- *   PORT=3001 SQLITE_DATABASE_FILE=data/dev.db npx tsx node-dev-server.ts
+ * Current Architecture:
+ * The Springboard Vite plugin now generates .springboard/node-entry.js which
+ * imports from springboard/dist/platforms/node/entrypoints/node_server_entrypoint.js
+ * and runs it with `node --watch` for auto-restart.
  */
 
 import { serve } from '@hono/node-server';

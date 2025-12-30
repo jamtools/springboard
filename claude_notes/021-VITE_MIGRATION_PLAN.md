@@ -1,154 +1,89 @@
-# Vite Migration Plan: Use @hono/vite-dev-server
+# Vite Dev Server Migration Plan
 
 ## Overview
 
-Migrate from spawning separate Node.js process to using `@hono/vite-dev-server` for running the Hono server integrated with Vite dev server. This enables:
+Migrate from `http-proxy-middleware` to Vite's built-in proxy, and generate physical node entry files consistently with the browser pattern. This enables:
 
-- ✅ Single process (no spawning)
-- ✅ Single port (5173)
 - ✅ Both browser + server in one `vite dev` command
-- ✅ Vite-native architecture
-- ✅ No proxy middleware needed
-- ✅ Simpler plugin code
+- ✅ Vite-native proxy architecture
+- ✅ Node watch mode for auto-restart
+- ✅ Physical entry generation (consistent with browser)
+- ✅ No app-specific server files
+- ✅ WebSocket support maintained
 
-## Architecture Changes
+## Architecture
 
-### Current (Spawning)
+### Current
 ```
 Vite Process (5173)
   ↓ spawns
 Node Process (1337) running tsx node-dev-server.ts
   ↓ proxied via http-proxy-middleware
 Browser requests → Vite
-API requests → Node server via proxy
+API requests → Node server via http-proxy-middleware
 ```
 
-### Target (@hono/vite-dev-server)
+### Target
 ```
-Single Vite Process (5173)
+Vite Process (5173) + Node Process (1337)
   ├─ Vite dev server (HTML, JS, CSS)
-  └─ @hono/vite-dev-server
-     └─ Hono app from springboard/platforms/node/entrypoints/node_dev_entrypoint
+  │   ↓ proxies via Vite's server.proxy
+  └─ Node process running .springboard/node-entry.js
+     └─ Hono app from springboard/dist/platforms/node/entrypoints/node_server_entrypoint.js
         ├─ /rpc/* routes
         ├─ /kv/* routes
         └─ /ws WebSocket
 ```
 
+**Key Insight:** WebSocket doesn't work with `@hono/vite-dev-server` (see [issue #253](https://github.com/honojs/vite-plugins/issues/253)), so we keep separate processes but use Vite's native proxy.
+
 ## Tasks
 
-### Phase 1: Create Node Dev Entrypoint in Springboard
-
-**File:** `packages/springboard/src/platforms/node/entrypoints/node_dev_entrypoint.ts`
-
-**Purpose:** Generic entrypoint for dev mode that exports a Hono app (not starts a server)
-
-**Key Points:**
-- Use top-level await for async initialization (SQLite, etc.)
-- Export the Hono app as default
-- Use `@hono/node-ws` for WebSocket (not manual server injection)
-- No app-specific code - fully generic and reusable
-- Gets transpiled to `dist/platforms/node/entrypoints/node_dev_entrypoint.js`
-
-**Structure:**
-```typescript
-// Top-level await for async initialization
-const coreDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
-const { app, injectWebSocket, nodeAppDependencies } = initApp(coreDeps);
-const engine = await startNodeApp(nodeAppDependencies);
-
-// Export for @hono/vite-dev-server
-export default app;
-```
-
-**WebSocket Challenge:**
-- Current code uses `injectWebSocket(server)` which needs HTTP server instance
-- With `@hono/vite-dev-server`, we don't create the server - Vite does
-- **Solution:** Refactor to use `@hono/node-ws` middleware pattern instead
-
-**Dependencies to Add:**
-```json
-{
-  "dependencies": {
-    "@hono/node-ws": "^1.0.0"
-  }
-}
-```
-
----
-
-### Phase 2: Add Package Export
-
-**File:** `packages/springboard/package.json`
-
-**Add export entry:**
-```json
-"./platforms/node/entrypoints/node_dev_entrypoint": {
-  "types": "./dist/platforms/node/entrypoints/node_dev_entrypoint.d.ts",
-  "import": "./dist/platforms/node/entrypoints/node_dev_entrypoint.js"
-}
-```
-
----
-
-### Phase 3: Update Springboard Vite Plugin
+### Phase 1: Update Springboard Vite Plugin
 
 **File:** `test-apps/esbuild-legacy-test/springboard-vite-plugin.ts`
 
-#### Changes to Make:
+#### 1. Remove http-proxy-middleware
 
-**1. Add import at top:**
+**Delete import:**
 ```typescript
-import devServer from '@hono/vite-dev-server'
-```
-
-**2. Remove imports:**
-```typescript
-// DELETE:
-import { spawn, ChildProcess } from 'child_process';
 import { createProxyMiddleware, Options as ProxyOptions } from 'http-proxy-middleware';
 ```
 
-**3. Remove plugin option:**
-```typescript
-// DELETE from SpringboardPluginOptions:
-nodeServerPort?: number;
-```
+**Delete from `configureServer()` hook:**
+- Lines 312-376: All proxy middleware code
+- Lines 369-377: Manual WebSocket upgrade handling
 
-**4. Update `config()` hook:**
+#### 2. Add Vite's server.proxy config
 
-**BEFORE:** Either/or logic (web OR node)
-```typescript
-const buildPlatform = hasWeb ? 'web' : hasNode ? 'node' : null;
+**In `config()` hook, when `isDevMode && hasNode && hasWeb`:**
 
-if (buildPlatform === 'node') {
-  // Node config
-} else {
-  // Web config
-}
-```
-
-**AFTER:** Handle three cases
 ```typescript
 config(config, env) {
   isDevMode = env.command === 'serve';
 
-  // Case 1: Dev mode with BOTH platforms
+  // Dev mode with both platforms
   if (isDevMode && hasNode && hasWeb) {
+    const nodePort = options.nodeServerPort ?? 1337;
+
     return {
-      plugins: [
-        devServer({
-          entry: 'springboard/platforms/node/entrypoints/node_dev_entrypoint',
-          exclude: [
-            /^\/@.+$/,              // Vite internals
-            /.*\.(ts|tsx|vue)($|\?)/,  // Source files
-            /.*\.(s?css|less)($|\?)/,  // Styles
-            /^\/$/,                 // Root (let Vite serve index.html)
-            /^\/index.html/,        // Index HTML
-            /^\/src\//,             // Source directory
-            /^\/.springboard\//,    // Generated entries
-          ],
-        })
-      ],
+      server: {
+        proxy: {
+          '/rpc': {
+            target: `http://localhost:${nodePort}`,
+            changeOrigin: true,
+          },
+          '/kv': {
+            target: `http://localhost:${nodePort}`,
+            changeOrigin: true,
+          },
+          '/ws': {
+            target: `ws://localhost:${nodePort}`,
+            ws: true,
+            changeOrigin: true,
+          },
+        },
+      },
       build: {
         rollupOptions: {
           input: DEV_ENTRY_FILE,  // Browser entry
@@ -157,152 +92,98 @@ config(config, env) {
     };
   }
 
-  // Case 2: Node-only build (SSR)
-  if (buildPlatform === 'node') {
-    return {
-      build: {
-        ssr: true,
-        rollupOptions: {
-          input: NODE_ENTRY_FILE,
-          external: [/* ... */],
-        },
-      },
-    };
-  }
-
-  // Case 3: Web-only build
-  if (buildPlatform === 'web') {
-    const entryFile = isDevMode ? DEV_ENTRY_FILE : BUILD_ENTRY_FILE;
-    return {
-      build: {
-        rollupOptions: {
-          input: entryFile,
-        },
-      },
-    };
-  }
+  // Existing node-only and web-only cases remain
+  // ...
 }
 ```
 
-**5. Simplify `configureServer()` hook:**
+#### 3. Update node entry generation
 
-**DELETE lines 210-387:** All process spawning, proxy middleware, WebSocket upgrade handling
+**In `buildStart()` hook, for node platform:**
 
-**KEEP only:**
 ```typescript
-configureServer(server: ViteDevServer) {
-  return () => {
-    // Serve HTML for / and /index.html
-    server.middlewares.use((req, res, next) => {
-      if (req.url === '/' || req.url === '/index.html') {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
-        server.transformIndexHtml(req.url, generateHtml())
-          .then(transformed => res.end(transformed))
-          .catch(next);
-        return;
-      }
-      next();
-    });
+if (buildPlatform === 'node') {
+  const nodeEntryCode = `
+import initApp from 'springboard/dist/platforms/node/entrypoints/node_server_entrypoint.js';
 
-    // That's it! @hono/vite-dev-server handles:
-    // - Running the Hono app
-    // - Mounting /rpc, /kv, /ws routes
-    // - WebSocket upgrades
-    // - Process lifecycle
-  };
+// Note: User entry not needed - modules register in browser
+initApp();
+`;
+  writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
+  console.log('[springboard] Generated node entry file in .springboard/');
 }
 ```
 
-**6. Remove from `buildStart()` if needed:**
+#### 4. Update spawn command
 
-The node entry generation might not be needed anymore since we're pointing directly to springboard's entrypoint. Review and potentially remove the node-specific file generation.
+**In `configureServer()` hook, update spawn:**
+
+```typescript
+nodeProcess = spawn('node', ['--watch', NODE_ENTRY_FILE], {
+  cwd: __dirname,
+  env: {
+    ...process.env,
+    PORT: String(port),
+    NODE_ENV: 'development',
+  },
+  stdio: ['ignore', 'pipe', 'pipe'],
+});
+```
+
+**Change from:**
+- ❌ `spawn('npx', ['tsx', nodeServerPath], ...)`
+
+**Change to:**
+- ✅ `spawn('node', ['--watch', NODE_ENTRY_FILE], ...)`
 
 ---
 
-### Phase 4: Add @hono/vite-dev-server Dependency
+### Phase 2: Remove http-proxy-middleware Dependency
 
 **File:** `test-apps/esbuild-legacy-test/package.json`
 
 ```json
 {
   "devDependencies": {
-    "@hono/vite-dev-server": "^0.15.0"
-  }
-}
-```
-
-**Remove:**
-```json
-{
-  "devDependencies": {
-    "http-proxy-middleware": "^X.X.X"  // No longer needed
+    "http-proxy-middleware": "^X.X.X"  // DELETE this line
   }
 }
 ```
 
 ---
 
-### Phase 5: Delete Test App Node Server File
+### Phase 3: Keep node-dev-server.ts for Reference
 
-**File to DELETE:** `test-apps/esbuild-legacy-test/node-dev-server.ts`
+**File:** `test-apps/esbuild-legacy-test/node-dev-server.ts`
 
-**Reason:** No longer needed - using springboard's generic entrypoint instead
+**Action:** Keep this file as a reference but it will no longer be used. The plugin now generates `.springboard/node-entry.js` instead.
 
----
-
-### Phase 6: Update Environment Variable Handling
-
-**File:** `test-apps/esbuild-legacy-test/vite.config.ts`
-
-Add Vite's `define` config for `process.env` values:
-
+**Add comment at top:**
 ```typescript
-export default defineConfig({
-  plugins: [
-    springboard({ entry: './src/tic_tac_toe.tsx' })
-  ],
-  define: {
-    'process.env.DEBUG_LOG_PERFORMANCE': JSON.stringify(
-      process.env.DEBUG_LOG_PERFORMANCE === 'true'
-    ),
-    'process.env.NODE_ENV': JSON.stringify(
-      process.env.NODE_ENV || 'development'
-    ),
-  }
-})
-```
-
-**Alternative:** Install `vite-plugin-environment` for quick/dirty fix:
-```typescript
-import EnvironmentPlugin from 'vite-plugin-environment'
-
-export default defineConfig({
-  plugins: [
-    springboard({ entry: './src/tic_tac_toe.tsx' }),
-    EnvironmentPlugin({
-      DEBUG_LOG_PERFORMANCE: process.env.DEBUG_LOG_PERFORMANCE || 'false',
-      NODE_ENV: process.env.NODE_ENV || 'development',
-    })
-  ]
-})
+/**
+ * REFERENCE ONLY - Not used in production
+ *
+ * This file is kept for reference. The actual dev server entry is now
+ * generated at .springboard/node-entry.js by the Springboard Vite plugin.
+ */
 ```
 
 ---
 
-### Phase 7: Clean Up Node Entrypoints
+### Phase 4: Publish and Test
 
-**Directory:** `packages/springboard/src/platforms/node/entrypoints/`
+Run the publish workflow to test:
 
-**Current files:**
-- `node_flexible_entrypoint.ts` - Review if still needed
-- `node_server_entrypoint.ts` - Keep for production builds
-- `node_dev_entrypoint.ts` - NEW (create in Phase 1)
+```bash
+cd test-apps/esbuild-legacy-test
+./scripts/test-publish-workflow.sh
+```
 
-**Actions:**
-- Review and potentially remove `node_flexible_entrypoint` if unused
-- Keep `node_server_entrypoint` for production
-- Ensure only necessary entrypoints are exported in package.json
+This will:
+1. Build TypeScript (already configured in script)
+2. Publish to Verdaccio
+3. Update test app dependencies
+4. Test the build
 
 ---
 
@@ -317,12 +198,12 @@ SPRINGBOARD_PLATFORM=node,web vite dev
 
 **Expected:**
 - ✅ Vite starts on port 5173
+- ✅ Node server starts on port 1337 (separate process)
 - ✅ Browser app loads at http://localhost:5173
-- ✅ Hono server initializes (SQLite, etc.)
-- ✅ `/rpc/*` routes work
-- ✅ `/kv/*` routes work
-- ✅ WebSocket at `/ws` works
-- ✅ Single process, single port
+- ✅ Node server auto-restarts on `.springboard/node-entry.js` changes
+- ✅ `/rpc/*` routes work (proxied via Vite)
+- ✅ `/kv/*` routes work (proxied via Vite)
+- ✅ WebSocket at `/ws` works (proxied via Vite)
 - ✅ No proxy errors
 
 ### Test 2: Dev Mode Web Only
@@ -333,7 +214,7 @@ SPRINGBOARD_PLATFORM=web vite dev
 
 **Expected:**
 - ✅ Only browser app runs
-- ✅ No Hono server initialized
+- ✅ No node server spawned
 - ✅ Mock RPC/KV used (offline mode)
 
 ### Test 3: Build Mode
@@ -357,85 +238,48 @@ SPRINGBOARD_PLATFORM=node vite build
 
 ---
 
-## Migration Risks & Mitigation
+## Key Differences from Original Plan
 
-### Risk 1: WebSocket Not Working
+**What Changed:**
+- ❌ Not using `@hono/vite-dev-server` (WebSocket incompatibility)
+- ✅ Using Vite's built-in `server.proxy` instead
+- ✅ Keeping separate processes (better error isolation)
+- ✅ Using `node --watch` for auto-restart (native Node.js)
+- ✅ Generating `.springboard/node-entry.js` (consistent with browser)
 
-**Issue:** `@hono/vite-dev-server` might not support WebSocket upgrades properly
-
-**Mitigation:**
-- Test WebSocket connection after migration
-- If broken, document that WS only works in production builds
-- Or refactor to use `@hono/node-ws` middleware pattern
-
-### Risk 2: SQLite Initialization Timing
-
-**Issue:** Top-level await might cause issues with Vite's module loading
-
-**Mitigation:**
-- Test thoroughly
-- If issues occur, wrap in lazy initialization function
-- Consider using a factory pattern instead of top-level await
-
-### Risk 3: Route Conflicts
-
-**Issue:** Hono routes might conflict with Vite routes
-
-**Mitigation:**
-- Use comprehensive `exclude` patterns in `@hono/vite-dev-server` config
-- Test all route paths (`/`, `/src/`, `/rpc/`, etc.)
-- Ensure Vite serves static assets and Hono serves API routes
-
-### Risk 4: Error Isolation
-
-**Issue:** Server crash would kill entire dev server (unlike separate process)
-
-**Mitigation:**
-- Add better error handling in node_dev_entrypoint
-- Consider try/catch around initialization
-- Document that server errors require full restart
-
----
-
-## Rollback Plan
-
-If migration fails, revert by:
-
-1. Restore `node-dev-server.ts`
-2. Restore process spawning code in plugin
-3. Restore `http-proxy-middleware` dependency
-4. Remove `@hono/vite-dev-server` dependency
-5. Revert plugin `config()` and `configureServer()` changes
-
-Git commits should be atomic for each phase to enable easy rollback.
+**What Stayed:**
+- ✅ Single `vite dev` command for both platforms
+- ✅ Physical entry files (consistent architecture)
+- ✅ Generic entrypoints in springboard package
+- ✅ WebSocket support maintained
 
 ---
 
 ## Success Criteria
 
 ✅ Single `vite dev` command runs both browser + server
-✅ No separate process spawning
-✅ No proxy middleware
+✅ Use Vite's native `server.proxy` (no http-proxy-middleware)
+✅ Physical node entry generated in `.springboard/`
 ✅ All routes work (`/`, `/rpc/*`, `/kv/*`, `/ws`)
 ✅ React dependency optimization working (no CommonJS errors)
 ✅ WebSocket connections work
-✅ ~200 lines of code removed from plugin
-✅ Test app has no `node-dev-server.ts` file
+✅ Node server auto-restarts on changes (`node --watch`)
 ✅ Architecture consistent between browser and node
 
 ---
 
 ## Timeline Estimate
 
-- **Phase 1-2:** Create node_dev_entrypoint (2-3 hours)
-  - Includes WebSocket refactoring to `@hono/node-ws`
-- **Phase 3:** Update plugin (1-2 hours)
-- **Phase 4-5:** Dependencies and cleanup (30 min)
-- **Phase 6:** Environment variables (30 min)
-- **Phase 7:** Clean up entrypoints (1 hour)
-- **Testing:** Comprehensive testing (2-3 hours)
+- **Phase 1:** Update plugin (1-2 hours)
+  - Remove http-proxy-middleware
+  - Add Vite's server.proxy
+  - Update node entry generation
+  - Update spawn command
+- **Phase 2:** Remove dependency (5 min)
+- **Phase 3:** Update node-dev-server.ts comment (5 min)
+- **Phase 4:** Publish and test (30 min)
 
-**Total:** ~8-12 hours
+**Total:** ~2-3 hours
 
 ---
 
@@ -443,6 +287,6 @@ Git commits should be atomic for each phase to enable easy rollback.
 
 - The browser entry generation (`.springboard/dev-entry.js`) stays the same
 - The transpilation to `dist/` is already working
-- package.json exports are already updated
-- This migration is about **runtime architecture**, not build configuration
-- The key insight: node entrypoint should be in springboard package, not test app
+- package.json exports are already updated to point to `dist/`
+- This migration is about **dev server runtime**, not build configuration
+- Node entrypoint lives in springboard package at `dist/platforms/node/entrypoints/node_server_entrypoint.js`

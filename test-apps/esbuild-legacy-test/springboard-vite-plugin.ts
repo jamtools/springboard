@@ -8,7 +8,6 @@
 import { Plugin, ViteDevServer } from 'vite';
 import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
-import { createProxyMiddleware, Options as ProxyOptions } from 'http-proxy-middleware';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 
@@ -129,11 +128,49 @@ initApp();
         console.log('[springboard] Generated web entry files in .springboard/');
       } else if (buildPlatform === 'node') {
         // Generate node entry file
+        // Note: User entry not needed - modules register in browser
         const nodeEntryCode = `
-import initApp from 'springboard/platforms/node/entrypoints/node_server_entrypoint';
-import '${relativeEntryPath}';
+import { serve } from '@hono/node-server';
+import { initApp, makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/server';
+import { startNodeApp } from 'springboard/platforms/node';
 
-initApp();
+// Self-contained Node.js server entrypoint
+(async () => {
+  try {
+    const coreDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
+    const { app, injectWebSocket, nodeAppDependencies } = initApp(coreDeps);
+    const port = parseInt(process.env.PORT || '1337', 10);
+
+    const server = serve({
+      fetch: app.fetch,
+      port,
+    }, (info) => {
+      console.log(\`Server listening on http://localhost:\${info.port}\`);
+    });
+
+    injectWebSocket(server);
+    await startNodeApp(nodeAppDependencies);
+    console.log('Node application started successfully');
+
+    // Graceful shutdown
+    let isShuttingDown = false;
+    const shutdown = () => {
+      if (isShuttingDown) return;
+      isShuttingDown = true;
+      console.log('Received shutdown signal, closing server...');
+      server.close(() => {
+        console.log('Server closed successfully');
+        process.exit(0);
+      });
+    };
+
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
+  } catch (error) {
+    console.error('Failed to start node server:', error);
+    process.exit(1);
+  }
+})();
 `;
         writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
 
@@ -144,6 +181,36 @@ initApp();
     config(config, env) {
       // Set dev mode flag based on Vite's command
       isDevMode = env.command === 'serve';
+
+      // Dev mode with both platforms - configure Vite proxy
+      if (isDevMode && hasNode && hasWeb) {
+        const nodePort = options.nodeServerPort ?? 1337;
+
+        return {
+          server: {
+            proxy: {
+              '/rpc': {
+                target: `http://localhost:${nodePort}`,
+                changeOrigin: true,
+              },
+              '/kv': {
+                target: `http://localhost:${nodePort}`,
+                changeOrigin: true,
+              },
+              '/ws': {
+                target: `ws://localhost:${nodePort}`,
+                ws: true,
+                changeOrigin: true,
+              },
+            },
+          },
+          build: {
+            rollupOptions: {
+              input: DEV_ENTRY_FILE,  // Browser entry
+            }
+          }
+        };
+      }
 
       // Determine which platform to build based on SPRINGBOARD_PLATFORM
       const buildPlatform = hasWeb ? 'web' : hasNode ? 'node' : null;
@@ -207,6 +274,11 @@ initApp();
           return;
         }
 
+      // Note: We're using node-dev-server.ts temporarily due to transpilation issues
+      // The generated node entry approach doesn't work because springboard's transpiled
+      // dist files have relative imports without .js extensions, which Node ESM requires
+
+
       const port = options.nodeServerPort ?? 1337;
       let nodeProcess: ChildProcess | null = null;
       let isShuttingDown = false;
@@ -223,7 +295,7 @@ initApp();
         console.log(`[springboard]   Path: ${nodeServerPath}`);
         console.log(`[springboard]   Port: ${port}`);
 
-        nodeProcess = spawn('npx', ['tsx', nodeServerPath], {
+        nodeProcess = spawn('npx', ['tsx', 'watch', nodeServerPath], {
           cwd: __dirname,
           env: {
             ...process.env,
@@ -308,73 +380,10 @@ initApp();
       // Start the node server when Vite dev server starts
       startNodeServer();
 
-      // Configure proxy middleware to forward API requests to node server
-      const nodeServerTarget = `http://localhost:${port}`;
-
-      // Common proxy options for logging and error handling
-      const createProxyOptions = (pathName: string): ProxyOptions => ({
-        target: nodeServerTarget,
-        changeOrigin: true,
-        on: {
-          proxyReq: (proxyReq, req) => {
-            console.log(`[proxy] ${req.method} ${req.url} -> ${nodeServerTarget}${req.url}`);
-          },
-          proxyRes: (proxyRes, req) => {
-            console.log(`[proxy] ${req.method} ${req.url} <- ${proxyRes.statusCode}`);
-          },
-          error: (err, req, res) => {
-            console.error(`[proxy] Error proxying ${req.url}:`, err.message);
-            // Only send error response if res is a ServerResponse and headers not sent
-            if (res && 'writeHead' in res && !res.headersSent) {
-              (res as import('http').ServerResponse).writeHead(502, { 'Content-Type': 'application/json' });
-              (res as import('http').ServerResponse).end(JSON.stringify({
-                error: 'Proxy Error',
-                message: `Failed to connect to node server at ${nodeServerTarget}`,
-                details: err.message,
-              }));
-            }
-          },
-        },
-      });
-
-      // WebSocket proxy options for /ws route
-      const wsProxyOptions: ProxyOptions = {
-        ...createProxyOptions('/ws'),
-        ws: true,
-        on: {
-          ...createProxyOptions('/ws').on,
-          proxyReqWs: (proxyReq, req, socket) => {
-            console.log(`[proxy] WebSocket upgrade: ${req.url} -> ${nodeServerTarget}${req.url}`);
-          },
-        },
-      };
-
-      // Create proxy middleware instances
-      const rpcProxy = createProxyMiddleware(createProxyOptions('/rpc'));
-      const kvProxy = createProxyMiddleware(createProxyOptions('/kv'));
-      const wsProxy = createProxyMiddleware(wsProxyOptions);
-
-      // Add proxy middleware to Vite's connect server
-      // Order matters: more specific routes first
-      server.middlewares.use('/rpc', rpcProxy);
-      server.middlewares.use('/kv', kvProxy);
-      server.middlewares.use('/ws', wsProxy);
-
-      console.log('[springboard] Proxy configured:');
-      console.log(`[springboard]   /rpc/* -> ${nodeServerTarget}/rpc/*`);
-      console.log(`[springboard]   /kv/*  -> ${nodeServerTarget}/kv/*`);
-      console.log(`[springboard]   /ws    -> ${nodeServerTarget}/ws (WebSocket)`);
-
-      // Handle WebSocket upgrade requests
-      // Vite's httpServer needs to forward upgrade requests to our proxy
-      server.httpServer?.on('upgrade', (req, socket, head) => {
-        if (req.url?.startsWith('/ws')) {
-          console.log(`[proxy] WebSocket upgrade request: ${req.url}`);
-          // The wsProxy middleware handles the upgrade via the 'ws: true' option
-          // We need to manually trigger the upgrade since it's not going through middlewares
-          (wsProxy as unknown as { upgrade: (req: import('http').IncomingMessage, socket: import('net').Socket, head: Buffer) => void }).upgrade(req, socket, head);
-        }
-      });
+      console.log('[springboard] Vite proxy configured via server.proxy:');
+      console.log(`[springboard]   /rpc/* -> http://localhost:${port}/rpc/*`);
+      console.log(`[springboard]   /kv/*  -> http://localhost:${port}/kv/*`);
+      console.log(`[springboard]   /ws    -> ws://localhost:${port}/ws (WebSocket)`);
 
       // Clean up when Vite dev server closes
       server.httpServer?.on('close', () => {
