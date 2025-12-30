@@ -34,9 +34,9 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "vite": "7.3.0"
+    "vite": "catalog:"
   },
   "peerDependencies": {
-    "vite": "7.3.0"
+    "vite": "catalog:"
   }
 }

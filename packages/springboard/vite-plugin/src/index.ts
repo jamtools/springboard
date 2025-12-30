@@ -52,7 +52,7 @@ export type SpringboardOptions = {
   platforms?: Array<'node' | 'browser' | 'web'>;
 };
 
-export function springboard(options: SpringboardOptions): Plugin & { applyToEnvironment?: (environment: unknown) => boolean } {
+export function springboard(options: SpringboardOptions): Plugin {
   // Parse platforms from options or env var
   const platformsFromOptions = options.platforms || [];
   const platformsEnv = process.env.SPRINGBOARD_PLATFORM || '';
@@ -128,9 +128,10 @@ export function springboard(options: SpringboardOptions): Plugin & { applyToEnvi
   return {
     name: 'springboard',
 
-    applyToEnvironment(environment: unknown) {
+    applyToEnvironment(environment) {
       // Apply to all environments (we'll check which one in transform hook)
-      console.log('[springboard] applyToEnvironment called:', environment);
+      const envName = 'name' in environment ? (environment as { name: string }).name : 'unknown';
+      console.log('[springboard] applyToEnvironment called for environment:', envName);
       return true;
     },
 
