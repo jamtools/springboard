@@ -1,5 +1,4 @@
-/// <reference types="@jamtools/core" />
-import { MacroModule } from '@jamtools/core/modules/macro_module/macro_module';
+import '@jamtools/core/modules/macro_module/macro_module';
 
 import React from 'react';
 
@@ -44,7 +43,8 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
         );
     });
 
-    const macroModule: MacroModule = await moduleAPI.getModule('macro');
+    const macroModule = moduleAPI.getModule('macro');
+
     const {input, output} = await macroModule.createMacros(moduleAPI, {
         input: {type: 'musical_keyboard_input', config: {}},
         output: {type: 'musical_keyboard_output', config: {}},

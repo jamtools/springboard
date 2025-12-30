@@ -1,5 +1,5 @@
 import {SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
-import {ExtraModuleDependencies, Module, NavigationItemConfig, RegisteredRoute} from '../module_registry/module_registry';
+import {ExtraModuleDependencies, Module, ModuleRegistry, NavigationItemConfig, RegisteredRoute} from '../module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
 import {RegisterRouteOptions} from './register';
 
@@ -68,7 +68,7 @@ export class ModuleAPI {
     */
     public readonly statesAPI: StatesAPI;
 
-    public readonly getModule: typeof this.modDeps.moduleRegistry.getModule;
+    public readonly getModule: ModuleRegistry['getModule'];
 
     /**
      * Register a route with the application's React Router. More info in [registering UI routes](/springboard/registering-ui).
