@@ -29,6 +29,10 @@
       "types": "./src/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.tsx",
       "import": "./src/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.tsx"
     },
+    "./modules/macro_module/macro_module": {
+      "types": "./src/modules/macro_module/macro_module.tsx",
+      "import": "./src/modules/macro_module/macro_module.tsx"
+    },
     "./modules/macro_module/macro_module_types": {
       "types": "./src/modules/macro_module/macro_module_types.ts",
       "import": "./src/modules/macro_module/macro_module_types.ts"
