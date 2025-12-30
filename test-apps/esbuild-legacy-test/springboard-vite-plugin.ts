@@ -172,6 +172,7 @@ initApp();
           },
           ssr: {
             // External dependencies for SSR (node modules that shouldn't be bundled)
+            noExternal: ['springboard'],
             external: [
               'better-sqlite3',
               // '@hono/node-server',
