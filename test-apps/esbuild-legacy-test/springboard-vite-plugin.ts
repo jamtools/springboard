@@ -262,6 +262,7 @@ initApp();
 
       const port = options.nodeServerPort ?? 1337;
       let runner: ModuleRunner | null = null;
+      let nodeEntryModule: { start?: () => Promise<void>; stop?: () => Promise<void> } | null = null;
 
       // Start the node server using Vite 6+ ModuleRunner API
       const startNodeServer = async () => {
@@ -270,11 +271,11 @@ initApp();
           runner = createServerModuleRunner(server.environments.ssr);
 
           // Load and execute the node entry module
-          const nodeEntry = await runner.import(NODE_ENTRY_FILE);
+          nodeEntryModule = await runner.import(NODE_ENTRY_FILE);
 
           // Call the exported start() function
-          if (typeof nodeEntry.start === 'function') {
-            await nodeEntry.start();
+          if (typeof nodeEntryModule.start === 'function') {
+            await nodeEntryModule.start();
             console.log('[springboard] Node server started via ModuleRunner');
           } else {
             console.error('[springboard] Node entry does not export a start() function');
@@ -290,15 +291,15 @@ initApp();
             // First, manually call stop() on the node entry module to close the HTTP server
             // This is necessary because when Vite restarts (e.g., config change),
             // the HMR dispose handler doesn't get called
-            const nodeEntry = runner.moduleCache.get(NODE_ENTRY_FILE);
-            if (nodeEntry?.exports?.stop && typeof nodeEntry.exports.stop === 'function') {
-              await nodeEntry.exports.stop();
+            if (nodeEntryModule?.stop && typeof nodeEntryModule.stop === 'function') {
+              await nodeEntryModule.stop();
               console.log('[springboard] Node server stopped manually');
             }
 
             // Then close the runner (renamed from destroy() in Vite 6+)
             runner.close();
             runner = null;
+            nodeEntryModule = null;
             console.log('[springboard] Node server runner closed');
           } catch (err) {
             console.error('[springboard] Failed to stop node server:', err);
