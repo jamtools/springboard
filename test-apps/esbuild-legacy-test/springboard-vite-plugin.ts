@@ -131,9 +131,9 @@ initApp();
 
         console.log('[springboard] Generated web entry files in .springboard/');
       } else if (buildPlatform === 'node') {
-        // Generate node entry file
-        // Note: User entry not needed - modules register in browser
-        writeFileSync(NODE_ENTRY_FILE, nodeEntryTemplate, 'utf-8');
+        // Generate node entry file with user entry injected
+        const nodeEntryCode = nodeEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
+        writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
 
         console.log('[springboard] Generated node entry file in .springboard/');
       }
@@ -240,7 +240,14 @@ initApp();
         mkdirSync(SPRINGBOARD_DIR, { recursive: true });
       }
 
-      writeFileSync(NODE_ENTRY_FILE, nodeEntryTemplate, 'utf-8');
+      // Calculate the correct import path from .springboard/ to the user's entry file
+      const absoluteEntryPath = path.isAbsolute(options.entry)
+        ? options.entry
+        : path.resolve(__dirname, options.entry);
+      const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
+
+      const nodeEntryCode = nodeEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
+      writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
       console.log('[springboard] Generated node entry file for dev mode');
 
       const port = options.nodeServerPort ?? 1337;
