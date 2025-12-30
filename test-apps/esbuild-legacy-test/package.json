@@ -35,7 +35,7 @@
     "http-proxy-middleware": "^3.0.5",
     "immer": "^11.1.0",
     "rxjs": "^7.8.2",
-    "springboard": "0.15.8",
+    "springboard": "0.15.9",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0"

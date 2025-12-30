@@ -61,8 +61,8 @@ importers:
         specifier: ^7.8.2
         version: 7.8.2
       springboard:
-        specifier: 0.15.8
-        version: 0.15.8(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0))
+        specifier: 0.15.9
+        version: 0.15.9(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0))
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -660,8 +660,8 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  springboard@0.15.8:
-    resolution: {integrity: sha512-vo99p6RpcSTA0xUGAx7gLfwXjEA/Cw7m75+pkXSuajSihTtCFsVAaPUhkJZ2O3gv5zWYm05WS8uxIz4912xdjQ==}
+  springboard@0.15.9:
+    resolution: {integrity: sha512-/0DIlpcBSi2TZZ92n96HcAOqGC2fblfSahBf+w992rf0RZ/BgzJpTQWcvI6s8+vhi/1N2jn/JfWWKI0fpFkcFg==}
     peerDependencies:
       '@tauri-apps/api': ^2.9.0
       '@tauri-apps/plugin-shell': ^2.3.3
@@ -1278,7 +1278,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  springboard@0.15.8(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)):
+  springboard@0.15.9(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)):
     dependencies:
       dexie: 4.2.1
       json-rpc-2.0: 1.7.1
