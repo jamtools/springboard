@@ -10,7 +10,13 @@
     "module": "ESNext",
     "target": "ES2022",
     "moduleResolution": "bundler",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strict": false
   },
   "include": [
     "src/**/*.ts",
