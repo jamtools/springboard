@@ -45,6 +45,47 @@ export default function springboard(options: SpringboardPluginOptions): Plugin {
   const VIRTUAL_ENTRY_ID = 'virtual:springboard-entry';
   const RESOLVED_VIRTUAL_ENTRY_ID = '\0' + VIRTUAL_ENTRY_ID;
 
+  // Generate HTML for dev and build modes
+  const generateHtml = (): string => {
+    const meta = options.documentMeta || {};
+    const title = meta.title || 'Springboard App';
+    const description = meta.description || '';
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    ${description ? `<meta name="description" content="${description}">` : ''}
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+      }
+      #root:empty::before {
+        content: 'Loading...';
+        display: block;
+        text-align: center;
+        padding: 40px;
+        font-family: system-ui, sans-serif;
+        color: #718096;
+      }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/@id/__x00__virtual:springboard-entry"></script>
+</body>
+</html>`;
+  };
+
   // Generate virtual entry module code
   const generateEntryCode = (platform: 'node' | 'web', isDev: boolean): string => {
     if (platform === 'web') {
@@ -185,11 +226,27 @@ initApp();
     },
 
     configureServer(server: ViteDevServer) {
-      // Only spawn node server if hasNode is true (dev mode only - build mode never reaches this hook)
-      if (!hasNode) {
-        console.log('[springboard] Web-only mode - not spawning node server');
-        return;
-      }
+      // First, add HTML serving middleware
+      return () => {
+        // Serve HTML for / and /index.html
+        server.middlewares.use((req, res, next) => {
+          if (req.url === '/' || req.url === '/index.html') {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            // Let Vite transform the HTML (for HMR injection)
+            server.transformIndexHtml(req.url, generateHtml()).then(transformed => {
+              res.end(transformed);
+            }).catch(next);
+            return;
+          }
+          next();
+        });
+
+        // Only spawn node server if hasNode is true
+        if (!hasNode) {
+          console.log('[springboard] Web-only mode - not spawning node server');
+          return;
+        }
 
       const port = options.nodeServerPort ?? 1337;
       let nodeProcess: ChildProcess | null = null;
@@ -368,6 +425,12 @@ initApp();
       // Note: We DON'T add our own SIGINT/SIGTERM handlers here
       // because Vite already handles those and will trigger the 'close' event
       // Adding our own handlers would interfere with Vite's shutdown process
+      };
+    },
+
+    transformIndexHtml() {
+      // For build mode, return the HTML so Vite can inject the fingerprinted script
+      return generateHtml();
     },
   };
 }
