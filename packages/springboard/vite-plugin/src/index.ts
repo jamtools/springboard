@@ -130,6 +130,7 @@ export function springboard(options: SpringboardOptions): Plugin & { applyToEnvi
 
     applyToEnvironment(environment: unknown) {
       // Apply to all environments (we'll check which one in transform hook)
+      console.log('[springboard] applyToEnvironment called:', environment);
       return true;
     },
 
@@ -362,6 +363,11 @@ export function springboard(options: SpringboardOptions): Plugin & { applyToEnvi
     },
 
     transform(code: string, id: string) {
+      // Debug: Log that transform was called
+      if (id.includes('tic_tac_toe')) {
+        console.log(`[springboard] Transform called for: ${id}`);
+      }
+
       // Determine target platform based on the current environment
       // Vite has 'client' and 'ssr' environments by default
       // @ts-ignore - this.environment is available in Vite 6+
