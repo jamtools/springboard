@@ -52,7 +52,7 @@ export type SpringboardOptions = {
   platforms?: Array<'node' | 'browser' | 'web'>;
 };
 
-export function springboard(options: SpringboardOptions): Plugin {
+export function springboard(options: SpringboardOptions): Plugin & { applyToEnvironment?: (environment: unknown) => boolean } {
   // Parse platforms from options or env var
   const platformsFromOptions = options.platforms || [];
   const platformsEnv = process.env.SPRINGBOARD_PLATFORM || '';
@@ -127,6 +127,11 @@ export function springboard(options: SpringboardOptions): Plugin {
 
   return {
     name: 'springboard',
+
+    applyToEnvironment(environment: unknown) {
+      // Apply to all environments (we'll check which one in transform hook)
+      return true;
+    },
 
     buildStart() {
       // Create .springboard directory if it doesn't exist
@@ -357,11 +362,15 @@ export function springboard(options: SpringboardOptions): Plugin {
     },
 
     transform(code: string, id: string) {
-      // Determine target platform for transformation
-      const buildPlatform = hasWeb ? 'browser' : hasNode ? 'node' : null;
-      if (!buildPlatform) {
-        return null;
-      }
+      // Determine target platform based on the current environment
+      // Vite has 'client' and 'ssr' environments by default
+      // @ts-ignore - this.environment is available in Vite 6+
+      const environmentName = this.environment?.name || 'client';
+
+      // Map environment name to platform
+      // 'client' environment = browser code
+      // 'ssr' environment = node code
+      const buildPlatform = environmentName === 'ssr' ? 'node' : 'browser';
 
       // Apply platform transform (all logic is in platform-inject.ts)
       return applyPlatformTransform(code, id, buildPlatform);
