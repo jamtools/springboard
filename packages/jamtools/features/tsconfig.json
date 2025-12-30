@@ -22,7 +22,7 @@
     // "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "jsx": "react-jsx",
-    "types": ["node"],
+    "types": ["node", "@jamtools/core"],  // Explicitly include @jamtools/core to load module augmentations
     // "paths": {
     //   "@jamtools/features/*": ["./src/*"],
     // },

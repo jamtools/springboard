@@ -2,6 +2,8 @@
   "name": "@jamtools/core",
   "version": "0.15.3",
   "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "test": "vitest --run",
@@ -11,6 +13,10 @@
     "fix": "npm run lint -- --fix"
   },
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./constants/midi_number_to_note_name_mappings": {
       "types": "./dist/constants/midi_number_to_note_name_mappings.d.ts",
       "import": "./dist/constants/midi_number_to_note_name_mappings.js"

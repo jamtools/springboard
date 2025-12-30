@@ -5,6 +5,7 @@ import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote} from './root_mod
 import {RootModeComponent} from './root_mode_component';
 import springboard from 'springboard';
 
+import '@jamtools/core';  // Load package type definitions including module augmentations
 import '@jamtools/core/modules/macro_module/macro_module';
 
 type ChordState = {
