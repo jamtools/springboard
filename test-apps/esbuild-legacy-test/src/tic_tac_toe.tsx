@@ -2,7 +2,7 @@ import React from 'react';
 
 import springboard from 'springboard';
 
-console.log('hi mom 2')
+console.log('hi mom 4')
 
 import './tic_tac_toe.css';
 
