@@ -32,7 +32,7 @@
     "outDir": "./dist",
     // "composite": true,
     "declaration": true,
-    "declarationMap": true,
+    // "declarationMap": true,
     "baseUrl": ".",
     "target": "ES2022",
     "module": "ESNext",
