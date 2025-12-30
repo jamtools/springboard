@@ -372,6 +372,12 @@ export function springboard(options: SpringboardOptions): Plugin & { applyToEnvi
       // 'ssr' environment = node code
       const buildPlatform = environmentName === 'ssr' ? 'node' : 'browser';
 
+      // Debug logging
+      if (code.includes('// @platform')) {
+        console.log(`[springboard] Transform detected @platform in ${id}`);
+        console.log(`[springboard] Environment: ${environmentName}, Platform: ${buildPlatform}`);
+      }
+
       // Apply platform transform (all logic is in platform-inject.ts)
       return applyPlatformTransform(code, id, buildPlatform);
     },

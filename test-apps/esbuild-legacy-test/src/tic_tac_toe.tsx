@@ -4,6 +4,15 @@ import springboard from 'springboard';
 
 console.log('hi mom 8')
 
+// @platform "node"
+console.log('only in node');
+// @platform end
+
+// @platform "browser"
+console.log('only in browser');
+// @platform end
+
+
 import './tic_tac_toe.css';
 
 type Cell = 'X' | 'O' | null;

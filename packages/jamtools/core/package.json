@@ -1,6 +1,6 @@
 {
   "name": "@jamtools/core",
-  "version": "0.15.5",
+  "version": "0.15.6",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
