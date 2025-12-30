@@ -44,20 +44,9 @@ import '__USER_ENTRY__';
     await startNodeApp(nodeAppDependencies);
     console.log('Node application started successfully');
 
-    // Set up graceful shutdown handlers
-    let isShuttingDown = false;
-    const shutdown = () => {
-      if (isShuttingDown) return;
-      isShuttingDown = true;
-      console.log('Received shutdown signal, closing server...');
-      server.close(() => {
-        console.log('Server closed successfully');
-        process.exit(0);
-      });
-    };
-
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
+    // Note: We don't set up SIGINT/SIGTERM handlers here because this code
+    // runs inside the Vite dev server process. Vite handles shutdown signals
+    // and will clean up when the process exits.
   } catch (error) {
     console.error('Failed to start node server:', error);
     process.exit(1);

@@ -2,6 +2,8 @@ import React from 'react';
 
 import springboard from 'springboard';
 
+console.log('hi mom')
+
 import './tic_tac_toe.css';
 
 type Cell = 'X' | 'O' | null;
