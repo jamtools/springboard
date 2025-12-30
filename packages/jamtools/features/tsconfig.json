@@ -21,7 +21,7 @@
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "jsx": "react-jsx",
+    "jsx": "react-native",
     // "types": ["node"],  // Removed to allow TypeScript to auto-discover all package types including module augmentations
     // "paths": {
     //   "@jamtools/features/*": ["./src/*"],

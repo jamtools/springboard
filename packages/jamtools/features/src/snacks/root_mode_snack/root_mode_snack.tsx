@@ -1,11 +1,11 @@
-import '@jamtools/core/modules/macro_module/macro_module';
-
 import React from 'react';
 
 import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote} from './root_mode_types';
 
 import {RootModeComponent} from './root_mode_component';
 import springboard from 'springboard';
+
+import '@jamtools/core/modules/macro_module/macro_module';
 
 type ChordState = {
     chord: ScaleDegreeInfo | null;
