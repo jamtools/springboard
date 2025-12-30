@@ -46,7 +46,7 @@ export default function springboard(options: SpringboardPluginOptions): Plugin {
   const SPRINGBOARD_DIR = path.resolve(__dirname, '.springboard');
   const DEV_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'dev-entry.js');
   const BUILD_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'build-entry.js');
-  const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.js');
+  const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.ts');
 
   // Load HTML template
   const htmlTemplate = readFileSync(
