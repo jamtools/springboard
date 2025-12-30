@@ -105,6 +105,34 @@
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
     },
+    "./engine/engine": {
+      "types": "./dist/core/engine/engine.d.ts",
+      "import": "./dist/core/engine/engine.js"
+    },
+    "./engine/module_api": {
+      "types": "./dist/core/engine/module_api.d.ts",
+      "import": "./dist/core/engine/module_api.js"
+    },
+    "./module_registry/module_registry": {
+      "types": "./dist/core/module_registry/module_registry.d.ts",
+      "import": "./dist/core/module_registry/module_registry.js"
+    },
+    "./modules/base_module/base_module": {
+      "types": "./dist/core/modules/base_module/base_module.d.ts",
+      "import": "./dist/core/modules/base_module/base_module.js"
+    },
+    "./services/states/shared_state_service": {
+      "types": "./dist/core/services/states/shared_state_service.d.ts",
+      "import": "./dist/core/services/states/shared_state_service.js"
+    },
+    "./test/mock_core_dependencies": {
+      "types": "./dist/core/test/mock_core_dependencies.d.ts",
+      "import": "./dist/core/test/mock_core_dependencies.js"
+    },
+    "./types/module_types": {
+      "types": "./dist/core/types/module_types.d.ts",
+      "import": "./dist/core/types/module_types.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
