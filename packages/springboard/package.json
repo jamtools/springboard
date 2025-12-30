@@ -1,136 +1,136 @@
 {
   "name": "springboard",
-  "version": "0.15.9",
+  "version": "0.15.10",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./core": {
-      "types": "./src/core/index.ts",
-      "import": "./src/core/index.ts"
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
     },
     "./server": {
-      "types": "./src/server/index.ts",
-      "import": "./src/server/index.ts"
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js"
     },
     "./platforms/browser": {
-      "types": "./src/platforms/browser/index.ts",
-      "import": "./src/platforms/browser/index.ts"
+      "types": "./dist/platforms/browser/index.d.ts",
+      "import": "./dist/platforms/browser/index.js"
     },
     "./platforms/browser/entrypoints/online_entrypoint": {
-      "types": "./src/platforms/browser/entrypoints/online_entrypoint.ts",
-      "import": "./src/platforms/browser/entrypoints/online_entrypoint.ts"
+      "types": "./dist/platforms/browser/entrypoints/online_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/online_entrypoint.js"
     },
     "./platforms/browser/entrypoints/online_entrypoint.ts": {
-      "types": "./src/platforms/browser/entrypoints/online_entrypoint.ts",
-      "import": "./src/platforms/browser/entrypoints/online_entrypoint.ts"
+      "types": "./dist/platforms/browser/entrypoints/online_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/online_entrypoint.js"
     },
     "./platforms/browser/entrypoints/offline_entrypoint": {
-      "types": "./src/platforms/browser/entrypoints/offline_entrypoint.ts",
-      "import": "./src/platforms/browser/entrypoints/offline_entrypoint.ts"
+      "types": "./dist/platforms/browser/entrypoints/offline_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/offline_entrypoint.js"
     },
     "./platforms/browser/entrypoints/offline_entrypoint.ts": {
-      "types": "./src/platforms/browser/entrypoints/offline_entrypoint.ts",
-      "import": "./src/platforms/browser/entrypoints/offline_entrypoint.ts"
+      "types": "./dist/platforms/browser/entrypoints/offline_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/offline_entrypoint.js"
     },
     "./platforms/browser/entrypoints/react_entrypoint": {
-      "types": "./src/platforms/browser/entrypoints/react_entrypoint.tsx",
-      "import": "./src/platforms/browser/entrypoints/react_entrypoint.tsx"
+      "types": "./dist/platforms/browser/entrypoints/react_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/react_entrypoint.js"
     },
     "./platforms/browser/entrypoints/react_entrypoint.tsx": {
-      "types": "./src/platforms/browser/entrypoints/react_entrypoint.tsx",
-      "import": "./src/platforms/browser/entrypoints/react_entrypoint.tsx"
+      "types": "./dist/platforms/browser/entrypoints/react_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/react_entrypoint.js"
     },
     "./platforms/browser/services/browser_json_rpc": {
-      "types": "./src/platforms/browser/services/browser_json_rpc.ts",
-      "import": "./src/platforms/browser/services/browser_json_rpc.ts"
+      "types": "./dist/platforms/browser/services/browser_json_rpc.d.ts",
+      "import": "./dist/platforms/browser/services/browser_json_rpc.js"
     },
     "./platforms/browser/services/browser_kvstore_service": {
-      "types": "./src/platforms/browser/services/browser_kvstore_service.ts",
-      "import": "./src/platforms/browser/services/browser_kvstore_service.ts"
+      "types": "./dist/platforms/browser/services/browser_kvstore_service.d.ts",
+      "import": "./dist/platforms/browser/services/browser_kvstore_service.js"
     },
     "./core/services/http_kv_store_client": {
-      "types": "./src/core/services/http_kv_store_client.ts",
-      "import": "./src/core/services/http_kv_store_client.ts"
+      "types": "./dist/core/services/http_kv_store_client.d.ts",
+      "import": "./dist/core/services/http_kv_store_client.js"
     },
     "./platforms/browser/index.html": "./src/platforms/browser/index.html",
     "./platforms/node": {
-      "types": "./src/platforms/node/index.ts",
-      "import": "./src/platforms/node/index.ts"
+      "types": "./dist/platforms/node/index.d.ts",
+      "import": "./dist/platforms/node/index.js"
     },
     "./platforms/node/entrypoints/node_flexible_entrypoint": {
-      "types": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts",
-      "import": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts"
+      "types": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.d.ts",
+      "import": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.js"
     },
     "./platforms/node/entrypoints/node_flexible_entrypoint.ts": {
-      "types": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts",
-      "import": "./src/platforms/node/entrypoints/node_flexible_entrypoint.ts"
+      "types": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.d.ts",
+      "import": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.js"
     },
     "./platforms/node/entrypoints/node_server_entrypoint": {
-      "types": "./src/platforms/node/entrypoints/node_server_entrypoint.ts",
-      "import": "./src/platforms/node/entrypoints/node_server_entrypoint.ts"
+      "types": "./dist/platforms/node/entrypoints/node_server_entrypoint.d.ts",
+      "import": "./dist/platforms/node/entrypoints/node_server_entrypoint.js"
     },
     "./platforms/node/entrypoints/node_server_entrypoint.ts": {
-      "types": "./src/platforms/node/entrypoints/node_server_entrypoint.ts",
-      "import": "./src/platforms/node/entrypoints/node_server_entrypoint.ts"
+      "types": "./dist/platforms/node/entrypoints/node_server_entrypoint.d.ts",
+      "import": "./dist/platforms/node/entrypoints/node_server_entrypoint.js"
     },
     "./platforms/partykit": {
-      "types": "./src/platforms/partykit/index.ts",
-      "import": "./src/platforms/partykit/index.ts"
+      "types": "./dist/platforms/partykit/index.d.ts",
+      "import": "./dist/platforms/partykit/index.js"
     },
     "./platforms/tauri": {
-      "types": "./src/platforms/tauri/index.ts",
-      "import": "./src/platforms/tauri/index.ts"
+      "types": "./dist/platforms/tauri/index.d.ts",
+      "import": "./dist/platforms/tauri/index.js"
     },
     "./platforms/react-native": {
-      "types": "./src/platforms/react-native/index.ts",
-      "import": "./src/platforms/react-native/index.ts"
+      "types": "./dist/platforms/react-native/index.d.ts",
+      "import": "./dist/platforms/react-native/index.js"
     },
     "./data-storage": {
-      "types": "./src/data-storage/index.ts",
-      "import": "./src/data-storage/index.ts"
+      "types": "./dist/data-storage/index.d.ts",
+      "import": "./dist/data-storage/index.js"
     },
     "./legacy-cli": {
-      "types": "./src/legacy-cli/index.ts",
-      "import": "./src/legacy-cli/index.ts"
+      "types": "./dist/legacy-cli/index.d.ts",
+      "import": "./dist/legacy-cli/index.js"
     },
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
       "server": [
-        "./src/server/index.ts"
+        "./dist/server/index.d.ts"
       ],
       "platforms/node": [
-        "./src/platforms/node/index.ts"
+        "./dist/platforms/node/index.d.ts"
       ],
       "platforms/browser": [
-        "./src/platforms/browser/index.ts"
+        "./dist/platforms/browser/index.d.ts"
       ],
       "platforms/tauri": [
-        "./src/platforms/tauri/index.ts"
+        "./dist/platforms/tauri/index.d.ts"
       ],
       "platforms/partykit": [
-        "./src/platforms/partykit/index.ts"
+        "./dist/platforms/partykit/index.d.ts"
       ],
       "platforms/react-native": [
-        "./src/platforms/react-native/index.ts"
+        "./dist/platforms/react-native/index.d.ts"
       ],
       "data-storage": [
-        "./src/data-storage/index.ts"
+        "./dist/data-storage/index.d.ts"
       ],
       "legacy-cli": [
-        "./src/legacy-cli/index.ts"
+        "./dist/legacy-cli/index.d.ts"
       ],
       "core": [
-        "./src/core/index.ts"
+        "./dist/core/index.d.ts"
       ]
     }
   },

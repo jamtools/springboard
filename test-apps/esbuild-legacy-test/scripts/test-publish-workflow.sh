@@ -40,6 +40,11 @@ npm version patch --no-git-tag-version
 NEW_VERSION=$(node -p "require('./package.json').version")
 echo -e "${GREEN}New version: $NEW_VERSION${NC}"
 
+# Build TypeScript
+echo "Building TypeScript..."
+npm run build
+echo -e "${GREEN}✓ Build complete${NC}"
+
 # Publish to local registry
 echo "Publishing to http://localhost:4873..."
 npm publish --registry http://localhost:4873

@@ -4,7 +4,13 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "noEmit": false,
-    "emitDeclarationOnly": true
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx"
   },
   "include": [
     "src/**/*.ts",
