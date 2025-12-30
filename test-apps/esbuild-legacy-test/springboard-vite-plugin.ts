@@ -5,7 +5,7 @@
  * Once working, it will be moved to packages/springboard/vite-plugin/
  */
 
-import { Plugin, ViteDevServer } from 'vite';
+import { Plugin, ViteDevServer, createViteRuntime, ViteRuntime } from 'vite';
 import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
@@ -260,31 +260,46 @@ initApp();
       writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
       console.log('[springboard] Generated node entry file for dev mode');
 
-      // Load the node entry through Vite's SSR to transpile it
-      // This will create the compiled version that Node can actually run
-      server.ssrLoadModule(NODE_ENTRY_FILE).then(() => {
-        console.log('[springboard] Node entry compiled by Vite SSR');
-      }).catch((err) => {
-        console.error('[springboard] Failed to compile node entry:', err);
-      });
-
-      // DO NOT START NODE SERVER - just compile the entry
       const port = options.nodeServerPort ?? 1337;
-      let nodeProcess: ChildProcess | null = null;
-      let isShuttingDown = false;
-      let restartTimeout: NodeJS.Timeout | null = null;
+      let runtime: ViteRuntime | null = null;
 
-      // Node server code disabled - just compiling the entry for now
-      const startNodeServer = () => {
-        // Disabled - not starting node server
+      // Start the node server using Vite Runtime API
+      const startNodeServer = async () => {
+        try {
+          // Create Vite runtime with HMR support
+          runtime = await createViteRuntime(server);
+
+          // Load and execute the node entry module
+          const nodeEntry = await runtime.executeEntrypoint(NODE_ENTRY_FILE);
+
+          // Call the exported start() function
+          if (typeof nodeEntry.start === 'function') {
+            await nodeEntry.start();
+            console.log('[springboard] Node server started via Vite Runtime');
+          } else {
+            console.error('[springboard] Node entry does not export a start() function');
+          }
+        } catch (err) {
+          console.error('[springboard] Failed to start node server:', err);
+        }
       };
 
-      const stopNodeServer = () => {
-        // Disabled - not starting node server
+      const stopNodeServer = async () => {
+        if (runtime) {
+          try {
+            // The runtime's HMR dispose handler will stop the server
+            // We just need to destroy the runtime
+            runtime.destroy();
+            runtime = null;
+            console.log('[springboard] Node server runtime destroyed');
+          } catch (err) {
+            console.error('[springboard] Failed to stop node server:', err);
+          }
+        }
       };
 
-      // Start the node server when Vite dev server starts (disabled for now)
-      // startNodeServer();
+      // Start the node server when Vite dev server starts
+      startNodeServer();
 
       console.log('[springboard] Vite proxy configured via server.proxy:');
       console.log(`[springboard]   /rpc/* -> http://localhost:${port}/rpc/*`);
