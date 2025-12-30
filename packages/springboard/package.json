@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.25",
+  "version": "0.15.26",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
