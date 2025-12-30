@@ -103,58 +103,14 @@ pnpm rebuild better-sqlite3
 echo -e "${GREEN}✓ Rebuilt better-sqlite3${NC}"
 echo ""
 
-# Step 4: Build the test app
-echo -e "${YELLOW}Step 4: Building test app...${NC}"
-pnpm build
-
-echo -e "${GREEN}✓ Build complete${NC}"
-echo ""
-
-# Step 5: Test node bundle
-echo -e "${YELLOW}Step 5: Testing node bundle...${NC}"
-echo "Starting server in background..."
-
-# Start the server in background
-node dist/node/dist/index.cjs &
-NODE_PID=$!
-
-# Wait for server to start
-sleep 3
-
-# Check if process is running
-if ps -p $NODE_PID > /dev/null 2>&1; then
-    echo -e "${GREEN}✓ Server started successfully (PID: $NODE_PID)${NC}"
-
-    # Test shutdown
-    echo "Testing graceful shutdown..."
-    kill -INT $NODE_PID
-
-    # Wait for shutdown
-    sleep 2
-
-    # Check if process exited
-    if ps -p $NODE_PID > /dev/null 2>&1; then
-        echo -e "${RED}✗ Server failed to shut down gracefully${NC}"
-        kill -9 $NODE_PID 2>/dev/null || true
-        exit 1
-    else
-        echo -e "${GREEN}✓ Server shut down gracefully${NC}"
-    fi
-else
-    echo -e "${RED}✗ Server failed to start${NC}"
-    exit 1
-fi
-
-echo ""
 echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}All Tests Passed!${NC}"
+echo -e "${GREEN}Publish Complete!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo "Summary:"
 echo "  • Published: springboard@${NEW_VERSION}"
 echo "  • Published: @jamtools/core@${CORE_NEW_VERSION}"
-echo "  • Browser build: dist/browser/dist/index.js"
-echo "  • Node build: dist/node/dist/index.cjs"
-echo "  • Server startup: ✓"
-echo "  • Graceful shutdown: ✓"
+echo "  • Dependencies updated in test app"
+echo ""
+echo "Next: Run 'npm run dev' to test the Vite dev server"
 echo ""

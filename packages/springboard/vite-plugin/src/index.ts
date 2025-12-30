@@ -127,6 +127,7 @@ export function springboard(options: SpringboardOptions): Plugin {
 
   return {
     name: 'springboard',
+    enforce: 'pre', // Run before other plugins (especially before TypeScript transformation)
 
     applyToEnvironment(environment) {
       // Apply to all environments (we'll check which one in transform hook)
@@ -364,25 +365,13 @@ export function springboard(options: SpringboardOptions): Plugin {
     },
 
     transform(code: string, id: string) {
-      // Debug: Log that transform was called
-      if (id.includes('tic_tac_toe')) {
-        console.log(`[springboard] Transform called for: ${id}`);
-      }
-
-      // Determine target platform based on the current environment
-      // Vite has 'client' and 'ssr' environments by default
-      // @ts-ignore - this.environment is available in Vite 6+
-      const environmentName = this.environment?.name || 'client';
-
-      // Map environment name to platform
-      // 'client' environment = browser code
-      // 'ssr' environment = node code
+      const env = this.environment;
+      const environmentName = env?.name || 'client';
       const buildPlatform = environmentName === 'ssr' ? 'node' : 'browser';
 
-      // Debug logging
-      if (code.includes('// @platform')) {
-        console.log(`[springboard] Transform detected @platform in ${id}`);
-        console.log(`[springboard] Environment: ${environmentName}, Platform: ${buildPlatform}`);
+      // Debug logging (can be removed later)
+      if (id.includes('tic_tac_toe.tsx') && code.includes('// @platform')) {
+        console.log(`[springboard] Platform transform for ${buildPlatform} environment`);
       }
 
       // Apply platform transform (all logic is in platform-inject.ts)
