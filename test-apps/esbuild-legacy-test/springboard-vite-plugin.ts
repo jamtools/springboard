@@ -269,105 +269,21 @@ initApp();
 
       // DO NOT START NODE SERVER - just compile the entry
       const port = options.nodeServerPort ?? 1337;
-      // let nodeProcess: ChildProcess | null = null;
-      // let isShuttingDown = false;
-      // let restartTimeout: NodeJS.Timeout | null = null;
+      let nodeProcess: ChildProcess | null = null;
+      let isShuttingDown = false;
+      let restartTimeout: NodeJS.Timeout | null = null;
 
+      // Node server code disabled - just compiling the entry for now
       const startNodeServer = () => {
         // Disabled - not starting node server
-        return;
-
-        // if (isShuttingDown) {
-        //   return;
-        // }
-
-        // console.log('[springboard] Starting node dev server...');
-        // console.log(`[springboard]   Entry: ${NODE_ENTRY_FILE}`);
-        // console.log(`[springboard]   Port: ${port}`);
-
-        // nodeProcess = spawn('node', ['--watch', NODE_ENTRY_FILE], {
-        //   cwd: __dirname,
-        //   env: {
-        //     ...process.env,
-        //     PORT: String(port),
-        //     NODE_ENV: 'development',
-        //   },
-        //   stdio: ['ignore', 'pipe', 'pipe'],
-        // });
-
-        // Pipe stdout with prefix
-        nodeProcess.stdout?.on('data', (data: Buffer) => {
-          const lines = data.toString().split('\n');
-          for (const line of lines) {
-            if (line.trim()) {
-              console.log(`[node-server] ${line}`);
-            }
-          }
-        });
-
-        // Pipe stderr with prefix
-        nodeProcess.stderr?.on('data', (data: Buffer) => {
-          const lines = data.toString().split('\n');
-          for (const line of lines) {
-            if (line.trim()) {
-              console.error(`[node-server] ${line}`);
-            }
-          }
-        });
-
-        // Handle process exit
-        nodeProcess.on('close', (code: number | null) => {
-          if (isShuttingDown) {
-            console.log('[springboard] Node server stopped');
-            return;
-          }
-
-          console.log(`[springboard] Node server exited with code ${code}`);
-
-          // Restart on error after a delay
-          if (code !== 0 && !isShuttingDown) {
-            console.log('[springboard] Restarting node server in 2 seconds...');
-            restartTimeout = setTimeout(() => {
-              startNodeServer();
-            }, 2000);
-          }
-        });
-
-        nodeProcess.on('error', (error: Error) => {
-          console.error('[springboard] Failed to start node server:', error.message);
-        });
       };
 
       const stopNodeServer = () => {
-        isShuttingDown = true;
-
-        if (restartTimeout) {
-          clearTimeout(restartTimeout);
-          restartTimeout = null;
-        }
-
-        if (nodeProcess) {
-          console.log('[springboard] Stopping node server...');
-          nodeProcess.kill('SIGTERM');
-
-          // Force kill after 5 seconds if graceful shutdown fails
-          const forceKillTimeout = setTimeout(() => {
-            if (nodeProcess && !nodeProcess.killed) {
-              console.log('[springboard] Force killing node server...');
-              nodeProcess.kill('SIGKILL');
-            }
-          }, 5000);
-
-          nodeProcess.on('close', () => {
-            clearTimeout(forceKillTimeout);
-          });
-
-          nodeProcess = null;
-        }
+        // Disabled - not starting node server
       };
 
-      // Start the node server when Vite dev server starts
-      startNodeServer();
+      // Start the node server when Vite dev server starts (disabled for now)
+      // startNodeServer();
 
       console.log('[springboard] Vite proxy configured via server.proxy:');
       console.log(`[springboard]   /rpc/* -> http://localhost:${port}/rpc/*`);
