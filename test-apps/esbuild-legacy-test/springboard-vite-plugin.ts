@@ -74,6 +74,10 @@ export default function springboard(options: SpringboardPluginOptions): Plugin {
     path.resolve(__dirname, 'virtual-entries/build-entry.template.ts'),
     'utf-8'
   );
+  const nodeEntryTemplate = readFileSync(
+    path.resolve(__dirname, 'virtual-entries/node-entry.template.ts'),
+    'utf-8'
+  );
 
   // Generate virtual entry module code
   const generateEntryCode = (platform: 'node' | 'web', isDev: boolean): string => {
@@ -129,50 +133,7 @@ initApp();
       } else if (buildPlatform === 'node') {
         // Generate node entry file
         // Note: User entry not needed - modules register in browser
-        const nodeEntryCode = `
-import { serve } from '@hono/node-server';
-import { initApp, makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/server';
-import { startNodeApp } from 'springboard/platforms/node';
-
-// Self-contained Node.js server entrypoint
-(async () => {
-  try {
-    const coreDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
-    const { app, injectWebSocket, nodeAppDependencies } = initApp(coreDeps);
-    const port = parseInt(process.env.PORT || '1337', 10);
-
-    const server = serve({
-      fetch: app.fetch,
-      port,
-    }, (info) => {
-      console.log(\`Server listening on http://localhost:\${info.port}\`);
-    });
-
-    injectWebSocket(server);
-    await startNodeApp(nodeAppDependencies);
-    console.log('Node application started successfully');
-
-    // Graceful shutdown
-    let isShuttingDown = false;
-    const shutdown = () => {
-      if (isShuttingDown) return;
-      isShuttingDown = true;
-      console.log('Received shutdown signal, closing server...');
-      server.close(() => {
-        console.log('Server closed successfully');
-        process.exit(0);
-      });
-    };
-
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
-  } catch (error) {
-    console.error('Failed to start node server:', error);
-    process.exit(1);
-  }
-})();
-`;
-        writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
+        writeFileSync(NODE_ENTRY_FILE, nodeEntryTemplate, 'utf-8');
 
         console.log('[springboard] Generated node entry file in .springboard/');
       }
@@ -279,51 +240,7 @@ import { startNodeApp } from 'springboard/platforms/node';
         mkdirSync(SPRINGBOARD_DIR, { recursive: true });
       }
 
-      const nodeEntryCode = `
-import { serve } from '@hono/node-server';
-import { initApp, makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/server';
-import { startNodeApp } from 'springboard/platforms/node';
-
-// Self-contained Node.js server entrypoint
-// Note: User entry not needed - modules register in browser
-(async () => {
-  try {
-    const coreDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
-    const { app, injectWebSocket, nodeAppDependencies } = initApp(coreDeps);
-    const port = parseInt(process.env.PORT || '1337', 10);
-
-    const server = serve({
-      fetch: app.fetch,
-      port,
-    }, (info) => {
-      console.log(\`Server listening on http://localhost:\${info.port}\`);
-    });
-
-    injectWebSocket(server);
-    await startNodeApp(nodeAppDependencies);
-    console.log('Node application started successfully');
-
-    // Graceful shutdown
-    let isShuttingDown = false;
-    const shutdown = () => {
-      if (isShuttingDown) return;
-      isShuttingDown = true;
-      console.log('Received shutdown signal, closing server...');
-      server.close(() => {
-        console.log('Server closed successfully');
-        process.exit(0);
-      });
-    };
-
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
-  } catch (error) {
-    console.error('Failed to start node server:', error);
-    process.exit(1);
-  }
-})();
-`;
-      writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
+      writeFileSync(NODE_ENTRY_FILE, nodeEntryTemplate, 'utf-8');
       console.log('[springboard] Generated node entry file for dev mode');
 
       const port = options.nodeServerPort ?? 1337;
