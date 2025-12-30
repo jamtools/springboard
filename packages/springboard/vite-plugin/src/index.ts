@@ -20,7 +20,7 @@
  * @packageDocumentation
  */
 
-import type { Plugin, UserConfig } from 'vite';
+import type { Plugin, PluginOption, UserConfig } from 'vite';
 import type {
     SpringboardOptions,
     NormalizedOptions,
@@ -81,7 +81,7 @@ import { springboardDev } from './plugins/dev.js';
  *   },
  * });
  */
-export function springboard(options: SpringboardOptions): Plugin[] {
+export function springboard(options: SpringboardOptions): PluginOption[] {
     // Validate options early
     validateOptions(options);
 
@@ -91,7 +91,7 @@ export function springboard(options: SpringboardOptions): Plugin[] {
     // Create and return plugins array
     // Note: Vite expects Plugin | Plugin[], so returning an array is valid
     // Users can use it as: plugins: [springboard({ ... })] or plugins: springboard({ ... })
-    const plugins: (Plugin | null)[] = [
+    const plugins = [
         springboardInit(normalized),
         springboardVirtual(normalized),
         springboardPlatform(normalized),
