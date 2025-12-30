@@ -287,11 +287,19 @@ initApp();
       const stopNodeServer = async () => {
         if (runner) {
           try {
-            // The runner's HMR dispose handler will stop the server
-            // We just need to destroy the runner
-            runner.destroy();
+            // First, manually call stop() on the node entry module to close the HTTP server
+            // This is necessary because when Vite restarts (e.g., config change),
+            // the HMR dispose handler doesn't get called
+            const nodeEntry = runner.moduleCache.get(NODE_ENTRY_FILE);
+            if (nodeEntry?.exports?.stop && typeof nodeEntry.exports.stop === 'function') {
+              await nodeEntry.exports.stop();
+              console.log('[springboard] Node server stopped manually');
+            }
+
+            // Then close the runner (renamed from destroy() in Vite 6+)
+            runner.close();
             runner = null;
-            console.log('[springboard] Node server runner destroyed');
+            console.log('[springboard] Node server runner closed');
           } catch (err) {
             console.error('[springboard] Failed to stop node server:', err);
           }
