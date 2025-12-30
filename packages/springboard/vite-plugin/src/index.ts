@@ -27,6 +27,7 @@ import { Plugin, ViteDevServer } from 'vite';
 import * as path from 'path';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
+import { transformPlatformBlocks } from './plugins/shared.js';
 
 // Vite 6+ types (ModuleRunner not exported from vite types but available at runtime)
 type ModuleRunner = {
@@ -352,6 +353,42 @@ export function springboard(options: SpringboardOptions): Plugin {
       // Note: We DON'T add our own SIGINT/SIGTERM handlers here
       // because Vite already handles those and will trigger the 'close' event
       // Adding our own handlers would interfere with Vite's shutdown process
+      };
+    },
+
+    transform(code: string, id: string) {
+      // Only process TypeScript/JavaScript files
+      if (!/\.[tj]sx?$/.test(id)) {
+        return null;
+      }
+
+      // Skip node_modules
+      if (id.includes('node_modules')) {
+        return null;
+      }
+
+      // Quick check: skip if file doesn't contain platform markers
+      if (!code.includes('// @platform')) {
+        return null;
+      }
+
+      // Determine target platform for transformation
+      const buildPlatform = hasWeb ? 'browser' : hasNode ? 'node' : null;
+      if (!buildPlatform) {
+        return null;
+      }
+
+      // Transform the platform blocks
+      const transformedCode = transformPlatformBlocks(code, buildPlatform);
+
+      // Only return if the code was actually changed
+      if (transformedCode === code) {
+        return null;
+      }
+
+      return {
+        code: transformedCode,
+        map: null, // Let Vite handle source maps
       };
     },
 
