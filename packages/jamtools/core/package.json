@@ -1,6 +1,6 @@
 {
   "name": "@jamtools/core",
-  "version": "0.15.0-test-final",
+  "version": "0.15.3",
   "type": "module",
   "scripts": {
     "build": "tsc",

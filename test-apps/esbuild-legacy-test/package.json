@@ -19,6 +19,7 @@
   "dependencies": {
     "@hono/node-server": "^1.19.7",
     "@hono/node-ws": "^1.2.0",
+    "@jamtools/core": "^0.15.3",
     "better-sqlite3": "^12.5.0",
     "hono": "^4.11.3",
     "isomorphic-ws": "^5.0.0",
@@ -26,6 +27,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router": "^7.11.0",
+    "springboard": "^0.15.21",
     "ws": "^8.18.3"
   },
   "devDependencies": {
@@ -35,7 +37,6 @@
     "esbuild": "^0.27.2",
     "immer": "^11.1.0",
     "rxjs": "^7.8.2",
-    "springboard": "^0.15.16",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite": "7.3.0"

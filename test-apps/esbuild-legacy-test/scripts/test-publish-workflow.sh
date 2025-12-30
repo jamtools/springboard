@@ -48,7 +48,7 @@ echo -e "${GREEN}✓ Build complete${NC}"
 
 # Publish to local registry
 echo "Publishing to http://localhost:4873..."
-npm publish --registry http://localhost:4873
+pnpm publish --registry http://localhost:4873 --no-git-checks
 
 echo -e "${GREEN}✓ Published springboard@${NEW_VERSION}${NC}"
 echo ""
@@ -72,7 +72,7 @@ echo -e "${GREEN}✓ Build complete${NC}"
 
 # Publish to local registry
 echo "Publishing to http://localhost:4873..."
-npm publish --registry http://localhost:4873
+pnpm publish --registry http://localhost:4873 --no-git-checks
 
 echo -e "${GREEN}✓ Published @jamtools/core@${CORE_NEW_VERSION}${NC}"
 echo ""
