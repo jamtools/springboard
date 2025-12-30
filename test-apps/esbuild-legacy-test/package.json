@@ -5,11 +5,11 @@
   "type": "module",
   "description": "Test app validating legacy esbuild-based build workflows with the consolidated Springboard package",
   "scripts": {
-    "build": "tsx esbuild.ts",
-    "build:watch": "tsx esbuild.ts --watch",
-    "build:vite": "./vite-build.sh",
-    "build:vite:web": "SPRINGBOARD_PLATFORM=web vite build",
-    "build:vite:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
+    "build:esbuild": "tsx esbuild.ts",
+    "build:esbuild:watch": "tsx esbuild.ts --watch",
+    "build": "npm run build:web && npm run build:node",
+    "build:web": "SPRINGBOARD_PLATFORM=web vite build",
+    "build:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
     "dev": "vite",
     "check-types": "tsc --noEmit"
   },
