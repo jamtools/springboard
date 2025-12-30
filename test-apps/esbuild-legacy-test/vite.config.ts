@@ -20,6 +20,9 @@ export default defineConfig({
       nodeServerPort: 3001, // Use port 3001 for node dev server
       // No platform specified - uses SPRINGBOARD_PLATFORM env var
       // Default: node,web
-    })
-  ]
+    }),
+  ],
+  define: {
+    'process.env.DEBUG_LOG_PERFORMANCE': JSON.stringify(process.env.DEBUG_LOG_PERFORMANCE),
+  }
 });
