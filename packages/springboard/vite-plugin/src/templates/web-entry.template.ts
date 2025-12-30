@@ -4,14 +4,17 @@ import { HttpKvStoreClient } from 'springboard/core/services/http_kv_store_clien
 import { BrowserKVStoreService } from 'springboard/platforms/browser/services/browser_kvstore_service';
 import '__USER_ENTRY__';
 
-// Connect to node server via Vite proxy
+// Determine protocol based on current page
 const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
 const httpProtocol = location.protocol === 'https:' ? 'https' : 'http';
-const wsUrl = `${wsProtocol}://${location.host}/ws`;
-const httpUrl = `${httpProtocol}://${location.host}`;
 
-const rpc = new BrowserJsonRpcClientAndServer(wsUrl, 'http');
-const remoteKvStore = new HttpKvStoreClient(httpUrl);
+// Allow custom hosts via Vite environment variables, default to current location
+const WS_HOST = import.meta.env.VITE_WS_HOST || `${wsProtocol}://${location.host}`;
+const DATA_HOST = import.meta.env.VITE_DATA_HOST || `${httpProtocol}://${location.host}`;
+
+// Connect to backend server
+const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
+const remoteKvStore = new HttpKvStoreClient(DATA_HOST);
 const userAgentKvStore = new BrowserKVStoreService(localStorage);
 
 startAndRenderBrowserApp({

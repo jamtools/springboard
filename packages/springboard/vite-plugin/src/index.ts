@@ -90,8 +90,7 @@ export function springboard(options: SpringboardOptions): Plugin {
 
   const projectRoot = getProjectRoot();
   const SPRINGBOARD_DIR = path.resolve(projectRoot, '.springboard');
-  const DEV_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'dev-entry.js');
-  const BUILD_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'build-entry.js');
+  const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
   const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.ts');
 
   // Load HTML template
@@ -112,12 +111,8 @@ export function springboard(options: SpringboardOptions): Plugin {
   };
 
   // Load entry templates
-  const devEntryTemplate = readFileSync(
-    path.join(templatesDir, 'browser-dev-entry.template.ts'),
-    'utf-8'
-  );
-  const buildEntryTemplate = readFileSync(
-    path.join(templatesDir, 'browser-build-entry.template.ts'),
+  const webEntryTemplate = readFileSync(
+    path.join(templatesDir, 'web-entry.template.ts'),
     'utf-8'
   );
   const nodeEntryTemplate = readFileSync(
@@ -154,14 +149,12 @@ export function springboard(options: SpringboardOptions): Plugin {
       const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
 
       if (buildPlatform === 'browser') {
-        // Generate dev and build entry files for web platform
-        const devEntryCode = devEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
-        const buildEntryCode = buildEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
+        // Generate web entry file
+        const webEntryCode = webEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
 
-        writeFileSync(DEV_ENTRY_FILE, devEntryCode, 'utf-8');
-        writeFileSync(BUILD_ENTRY_FILE, buildEntryCode, 'utf-8');
+        writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
 
-        console.log('[springboard] Generated web entry files in .springboard/');
+        console.log('[springboard] Generated web entry file in .springboard/');
       } else if (buildPlatform === 'node') {
         // Generate node entry file with user entry injected and port configured
         const port = options.nodeServerPort ?? 1337;
@@ -202,7 +195,7 @@ export function springboard(options: SpringboardOptions): Plugin {
           },
           build: {
             rollupOptions: {
-              input: DEV_ENTRY_FILE,  // Browser entry
+              input: WEB_ENTRY_FILE,  // Browser entry
             }
           },
           ssr: {
@@ -238,13 +231,10 @@ export function springboard(options: SpringboardOptions): Plugin {
         };
       } else {
         // Web builds use standard client mode
-        // Use dev entry for dev server, build entry for production build
-        const entryFile = isDevMode ? DEV_ENTRY_FILE : BUILD_ENTRY_FILE;
-
         return {
           build: {
             rollupOptions: {
-              input: entryFile, // Physical file path
+              input: WEB_ENTRY_FILE, // Physical file path
             },
           },
         };
