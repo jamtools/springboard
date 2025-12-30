@@ -109,11 +109,14 @@ initApp();
       // Generate physical entry files based on platform
       const buildPlatform = hasWeb ? 'web' : hasNode ? 'node' : null;
 
-      // Calculate relative path from .springboard/ to the user's entry file
-      // The entry file is relative to __dirname (plugin directory)
-      // .springboard/ is also relative to __dirname
-      // So we need to go up one level: ../ + options.entry
-      const relativeEntryPath = path.join('..', options.entry);
+      // Calculate the correct import path from .springboard/ to the user's entry file
+      // First, resolve the absolute path to the entry file
+      const absoluteEntryPath = path.isAbsolute(options.entry)
+        ? options.entry
+        : path.resolve(__dirname, options.entry);
+
+      // Then calculate the relative path from .springboard/ to the entry file
+      const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
 
       if (buildPlatform === 'web') {
         // Generate dev and build entry files for web platform
