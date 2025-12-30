@@ -22,6 +22,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEST_APP_DIR="$(dirname "$SCRIPT_DIR")"
 PROJECT_ROOT="$(cd "$TEST_APP_DIR/../.." && pwd)"
 SPRINGBOARD_DIR="$PROJECT_ROOT/packages/springboard"
+JAMTOOLS_CORE_DIR="$PROJECT_ROOT/packages/jamtools/core"
 
 echo -e "${BLUE}========================================${NC}"
 echo -e "${BLUE}Legacy esbuild Test - Publish Workflow${NC}"
@@ -52,12 +53,37 @@ npm publish --registry http://localhost:4873
 echo -e "${GREEN}✓ Published springboard@${NEW_VERSION}${NC}"
 echo ""
 
+# Step 1b: Publish @jamtools/core to Verdaccio
+echo -e "${YELLOW}Step 1b: Publishing @jamtools/core to Verdaccio...${NC}"
+cd "$JAMTOOLS_CORE_DIR"
+
+# Bump patch version
+CORE_CURRENT_VERSION=$(node -p "require('./package.json').version")
+echo "Current version: $CORE_CURRENT_VERSION"
+
+npm version patch --no-git-tag-version
+CORE_NEW_VERSION=$(node -p "require('./package.json').version")
+echo -e "${GREEN}New version: $CORE_NEW_VERSION${NC}"
+
+# Build TypeScript
+echo "Building TypeScript..."
+npm run build
+echo -e "${GREEN}✓ Build complete${NC}"
+
+# Publish to local registry
+echo "Publishing to http://localhost:4873..."
+npm publish --registry http://localhost:4873
+
+echo -e "${GREEN}✓ Published @jamtools/core@${CORE_NEW_VERSION}${NC}"
+echo ""
+
 # Step 2: Update test app dependencies
-echo -e "${YELLOW}Step 2: Updating test app to springboard@${NEW_VERSION}...${NC}"
+echo -e "${YELLOW}Step 2: Updating test app to springboard@${NEW_VERSION} and @jamtools/core@${CORE_NEW_VERSION}...${NC}"
 cd "$TEST_APP_DIR"
 
 # Update to latest version from Verdaccio
 pnpm update springboard@latest
+pnpm update @jamtools/core@latest
 
 echo -e "${GREEN}✓ Updated dependencies${NC}"
 echo ""
@@ -118,6 +144,7 @@ echo -e "${GREEN}========================================${NC}"
 echo ""
 echo "Summary:"
 echo "  • Published: springboard@${NEW_VERSION}"
+echo "  • Published: @jamtools/core@${CORE_NEW_VERSION}"
 echo "  • Browser build: dist/browser/dist/index.js"
 echo "  • Node build: dist/node/dist/index.cjs"
 echo "  • Server startup: ✓"
