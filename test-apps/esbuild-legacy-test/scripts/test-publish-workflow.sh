@@ -22,6 +22,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEST_APP_DIR="$(dirname "$SCRIPT_DIR")"
 PROJECT_ROOT="$(cd "$TEST_APP_DIR/../.." && pwd)"
 SPRINGBOARD_DIR="$PROJECT_ROOT/packages/springboard"
+VITE_PLUGIN_DIR="$SPRINGBOARD_DIR/vite-plugin"
 JAMTOOLS_CORE_DIR="$PROJECT_ROOT/packages/jamtools/core"
 
 echo -e "${BLUE}========================================${NC}"
@@ -45,6 +46,13 @@ echo -e "${GREEN}New version: $NEW_VERSION${NC}"
 echo "Building TypeScript..."
 npm run build
 echo -e "${GREEN}✓ Build complete${NC}"
+
+# Build vite-plugin
+echo "Building vite-plugin..."
+cd "$VITE_PLUGIN_DIR"
+npm run build
+echo -e "${GREEN}✓ Vite plugin build complete${NC}"
+cd "$SPRINGBOARD_DIR"
 
 # Publish to local registry
 echo "Publishing to http://localhost:4873..."
