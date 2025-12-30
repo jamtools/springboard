@@ -9,7 +9,7 @@ import { Plugin, ViteDevServer } from 'vite';
 import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
 import { createProxyMiddleware, Options as ProxyOptions } from 'http-proxy-middleware';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 
 type SpringboardPluginOptions = {
@@ -43,9 +43,11 @@ export default function springboard(options: SpringboardPluginOptions): Plugin {
   // Track whether we're in dev mode (set by config hook)
   let isDevMode = false;
 
-  // Virtual module IDs
-  const VIRTUAL_ENTRY_ID = 'virtual:springboard-entry';
-  const RESOLVED_VIRTUAL_ENTRY_ID = '\0' + VIRTUAL_ENTRY_ID;
+  // Physical entry file paths in .springboard/ directory
+  const SPRINGBOARD_DIR = path.resolve(__dirname, '.springboard');
+  const DEV_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'dev-entry.js');
+  const BUILD_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'build-entry.js');
+  const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.js');
 
   // Load HTML template
   const htmlTemplate = readFileSync(
@@ -98,6 +100,38 @@ initApp();
   return {
     name: 'springboard',
 
+    buildStart() {
+      // Create .springboard directory if it doesn't exist
+      if (!existsSync(SPRINGBOARD_DIR)) {
+        mkdirSync(SPRINGBOARD_DIR, { recursive: true });
+      }
+
+      // Generate physical entry files based on platform
+      const buildPlatform = hasWeb ? 'web' : hasNode ? 'node' : null;
+
+      if (buildPlatform === 'web') {
+        // Generate dev and build entry files for web platform
+        const devEntryCode = devEntryTemplate.replace('__USER_ENTRY__', options.entry);
+        const buildEntryCode = buildEntryTemplate.replace('__USER_ENTRY__', options.entry);
+
+        writeFileSync(DEV_ENTRY_FILE, devEntryCode, 'utf-8');
+        writeFileSync(BUILD_ENTRY_FILE, buildEntryCode, 'utf-8');
+
+        console.log('[springboard] Generated web entry files in .springboard/');
+      } else if (buildPlatform === 'node') {
+        // Generate node entry file
+        const nodeEntryCode = `
+import initApp from 'springboard/platforms/node/entrypoints/node_server_entrypoint';
+import '${options.entry}';
+
+initApp();
+`;
+        writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
+
+        console.log('[springboard] Generated node entry file in .springboard/');
+      }
+    },
+
     config(config, env) {
       // Set dev mode flag based on Vite's command
       isDevMode = env.command === 'serve';
@@ -109,9 +143,6 @@ initApp();
         throw new Error('No valid platform specified in SPRINGBOARD_PLATFORM');
       }
 
-      // Resolve the user's entry file path so Vite can scan it for dependencies
-      const entryPath = path.resolve(__dirname, options.entry);
-
       // Configure Vite based on platform
       if (buildPlatform === 'node') {
         // Node builds use SSR mode
@@ -119,7 +150,7 @@ initApp();
           build: {
             ssr: true,
             rollupOptions: {
-              input: VIRTUAL_ENTRY_ID,
+              input: NODE_ENTRY_FILE, // Physical file path
               external: [
                 'better-sqlite3',
                 '@hono/node-server',
@@ -128,46 +159,19 @@ initApp();
               ],
             },
           },
-          optimizeDeps: {
-            // Include the user's entry file so Vite scans it for dependencies
-            // This allows automatic discovery of React, etc. without manual configuration
-            entries: [entryPath],
-          },
         };
       } else {
         // Web builds use standard client mode
+        // Use dev entry for dev server, build entry for production build
+        const entryFile = isDevMode ? DEV_ENTRY_FILE : BUILD_ENTRY_FILE;
+
         return {
           build: {
             rollupOptions: {
-              input: VIRTUAL_ENTRY_ID,
+              input: entryFile, // Physical file path
             },
           },
-          optimizeDeps: {
-            // Include the user's entry file so Vite scans it for dependencies
-            // This allows automatic discovery of React, etc. without manual configuration
-            entries: [entryPath],
-          },
         };
-      }
-    },
-
-    resolveId(id) {
-      if (id === VIRTUAL_ENTRY_ID) {
-        return RESOLVED_VIRTUAL_ENTRY_ID;
-      }
-    },
-
-    load(id) {
-      if (id === RESOLVED_VIRTUAL_ENTRY_ID) {
-        // Determine which platform to build
-        const buildPlatform = hasWeb ? 'web' : hasNode ? 'node' : null;
-
-        if (!buildPlatform) {
-          throw new Error('No valid platform specified in SPRINGBOARD_PLATFORM');
-        }
-
-        // Use isDevMode flag to determine which entry code to generate
-        return generateEntryCode(buildPlatform, isDevMode);
       }
     },
 
