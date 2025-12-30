@@ -5,7 +5,7 @@
  * Once working, it will be moved to packages/springboard/vite-plugin/
  */
 
-import { Plugin, ViteDevServer, createViteRuntime, ViteRuntime } from 'vite';
+import { Plugin, ViteDevServer, createServerModuleRunner, ModuleRunner } from 'vite';
 import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
@@ -261,21 +261,21 @@ initApp();
       console.log('[springboard] Generated node entry file for dev mode');
 
       const port = options.nodeServerPort ?? 1337;
-      let runtime: ViteRuntime | null = null;
+      let runner: ModuleRunner | null = null;
 
-      // Start the node server using Vite Runtime API
+      // Start the node server using Vite 6+ ModuleRunner API
       const startNodeServer = async () => {
         try {
-          // Create Vite runtime with HMR support
-          runtime = await createViteRuntime(server);
+          // Create module runner with HMR support (Vite 6+ API)
+          runner = createServerModuleRunner(server.environments.ssr);
 
           // Load and execute the node entry module
-          const nodeEntry = await runtime.executeEntrypoint(NODE_ENTRY_FILE);
+          const nodeEntry = await runner.import(NODE_ENTRY_FILE);
 
           // Call the exported start() function
           if (typeof nodeEntry.start === 'function') {
             await nodeEntry.start();
-            console.log('[springboard] Node server started via Vite Runtime');
+            console.log('[springboard] Node server started via ModuleRunner');
           } else {
             console.error('[springboard] Node entry does not export a start() function');
           }
@@ -285,13 +285,13 @@ initApp();
       };
 
       const stopNodeServer = async () => {
-        if (runtime) {
+        if (runner) {
           try {
-            // The runtime's HMR dispose handler will stop the server
-            // We just need to destroy the runtime
-            runtime.destroy();
-            runtime = null;
-            console.log('[springboard] Node server runtime destroyed');
+            // The runner's HMR dispose handler will stop the server
+            // We just need to destroy the runner
+            runner.destroy();
+            runner = null;
+            console.log('[springboard] Node server runner destroyed');
           } catch (err) {
             console.error('[springboard] Failed to stop node server:', err);
           }
