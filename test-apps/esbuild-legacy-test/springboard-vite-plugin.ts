@@ -109,10 +109,16 @@ initApp();
       // Generate physical entry files based on platform
       const buildPlatform = hasWeb ? 'web' : hasNode ? 'node' : null;
 
+      // Calculate relative path from .springboard/ to the user's entry file
+      // The entry file is relative to __dirname (plugin directory)
+      // .springboard/ is also relative to __dirname
+      // So we need to go up one level: ../ + options.entry
+      const relativeEntryPath = path.join('..', options.entry);
+
       if (buildPlatform === 'web') {
         // Generate dev and build entry files for web platform
-        const devEntryCode = devEntryTemplate.replace('__USER_ENTRY__', options.entry);
-        const buildEntryCode = buildEntryTemplate.replace('__USER_ENTRY__', options.entry);
+        const devEntryCode = devEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
+        const buildEntryCode = buildEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
 
         writeFileSync(DEV_ENTRY_FILE, devEntryCode, 'utf-8');
         writeFileSync(BUILD_ENTRY_FILE, buildEntryCode, 'utf-8');
@@ -122,7 +128,7 @@ initApp();
         // Generate node entry file
         const nodeEntryCode = `
 import initApp from 'springboard/platforms/node/entrypoints/node_server_entrypoint';
-import '${options.entry}';
+import '${relativeEntryPath}';
 
 initApp();
 `;
