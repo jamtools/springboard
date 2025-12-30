@@ -143,7 +143,7 @@ initApp();
       // Set dev mode flag based on Vite's command
       isDevMode = env.command === 'serve';
 
-      // Dev mode with both platforms - configure Vite proxy
+      // Dev mode with both platforms - configure Vite proxy and SSR
       if (isDevMode && hasNode && hasWeb) {
         const nodePort = options.nodeServerPort ?? 1337;
 
@@ -169,6 +169,15 @@ initApp();
             rollupOptions: {
               input: DEV_ENTRY_FILE,  // Browser entry
             }
+          },
+          ssr: {
+            // External dependencies for SSR (node modules that shouldn't be bundled)
+            external: [
+              'better-sqlite3',
+              // '@hono/node-server',
+              // 'hono',
+              // 'kysely',
+            ],
           }
         };
       }
@@ -190,9 +199,9 @@ initApp();
               input: NODE_ENTRY_FILE, // Physical file path
               external: [
                 'better-sqlite3',
-                '@hono/node-server',
-                'hono',
-                'kysely',
+                // '@hono/node-server',
+                // 'hono',
+                // 'kysely',
               ],
             },
           },
@@ -250,29 +259,41 @@ initApp();
       writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
       console.log('[springboard] Generated node entry file for dev mode');
 
-      const port = options.nodeServerPort ?? 1337;
-      let nodeProcess: ChildProcess | null = null;
-      let isShuttingDown = false;
-      let restartTimeout: NodeJS.Timeout | null = null;
+      // Load the node entry through Vite's SSR to transpile it
+      // This will create the compiled version that Node can actually run
+      server.ssrLoadModule(NODE_ENTRY_FILE).then(() => {
+        console.log('[springboard] Node entry compiled by Vite SSR');
+      }).catch((err) => {
+        console.error('[springboard] Failed to compile node entry:', err);
+      });
+
+      // DO NOT START NODE SERVER - just compile the entry
+      // const port = options.nodeServerPort ?? 1337;
+      // let nodeProcess: ChildProcess | null = null;
+      // let isShuttingDown = false;
+      // let restartTimeout: NodeJS.Timeout | null = null;
 
       const startNodeServer = () => {
-        if (isShuttingDown) {
-          return;
-        }
+        // Disabled - not starting node server
+        return;
 
-        console.log('[springboard] Starting node dev server...');
-        console.log(`[springboard]   Entry: ${NODE_ENTRY_FILE}`);
-        console.log(`[springboard]   Port: ${port}`);
+        // if (isShuttingDown) {
+        //   return;
+        // }
 
-        nodeProcess = spawn('node', ['--watch', NODE_ENTRY_FILE], {
-          cwd: __dirname,
-          env: {
-            ...process.env,
-            PORT: String(port),
-            NODE_ENV: 'development',
-          },
-          stdio: ['ignore', 'pipe', 'pipe'],
-        });
+        // console.log('[springboard] Starting node dev server...');
+        // console.log(`[springboard]   Entry: ${NODE_ENTRY_FILE}`);
+        // console.log(`[springboard]   Port: ${port}`);
+
+        // nodeProcess = spawn('node', ['--watch', NODE_ENTRY_FILE], {
+        //   cwd: __dirname,
+        //   env: {
+        //     ...process.env,
+        //     PORT: String(port),
+        //     NODE_ENV: 'development',
+        //   },
+        //   stdio: ['ignore', 'pipe', 'pipe'],
+        // });
 
         // Pipe stdout with prefix
         nodeProcess.stdout?.on('data', (data: Buffer) => {
