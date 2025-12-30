@@ -85,23 +85,13 @@ const main = async (): Promise<void> => {
     // Step 5: Initialize Springboard engine
     console.log('[5/5] Starting Springboard engine...');
 
-    // Import the application module to register it
-    // In dev mode, this would be the user's app entry point
-    // For now, we import it dynamically if it exists
-    try {
-      await import('./src/tic_tac_toe.tsx');
-      console.log('      Application module loaded');
-    } catch (e) {
-      // App module is optional in dev mode
-      if (DEV_MODE) {
-        console.log('      No application module found (this is OK in dev mode)');
-      } else {
-        throw e;
-      }
-    }
+    // Note: Module registration happens in the BROWSER via the virtual entry point
+    // The node server doesn't need to import the app file - it just provides
+    // the API endpoints for the browser to connect to
+    // The browser imports the app, registers modules, and connects via RPC/WebSocket
 
     const engine = await startNodeApp(nodeAppDependencies);
-    console.log('      Engine initialized');
+    console.log('      Engine initialized (no modules registered in node-only mode)');
 
     // Startup complete
     const duration = Date.now() - startTime;
