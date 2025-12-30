@@ -23,9 +23,9 @@
     "noUncheckedIndexedAccess": true,
     "jsx": "react-jsx",
     "types": ["node"],
-    "paths": {
-      "@jamtools/features/*": ["./src/*"],
-    },
+    // "paths": {
+    //   "@jamtools/features/*": ["./src/*"],
+    // },
   },
   "include": [
     "src/**/*.ts",
