@@ -9,9 +9,9 @@ import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/te
 
 import {Main} from 'springboard/platforms/browser';
 import {Springboard} from 'springboard/engine/engine';
-import {setIoDependencyCreator} from '@jamtools/core/modules/io/io_module';
-import {MockMidiService} from '@jamtools/core/test/services/mock_midi_service';
-import {MockQwertyService} from '@jamtools/core/test/services/mock_qwerty_service';
+import {setIoDependencyCreator} from '../../../../modules/io/io_module';
+import {MockMidiService} from '../../../../test/services/mock_midi_service';
+import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
 
 export const getMacroInputTestHelpers = () => {
     const setupTest = async (midiSubject: Subject<MidiEventFull>): Promise<Springboard> => {

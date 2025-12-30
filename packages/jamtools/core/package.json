@@ -10,68 +10,62 @@
     "lint": "eslint --ext ts --ext tsx  ./",
     "fix": "npm run lint -- --fix"
   },
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
   "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts"
-    },
     "./constants/midi_number_to_note_name_mappings": {
-      "types": "./src/constants/midi_number_to_note_name_mappings.ts",
-      "import": "./src/constants/midi_number_to_note_name_mappings.ts"
+      "types": "./dist/constants/midi_number_to_note_name_mappings.d.ts",
+      "import": "./dist/constants/midi_number_to_note_name_mappings.js"
     },
     "./modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler": {
-      "types": "./src/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.tsx",
-      "import": "./src/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.tsx"
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.js"
     },
     "./modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler": {
-      "types": "./src/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.tsx",
-      "import": "./src/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.tsx"
+      "types": "./dist/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.js"
     },
     "./modules/macro_module/macro_module": {
-      "types": "./src/modules/macro_module/macro_module.tsx",
-      "import": "./src/modules/macro_module/macro_module.tsx"
+      "types": "./dist/modules/macro_module/macro_module.d.ts",
+      "import": "./dist/modules/macro_module/macro_module.js"
     },
     "./modules/macro_module/macro_module_types": {
-      "types": "./src/modules/macro_module/macro_module_types.ts",
-      "import": "./src/modules/macro_module/macro_module_types.ts"
+      "types": "./dist/modules/macro_module/macro_module_types.d.ts",
+      "import": "./dist/modules/macro_module/macro_module_types.js"
     },
     "./modules/midi_files/midi_file_parser/midi_file_parser": {
-      "types": "./src/modules/midi_files/midi_file_parser/midi_file_parser.ts",
-      "import": "./src/modules/midi_files/midi_file_parser/midi_file_parser.ts"
+      "types": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.d.ts",
+      "import": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.js"
     },
     "./modules/macro_module/registered_macro_types": {
-      "types": "./src/modules/macro_module/registered_macro_types.ts",
-      "import": "./src/modules/macro_module/registered_macro_types.ts"
+      "types": "./dist/modules/macro_module/registered_macro_types.d.ts",
+      "import": "./dist/modules/macro_module/registered_macro_types.js"
     },
     "./services/browser/browser_midi_service": {
-      "types": "./src/services/browser/browser_midi_service.ts",
-      "import": "./src/services/browser/browser_midi_service.ts"
+      "types": "./dist/services/browser/browser_midi_service.d.ts",
+      "import": "./dist/services/browser/browser_midi_service.js"
     },
     "./services/browser/browser_qwerty_service": {
-      "types": "./src/services/browser/browser_qwerty_service.ts",
-      "import": "./src/services/browser/browser_qwerty_service.ts"
+      "types": "./dist/services/browser/browser_qwerty_service.d.ts",
+      "import": "./dist/services/browser/browser_qwerty_service.js"
     },
     "./services/node/node_midi_service": {
-      "types": "./src/services/node/node_midi_service.ts",
-      "import": "./src/services/node/node_midi_service.ts"
+      "types": "./dist/services/node/node_midi_service.d.ts",
+      "import": "./dist/services/node/node_midi_service.js"
     },
     "./services/node/node_qwerty_service": {
-      "types": "./src/services/node/node_qwerty_service.ts",
-      "import": "./src/services/node/node_qwerty_service.ts"
+      "types": "./dist/services/node/node_qwerty_service.d.ts",
+      "import": "./dist/services/node/node_qwerty_service.js"
     },
     "./test/services/mock_midi_service": {
-      "types": "./src/test/services/mock_midi_service.ts",
-      "import": "./src/test/services/mock_midi_service.ts"
+      "types": "./dist/test/services/mock_midi_service.d.ts",
+      "import": "./dist/test/services/mock_midi_service.js"
     },
     "./test/services/mock_qwerty_service": {
-      "types": "./src/test/services/mock_qwerty_service.ts",
-      "import": "./src/test/services/mock_qwerty_service.ts"
+      "types": "./dist/test/services/mock_qwerty_service.d.ts",
+      "import": "./dist/test/services/mock_qwerty_service.js"
     },
     "./types/io_types": {
-      "types": "./src/types/io_types.ts",
-      "import": "./src/types/io_types.ts"
+      "types": "./dist/types/io_types.d.ts",
+      "import": "./dist/types/io_types.js"
     }
   },
   "peerDependencies": {
