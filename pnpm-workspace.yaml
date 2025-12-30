@@ -10,7 +10,6 @@ packages:
   - "packages/springboard/external/*"
   - "packages/*"
   - "configs"
-  - "test-apps/esbuild-legacy-test"
 catalog:
   # React Ecosystem
   react: "19.2.0"

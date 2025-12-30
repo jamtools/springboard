@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
-import springboard from './springboard-vite-plugin';
-// import { springboard } from 'springboard/vite-plugin';
+// import springboard from './springboard-vite-plugin';
+import { springboard } from 'springboard/vite-plugin';
 
 export default defineConfig({
   plugins: [
