@@ -268,7 +268,7 @@ initApp();
       });
 
       // DO NOT START NODE SERVER - just compile the entry
-      // const port = options.nodeServerPort ?? 1337;
+      const port = options.nodeServerPort ?? 1337;
       // let nodeProcess: ChildProcess | null = null;
       // let isShuttingDown = false;
       // let restartTimeout: NodeJS.Timeout | null = null;
