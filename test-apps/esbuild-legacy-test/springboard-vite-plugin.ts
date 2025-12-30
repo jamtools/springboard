@@ -109,6 +109,9 @@ initApp();
         throw new Error('No valid platform specified in SPRINGBOARD_PLATFORM');
       }
 
+      // Resolve the user's entry file path so Vite can scan it for dependencies
+      const entryPath = path.resolve(__dirname, options.entry);
+
       // Configure Vite based on platform
       if (buildPlatform === 'node') {
         // Node builds use SSR mode
@@ -125,6 +128,11 @@ initApp();
               ],
             },
           },
+          optimizeDeps: {
+            // Include the user's entry file so Vite scans it for dependencies
+            // This allows automatic discovery of React, etc. without manual configuration
+            entries: [entryPath],
+          },
         };
       } else {
         // Web builds use standard client mode
@@ -133,6 +141,11 @@ initApp();
             rollupOptions: {
               input: VIRTUAL_ENTRY_ID,
             },
+          },
+          optimizeDeps: {
+            // Include the user's entry file so Vite scans it for dependencies
+            // This allows automatic discovery of React, etc. without manual configuration
+            entries: [entryPath],
           },
         };
       }
