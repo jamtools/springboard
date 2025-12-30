@@ -157,7 +157,7 @@ class AMidiDevicePoller implements NodeMidiDevicePoller {
             const [dir, _portName, ...clientNameParts] = line.split(' ').filter(Boolean);
             const name = clientNameParts.join(' ');
 
-            if (devices.find(d => d.machineReadableName === name)) {
+            if (!dir || devices.find(d => d.machineReadableName === name)) {
                 return;
             }
 

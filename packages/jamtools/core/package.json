@@ -3,6 +3,7 @@
   "version": "0.15.0-test-final",
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "test": "vitest --run",
     "test:watch": "vitest",
     "check-types": "tsc --noEmit",
@@ -29,6 +30,7 @@
     "webmidi": "^3.1.14"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "react": "19.2.0",

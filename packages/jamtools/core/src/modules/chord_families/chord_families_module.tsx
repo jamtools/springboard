@@ -82,7 +82,7 @@ class ChordFamilyHandler {
     public getExactChordForNote = (note: number): Chord | null => {
         const existingMapping = this.data.mappings[note];
         if (existingMapping?.length) {
-            return existingMapping[0];
+            return existingMapping[0]!;
         }
 
         return null;
@@ -109,7 +109,7 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
     const savedData = await moduleAPI.statesAPI.createPersistentState<ChordFamilyData[]>('all_chord_families', []);
 
     const getChordFamilyHandler = (key: string): ChordFamilyHandler => {
-        const data = savedData.getState()[0];
+        const data = savedData.getState()[0]!;
         return new ChordFamilyHandler(data);
     };
 

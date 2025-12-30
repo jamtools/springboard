@@ -11,7 +11,7 @@ export const MacroPage = (props: Props) => {
     return (
         <ul>
             {moduleIds.map((moduleId) => {
-                const c = props.state.configs[moduleId];
+                const c = props.state.configs[moduleId]!;
                 const fieldNames = Object.keys(c);
 
                 return (
@@ -26,8 +26,8 @@ export const MacroPage = (props: Props) => {
                             <summary>{moduleId}</summary>
                             <ul>
                                 {fieldNames.map((fieldName) => {
-                                    const mapping = c[fieldName];
-                                    const producedMacro = props.state.producedMacros[moduleId][fieldName];
+                                    const mapping = c[fieldName]!;
+                                    const producedMacro = props.state.producedMacros[moduleId]![fieldName];
                                     const maybeComponents = (producedMacro as {components?: {edit: React.ElementType}} | undefined);
 
                                     return (

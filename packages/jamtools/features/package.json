@@ -17,6 +17,7 @@
   "devDependencies": {
     "@jamtools/core": "workspace:*",
     "@springboardjs/shoelace": "workspace:*",
+    "@types/node": "catalog:",
     "@types/qrcode": "^1.5.6",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

@@ -97,7 +97,7 @@ export class MacroModule implements Module<MacroConfigState> {
     }> => {
         const keys = Object.keys(macros);
         const promises = keys.map(async key => {
-            const {type, config} = macros[key];
+            const {type, config} = macros[key]!;
             return {
                 macro: await this.createMacro(moduleAPI, key, type, config),
                 key,

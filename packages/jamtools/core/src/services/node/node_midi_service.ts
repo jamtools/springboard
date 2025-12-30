@@ -187,14 +187,14 @@ export class NodeMidiService implements MidiService {
             if (device.input) {
                 const index = this.inputs.findIndex(d => d.name === device.machineReadableName);
                 if (index !== -1) {
-                    this.inputs[index].close();
+                    this.inputs[index]!.close();
                     this.inputs = [...this.inputs.slice(0, index), ...this.inputs.slice(index + 1)];
                 }
             }
             if (device.output) {
                 const index = this.outputs.findIndex(d => d.name === device.machineReadableName);
                 if (index !== -1) {
-                    this.outputs[index].close();
+                    this.outputs[index]!.close();
                     this.outputs = [...this.outputs.slice(0, index), ...this.outputs.slice(index + 1)];
                 }
             }

@@ -250,6 +250,9 @@ importers:
         specifier: ^3.1.14
         version: 3.1.14
     devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.48
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.6
@@ -296,6 +299,9 @@ importers:
       '@springboardjs/shoelace':
         specifier: workspace:*
         version: link:../../springboard/external/shoelace
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.48
       '@types/qrcode':
         specifier: ^1.5.6
         version: 1.5.6
