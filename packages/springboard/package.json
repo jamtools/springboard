@@ -133,6 +133,14 @@
       "types": "./dist/core/types/module_types.d.ts",
       "import": "./dist/core/types/module_types.js"
     },
+    "./types/response_types": {
+      "types": "./dist/core/types/response_types.d.ts",
+      "import": "./dist/core/types/response_types.js"
+    },
+    "./utils/generate_id": {
+      "types": "./dist/core/utils/generate_id.d.ts",
+      "import": "./dist/core/utils/generate_id.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {

@@ -12,6 +12,64 @@
   },
   "main": "./src/index.ts",
   "module": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    },
+    "./constants/midi_number_to_note_name_mappings": {
+      "types": "./src/constants/midi_number_to_note_name_mappings.ts",
+      "import": "./src/constants/midi_number_to_note_name_mappings.ts"
+    },
+    "./modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler": {
+      "types": "./src/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.tsx",
+      "import": "./src/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.tsx"
+    },
+    "./modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler": {
+      "types": "./src/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.tsx",
+      "import": "./src/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.tsx"
+    },
+    "./modules/macro_module/macro_module_types": {
+      "types": "./src/modules/macro_module/macro_module_types.ts",
+      "import": "./src/modules/macro_module/macro_module_types.ts"
+    },
+    "./modules/midi_files/midi_file_parser/midi_file_parser": {
+      "types": "./src/modules/midi_files/midi_file_parser/midi_file_parser.ts",
+      "import": "./src/modules/midi_files/midi_file_parser/midi_file_parser.ts"
+    },
+    "./modules/macro_module/registered_macro_types": {
+      "types": "./src/modules/macro_module/registered_macro_types.ts",
+      "import": "./src/modules/macro_module/registered_macro_types.ts"
+    },
+    "./services/browser/browser_midi_service": {
+      "types": "./src/services/browser/browser_midi_service.ts",
+      "import": "./src/services/browser/browser_midi_service.ts"
+    },
+    "./services/browser/browser_qwerty_service": {
+      "types": "./src/services/browser/browser_qwerty_service.ts",
+      "import": "./src/services/browser/browser_qwerty_service.ts"
+    },
+    "./services/node/node_midi_service": {
+      "types": "./src/services/node/node_midi_service.ts",
+      "import": "./src/services/node/node_midi_service.ts"
+    },
+    "./services/node/node_qwerty_service": {
+      "types": "./src/services/node/node_qwerty_service.ts",
+      "import": "./src/services/node/node_qwerty_service.ts"
+    },
+    "./test/services/mock_midi_service": {
+      "types": "./src/test/services/mock_midi_service.ts",
+      "import": "./src/test/services/mock_midi_service.ts"
+    },
+    "./test/services/mock_qwerty_service": {
+      "types": "./src/test/services/mock_qwerty_service.ts",
+      "import": "./src/test/services/mock_qwerty_service.ts"
+    },
+    "./types/io_types": {
+      "types": "./src/types/io_types.ts",
+      "import": "./src/types/io_types.ts"
+    }
+  },
   "peerDependencies": {
     "@tonejs/midi": "^2.0.0",
     "springboard": "workspace:*",
