@@ -153,6 +153,7 @@ export type {
     EntryConfig,
     PlatformViteConfig,
     PlatformConfigFunction,
+    NodeEntryModule,
 } from './types.js';
 
 // Re-export virtual module constants
@@ -168,7 +169,19 @@ export { springboardDev } from './plugins/dev.js';
 
 // Re-export utilities
 export { normalizeOptions, createOptionsForPlatform } from './utils/normalize-options.js';
-export { generateEntryCode, generateModulesCode, generatePlatformCode } from './utils/generate-entry.js';
+export {
+    generateEntryCode,
+    generateModulesCode,
+    generatePlatformCode,
+    loadBrowserDevTemplate,
+    loadBrowserBuildTemplate,
+    loadNodeTemplate,
+    loadHtmlTemplate,
+    generateBrowserDevEntry,
+    generateBrowserBuildEntry,
+    generateNodeEntry,
+    generateHtml,
+} from './utils/generate-entry.js';
 export { getPlatformConfig, isBrowserPlatform, isServerPlatform } from './config/platform-configs.js';
 export { detectPlatform, setPlatformEnv, clearPlatformEnv } from './config/detect-platform.js';
 

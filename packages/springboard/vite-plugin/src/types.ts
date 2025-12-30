@@ -129,6 +129,11 @@ export interface SpringboardOptions {
      * @default 'dist'
      */
     outDir?: string;
+
+    /**
+     * Port for the node dev server (default: 1337)
+     */
+    nodeServerPort?: number;
 }
 
 /**
@@ -189,6 +194,27 @@ export interface NormalizedOptions {
      * Root directory (cwd)
      */
     root: string;
+
+    /**
+     * Port for the node dev server
+     */
+    nodeServerPort: number;
+}
+
+/**
+ * Node entry module interface
+ * Defines the lifecycle exports for node server entries
+ */
+export interface NodeEntryModule {
+    /**
+     * Start the node server
+     */
+    start?: () => Promise<void>;
+
+    /**
+     * Stop the node server
+     */
+    stop?: () => Promise<void>;
 }
 
 /**

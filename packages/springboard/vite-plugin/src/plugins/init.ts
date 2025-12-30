@@ -9,6 +9,9 @@ import type { Plugin, UserConfig } from 'vite';
 import type { NormalizedOptions } from '../types.js';
 import { getPlatformConfig, getResolveConditions } from '../config/platform-configs.js';
 import { createLogger } from './shared.js';
+import { generateBrowserDevEntry, generateBrowserBuildEntry, generateNodeEntry } from '../utils/generate-entry.js';
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import * as path from 'path';
 
 /**
  * Create the springboard init plugin.
@@ -101,6 +104,50 @@ export function springboardInit(options: NormalizedOptions): Plugin {
                 logger.warn(
                     'appType was changed from "custom". This may cause issues with HTML generation.'
                 );
+            }
+        },
+
+        /**
+         * Build start hook - generate physical entry files
+         */
+        buildStart() {
+            logger.debug('Generating physical entry files in .springboard/');
+
+            // Create .springboard directory if it doesn't exist
+            const springboardDir = path.resolve(options.root, '.springboard');
+            if (!existsSync(springboardDir)) {
+                mkdirSync(springboardDir, { recursive: true });
+            }
+
+            // Calculate the relative path from .springboard/ to the user's entry file
+            const absoluteEntryPath = path.isAbsolute(options.entry)
+                ? options.entry
+                : path.resolve(options.root, options.entry);
+            const relativeEntryPath = path.relative(springboardDir, absoluteEntryPath);
+
+            logger.debug(`Entry path: ${options.entry} -> ${relativeEntryPath}`);
+
+            // Generate entry files based on platform
+            if (options.platform === 'browser' || options.platform === 'tauri') {
+                // Generate both dev and build entry files for browser platforms
+                const devEntryCode = generateBrowserDevEntry(relativeEntryPath);
+                const buildEntryCode = generateBrowserBuildEntry(relativeEntryPath);
+
+                const devEntryFile = path.join(springboardDir, 'dev-entry.js');
+                const buildEntryFile = path.join(springboardDir, 'build-entry.js');
+
+                writeFileSync(devEntryFile, devEntryCode, 'utf-8');
+                writeFileSync(buildEntryFile, buildEntryCode, 'utf-8');
+
+                logger.debug('Generated browser entry files: dev-entry.js, build-entry.js');
+            } else if (options.platform === 'node') {
+                // Generate node entry file (TypeScript!)
+                const nodeEntryCode = generateNodeEntry(relativeEntryPath, options.nodeServerPort);
+                const nodeEntryFile = path.join(springboardDir, 'node-entry.ts');
+
+                writeFileSync(nodeEntryFile, nodeEntryCode, 'utf-8');
+
+                logger.debug('Generated node entry file: node-entry.ts');
             }
         },
     };

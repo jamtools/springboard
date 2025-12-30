@@ -36,6 +36,11 @@ const DEFAULT_PLATFORMS: Platform[] = ['browser'];
 const DEFAULT_OUT_DIR = 'dist';
 
 /**
+ * Default node server port
+ */
+const DEFAULT_NODE_SERVER_PORT = 1337;
+
+/**
  * Normalize user options into internal options format.
  *
  * @param options - User-provided options
@@ -89,6 +94,7 @@ export function normalizeOptions(
         partykitName: options.partykitName,
         outDir: options.outDir ?? DEFAULT_OUT_DIR,
         root: process.cwd(),
+        nodeServerPort: options.nodeServerPort ?? DEFAULT_NODE_SERVER_PORT,
     };
 }
 

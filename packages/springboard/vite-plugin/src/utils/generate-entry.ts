@@ -2,9 +2,111 @@
  * Generate Entry Utility
  *
  * Generates virtual entry point code for different platforms.
+ * Uses template files for consistent entry generation.
  */
 
 import type { NormalizedOptions, Platform } from '../types.js';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import * as path from 'path';
+
+/**
+ * Template loading functions
+ *
+ * These functions load template files from src/templates/ directory.
+ * The path resolution ensures templates are found when running from compiled dist/ directory.
+ */
+
+/**
+ * Load the browser dev entry template
+ */
+export function loadBrowserDevTemplate(): string {
+    const currentDir = path.dirname(fileURLToPath(import.meta.url));
+    const templatePath = path.resolve(currentDir, '../../src/templates/browser-dev-entry.template.ts');
+    return readFileSync(templatePath, 'utf-8');
+}
+
+/**
+ * Load the browser build entry template
+ */
+export function loadBrowserBuildTemplate(): string {
+    const currentDir = path.dirname(fileURLToPath(import.meta.url));
+    const templatePath = path.resolve(currentDir, '../../src/templates/browser-build-entry.template.ts');
+    return readFileSync(templatePath, 'utf-8');
+}
+
+/**
+ * Load the node entry template
+ */
+export function loadNodeTemplate(): string {
+    const currentDir = path.dirname(fileURLToPath(import.meta.url));
+    const templatePath = path.resolve(currentDir, '../../src/templates/node-entry.template.ts');
+    return readFileSync(templatePath, 'utf-8');
+}
+
+/**
+ * Load the HTML template
+ */
+export function loadHtmlTemplate(): string {
+    const currentDir = path.dirname(fileURLToPath(import.meta.url));
+    const templatePath = path.resolve(currentDir, '../../src/templates/index.template.html');
+    return readFileSync(templatePath, 'utf-8');
+}
+
+/**
+ * Template-based entry generation functions
+ */
+
+/**
+ * Generate browser dev entry code with user entry path injected
+ * @param userEntryPath - Relative path to user's entry file
+ * @returns Generated JavaScript code
+ */
+export function generateBrowserDevEntry(userEntryPath: string): string {
+    const template = loadBrowserDevTemplate();
+    return template.replace('__USER_ENTRY__', userEntryPath);
+}
+
+/**
+ * Generate browser build entry code with user entry path injected
+ * @param userEntryPath - Relative path to user's entry file
+ * @returns Generated JavaScript code
+ */
+export function generateBrowserBuildEntry(userEntryPath: string): string {
+    const template = loadBrowserBuildTemplate();
+    return template.replace('__USER_ENTRY__', userEntryPath);
+}
+
+/**
+ * Generate node entry code with user entry path and port injected
+ * @param userEntryPath - Relative path to user's entry file
+ * @param port - Port number for the node server (default: 3000)
+ * @returns Generated TypeScript code
+ */
+export function generateNodeEntry(userEntryPath: string, port: number = 3000): string {
+    const template = loadNodeTemplate();
+    return template
+        .replace('__USER_ENTRY__', userEntryPath)
+        .replace('__PORT__', String(port));
+}
+
+/**
+ * Generate HTML with title and description injected
+ * @param title - Page title (default: 'Springboard App')
+ * @param description - Page description (optional)
+ * @returns Generated HTML
+ */
+export function generateHtml(title?: string, description?: string): string {
+    const template = loadHtmlTemplate();
+    const pageTitle = title || 'Springboard App';
+    const descriptionMeta = description
+        ? `<meta name="description" content="${description}">`
+        : '';
+
+    return template
+        .replace('{{TITLE}}', pageTitle)
+        .replace('{{DESCRIPTION_META}}', descriptionMeta);
+}
 
 /**
  * Generate the virtual entry point code for the current platform.
@@ -13,6 +115,7 @@ import type { NormalizedOptions, Platform } from '../types.js';
  * 1. Platform-specific core initialization
  * 2. User's application entrypoint
  *
+ * @deprecated Use template-based entry generation functions instead
  * @param options - Normalized options
  * @returns Generated JavaScript code
  */
@@ -26,9 +129,9 @@ export function generateEntryCode(options: NormalizedOptions): string {
 
     switch (platform) {
         case 'browser':
-            return generateBrowserEntry(resolvedEntry);
+            return generateLegacyBrowserEntry(resolvedEntry);
         case 'node':
-            return generateNodeEntry(resolvedEntry);
+            return generateLegacyNodeEntry(resolvedEntry);
         case 'partykit':
             return generatePartykitEntry(resolvedEntry);
         case 'tauri':
@@ -36,14 +139,15 @@ export function generateEntryCode(options: NormalizedOptions): string {
         case 'react-native':
             return generateReactNativeEntry(resolvedEntry);
         default:
-            return generateBrowserEntry(resolvedEntry);
+            return generateLegacyBrowserEntry(resolvedEntry);
     }
 }
 
 /**
- * Generate browser entry point
+ * Generate browser entry point (legacy)
+ * @deprecated Use generateBrowserDevEntry or generateBrowserBuildEntry instead
  */
-function generateBrowserEntry(entry: string): string {
+function generateLegacyBrowserEntry(entry: string): string {
     return `
 // Springboard Browser Entry (auto-generated)
 import { initBrowser } from 'springboard/platforms/browser';
@@ -59,9 +163,10 @@ export default app;
 }
 
 /**
- * Generate Node.js entry point
+ * Generate Node.js entry point (legacy)
+ * @deprecated Use generateNodeEntry instead (loads from template)
  */
-function generateNodeEntry(entry: string): string {
+function generateLegacyNodeEntry(entry: string): string {
     return `
 // Springboard Node Entry (auto-generated)
 import { initNode } from 'springboard/platforms/node';

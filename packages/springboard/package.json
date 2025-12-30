@@ -101,6 +101,10 @@
       "types": "./dist/legacy-cli/index.d.ts",
       "import": "./dist/legacy-cli/index.js"
     },
+    "./vite-plugin": {
+      "types": "./vite-plugin/dist/index.d.ts",
+      "import": "./vite-plugin/dist/index.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
