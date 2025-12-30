@@ -21,5 +21,17 @@ export default defineConfig({
       // No platform specified - uses SPRINGBOARD_PLATFORM env var
       // Default: node,web
     })
-  ]
+  ],
+  optimizeDeps: {
+    // Explicitly include React since it's imported inside the springboard package
+    // which is being optimized. Vite's dependency scanner doesn't traverse
+    // optimized dependencies to find their transitive dependencies.
+    // React needs to be pre-bundled from CommonJS to ESM for browser compatibility.
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime'
+    ]
+  }
 });

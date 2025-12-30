@@ -6,9 +6,11 @@
  */
 
 import { Plugin, ViteDevServer } from 'vite';
-import path from 'path';
+import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
 import { createProxyMiddleware, Options as ProxyOptions } from 'http-proxy-middleware';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
 
 type SpringboardPluginOptions = {
   entry: string;
@@ -45,111 +47,42 @@ export default function springboard(options: SpringboardPluginOptions): Plugin {
   const VIRTUAL_ENTRY_ID = 'virtual:springboard-entry';
   const RESOLVED_VIRTUAL_ENTRY_ID = '\0' + VIRTUAL_ENTRY_ID;
 
+  // Load HTML template
+  const htmlTemplate = readFileSync(
+    path.resolve(__dirname, 'virtual-entries/index.template.html'),
+    'utf-8'
+  );
+
   // Generate HTML for dev and build modes
   const generateHtml = (): string => {
     const meta = options.documentMeta || {};
     const title = meta.title || 'Springboard App';
     const description = meta.description || '';
 
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-    ${description ? `<meta name="description" content="${description}">` : ''}
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #ffffff;
-      }
-      #root:empty::before {
-        content: 'Loading...';
-        display: block;
-        text-align: center;
-        padding: 40px;
-        font-family: system-ui, sans-serif;
-        color: #718096;
-      }
-    </style>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="module" src="/@id/__x00__virtual:springboard-entry"></script>
-</body>
-</html>`;
+    return htmlTemplate
+      .replace('{{TITLE}}', title)
+      .replace('{{DESCRIPTION_META}}', description ? `<meta name="description" content="${description}">` : '');
   };
+
+  // Load entry templates
+  const devEntryTemplate = readFileSync(
+    path.resolve(__dirname, 'virtual-entries/dev-entry.template.ts'),
+    'utf-8'
+  );
+  const buildEntryTemplate = readFileSync(
+    path.resolve(__dirname, 'virtual-entries/build-entry.template.ts'),
+    'utf-8'
+  );
 
   // Generate virtual entry module code
   const generateEntryCode = (platform: 'node' | 'web', isDev: boolean): string => {
     if (platform === 'web') {
       if (isDev) {
-        // In dev mode, use online_entrypoint which connects to the node server
-        // The Vite proxy will forward /ws and /rpc to the node server at localhost:1337
-        return `
-import { startAndRenderBrowserApp } from 'springboard/platforms/browser/entrypoints/react_entrypoint';
-import { BrowserJsonRpcClientAndServer } from 'springboard/platforms/browser/services/browser_json_rpc';
-import { HttpKvStoreClient } from 'springboard/core/services/http_kv_store_client';
-import { BrowserKVStoreService } from 'springboard/platforms/browser/services/browser_kvstore_service';
-import '${options.entry}';
-
-// Connect to node server via Vite proxy
-// WebSocket will connect to ws://localhost:5173/ws (Vite dev server)
-// which proxies to ws://localhost:1337/ws (node server)
-const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
-const httpProtocol = location.protocol === 'https:' ? 'https' : 'http';
-const wsUrl = \`\${wsProtocol}://\${location.host}/ws\`;
-const httpUrl = \`\${httpProtocol}://\${location.host}\`;
-
-// Use 'http' protocol for RPC - it will send HTTP POST requests to /rpc/*
-// The WebSocket is used for server-to-client notifications
-const rpc = new BrowserJsonRpcClientAndServer(wsUrl, 'http');
-const remoteKvStore = new HttpKvStoreClient(httpUrl);
-const userAgentKvStore = new BrowserKVStoreService(localStorage);
-
-startAndRenderBrowserApp({
-  rpc: {
-    remote: rpc,
-    local: undefined,
-  },
-  storage: {
-    userAgent: userAgentKvStore,
-    remote: remoteKvStore,
-  },
-  dev: {
-    reloadCss: false,
-    reloadJs: false,
-  },
-});
-`;
+        // In dev mode, connect to node server via Vite proxy
+        return devEntryTemplate.replace('__USER_ENTRY__', options.entry);
       } else {
         // In build mode, use mock implementations (offline mode)
-        return `
-import { startAndRenderBrowserApp } from 'springboard/platforms/browser/entrypoints/react_entrypoint';
-import '${options.entry}';
-
-startAndRenderBrowserApp({
-  rpc: {
-    send: () => {},
-    receive: () => {},
-  },
-  storage: {
-    get: async (key) => localStorage.getItem(key),
-    set: async (key, value) => localStorage.setItem(key, value),
-    delete: async (key) => localStorage.removeItem(key),
-  },
-  dev: {
-    reloadCss: false,
-    reloadJs: false,
-  },
-});
-`;
+        return buildEntryTemplate.replace('__USER_ENTRY__', options.entry);
       }
     } else if (platform === 'node') {
       return `
