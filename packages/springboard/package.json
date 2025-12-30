@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.8",
+  "version": "0.15.9",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./src/index.ts",
@@ -47,6 +47,18 @@
     "./platforms/browser/entrypoints/react_entrypoint.tsx": {
       "types": "./src/platforms/browser/entrypoints/react_entrypoint.tsx",
       "import": "./src/platforms/browser/entrypoints/react_entrypoint.tsx"
+    },
+    "./platforms/browser/services/browser_json_rpc": {
+      "types": "./src/platforms/browser/services/browser_json_rpc.ts",
+      "import": "./src/platforms/browser/services/browser_json_rpc.ts"
+    },
+    "./platforms/browser/services/browser_kvstore_service": {
+      "types": "./src/platforms/browser/services/browser_kvstore_service.ts",
+      "import": "./src/platforms/browser/services/browser_kvstore_service.ts"
+    },
+    "./core/services/http_kv_store_client": {
+      "types": "./src/core/services/http_kv_store_client.ts",
+      "import": "./src/core/services/http_kv_store_client.ts"
     },
     "./platforms/browser/index.html": "./src/platforms/browser/index.html",
     "./platforms/node": {
