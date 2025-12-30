@@ -15,8 +15,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(@hono/node-server@1.19.7(hono@4.11.3))(hono@4.11.3)
       '@jamtools/core':
-        specifier: ^0.15.17
-        version: 0.15.17(@tonejs/midi@2.0.28)(springboard@0.15.36(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)))
+        specifier: ^0.15.18
+        version: 0.15.18(@tonejs/midi@2.0.28)(springboard@0.15.37(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)))
       better-sqlite3:
         specifier: ^12.5.0
         version: 12.5.0
@@ -39,8 +39,8 @@ importers:
         specifier: ^7.11.0
         version: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       springboard:
-        specifier: ^0.15.36
-        version: 0.15.36(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0))
+        specifier: ^0.15.37
+        version: 0.15.37(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0))
       ws:
         specifier: ^8.18.3
         version: 8.18.3
@@ -248,11 +248,11 @@ packages:
       '@hono/node-server': ^1.11.1
       hono: ^4.6.0
 
-  '@jamtools/core@0.15.17':
-    resolution: {integrity: sha512-CPWUvETEKDeOjbx9zjCfjJNOGX9nxm/x9yDT8K/v2hJy+rQq4ARzFkMkeiA6y/md7hIM6Km5oUU2x3oo8qlrVQ==}
+  '@jamtools/core@0.15.18':
+    resolution: {integrity: sha512-U11dgyfVpzqQ+WFZO3gDZ9W92fGbnPMvVsBTFw+NrAwINBIZ3OjtYjk8jRWSruBZnTI12OTos8UG1sqd1UxI5A==}
     peerDependencies:
       '@tonejs/midi': ^2.0.0
-      springboard: 0.15.36
+      springboard: 0.15.37
       svelte: '>= 5'
     peerDependenciesMeta:
       svelte:
@@ -701,8 +701,8 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  springboard@0.15.36:
-    resolution: {integrity: sha512-2uoJDNGNWJiU9bAIwUv7E/QTwNcH7XM9slt/3eTS+zNjIh3FReg7MBH08YXjyVJzXHHQf9mhlsC7jYPL191wLw==}
+  springboard@0.15.37:
+    resolution: {integrity: sha512-TU6sKjdr4y0j5PJOBC4X6c7prDtvpBB1R048mZ+9vm92LbjQtPpzE4xiWYBEA3uN8gGaCFGP91/0i2WOK/7fgg==}
     peerDependencies:
       '@tauri-apps/api': ^2.9.0
       '@tauri-apps/plugin-shell': ^2.3.3
@@ -957,14 +957,14 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@jamtools/core@0.15.17(@tonejs/midi@2.0.28)(springboard@0.15.36(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)))':
+  '@jamtools/core@0.15.18(@tonejs/midi@2.0.28)(springboard@0.15.37(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)))':
     dependencies:
       '@tonejs/midi': 2.0.28
       easymidi: 3.1.0
       immer: 10.1.1
       midi-file: 1.2.4
       soundfont-player: 0.12.0
-      springboard: 0.15.36(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0))
+      springboard: 0.15.37(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0))
       webmidi: 3.1.14
 
   '@julusian/midi@3.6.1':
@@ -1381,7 +1381,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  springboard@0.15.36(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)):
+  springboard@0.15.37(immer@11.1.3)(isomorphic-ws@5.0.0(ws@8.18.3))(kysely@0.28.9)(react-dom@19.2.3(react@19.2.3))(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(rxjs@7.8.2)(vite@7.3.0(@types/node@25.0.3)(tsx@4.21.0)):
     dependencies:
       dexie: 4.2.1
       json-rpc-2.0: 1.7.1
