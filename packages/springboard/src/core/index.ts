@@ -35,7 +35,6 @@ export type {
   KVStore,
   Rpc,
   RpcArgs,
-  FileStorageProvider,
 } from './types/module_types';
 
 // Export module registry
@@ -62,15 +61,11 @@ export { HttpKvStoreClient } from './services/http_kv_store_client';
 // Export response types
 export type {
   ErrorResponse,
-  SuccessResponse,
-  SpringboardResponse,
 } from './types/response_types';
 
 // Export modules
 export { BaseModule } from './modules/base_module/base_module';
 export { FilesModule } from './modules/files/files_module';
-export type { FileHandle, FileMetadata } from './modules/files/file_types';
-export { IndexedDBFileStorageProvider } from './modules/files/file_storage_providers/indexed_db_file_storage_provider';
 
 // Export test utilities
 export { makeMockCoreDependencies } from './test/mock_core_dependencies';

@@ -148,7 +148,7 @@ export class PartyKitRpcClient implements Rpc {
 
         if (this.latestQueryParams) {
             for (const key of Object.keys(this.latestQueryParams)) {
-                u.searchParams.set(key, this.latestQueryParams[key]);
+                u.searchParams.set(key, this.latestQueryParams[key]!);
             }
         }
 

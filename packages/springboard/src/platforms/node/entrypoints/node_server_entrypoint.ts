@@ -66,7 +66,7 @@ export default async () => {
             });
 
             // Also immediately stop accepting new connections
-            server.closeAllConnections?.();
+            // server.closeAllConnections?.();
         };
 
         process.on('SIGTERM', shutdown);

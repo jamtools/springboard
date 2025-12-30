@@ -43,7 +43,7 @@ export const FrontendRoutes = () => {
         const thisModRoutes: RouteObject[] = [];
 
         Object.keys(routes).forEach(path => {
-            const Component = routes[path].component;
+            const Component = routes[path]!.component;
             const routeObject: RouteObject = {
                 path,
                 element: (

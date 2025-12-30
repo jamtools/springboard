@@ -39,7 +39,7 @@ import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json
 import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client';
 import {ReactNativeWebviewLocalTokenService} from '../services/rn_webview_local_token_service';
 
-export const startJamToolsAndRenderApp = async (args: {remoteUrl: string}): Promise<Springboard> => {
+export const startAndRenderBrowserApp = async (args: {remoteUrl: string}): Promise<Springboard> => {
     const DATA_HOST = args.remoteUrl;
     const WS_HOST = DATA_HOST.replace('http', 'ws');
 

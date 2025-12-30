@@ -85,7 +85,7 @@ export default class Server implements Party.Server {
             getAll: async () => {
                 const allEntriesAsRecord: Record<string, any> = {};
                 for (const key of Object.keys(this.kv)) {
-                    allEntriesAsRecord[key] = JSON.parse(this.kv[key]);
+                    allEntriesAsRecord[key] = JSON.parse(this.kv[key]!);
                 }
 
                 return allEntriesAsRecord;
@@ -112,6 +112,6 @@ export const startSpringboardApp = async (deps: NodeAppDependencies): Promise<Sp
     const engine = new Springboard(coreDeps, {});
 
     await engine.initialize();
-    deps.injectEngine(engine);
+    deps.injectEngine?.(engine);
     return engine;
 };

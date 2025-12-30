@@ -10,6 +10,7 @@
     "postinstall": "pnpm -r --filter springboard-cli run dev:setup",
     "build": "turbo run build",
     "build-saas": "turbo run build-saas",
+    "check-types": "turbo run check-types",
     "dev": "npm run dev-dev --prefix packages/springboard/cli",
     "docs": "cd docs && docker compose up",
     "build-docs-for-pages": "cd doks && npm i && npm run build",

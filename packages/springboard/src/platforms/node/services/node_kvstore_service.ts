@@ -31,7 +31,7 @@ export class NodeKVStoreService implements KVStore {
         const store = allKVData[this.databaseName] || {};
         const entriesAsRecord: Record<string, any> = {};
         for (const key of Object.keys(store)) {
-            const value = store[key];
+            const value = store[key]!;
             entriesAsRecord[key] = JSON.parse(value);
         }
 

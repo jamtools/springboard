@@ -53,18 +53,22 @@ export class ModuleAPI {
 
     constructor(private module: Module, private prefix: string, private coreDeps: CoreDependencies, private modDeps: ModuleDependencies, extraDeps: ExtraModuleDependencies, private options: ModuleOptions) {
         this.deps = {core: coreDeps, module: modDeps, extra: extraDeps};
+        this.moduleId = this.module.moduleId;
+        this.fullPrefix = `${this.prefix}|module|${this.module.moduleId}`;
+        this.statesAPI = new StatesAPI(this.fullPrefix, this.coreDeps, this.modDeps);
+        this.getModule = this.modDeps.moduleRegistry.getModule.bind(this.modDeps.moduleRegistry);
     }
 
-    public readonly moduleId = this.module.moduleId;
+    public readonly moduleId: string;
 
-    public readonly fullPrefix = `${this.prefix}|module|${this.module.moduleId}`;
+    public readonly fullPrefix: string;
 
     /**
      * Create shared and persistent pieces of state, scoped to this specific module.
     */
-    public readonly statesAPI = new StatesAPI(this.fullPrefix, this.coreDeps, this.modDeps);
+    public readonly statesAPI: StatesAPI;
 
-    getModule = this.modDeps.moduleRegistry.getModule.bind(this.modDeps.moduleRegistry);
+    public readonly getModule: typeof this.modDeps.moduleRegistry.getModule;
 
     /**
      * Register a route with the application's React Router. More info in [registering UI routes](/springboard/registering-ui).
@@ -129,7 +133,7 @@ export class ModuleAPI {
         const keys = Object.keys(actions);
 
         for (const key of keys) {
-            (actions[key] as ActionCallback<any, any>) = this.createAction(key, {}, actions[key]);
+            (actions[key] as ActionCallback<any, any>) = this.createAction(key, {}, actions[key]!);
         }
 
         return actions;

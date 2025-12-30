@@ -13,4 +13,4 @@ export { rpcAsyncLocalStorage } from './services/node_rpc_async_local_storage';
 // Export Node.js entrypoints
 export { startNodeApp } from './entrypoints/main';
 export type { NodeAppDependencies } from './entrypoints/main';
-export { default as nodeFlexibleEntrypoint } from './entrypoints/node_flexible_entrypoint';
+// export { default as nodeFlexibleEntrypoint } from './entrypoints/node_flexible_entrypoint';

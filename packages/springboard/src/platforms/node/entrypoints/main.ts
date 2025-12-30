@@ -6,7 +6,7 @@ import {ExtraModuleDependencies} from '../../../core/module_registry/module_regi
 
 const port = process.env.PORT || 1337;
 
-export type NodeAppDependencies = Partial<Pick<CoreDependencies, 'rpc' | 'storage'>> & Partial<CoreDependencies> & {
+export type NodeAppDependencies = Pick<CoreDependencies, 'rpc' | 'storage'> & Partial<CoreDependencies> & {
     injectEngine?: (engine: Springboard) => void;
 };
 
