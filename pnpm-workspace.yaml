@@ -1,6 +1,7 @@
 packages:
   - "apps/jamtools"
   - "apps/small_apps"
+  - "apps/vite-test"
   - "packages/jamtools/core"
   - "packages/jamtools/features"
   - "packages/springboard"

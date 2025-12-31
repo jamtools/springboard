@@ -1,0 +1,49 @@
+{
+  "name": "vite-test",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Test app validating legacy esbuild-based build workflows with the consolidated Springboard package",
+  "scripts": {
+    "build:esbuild": "tsx esbuild.ts",
+    "build:esbuild:watch": "tsx esbuild.ts --watch",
+    "build": "npm run build:web && npm run build:node",
+    "build:web": "SPRINGBOARD_PLATFORM=web vite build",
+    "build:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
+    "dev": "vite",
+    "check-types": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.7",
+    "@hono/node-ws": "^1.2.0",
+    "@jamtools/core": "workspace:*",
+    "better-sqlite3": "^12.5.0",
+    "hono": "^4.11.3",
+    "isomorphic-ws": "^5.0.0",
+    "kysely": "^0.28.9",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router": "^7.11.0",
+    "springboard": "workspace:*",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "esbuild": "^0.27.2",
+    "immer": "^11.1.0",
+    "rxjs": "^7.8.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "7.3.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
+}
