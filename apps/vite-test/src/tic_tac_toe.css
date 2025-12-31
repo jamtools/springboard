@@ -4,3 +4,10 @@ td {
     font-size: 16px;
     text-align: center;
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        filter: invert(100%) hue-rotate(180deg);
+        background: black;
+    }
+}
