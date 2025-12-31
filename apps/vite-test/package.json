@@ -8,6 +8,7 @@
     "build:esbuild": "tsx esbuild.ts",
     "build:esbuild:watch": "tsx esbuild.ts --watch",
     "build": "npm run build:web && npm run build:node",
+    "build-sb-and-app": "cd ../../packages/springboard && npm run build && cd vite-plugin && cd ../../../apps/vite-test && npm run build",
     "build:web": "SPRINGBOARD_PLATFORM=web vite build",
     "build:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
     "dev": "vite",
