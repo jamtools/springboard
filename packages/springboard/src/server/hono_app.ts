@@ -1,8 +1,8 @@
 import path from 'path';
 
 import {Context, Hono} from 'hono';
-// import {serveStatic} from '@hono/node-server/serve-static';
-import {serveStatic} from 'hono/serve-static';
+import {serveStatic} from '@hono/node-server/serve-static';
+import {serveStatic as serveStaticGeneric} from 'hono/serve-static';
 import {createNodeWebSocket} from '@hono/node-ws';
 import {cors} from 'hono/cors';
 
@@ -189,7 +189,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         return cachedBaseHtml;
     };
 
-    app.use('/', serveStatic({
+    app.use('/', serveStaticGeneric({
         root: webappDistFolder,
         path: 'index.html',
         getContent: async (path, c) => {
@@ -204,6 +204,11 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         },
     }));
 
+    // Serve assets directory (for Vite production builds)
+    app.use('/assets/*', serveStatic({
+        root: webappDistFolder,
+    }));
+
     app.use('/dist/:file', async (c, next) => {
         const requestedFile = c.req.param('file');
 
@@ -212,7 +217,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         }
 
         const contentType = requestedFile.endsWith('.js') ? 'text/javascript' : 'text/css';
-        return serveStatic({
+        return serveStaticGeneric({
             root: webappDistFolder,
             path: `/${requestedFile}`,
             getContent: async (path, c) => {
@@ -279,7 +284,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
             }
 
             // Catch-all route for SPA
-            app.use('*', serveStatic({
+            app.use('*', serveStaticGeneric({
                 root: webappDistFolder,
                 path: 'index.html',
                 getContent: async (path, c) => {

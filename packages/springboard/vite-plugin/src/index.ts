@@ -91,7 +91,7 @@ export function springboard(options: SpringboardOptions): Plugin {
   const projectRoot = getProjectRoot();
   const SPRINGBOARD_DIR = path.resolve(projectRoot, '.springboard');
   const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
-  const WEB_HTML_FILE = path.join(SPRINGBOARD_DIR, 'index.html');
+  const WEB_HTML_FILE = path.join(projectRoot, 'index.html'); // At project root for Vite
   const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.ts');
 
   // Load HTML template
@@ -154,8 +154,8 @@ export function springboard(options: SpringboardOptions): Plugin {
         const webEntryCode = webEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
         writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
 
-        // Generate HTML file that references the web entry (relative path from HTML location)
-        const buildHtml = generateHtml().replace('/.springboard/dev-entry.js', './web-entry.js');
+        // Generate HTML file at project root that references the web entry (relative path for Vite processing)
+        const buildHtml = generateHtml().replace('/.springboard/dev-entry.js', './.springboard/web-entry.js');
         writeFileSync(WEB_HTML_FILE, buildHtml, 'utf-8');
 
         console.log('[springboard] Generated web entry file in .springboard/');
@@ -376,9 +376,14 @@ export function springboard(options: SpringboardOptions): Plugin {
       return applyPlatformTransform(code, id, buildPlatform);
     },
 
-    transformIndexHtml() {
-      // For build mode, return the HTML so Vite can inject the fingerprinted script
-      return generateHtml();
+    transformIndexHtml(html, ctx) {
+      // Only transform HTML in dev mode - in build mode, use the generated file
+      if (ctx.server) {
+        // Dev mode: generate HTML dynamically
+        return generateHtml();
+      }
+      // Build mode: return the HTML as-is (already generated in buildStart)
+      return html;
     },
   };
 }
