@@ -91,6 +91,7 @@ export function springboard(options: SpringboardOptions): Plugin {
   const projectRoot = getProjectRoot();
   const SPRINGBOARD_DIR = path.resolve(projectRoot, '.springboard');
   const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
+  const WEB_HTML_FILE = path.join(SPRINGBOARD_DIR, 'index.html');
   const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.ts');
 
   // Load HTML template
@@ -151,8 +152,11 @@ export function springboard(options: SpringboardOptions): Plugin {
       if (buildPlatform === 'browser') {
         // Generate web entry file
         const webEntryCode = webEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
-
         writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
+
+        // Generate HTML file that references the web entry (relative path from HTML location)
+        const buildHtml = generateHtml().replace('/.springboard/dev-entry.js', './web-entry.js');
+        writeFileSync(WEB_HTML_FILE, buildHtml, 'utf-8');
 
         console.log('[springboard] Generated web entry file in .springboard/');
       } else if (buildPlatform === 'node') {
@@ -234,11 +238,11 @@ export function springboard(options: SpringboardOptions): Plugin {
           },
         };
       } else {
-        // Web builds use standard client mode
+        // Web builds use standard client mode with HTML entry
         return {
           build: {
             rollupOptions: {
-              input: WEB_ENTRY_FILE, // Physical file path
+              input: WEB_HTML_FILE, // HTML file so Vite can process and hash assets
             },
           },
         };
