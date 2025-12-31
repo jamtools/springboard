@@ -49,7 +49,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         },
     });
 
-    const webappFolder = process.env.WEBAPP_FOLDER || './dist/browser';
+    const webappFolder = process.env.WEBAPP_FOLDER || './dist';
     const webappDistFolder = webappFolder;
 
     const {injectWebSocket, upgradeWebSocket} = createNodeWebSocket({app});
