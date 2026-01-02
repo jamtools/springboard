@@ -1,10 +1,10 @@
 import fs from 'fs';
 
-import {makeKyselySqliteInstance} from '../data-storage/sqlite_db';
+import {makeKyselySqliteInstance} from '../../../data-storage/sqlite_db';
 
-import {KyselyDBWithKVStoreTable} from '../data-storage/kv_store_db_types';
+import {KyselyDBWithKVStoreTable} from '../../../data-storage/kv_store_db_types';
 
-import {KVStoreFromKysely} from '../data-storage/kv_api_kysely';
+import {KVStoreFromKysely} from '../../../data-storage/kv_api_kysely';
 
 export type WebsocketServerCoreDependencies = {
     kvDatabase: KyselyDBWithKVStoreTable;

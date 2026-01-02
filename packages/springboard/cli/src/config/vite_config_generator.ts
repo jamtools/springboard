@@ -105,7 +105,7 @@ export const platformConfigs: Record<string, PlatformBuildConfig> = {
     server: {
         target: 'node',
         name: 'server',
-        platformEntrypoint: 'springboard/server/entrypoints/local-server.entrypoint.ts',
+        platformEntrypoint: 'springboard/platforms/node/entrypoints/node_server_entrypoint.ts',
         platformMacro: 'node',
         outDir: 'server/dist',
         format: 'cjs',

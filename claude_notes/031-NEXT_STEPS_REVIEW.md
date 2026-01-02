@@ -1,7 +1,7 @@
 # Next Steps Review: Refactor Branch Migration to Vite
 
 **Date**: 2026-01-01
-**Status**: Ready for implementation
+**Status**: Needs updates before implementation
 **Scope**: Migrate platform-agnostic server architecture from refactor-springboard-server branch into current Vite-based branch
 
 ---
@@ -34,7 +34,7 @@ packages/springboard/
 │   ├── server/            # Platform-agnostic server (currently Node-specific)
 │   ├── cli/               # Sub-package (needs consolidation)
 │   ├── vite-plugin/       # Sub-package (needs consolidation)
-│   └── create-springboard-app/  # Should move to packages/create-springboard-app
+│   └── (no create-springboard-app here; it currently lives at packages/springboard/create-springboard-app)
 └── dist/                  # Build output (what gets exported)
 ```
 
@@ -44,7 +44,7 @@ packages/springboard/
 - Remove `packages/springboard/cli/package.json`
 - Remove `packages/springboard/vite-plugin/package.json`
 - Move `packages/springboard/create-springboard-app/` → `packages/create-springboard-app/`
-- Update `packages/springboard/package.json` to build all outputs
+- Update `packages/springboard/package.json` so `pnpm -C packages/springboard build` emits all required `dist` outputs (runtime, cli, vite-plugin)
 
 **Rationale**: Nested package.json files create:
 - Conflicting dependency graphs
@@ -220,12 +220,14 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue
 
 **Pattern to Implement** (from refactor branch):
 ```typescript
-import {createServer} from 'node:http';
-import {crosswsNode} from 'crossws/adapters/node';
+import {serve} from '@hono/node-server';
+import crosswsNode from 'crossws/adapters/node';
 import {initApp} from 'springboard/server/hono_app';
 import {makeWebsocketServerCoreDependenciesWithSqlite} from 'springboard/platforms/node/services/ws_server_core_dependencies';
+import {LocalJsonNodeKVStoreService} from 'springboard/platforms/node/services/node_kvstore_service';
+import {Springboard} from 'springboard/engine/engine';
 
-const nodeKvDeps = makeWebsocketServerCoreDependenciesWithSqlite();
+const nodeKvDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
 let wsNode: ReturnType<typeof crosswsNode>;
 
 const {app, serverAppDependencies, injectResources, createWebSocketHooks} = initApp({
@@ -239,7 +241,15 @@ wsNode = crosswsNode({
     hooks: createWebSocketHooks(useWebSocketsForRpc)
 });
 
-const server = createServer(app.fetch);
+// Port configuration (runtime env var override)
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : __PORT__;
+
+const server = serve({
+    fetch: app.fetch,
+    port,
+}, (info) => {
+    console.log(`Server running on http://localhost:${info.port}`);
+});
 
 server.on('upgrade', (request, socket, head) => {
     const url = new URL(request.url || '', `http://${request.headers.host}`);
@@ -247,6 +257,17 @@ server.on('upgrade', (request, socket, head) => {
         wsNode.handleUpgrade(request, socket, head);
     }
 });
+
+const coreDeps = {
+    log: console.log,
+    showError: console.error,
+    storage: serverAppDependencies.storage,
+    isMaestro: () => true,
+    rpc: serverAppDependencies.rpc,
+};
+Object.assign(coreDeps, serverAppDependencies);
+
+const engine = new Springboard(coreDeps, {});
 
 injectResources({
     engine,
@@ -256,12 +277,7 @@ injectResources({
     getEnvValue: name => process.env[name],
 });
 
-// Port configuration (runtime env var override)
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : __PORT__;
-
-server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+await engine.initialize();
 ```
 
 **Key Changes**:
@@ -292,8 +308,9 @@ server.listen(port, () => {
    - Move `packages/springboard/create-springboard-app/` → `packages/create-springboard-app/`
 
 3. **Update build config**:
-   - Update `packages/springboard/package.json` scripts to build all outputs (cli, vite-plugin, runtime)
-   - Update `tsconfig.build.json` include paths if needed
+   - Update `packages/springboard/package.json` scripts so `pnpm -C packages/springboard build` emits runtime, cli, and vite-plugin outputs under `dist/`.
+   - Update `tsconfig.build.json` include paths to cover `src/cli/**` and `src/vite-plugin/**`.
+   - Document the expected `dist/` layout for merged cli + vite-plugin exports.
 
 **Risks of Nested package.json**:
 - Conflicting dependency graphs (dev deps vs runtime deps)
@@ -319,15 +336,15 @@ server.listen(port, () => {
   "exports": {
     "./server/hono_app": {
       "types": "./dist/server/hono_app.d.ts",
-      "default": "./dist/server/hono_app.js"
+      "import": "./dist/server/hono_app.js"
     },
     "./server/register": {
       "types": "./dist/server/register.d.ts",
-      "default": "./dist/server/register.js"
+      "import": "./dist/server/register.js"
     },
     "./platforms/node/services/ws_server_core_dependencies": {
       "types": "./dist/platforms/node/services/ws_server_core_dependencies.d.ts",
-      "default": "./dist/platforms/node/services/ws_server_core_dependencies.js"
+      "import": "./dist/platforms/node/services/ws_server_core_dependencies.js"
     }
   }
 }
@@ -346,32 +363,30 @@ server.listen(port, () => {
 
 **Reference**: `claude_notes/reference-songdrive-esbuild.ts` (707 lines)
 
-**Required Capabilities**:
+**Required Capabilities (concrete implementation)**:
 
-1. **Multi-target build orchestration**
-   - Vite-driven build runner executing multiple builds sequentially
-   - Platform-specific entrypoints (browser, node, server, Tauri, RN)
-   - Output to configured folders per target
+1. **Multi-target build runner**
+   - Add `packages/springboard/src/vite-plugin/build-runner.ts` that accepts an array of targets and runs them sequentially.
+   - Each target includes: `name`, `platform`, `entrypoint`, `outDir`, `define`, `alias`, `plugins`, `postBuild`.
 
-2. **File move/post-build hooks**
-   - Post-build hook to copy files to destinations
-   - Config: "copy to folder" operations per target
-   - Replaces `build/esbuild.ts` file move logic
+2. **Post-build file operations**
+   - Add `packages/springboard/src/vite-plugin/post_build.ts` with helpers: `ensureDir`, `copyFile`, `copyDir`.
+   - Each target may define `postBuild.copy` tasks to replicate esbuild’s output moves.
 
 3. **Define/alias compatibility**
-   - Vite layer to inject defines and aliases per target
-   - Environment variable injection (replaces esbuild `define`)
+   - Build runner merges per-target `define` and `resolve.alias` into the Vite config.
+   - Provide a helper to merge `define` from env vars (parity with `esbuild.ts`).
 
-4. **Plugin system**
-   - Custom loaders (.svg, .sql, .ttf as dataurl)
-   - Sentry upload plugin integration
-   - Sass compilation support
-   - Custom transform hooks
+4. **Plugin mapping**
+   - Allow per-target plugin injection (Sentry, Sass, custom transforms).
+   - Provide a standard loader plugin for `.sql`, `.ttf`, `.svg`, `.woff` to emulate `dataurl` behavior.
 
-5. **Build orchestration**
-   - Support `SPRINGBOARD_PLATFORM_VARIANT` env var pattern
-   - Sequential builds per platform
-   - HTML post-processing capabilities
+5. **HTML post-processing**
+   - Add a `transformIndexHtml` hook per target to support edits like `editHtmlFile` in `reference-songdrive-esbuild.ts`.
+
+6. **Build orchestration flags**
+   - Support `SPRINGBOARD_PLATFORM_VARIANT` in the build runner to filter targets.
+   - Provide a `--watch` mode that runs targets in sequence and re-triggers on change.
 
 **Acceptance Criteria**:
 - Vite-based build script replicates final output layout of Songdrive esbuild script

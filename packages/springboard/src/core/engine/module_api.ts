@@ -3,6 +3,15 @@ import {ExtraModuleDependencies, Module, ModuleRegistry, NavigationItemConfig, R
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
 import {RegisterRouteOptions} from './register';
 
+// Helper to get middleware results from async local storage (when available)
+// This is platform-specific: on Node.js it uses AsyncLocalStorage, on browser it returns undefined
+let getRpcMiddlewareResults: () => object | undefined = () => undefined;
+
+// Allow platforms to register their async local storage getter
+export const setRpcMiddlewareResultsGetter = (getter: () => object | undefined) => {
+    getRpcMiddlewareResults = getter;
+};
+
 type ActionConfigOptions = object;
 
 export type ActionCallOptions = {
@@ -10,9 +19,18 @@ export type ActionCallOptions = {
 }
 
 /**
- * The Action callback
+ * Results from RPC middleware that can be passed to action callbacks.
+ * Extend this interface to add custom middleware results.
+ */
+export interface RpcMiddlewareResults {
+    [key: string]: unknown;
+}
+
+/**
+ * The Action callback.
+ * The optional second parameter provides middleware results when the action runs on the server.
 */
-type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, options?: ActionCallOptions) => ReturnValue;
+type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, middlewareResults?: RpcMiddlewareResults) => ReturnValue;
 
 // this would make it so modules/plugins can extend the module API dynamically through interface merging
 // export interface ModuleAPI {
@@ -131,12 +149,13 @@ export class ModuleAPI {
         actions: Actions
     ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
         const keys = Object.keys(actions);
+        const result = {} as typeof actions;
 
         for (const key of keys) {
-            (actions[key] as ActionCallback<any, any>) = this.createAction(key, {}, actions[key]!);
+            (result[key] as ActionCallback<any, any>) = this.createAction(key, {}, actions[key]!);
         }
 
-        return actions;
+        return result;
     };
 
     setRpcMode = (mode: 'remote' | 'local') => {

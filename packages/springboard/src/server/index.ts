@@ -17,11 +17,11 @@ export type {
 // Export Hono app factory
 export { initApp } from './hono_app';
 
-// Export server dependencies
+// Export server dependencies (from Node platform - SQLite-backed)
 export {
   makeWebsocketServerCoreDependenciesWithSqlite,
-} from './ws_server_core_dependencies';
-export type { WebsocketServerCoreDependencies } from './ws_server_core_dependencies';
+} from '../platforms/node/services/ws_server_core_dependencies';
+export type { WebsocketServerCoreDependencies } from '../platforms/node/services/ws_server_core_dependencies';
 
 // Export server JSON RPC
 export { NodeJsonRpcServer } from './services/server_json_rpc';

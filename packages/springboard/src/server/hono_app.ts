@@ -14,7 +14,7 @@ import type {DocumentMeta} from '../core/module_registry/module_registry';
 import type {DocumentMetaFunction} from '../core/engine/register';
 
 import {NodeJsonRpcServer} from './services/server_json_rpc';
-import {WebsocketServerCoreDependencies} from './ws_server_core_dependencies';
+import {WebsocketServerCoreDependencies} from '../platforms/node/services/ws_server_core_dependencies';
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register';
 import {Springboard} from '../core/engine/engine';
 import {injectDocumentMeta} from './utils/inject_metadata';
