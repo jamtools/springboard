@@ -1,0 +1,240 @@
+name: Build Tauri App
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        required: true
+        type: string
+      tauri_args:
+        required: true
+        type: string
+      tauri_target:
+        required: true
+        type: string
+      # pkg_target:
+      #   required: true
+      #   type: string
+      sign_app:
+        required: true
+        type: boolean
+      target_branch:
+        required: true
+        type: string
+      profile:
+        required: true
+        type: string
+      site_url:
+        required: true
+        type: string
+      run_on_self_hosted:
+        required: false
+        type: boolean
+        default: false
+      publish_version:
+        required: false
+        type: string
+      enable_debug:
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build_tauri:
+    runs-on: ${{ (inputs.run_on_self_hosted && 'self-hosted') || inputs.platform }}
+    steps:
+    - name: Log Workflow Inputs
+      run: |
+        echo "platform: ${{ inputs.platform }}"
+        echo "tauri_args: ${{ inputs.tauri_args }}"
+        echo "tauri_target: ${{ inputs.tauri_target }}"
+        echo "sign_app: ${{ inputs.sign_app }}"
+        echo "target_branch: ${{ inputs.target_branch }}"
+        echo "profile: ${{ inputs.profile }}"
+        echo "site_url: ${{ inputs.site_url }}"
+        echo "enable_debug: ${{ inputs.enable_debug }}"
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ inputs.target_branch }}
+
+    - name: Checkout releases repo into `.github/composite-actions`
+      uses: actions/checkout@v3
+      with:
+        repository: jamtools/releases
+        path: .github/composite-actions
+        ref: ${{ github.sha }}
+
+    - name: Build Tauri App
+      uses: ./.github/composite-actions/.github/actions/build_desktop
+      with:
+        platform: ${{ inputs.platform }}
+        tauri_args: ${{ inputs.tauri_args }}
+        tauri_target: ${{ inputs.tauri_target }}
+        sign_app: ${{ inputs.sign_app }}
+        profile: ${{ inputs.profile }}
+        site_url: ${{ inputs.site_url }}
+        apple_certificate: ${{ secrets.APPLE_CERTIFICATE }}
+        apple_certificate_password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        apple_signing_identity: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+        apple_id: ${{ secrets.APPLE_ID }}
+        apple_password: ${{ secrets.APPLE_PASSWORD }}
+        apple_team_id: ${{ secrets.APPLE_TEAM_ID }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        enable_debug: ${{ inputs.enable_debug }}
+
+      # I need to go through the compiled tauri apps, and look at the compiled folder structure
+      # and then extract the installable for the given platform
+      # and then upload it to artifacts and S3
+    - name: Archive built artifacts
+      shell: bash
+      run: |
+        # Find all `bundle` directories
+        find ./apps/desktop_tauri/src-tauri/target -type d -name "bundle" | while read -r dir; do
+          # Extract the relative path starting after `target/`
+          RELATIVE_PATH="${dir#./apps/desktop_tauri/src-tauri/target/}"
+          # Copy the `bundle` directory to the corresponding artifacts folder
+          DEST_DIR="artifacts/${{ inputs.platform }}/$(dirname "$RELATIVE_PATH")"
+          mkdir -p "$DEST_DIR"
+          cp -r "$dir" "$DEST_DIR"
+        done
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tauri-build-${{ inputs.platform }}-${{ inputs.tauri_target }}
+        path: artifacts/${{ inputs.platform }}
+
+    - name: Get short commit hash
+      shell: bash
+      id: commit_hash
+      run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Get current datetime
+      shell: bash
+      id: datetime
+      run: echo "value=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_OUTPUT
+
+    - name: Extract and rename installer file
+      if: inputs.publish_version != ''
+      shell: bash
+      id: extract_installer
+      run: |
+        echo "Starting installer file extraction for platform: ${{ inputs.platform }}"
+
+        # Function to sanitize filename for URL compatibility (replace spaces with underscores)
+        sanitize_filename() {
+          echo "$1" | sed 's/[[:space:]]/_/g'
+        }
+
+        if [[ "${{ inputs.platform }}" == "macos-latest" || "${{ inputs.platform }}" == "macos-"* ]]; then
+          echo "Processing macOS platform..."
+
+          # Find DMG file with priority order
+          DMG_FILE=$(find artifacts/${{ inputs.platform }} -name "*.dmg" | head -1)
+
+          echo "Found DMG files:"
+          find artifacts/${{ inputs.platform }} -name "*.dmg" || echo "No DMG files found"
+
+          if [[ -z "$DMG_FILE" ]]; then
+            echo "ERROR: No DMG file found in artifacts/${{ inputs.platform }}"
+            echo "Available files:"
+            find artifacts/${{ inputs.platform }} -type f || echo "No files found"
+            exit 1
+          fi
+
+          echo "Selected DMG file: $DMG_FILE"
+
+          # Extract and sanitize the original filename
+          ORIGINAL_FILENAME=$(basename "$DMG_FILE" .dmg)
+          SANITIZED_FILENAME=$(sanitize_filename "$ORIGINAL_FILENAME")
+
+          # Create new filename: datetime_commithash_originalfilename_version.dmg
+          NEW_FILENAME="${{ steps.datetime.outputs.value }}_${{ steps.commit_hash.outputs.hash }}_${SANITIZED_FILENAME}_${{ inputs.publish_version }}.dmg"
+
+          echo "Original filename: $ORIGINAL_FILENAME"
+          echo "Sanitized filename: $SANITIZED_FILENAME"
+          echo "Final filename: $NEW_FILENAME"
+
+        elif [[ "${{ inputs.platform }}" == "windows-latest" || "${{ inputs.platform }}" == "windows-"* ]]; then
+          echo "Processing Windows platform..."
+
+          # Find EXE file with priority order: setup files first, then any exe
+          EXE_FILE=$(find artifacts/${{ inputs.platform }} -name "*-setup.exe" | head -1)
+          if [[ -z "$EXE_FILE" ]]; then
+            EXE_FILE=$(find artifacts/${{ inputs.platform }} -name "*setup*.exe" | head -1)
+          fi
+          if [[ -z "$EXE_FILE" ]]; then
+            EXE_FILE=$(find artifacts/${{ inputs.platform }} -name "*.exe" | head -1)
+          fi
+
+          echo "Found EXE files:"
+          find artifacts/${{ inputs.platform }} -name "*.exe" || echo "No EXE files found"
+
+          if [[ -z "$EXE_FILE" ]]; then
+            echo "ERROR: No EXE file found in artifacts/${{ inputs.platform }}"
+            echo "Available files:"
+            find artifacts/${{ inputs.platform }} -type f || echo "No files found"
+            exit 1
+          fi
+
+          echo "Selected EXE file: $EXE_FILE"
+
+          # Extract and sanitize the original filename
+          ORIGINAL_FILENAME=$(basename "$EXE_FILE" .exe)
+          SANITIZED_FILENAME=$(sanitize_filename "$ORIGINAL_FILENAME")
+
+          # Create new filename: datetime_commithash_originalfilename_version.exe
+          NEW_FILENAME="${{ steps.datetime.outputs.value }}_${{ steps.commit_hash.outputs.hash }}_${SANITIZED_FILENAME}_${{ inputs.publish_version }}.exe"
+
+          echo "Original filename: $ORIGINAL_FILENAME"
+          echo "Sanitized filename: $SANITIZED_FILENAME"
+          echo "Final filename: $NEW_FILENAME"
+
+        else
+          echo "ERROR: Unsupported platform: ${{ inputs.platform }}"
+          echo "Supported platforms: macos-latest, windows-latest (and variants)"
+          exit 1
+        fi
+
+        # Create staging directory and copy file
+        echo "Creating staging directory..."
+        if ! mkdir -p staging; then
+          echo "ERROR: Failed to create staging directory"
+          exit 1
+        fi
+
+        echo "Copying installer file to staging..."
+        if [[ -n "$DMG_FILE" ]]; then
+          SOURCE_FILE="$DMG_FILE"
+        else
+          SOURCE_FILE="$EXE_FILE"
+        fi
+
+        if ! cp "$SOURCE_FILE" "staging/$NEW_FILENAME"; then
+          echo "ERROR: Failed to copy $SOURCE_FILE to staging/$NEW_FILENAME"
+          exit 1
+        fi
+
+        echo "Successfully created: staging/$NEW_FILENAME"
+        ls -la "staging/$NEW_FILENAME"
+
+        # Set outputs
+        echo "installer_file=staging/$NEW_FILENAME" >> $GITHUB_OUTPUT
+        echo "filename=$NEW_FILENAME" >> $GITHUB_OUTPUT
+
+        echo "Installer extraction completed successfully!"
+
+    - name: Upload installer to S3 compatible
+      if: inputs.publish_version != ''
+      uses: shallwefootball/s3-upload-action@master
+      with:
+          aws_key_id: ${{ secrets.R2_DESKTOP_APP_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.R2_DESKTOP_APP_KEY_SECRET }}
+          aws_bucket: ${{ secrets.R2_DESKTOP_APP_BUCKET }}
+          source_dir: 'staging'
+          destination_dir: 'builds/desktop'
+          endpoint: ${{ secrets.R2_DESKTOP_APP_ENDPOINT }}

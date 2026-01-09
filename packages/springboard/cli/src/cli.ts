@@ -261,7 +261,7 @@ program
 import { resolve } from 'path';
 import {build} from 'esbuild';
 import {pathToFileURL} from 'node:url';
-// import {generateReactNativeProject} from './generators/mobile/react_native_project_generator';
+import {generateReactNativeProject} from './generators/mobile/react_native_project_generator';
 
 program
     .command('upgrade')
@@ -309,13 +309,14 @@ program
     }
 });
 
-// const generateCommand = program.command('generate');
+const scaffoldCommand = program.command('scaffold');
 
-// generateCommand.command('mobile')
-//     .description('Generate a mobile app')
-//     .action(async () => {
-//         await generateReactNativeProject();
-//     });
+scaffoldCommand.command('mobile')
+    .description('Scaffold a React Native mobile app')
+    .argument('[project-name]', 'Name of the mobile project', 'mobile-app')
+    .action(async (projectName: string) => {
+        await generateReactNativeProject(projectName);
+    });
 
 
 if (!(globalThis as any).AVOID_PROGRAM_PARSE) {

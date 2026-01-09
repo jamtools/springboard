@@ -154,4 +154,8 @@ sleep 1
 
 publish_package "$root_dir/packages/springboard/plugins/svelte"
 
+sleep 1
+
+publish_package "$root_dir/packages/springboard/platform-templates/react-native-caz"
+
 # # npm i

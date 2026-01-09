@@ -1,0 +1,11 @@
+# Exclude development files
+template/node_modules/
+template/.expo/
+template/dist/
+template/*.log
+
+# Include everything else needed for the template
+!template/
+!index.js
+!README.md
+!INTEGRATION.md

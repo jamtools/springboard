@@ -1,9 +1,53 @@
 import {program} from 'commander';
 
 import {execSync} from 'child_process';
-import {readFileSync, writeFileSync} from 'fs';
+import {readFileSync, writeFileSync, mkdirSync} from 'fs';
+import {join} from 'path';
 
 import packageJSON from '../package.json';
+import {workflows} from './generated-workflows';
+import {actions} from './generated-actions';
+
+function writeDirectoryRecursive(dir: string, data: any, basePath: string = '') {
+    for (const [key, value] of Object.entries(data)) {
+        const fullPath = join(dir, basePath, key);
+        
+        if (typeof value === 'string') {
+            // It's a file - create directory structure and write file
+            mkdirSync(join(dir, basePath), { recursive: true });
+            writeFileSync(fullPath, value);
+        } else if (typeof value === 'object' && value !== null) {
+            // It's a directory - recurse
+            writeDirectoryRecursive(dir, value, join(basePath, key));
+        }
+    }
+}
+
+function setupGithubWorkflows(targetDir: string) {
+    const targetGithubDir = join(targetDir, '.github');
+    
+    try {
+        // Create .github directory structure
+        mkdirSync(targetGithubDir, { recursive: true });
+        
+        // Write workflows
+        const workflowsDir = join(targetGithubDir, 'workflows');
+        mkdirSync(workflowsDir, { recursive: true });
+        
+        for (const [filename, content] of Object.entries(workflows)) {
+            writeFileSync(join(workflowsDir, filename), content);
+        }
+        
+        // Write actions
+        const actionsDir = join(targetGithubDir, 'actions');
+        writeDirectoryRecursive(actionsDir, actions);
+        
+        console.log('GitHub workflows and actions setup successfully!');
+        
+    } catch (error) {
+        console.warn('Warning: Could not setup GitHub workflows:', error instanceof Error ? error.message : String(error));
+    }
+}
 
 program
     .name('create-springboard-app')
@@ -79,6 +123,9 @@ program
     };
 
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+    // Set up GitHub workflows and actions
+    setupGithubWorkflows(process.cwd());
 
     console.log('Project created successfully! Run the following to start the development server:\n');
     console.log('npm run dev\n');
