@@ -120,6 +120,10 @@ function generateExports() {
     './types/module_types': './core/types/module_types',
     './types/response_types': './core/types/response_types',
     './utils/generate_id': './core/utils/generate_id',
+    './test/mock_core_dependencies': './core/test/mock_core_dependencies',
+    './modules/files/file_types': './core/modules/files/file_types',
+    './modules/files/files_module': './core/modules/files/files_module',
+    './modules/base_module/base_module': './core/modules/base_module/base_module',
   };
 
   for (const [legacyPath, newPath] of Object.entries(legacyAliases)) {

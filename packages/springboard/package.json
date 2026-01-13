@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.44",
+  "version": "0.15.45",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
@@ -295,6 +295,22 @@
     "./utils/generate_id": {
       "types": "./dist/core/utils/generate_id.d.ts",
       "import": "./dist/core/utils/generate_id.js"
+    },
+    "./test/mock_core_dependencies": {
+      "types": "./dist/core/test/mock_core_dependencies.d.ts",
+      "import": "./dist/core/test/mock_core_dependencies.js"
+    },
+    "./modules/files/file_types": {
+      "types": "./dist/core/modules/files/file_types.d.ts",
+      "import": "./dist/core/modules/files/file_types.js"
+    },
+    "./modules/files/files_module": {
+      "types": "./dist/core/modules/files/files_module.d.ts",
+      "import": "./dist/core/modules/files/files_module.js"
+    },
+    "./modules/base_module/base_module": {
+      "types": "./dist/core/modules/base_module/base_module.d.ts",
+      "import": "./dist/core/modules/base_module/base_module.js"
     },
     "./platforms/browser/index.html": "./src/platforms/browser/index.html",
     "./vite-plugin": {
