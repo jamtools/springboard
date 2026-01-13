@@ -176,3 +176,21 @@
   - Server layer matches refactor branch behavior (DI, crossws, middleware results).
   - Platforms match refactor branch implementations (node/webapp/tauri/RN/CF/deno).
   - Vite branch retains single-package exports and Vite-specific behaviors through explicit re-additions.
+
+Here’s the Vite‑specific work on this branch that you should explicitly preserve when doing the refactor‑first copy:
+
+  - packages/springboard/vite-plugin/src/templates/node-entry.template.ts
+    The Vite runtime entry template is the main integration point; it must be updated to the refactor initApp signature but the template itself
+    is Vite‑specific.
+  - apps/vite-test/virtual-entries/node-entry.template.ts
+    The local Vite test harness relies on this; keep it in sync with the plugin template.
+  - packages/springboard/cli/src/config/vite_config_generator.ts
+    This wiring chooses the server entrypoint for Vite builds; keep any Vite‑specific entrypoint selection logic.
+  - packages/springboard/src/server/hono_app.ts (Vite-only behaviors to reapply after refactor copy)
+      - dynamic index.html metadata injection
+      - /assets/* routing for Vite builds
+      - any Vite-specific static handling (e.g., /dist/*)
+  - packages/springboard/package.json export map conventions
+    Keep the current dist‑first export structure; don’t revert to src/* exports.
+  - apps/vite-test (and any Vite-only build assumptions)
+    Keep its build/dev scripts and expected output layout for validation.
