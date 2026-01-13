@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.42",
+  "version": "0.15.44",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
@@ -12,45 +12,125 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./core": {
+    "./core/engine/engine": {
+      "types": "./dist/core/engine/engine.d.ts",
+      "import": "./dist/core/engine/engine.js"
+    },
+    "./core/engine/module_api": {
+      "types": "./dist/core/engine/module_api.d.ts",
+      "import": "./dist/core/engine/module_api.js"
+    },
+    "./core/engine/register": {
+      "types": "./dist/core/engine/register.d.ts",
+      "import": "./dist/core/engine/register.js"
+    },
+    "./core/index": {
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js"
     },
-    "./server": {
-      "types": "./dist/server/index.d.ts",
-      "import": "./dist/server/index.js"
+    "./core/module_registry/module_registry": {
+      "types": "./dist/core/module_registry/module_registry.d.ts",
+      "import": "./dist/core/module_registry/module_registry.js"
     },
-    "./server/register": {
-      "types": "./dist/server/register.d.ts",
-      "import": "./dist/server/register.js"
+    "./core/modules/base_module/base_module": {
+      "types": "./dist/core/modules/base_module/base_module.d.ts",
+      "import": "./dist/core/modules/base_module/base_module.js"
     },
-    "./platforms/browser": {
-      "types": "./dist/platforms/browser/index.d.ts",
-      "import": "./dist/platforms/browser/index.js"
+    "./core/modules/files/file_storage_providers/indexed_db_file_storage_provider": {
+      "types": "./dist/core/modules/files/file_storage_providers/indexed_db_file_storage_provider.d.ts",
+      "import": "./dist/core/modules/files/file_storage_providers/indexed_db_file_storage_provider.js"
     },
-    "./platforms/browser/entrypoints/online_entrypoint": {
-      "types": "./dist/platforms/browser/entrypoints/online_entrypoint.d.ts",
-      "import": "./dist/platforms/browser/entrypoints/online_entrypoint.js"
+    "./core/modules/files/file_types": {
+      "types": "./dist/core/modules/files/file_types.d.ts",
+      "import": "./dist/core/modules/files/file_types.js"
     },
-    "./platforms/browser/entrypoints/online_entrypoint.ts": {
-      "types": "./dist/platforms/browser/entrypoints/online_entrypoint.d.ts",
-      "import": "./dist/platforms/browser/entrypoints/online_entrypoint.js"
+    "./core/modules/files/files_module": {
+      "types": "./dist/core/modules/files/files_module.d.ts",
+      "import": "./dist/core/modules/files/files_module.js"
+    },
+    "./core/modules/index": {
+      "types": "./dist/core/modules/index.d.ts",
+      "import": "./dist/core/modules/index.js"
+    },
+    "./core/services/http_kv_store_client": {
+      "types": "./dist/core/services/http_kv_store_client.d.ts",
+      "import": "./dist/core/services/http_kv_store_client.js"
+    },
+    "./core/services/states/shared_state_service": {
+      "types": "./dist/core/services/states/shared_state_service.d.ts",
+      "import": "./dist/core/services/states/shared_state_service.js"
+    },
+    "./core/test/mock_core_dependencies": {
+      "types": "./dist/core/test/mock_core_dependencies.d.ts",
+      "import": "./dist/core/test/mock_core_dependencies.js"
+    },
+    "./core/types/module_types": {
+      "types": "./dist/core/types/module_types.d.ts",
+      "import": "./dist/core/types/module_types.js"
+    },
+    "./core/types/response_types": {
+      "types": "./dist/core/types/response_types.d.ts",
+      "import": "./dist/core/types/response_types.js"
+    },
+    "./core/utils/generate_id": {
+      "types": "./dist/core/utils/generate_id.d.ts",
+      "import": "./dist/core/utils/generate_id.js"
+    },
+    "./data-storage/index": {
+      "types": "./dist/data-storage/index.d.ts",
+      "import": "./dist/data-storage/index.js"
+    },
+    "./legacy-cli/esbuild-plugins/esbuild_plugin_html_generate": {
+      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_html_generate.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_html_generate.js"
+    },
+    "./legacy-cli/esbuild-plugins/esbuild_plugin_log_build_time": {
+      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_log_build_time.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_log_build_time.js"
+    },
+    "./legacy-cli/esbuild-plugins/esbuild_plugin_partykit_config": {
+      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_partykit_config.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_partykit_config.js"
+    },
+    "./legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject": {
+      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject.js"
+    },
+    "./legacy-cli/esbuild-plugins/esbuild_plugin_transform_await_import": {
+      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_transform_await_import.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_transform_await_import.js"
+    },
+    "./legacy-cli/esbuild-plugins/index": {
+      "types": "./dist/legacy-cli/esbuild-plugins/index.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/index.js"
+    },
+    "./legacy-cli/index": {
+      "types": "./dist/legacy-cli/index.d.ts",
+      "import": "./dist/legacy-cli/index.js"
+    },
+    "./platforms/browser/entrypoints/esbuild_watch_for_changes": {
+      "types": "./dist/platforms/browser/entrypoints/esbuild_watch_for_changes.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/esbuild_watch_for_changes.js"
+    },
+    "./platforms/browser/entrypoints/main": {
+      "types": "./dist/platforms/browser/entrypoints/main.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/main.js"
     },
     "./platforms/browser/entrypoints/offline_entrypoint": {
       "types": "./dist/platforms/browser/entrypoints/offline_entrypoint.d.ts",
       "import": "./dist/platforms/browser/entrypoints/offline_entrypoint.js"
     },
-    "./platforms/browser/entrypoints/offline_entrypoint.ts": {
-      "types": "./dist/platforms/browser/entrypoints/offline_entrypoint.d.ts",
-      "import": "./dist/platforms/browser/entrypoints/offline_entrypoint.js"
+    "./platforms/browser/entrypoints/online_entrypoint": {
+      "types": "./dist/platforms/browser/entrypoints/online_entrypoint.d.ts",
+      "import": "./dist/platforms/browser/entrypoints/online_entrypoint.js"
     },
     "./platforms/browser/entrypoints/react_entrypoint": {
       "types": "./dist/platforms/browser/entrypoints/react_entrypoint.d.ts",
       "import": "./dist/platforms/browser/entrypoints/react_entrypoint.js"
     },
-    "./platforms/browser/entrypoints/react_entrypoint.tsx": {
-      "types": "./dist/platforms/browser/entrypoints/react_entrypoint.d.ts",
-      "import": "./dist/platforms/browser/entrypoints/react_entrypoint.js"
+    "./platforms/browser/index": {
+      "types": "./dist/platforms/browser/index.d.ts",
+      "import": "./dist/platforms/browser/index.js"
     },
     "./platforms/browser/services/browser_json_rpc": {
       "types": "./dist/platforms/browser/services/browser_json_rpc.d.ts",
@@ -60,20 +140,15 @@
       "types": "./dist/platforms/browser/services/browser_kvstore_service.d.ts",
       "import": "./dist/platforms/browser/services/browser_kvstore_service.js"
     },
-    "./core/services/http_kv_store_client": {
-      "types": "./dist/core/services/http_kv_store_client.d.ts",
-      "import": "./dist/core/services/http_kv_store_client.js"
+    "./platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint": {
+      "types": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.d.ts",
+      "import": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.js"
     },
-    "./platforms/browser/index.html": "./src/platforms/browser/index.html",
-    "./platforms/node": {
-      "types": "./dist/platforms/node/index.d.ts",
-      "import": "./dist/platforms/node/index.js"
+    "./platforms/node/entrypoints/main": {
+      "types": "./dist/platforms/node/entrypoints/main.d.ts",
+      "import": "./dist/platforms/node/entrypoints/main.js"
     },
     "./platforms/node/entrypoints/node_flexible_entrypoint": {
-      "types": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.d.ts",
-      "import": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.js"
-    },
-    "./platforms/node/entrypoints/node_flexible_entrypoint.ts": {
       "types": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.d.ts",
       "import": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.js"
     },
@@ -81,41 +156,117 @@
       "types": "./dist/platforms/node/entrypoints/node_server_entrypoint.d.ts",
       "import": "./dist/platforms/node/entrypoints/node_server_entrypoint.js"
     },
-    "./platforms/node/entrypoints/node_server_entrypoint.ts": {
-      "types": "./dist/platforms/node/entrypoints/node_server_entrypoint.d.ts",
-      "import": "./dist/platforms/node/entrypoints/node_server_entrypoint.js"
+    "./platforms/node/index": {
+      "types": "./dist/platforms/node/index.d.ts",
+      "import": "./dist/platforms/node/index.js"
     },
-    "./platforms/partykit": {
+    "./platforms/node/services/node_file_storage_service": {
+      "types": "./dist/platforms/node/services/node_file_storage_service.d.ts",
+      "import": "./dist/platforms/node/services/node_file_storage_service.js"
+    },
+    "./platforms/node/services/node_json_rpc": {
+      "types": "./dist/platforms/node/services/node_json_rpc.d.ts",
+      "import": "./dist/platforms/node/services/node_json_rpc.js"
+    },
+    "./platforms/node/services/node_kvstore_service": {
+      "types": "./dist/platforms/node/services/node_kvstore_service.d.ts",
+      "import": "./dist/platforms/node/services/node_kvstore_service.js"
+    },
+    "./platforms/node/services/node_local_json_rpc": {
+      "types": "./dist/platforms/node/services/node_local_json_rpc.d.ts",
+      "import": "./dist/platforms/node/services/node_local_json_rpc.js"
+    },
+    "./platforms/node/services/node_rpc_async_local_storage": {
+      "types": "./dist/platforms/node/services/node_rpc_async_local_storage.d.ts",
+      "import": "./dist/platforms/node/services/node_rpc_async_local_storage.js"
+    },
+    "./platforms/node/services/ws_server_core_dependencies": {
+      "types": "./dist/platforms/node/services/ws_server_core_dependencies.d.ts",
+      "import": "./dist/platforms/node/services/ws_server_core_dependencies.js"
+    },
+    "./platforms/partykit/entrypoints/partykit_browser_entrypoint": {
+      "types": "./dist/platforms/partykit/entrypoints/partykit_browser_entrypoint.d.ts",
+      "import": "./dist/platforms/partykit/entrypoints/partykit_browser_entrypoint.js"
+    },
+    "./platforms/partykit/entrypoints/partykit_server_entrypoint": {
+      "types": "./dist/platforms/partykit/entrypoints/partykit_server_entrypoint.d.ts",
+      "import": "./dist/platforms/partykit/entrypoints/partykit_server_entrypoint.js"
+    },
+    "./platforms/partykit/index": {
       "types": "./dist/platforms/partykit/index.d.ts",
       "import": "./dist/platforms/partykit/index.js"
     },
-    "./platforms/tauri": {
-      "types": "./dist/platforms/tauri/index.d.ts",
-      "import": "./dist/platforms/tauri/index.js"
+    "./platforms/partykit/services/partykit_kv_store": {
+      "types": "./dist/platforms/partykit/services/partykit_kv_store.d.ts",
+      "import": "./dist/platforms/partykit/services/partykit_kv_store.js"
     },
-    "./platforms/react-native": {
-      "types": "./dist/platforms/react-native/index.d.ts",
-      "import": "./dist/platforms/react-native/index.js"
+    "./platforms/partykit/services/partykit_rpc_client": {
+      "types": "./dist/platforms/partykit/services/partykit_rpc_client.d.ts",
+      "import": "./dist/platforms/partykit/services/partykit_rpc_client.js"
+    },
+    "./platforms/partykit/services/partykit_rpc_server": {
+      "types": "./dist/platforms/partykit/services/partykit_rpc_server.d.ts",
+      "import": "./dist/platforms/partykit/services/partykit_rpc_server.js"
+    },
+    "./platforms/react-native/entrypoints/platform_react_native_browser": {
+      "types": "./dist/platforms/react-native/entrypoints/platform_react_native_browser.d.ts",
+      "import": "./dist/platforms/react-native/entrypoints/platform_react_native_browser.js"
+    },
+    "./platforms/react-native/entrypoints/react_native_entrypoint": {
+      "types": "./dist/platforms/react-native/entrypoints/react_native_entrypoint.d.ts",
+      "import": "./dist/platforms/react-native/entrypoints/react_native_entrypoint.js"
     },
     "./platforms/react-native/entrypoints/rn_app_springboard_entrypoint": {
       "types": "./dist/platforms/react-native/entrypoints/rn_app_springboard_entrypoint.d.ts",
       "import": "./dist/platforms/react-native/entrypoints/rn_app_springboard_entrypoint.js"
     },
-    "./data-storage": {
-      "types": "./dist/data-storage/index.d.ts",
-      "import": "./dist/data-storage/index.js"
+    "./platforms/react-native/index": {
+      "types": "./dist/platforms/react-native/index.d.ts",
+      "import": "./dist/platforms/react-native/index.js"
     },
-    "./legacy-cli": {
-      "types": "./dist/legacy-cli/index.d.ts",
-      "import": "./dist/legacy-cli/index.js"
+    "./platforms/react-native/services/kv/kv_rn_and_webview": {
+      "types": "./dist/platforms/react-native/services/kv/kv_rn_and_webview.d.ts",
+      "import": "./dist/platforms/react-native/services/kv/kv_rn_and_webview.js"
     },
-    "./legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject": {
-      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject.d.ts",
-      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject.js"
+    "./platforms/react-native/services/rn_webview_local_token_service": {
+      "types": "./dist/platforms/react-native/services/rn_webview_local_token_service.d.ts",
+      "import": "./dist/platforms/react-native/services/rn_webview_local_token_service.js"
     },
-    "./vite-plugin": {
-      "types": "./vite-plugin/dist/index.d.ts",
-      "import": "./vite-plugin/dist/index.js"
+    "./platforms/react-native/services/rpc/rpc_rn_to_webview": {
+      "types": "./dist/platforms/react-native/services/rpc/rpc_rn_to_webview.d.ts",
+      "import": "./dist/platforms/react-native/services/rpc/rpc_rn_to_webview.js"
+    },
+    "./platforms/react-native/services/rpc/rpc_webview_to_rn": {
+      "types": "./dist/platforms/react-native/services/rpc/rpc_webview_to_rn.d.ts",
+      "import": "./dist/platforms/react-native/services/rpc/rpc_webview_to_rn.js"
+    },
+    "./platforms/tauri/entrypoints/platform_tauri_browser": {
+      "types": "./dist/platforms/tauri/entrypoints/platform_tauri_browser.d.ts",
+      "import": "./dist/platforms/tauri/entrypoints/platform_tauri_browser.js"
+    },
+    "./platforms/tauri/entrypoints/platform_tauri_maestro": {
+      "types": "./dist/platforms/tauri/entrypoints/platform_tauri_maestro.d.ts",
+      "import": "./dist/platforms/tauri/entrypoints/platform_tauri_maestro.js"
+    },
+    "./platforms/tauri/index": {
+      "types": "./dist/platforms/tauri/index.d.ts",
+      "import": "./dist/platforms/tauri/index.js"
+    },
+    "./server/index": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js"
+    },
+    "./server/register": {
+      "types": "./dist/server/register.d.ts",
+      "import": "./dist/server/register.js"
+    },
+    "./services/http_kv_store_client": {
+      "types": "./dist/core/services/http_kv_store_client.d.ts",
+      "import": "./dist/core/services/http_kv_store_client.js"
+    },
+    "./engine/register": {
+      "types": "./dist/core/engine/register.d.ts",
+      "import": "./dist/core/engine/register.js"
     },
     "./engine/engine": {
       "types": "./dist/core/engine/engine.d.ts",
@@ -129,25 +280,9 @@
       "types": "./dist/core/module_registry/module_registry.d.ts",
       "import": "./dist/core/module_registry/module_registry.js"
     },
-    "./modules/base_module/base_module": {
-      "types": "./dist/core/modules/base_module/base_module.d.ts",
-      "import": "./dist/core/modules/base_module/base_module.js"
-    },
-    "./modules/files/files_module": {
-      "types": "./dist/core/modules/files/files_module.d.ts",
-      "import": "./dist/core/modules/files/files_module.js"
-    },
-    "./modules/files/file_types": {
-      "types": "./dist/core/modules/files/file_types.d.ts",
-      "import": "./dist/core/modules/files/file_types.js"
-    },
     "./services/states/shared_state_service": {
       "types": "./dist/core/services/states/shared_state_service.d.ts",
       "import": "./dist/core/services/states/shared_state_service.js"
-    },
-    "./test/mock_core_dependencies": {
-      "types": "./dist/core/test/mock_core_dependencies.d.ts",
-      "import": "./dist/core/test/mock_core_dependencies.js"
     },
     "./types/module_types": {
       "types": "./dist/core/types/module_types.d.ts",
@@ -160,6 +295,11 @@
     "./utils/generate_id": {
       "types": "./dist/core/utils/generate_id.d.ts",
       "import": "./dist/core/utils/generate_id.js"
+    },
+    "./platforms/browser/index.html": "./src/platforms/browser/index.html",
+    "./vite-plugin": {
+      "types": "./vite-plugin/dist/index.d.ts",
+      "import": "./vite-plugin/dist/index.js"
     },
     "./package.json": "./package.json"
   },

@@ -108,10 +108,10 @@ export function springboardHtml(options: NormalizedOptions): Plugin | null {
                 .join('\n    ');
             finalHtml = finalHtml.replace('</body>', `    ${jsScripts}\n</body>`);
 
-            // Emit the HTML file
+            // Emit the HTML file to .springboard directory
             this.emitFile({
                 type: 'asset',
-                fileName: 'index.html',
+                fileName: '.springboard/index.html',
                 source: finalHtml,
             });
 
