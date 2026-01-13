@@ -239,7 +239,7 @@ export function vitePluginSpringboardPlatform(
             const configHook = conditionsPlugin.config;
             let baseConfig: UserConfig = {};
             if (typeof configHook === 'function') {
-                baseConfig = configHook(config, env) as UserConfig || {};
+                baseConfig = configHook.call(this, config, env) as UserConfig || {};
             }
 
             // Add SSR-specific configuration
