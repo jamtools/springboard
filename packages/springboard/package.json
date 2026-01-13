@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.40",
+  "version": "0.15.41",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
@@ -105,6 +105,10 @@
       "types": "./dist/legacy-cli/index.d.ts",
       "import": "./dist/legacy-cli/index.js"
     },
+    "./legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject": {
+      "types": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject.d.ts",
+      "import": "./dist/legacy-cli/esbuild-plugins/esbuild_plugin_platform_inject.js"
+    },
     "./vite-plugin": {
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
@@ -190,7 +194,9 @@
     "lint": "eslint --ext ts --ext tsx ./src",
     "fix": "npm run lint -- --fix",
     "build": "tsc -p tsconfig.build.json",
-    "build:watch": "npm run build -- --watch"
+    "build:watch": "npm run build -- --watch",
+    "build:all": "./scripts/build-all.sh",
+    "publish:local": "./scripts/publish-local.sh"
   },
   "repository": {
     "type": "git",
