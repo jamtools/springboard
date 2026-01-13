@@ -129,6 +129,14 @@
       "types": "./dist/core/modules/base_module/base_module.d.ts",
       "import": "./dist/core/modules/base_module/base_module.js"
     },
+    "./modules/files/files_module": {
+      "types": "./dist/core/modules/files/files_module.d.ts",
+      "import": "./dist/core/modules/files/files_module.js"
+    },
+    "./modules/files/file_types": {
+      "types": "./dist/core/modules/files/file_types.d.ts",
+      "import": "./dist/core/modules/files/file_types.js"
+    },
     "./services/states/shared_state_service": {
       "types": "./dist/core/services/states/shared_state_service.d.ts",
       "import": "./dist/core/services/states/shared_state_service.js"
