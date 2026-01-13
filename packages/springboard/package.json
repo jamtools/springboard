@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.41",
+  "version": "0.15.42",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
@@ -96,6 +96,10 @@
     "./platforms/react-native": {
       "types": "./dist/platforms/react-native/index.d.ts",
       "import": "./dist/platforms/react-native/index.js"
+    },
+    "./platforms/react-native/entrypoints/rn_app_springboard_entrypoint": {
+      "types": "./dist/platforms/react-native/entrypoints/rn_app_springboard_entrypoint.d.ts",
+      "import": "./dist/platforms/react-native/entrypoints/rn_app_springboard_entrypoint.js"
     },
     "./data-storage": {
       "types": "./dist/data-storage/index.d.ts",
