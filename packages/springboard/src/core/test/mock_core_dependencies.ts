@@ -4,7 +4,7 @@ import {ExtraModuleDependencies} from '../module_registry/module_registry';
 class MockKVStore implements KVStore {
     constructor(private store: Record<string, string> = {}) {}
 
-    getAll = async () => {
+    getAll = async (): Promise<Record<string, any> | null> => {
         const entriesAsRecord: Record<string, any> = {};
         for (const key of Object.keys(this.store)) {
             const value = this.store[key];
@@ -33,7 +33,7 @@ class MockKVStore implements KVStore {
 export class MockRpcService implements Rpc {
     public role = 'client' as const;
 
-    callRpc = async <Args, Return>(name: string, args: Args, rpcArgs?: RpcArgs | undefined) => {
+    callRpc = async <Args, Return>(name: string, args: Args, rpcArgs?: RpcArgs | undefined): Promise<Return | string> => {
         return {} as Return;
     };
 
@@ -54,7 +54,7 @@ type MakeMockCoreDependenciesOptions = {
     store: Record<string, string>;
 }
 
-export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOptions) => {
+export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOptions): CoreDependencies => {
     return {
         isMaestro: () => true,
         showError: console.error,
@@ -70,11 +70,11 @@ export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOption
             remote: new MockRpcService(),
             local: undefined,
         },
-    } satisfies CoreDependencies;
+    };
 };
 
-export const makeMockExtraDependences = () => {
+export const makeMockExtraDependences = (): ExtraModuleDependencies => {
     return {
 
-    } satisfies ExtraModuleDependencies;
+    };
 };

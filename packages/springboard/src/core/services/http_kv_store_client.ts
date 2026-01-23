@@ -19,7 +19,7 @@ export class HttpKVStoreService implements KVStore {
         this.serverUrl = url;
     };
 
-    getAll = async () => {
+    getAll = async (): Promise<Record<string, any> | null> => {
         try {
             const allEntries = await fetch(`${this.serverUrl}/kv/get-all`);
 
@@ -47,7 +47,7 @@ export class HttpKVStoreService implements KVStore {
         }
     };
 
-    get = async <T>(key: string) => {
+    get = async <T>(key: string): Promise<T | null> => {
         try {
             const u = new URL(`${this.serverUrl}/kv/get`);
             u.searchParams.set('key', key);
@@ -80,7 +80,7 @@ export class HttpKVStoreService implements KVStore {
         }
     };
 
-    set = async <T>(key: string, value: T) => {
+    set = async <T>(key: string, value: T): Promise<void> => {
         try {
             const serialized = JSON.stringify(value);
 

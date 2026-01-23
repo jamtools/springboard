@@ -41,7 +41,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowJs": true,
     "strict": true,
@@ -53,8 +53,7 @@
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "jsx": "react-jsx",
-    "types": ["node"]
+    "jsx": "react-jsx"
   },
   "include": [
     "src/**/*.ts",

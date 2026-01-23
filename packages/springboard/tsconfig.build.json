@@ -9,7 +9,7 @@
     "sourceMap": true,
     "module": "ESNext",
     "target": "ES2022",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "noUnusedLocals": false,
