@@ -66,12 +66,9 @@ export function springboardHtml(options: NormalizedOptions): Plugin | null {
         },
 
         /**
-         * Transform HTML in build mode
+         * Transform HTML in build mode - removed to prevent physical index.html creation
+         * HTML is generated entirely by the generateBundle hook
          */
-        transformIndexHtml() {
-            // Return the HTML template for Vite to process
-            return generateHtml(options, false);
-        },
 
         /**
          * Generate HTML file in build output
