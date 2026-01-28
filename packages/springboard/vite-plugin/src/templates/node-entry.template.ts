@@ -1,7 +1,14 @@
+import process from 'node:process';
+import path from 'node:path';
+
 import { serve } from '@hono/node-server';
+import crosswsNode from 'crossws/adapters/node';
 import type { Server } from 'node:http';
-import { initApp, makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/server';
-import { startNodeApp } from 'springboard/platforms/node';
+
+import { initApp } from 'springboard/server/hono_app';
+import { makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/platforms/node/services/ws_server_core_dependencies';
+import { LocalJsonNodeKVStoreService } from 'springboard/platforms/node/services/node_kvstore_service';
+import { CoreDependencies, Springboard } from 'springboard/core';
 import '__USER_ENTRY__';
 
 /**
@@ -16,6 +23,7 @@ import '__USER_ENTRY__';
  */
 
 let server: Server | null = null;
+let engine: Springboard | null = null;
 
 /**
  * Start the node server
@@ -27,11 +35,25 @@ export async function start() {
   }
 
   try {
-    // Create core dependencies (SQLite-backed KV store)
-    const coreDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
+    const webappFolder = process.env.WEBAPP_FOLDER || './dist/browser';
+    const webappDistFolder = path.join(webappFolder, './dist');
 
-    // Initialize Hono app with WebSocket support
-    const { app, injectWebSocket, nodeAppDependencies } = initApp(coreDeps);
+    const nodeKvDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
+    const useWebSocketsForRpc = import.meta.env.VITE_USE_WEBSOCKETS_FOR_RPC === 'true';
+
+    let wsNode: ReturnType<typeof crosswsNode>;
+
+    const { app, serverAppDependencies, injectResources, createWebSocketHooks } = initApp({
+      broadcastMessage: (message) => {
+        return wsNode.publish('event', message);
+      },
+      remoteKV: nodeKvDeps.kvStoreFromKysely,
+      userAgentKV: new LocalJsonNodeKVStoreService('userAgent'),
+    });
+
+    wsNode = crosswsNode({
+      hooks: createWebSocketHooks(useWebSocketsForRpc),
+    });
 
     // Use configured port (ignores process.env.PORT to avoid conflicts)
     const port = __PORT__;
@@ -44,11 +66,55 @@ export async function start() {
       console.log(`Server listening on http://localhost:${info.port}`);
     });
 
-    // Inject WebSocket support into the server
-    injectWebSocket(server);
+    server.on('upgrade', (request, socket, head) => {
+      const url = new URL(request.url || '', `http://${request.headers.host}`);
+      if (url.pathname === '/ws') {
+        wsNode.handleUpgrade(request, socket, head);
+      } else {
+        socket.end('HTTP/1.1 404 Not Found\r\n\r\n');
+      }
+    });
 
-    // Start the Springboard engine
-    await startNodeApp(nodeAppDependencies);
+    const coreDeps: CoreDependencies = {
+      log: console.log,
+      showError: console.error,
+      storage: serverAppDependencies.storage,
+      isMaestro: () => true,
+      rpc: serverAppDependencies.rpc,
+    };
+
+    Object.assign(coreDeps, serverAppDependencies);
+
+    const extraDeps = {}; // TODO: remove this extraDeps thing from the framework
+
+    engine = new Springboard(coreDeps, extraDeps);
+
+    injectResources({
+      engine,
+      serveStaticFile: async (c, fileName, headers) => {
+        try {
+          const fullPath = `${webappDistFolder}/${fileName}`;
+          const fs = await import('node:fs');
+          const data = await fs.promises.readFile(fullPath, 'utf-8');
+          c.status(200);
+
+          if (headers) {
+            Object.entries(headers).forEach(([key, value]) => {
+              c.header(key, value);
+            });
+          }
+
+          return c.body(data);
+        } catch (error) {
+          console.error('Error serving file:', error);
+          c.status(404);
+          return c.text('404 Not found');
+        }
+      },
+      getEnvValue: name => process.env[name],
+    });
+
+    await engine.initialize();
     console.log('Node application started successfully');
   } catch (error) {
     console.error('Failed to start node server:', error);
@@ -76,6 +142,7 @@ export async function stop() {
       } else {
         console.log('Server stopped successfully');
         server = null;
+        engine = null; // TODO: add explicit shutdown once the engine exposes it
         resolve();
       }
     });

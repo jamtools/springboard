@@ -22,6 +22,7 @@
     "@hono/node-ws": "^1.2.0",
     "@jamtools/core": "workspace:*",
     "better-sqlite3": "^12.5.0",
+    "crossws": "^0.4.4",
     "hono": "^4.11.3",
     "isomorphic-ws": "^5.0.0",
     "kysely": "^0.28.9",

@@ -2,7 +2,7 @@ import {JSONRPCClient, JSONRPCServer} from 'json-rpc-2.0';
 import WebSocket from 'isomorphic-ws';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-import {KVStore, Rpc, RpcArgs} from '../../../core/types/module_types';
+import {KVStore, Rpc, RpcArgs} from '../../../core';
 
 type ClientParams = {
     clientId: string;

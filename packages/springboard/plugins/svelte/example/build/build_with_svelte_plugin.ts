@@ -1,34 +1,34 @@
-import process from 'node:process';
+// import process from 'node:process';
 
-import {buildApplication, platformBrowserBuildConfig, platformNodeBuildConfig, buildServer } from '../../../../cli/src/build';
+// import {buildApplication, platformBrowserBuildConfig, platformNodeBuildConfig, buildServer } from '../../../../cli/src/build';
 
-import sveltePlugin from '../../plugin';
+// import sveltePlugin from '../../plugin';
 
-const watch = process.argv.includes('--watch');
+// const watch = process.argv.includes('--watch');
 
-setTimeout(async () => {
-    await buildApplication(platformBrowserBuildConfig, {
-        applicationEntrypoint: `${process.cwd()}/example/src/example.svelte`,
-        nodeModulesParentFolder: `${process.cwd()}/../../../..`,
-        watch,
-        plugins: [
-            sveltePlugin(),
-        ],
-    });
+// setTimeout(async () => {
+//     await buildApplication(platformBrowserBuildConfig, {
+//         applicationEntrypoint: `${process.cwd()}/example/src/example.svelte`,
+//         nodeModulesParentFolder: `${process.cwd()}/../../../..`,
+//         watch,
+//         plugins: [
+//             sveltePlugin(),
+//         ],
+//     });
 
-    await buildApplication(platformNodeBuildConfig, {
-        watch,
-        applicationEntrypoint: `${process.cwd()}/example/src/example.svelte`,
-        nodeModulesParentFolder: `${process.cwd()}/../../../..`,
-        plugins: [
-            sveltePlugin(),
-        ],
-    });
+//     await buildApplication(platformNodeBuildConfig, {
+//         watch,
+//         applicationEntrypoint: `${process.cwd()}/example/src/example.svelte`,
+//         nodeModulesParentFolder: `${process.cwd()}/../../../..`,
+//         plugins: [
+//             sveltePlugin(),
+//         ],
+//     });
 
-    await buildServer({
-        watch,
-        plugins: [
-            sveltePlugin(),
-        ],
-    });
-});
+//     await buildServer({
+//         watch,
+//         plugins: [
+//             sveltePlugin(),
+//         ],
+//     });
+// });

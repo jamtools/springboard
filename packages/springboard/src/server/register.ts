@@ -1,5 +1,5 @@
 import type {Context, Hono} from 'hono';
-import type {Springboard} from '../core/engine/engine';
+import type {Springboard} from '../core';
 
 export type ServerModuleAPI = {
     hono: Hono;

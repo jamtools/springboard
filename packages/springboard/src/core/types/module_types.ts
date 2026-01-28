@@ -11,9 +11,6 @@ export type Springboard = {
 export type CoreDependencies = {
     log: (...s: any[]) => void;
     showError: (error: string) => void;
-    files: {
-        saveFile: (name: string, content: string) => Promise<void>;
-    };
     storage: {
         remote: KVStore;
         userAgent: KVStore;

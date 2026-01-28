@@ -7,7 +7,7 @@ import '@testing-library/jest-dom';
 import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
 import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';
 
-import {Main} from 'springboard/platforms/browser';
+import {Main} from 'springboard/platforms/browser/entrypoints/main';
 import {Springboard} from 'springboard/engine/engine';
 import {setIoDependencyCreator} from '../../../../modules/io/io_module';
 import {MockMidiService} from '../../../../test/services/mock_midi_service';

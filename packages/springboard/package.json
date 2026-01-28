@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.51",
+  "version": "0.15.52",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,7 +24,7 @@
       "types": "./dist/core/engine/register.d.ts",
       "import": "./dist/core/engine/register.js"
     },
-    "./core/index": {
+    "./core": {
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js"
     },
@@ -160,6 +160,10 @@
       "types": "./dist/platforms/node/index.d.ts",
       "import": "./dist/platforms/node/index.js"
     },
+    "./platforms/node/entrypoints/node_entrypoint": {
+      "types": "./dist/platforms/node/entrypoints/node_entrypoint.d.ts",
+      "import": "./dist/platforms/node/entrypoints/node_entrypoint.js"
+    },
     "./platforms/node/services/node_file_storage_service": {
       "types": "./dist/platforms/node/services/node_file_storage_service.d.ts",
       "import": "./dist/platforms/node/services/node_file_storage_service.js"
@@ -183,30 +187,6 @@
     "./platforms/node/services/ws_server_core_dependencies": {
       "types": "./dist/platforms/node/services/ws_server_core_dependencies.d.ts",
       "import": "./dist/platforms/node/services/ws_server_core_dependencies.js"
-    },
-    "./platforms/partykit/entrypoints/partykit_browser_entrypoint": {
-      "types": "./dist/platforms/partykit/entrypoints/partykit_browser_entrypoint.d.ts",
-      "import": "./dist/platforms/partykit/entrypoints/partykit_browser_entrypoint.js"
-    },
-    "./platforms/partykit/entrypoints/partykit_server_entrypoint": {
-      "types": "./dist/platforms/partykit/entrypoints/partykit_server_entrypoint.d.ts",
-      "import": "./dist/platforms/partykit/entrypoints/partykit_server_entrypoint.js"
-    },
-    "./platforms/partykit/index": {
-      "types": "./dist/platforms/partykit/index.d.ts",
-      "import": "./dist/platforms/partykit/index.js"
-    },
-    "./platforms/partykit/services/partykit_kv_store": {
-      "types": "./dist/platforms/partykit/services/partykit_kv_store.d.ts",
-      "import": "./dist/platforms/partykit/services/partykit_kv_store.js"
-    },
-    "./platforms/partykit/services/partykit_rpc_client": {
-      "types": "./dist/platforms/partykit/services/partykit_rpc_client.d.ts",
-      "import": "./dist/platforms/partykit/services/partykit_rpc_client.js"
-    },
-    "./platforms/partykit/services/partykit_rpc_server": {
-      "types": "./dist/platforms/partykit/services/partykit_rpc_server.d.ts",
-      "import": "./dist/platforms/partykit/services/partykit_rpc_server.js"
     },
     "./platforms/react-native/entrypoints/platform_react_native_browser": {
       "types": "./dist/platforms/react-native/entrypoints/platform_react_native_browser.d.ts",
@@ -252,9 +232,9 @@
       "types": "./dist/platforms/tauri/index.d.ts",
       "import": "./dist/platforms/tauri/index.js"
     },
-    "./server/index": {
-      "types": "./dist/server/index.d.ts",
-      "import": "./dist/server/index.js"
+    "./server/hono_app": {
+      "types": "./dist/server/hono_app.d.ts",
+      "import": "./dist/server/hono_app.js"
     },
     "./server/register": {
       "types": "./dist/server/register.d.ts",
@@ -407,6 +387,7 @@
     "@tauri-apps/api": "^2.9.0",
     "@tauri-apps/plugin-shell": "^2.3.3",
     "better-sqlite3": "^12.4.1",
+    "crossws": "^0.4.4",
     "hono": "^4.6.17",
     "immer": "^10.1.1",
     "isomorphic-ws": "^4.0.1",
@@ -434,6 +415,9 @@
       "optional": true
     },
     "better-sqlite3": {
+      "optional": true
+    },
+    "crossws": {
       "optional": true
     },
     "hono": {

@@ -7,18 +7,12 @@ Vite plugin for building Springboard applications across multiple platforms (bro
 - **Vite 6.0+** (or Vite 7.0+) - Required for ModuleRunner API support
 - Node.js 18+
 
-## Installation
-
-```bash
-pnpm add -D @springboard/vite-plugin
-```
-
 ## Basic Usage
 
 ```typescript
 // vite.config.ts
 import { defineConfig } from 'vite';
-import { springboard } from '@springboard/vite-plugin';
+import { springboard } from 'springboard/vite-plugin';
 
 export default defineConfig({
   plugins: springboard({

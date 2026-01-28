@@ -135,9 +135,6 @@ export const createRNWebviewEngine = (props: {remoteRpc: Rpc, remoteKv: KVStore,
             remote: remoteKVStore,
             userAgent: userAgentKVStore,
         },
-        files: {
-            saveFile: async () => { },
-        },
         rpc: {
             remote: remoteRpc,
             local: localRpc,

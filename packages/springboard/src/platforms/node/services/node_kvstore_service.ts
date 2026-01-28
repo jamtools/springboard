@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-import {KVStore} from '../../../core/types/module_types';
+import {KVStore} from '../../../core';
 
 // TODO: this needs to be optional I think. or just have a sane default
 // the file should be assumed to be in ./data/kv_data.json
@@ -22,7 +22,7 @@ if (fs.existsSync(DATA_FILE_NAME)) {
     fs.writeFileSync(DATA_FILE_NAME, '{}');
 }
 
-export class NodeKVStoreService implements KVStore {
+export class LocalJsonNodeKVStoreService implements KVStore {
     constructor(private databaseName: string) {
 
     }

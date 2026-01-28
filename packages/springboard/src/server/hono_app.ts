@@ -1,63 +1,125 @@
-import path from 'path';
-
 import {Context, Hono} from 'hono';
-import {serveStatic} from '@hono/node-server/serve-static';
-import {serveStatic as serveStaticGeneric} from 'hono/serve-static';
-import {createNodeWebSocket} from '@hono/node-ws';
+// import {serveStatic} from '@hono/node-server/serve-static';
+import {serveStatic} from 'hono/serve-static';
 import {cors} from 'hono/cors';
 
-import {NodeAppDependencies} from '../platforms/node/entrypoints/main';
-import {KVStoreFromKysely} from '../data-storage/kv_api_kysely';
-import {NodeKVStoreService} from '../platforms/node/services/node_kvstore_service';
-import {NodeLocalJsonRpcClientAndServer} from '../platforms/node/services/node_local_json_rpc';
-import type {DocumentMeta} from '../core/module_registry/module_registry';
-import type {DocumentMetaFunction} from '../core/engine/register';
+import {ServerAppDependencies} from './types/server_app_dependencies';
 
-import {NodeJsonRpcServer} from './services/server_json_rpc';
-import {WebsocketServerCoreDependencies} from '../platforms/node/services/ws_server_core_dependencies';
+import {createCommonWebSocketHooks} from './services/crossws_json_rpc';
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register';
-import {Springboard} from '../core/engine/engine';
-import {injectDocumentMeta} from './utils/inject_metadata';
-import {matchPath} from './utils/match_path';
+import {KVStore, Springboard} from '../core';
+import {Adapter, AdapterInstance, Hooks} from 'crossws';
+import {ServerJsonRpcClientAndServer} from './services/server_json_rpc';
+import {Data} from 'hono/dist/types/context';
+import type {Peer} from 'crossws';
 
 type InitAppReturnValue = {
     app: Hono;
-    injectWebSocket: ReturnType<typeof createNodeWebSocket>['injectWebSocket'];
-    nodeAppDependencies: NodeAppDependencies;
+    serverAppDependencies: ServerAppDependencies;
+    injectResources: (args: InjectResourcesArgs) => void;
+    createWebSocketHooks: (enableRpc?: boolean) => ReturnType<typeof createCommonWebSocketHooks>;
 };
 
-export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnValue => {
+type InitServerAppArgs = {
+    remoteKV: KVStore;
+    userAgentKV: KVStore;
+    broadcastMessage: (message: string) => void;
+};
+
+type InjectResourcesArgs = {
+    engine: Springboard;
+    serveStaticFile: (c: Context, fileName: string, headers: Record<string, string>) => Promise<Response>;
+    getEnvValue: (name: string) => string | undefined;
+};
+
+type AdapterFactory = (hooks: Partial<Hooks>) => AdapterInstance;
+
+export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
     const rpcMiddlewares: RpcMiddleware[] = [];
 
     const app = new Hono();
 
     app.use('*', cors());
 
-    const service: NodeJsonRpcServer = new NodeJsonRpcServer({
-        processRequest: async (message) => {
-            return rpc!.processRequest(message);
-        },
-        rpcMiddlewares,
-    });
 
-    const remoteKV = new KVStoreFromKysely(kvDeps.kvDatabase);
-    const userAgentStore = new NodeKVStoreService('userAgent');
+    const remoteKV = initArgs.remoteKV;
+    const userAgentKV = initArgs.userAgentKV;
 
-    const rpc = new NodeLocalJsonRpcClientAndServer({
+    const rpc = new ServerJsonRpcClientAndServer({
         broadcastMessage: (message) => {
-            return service.broadcastMessage(message);
+            return initArgs.broadcastMessage(message);
         },
     });
 
-    const webappFolder = process.env.WEBAPP_FOLDER || './dist';
-    const webappDistFolder = webappFolder;
+    const processRequestWithMiddleware = async (middlewares: RpcMiddleware[], c: Context, message: string) => {
+        if (!message) {
+            return;
+        }
 
-    const {injectWebSocket, upgradeWebSocket} = createNodeWebSocket({app});
+        const jsonMessage = JSON.parse(message);
+        if (!jsonMessage) {
+            return;
+        }
 
-    app.get('/ws', upgradeWebSocket(c => service.handleConnection(c)));
+        if (jsonMessage.jsonrpc !== '2.0') {
+            return;
+        }
+
+        if (!jsonMessage.method) {
+            return;
+        }
+
+        const rpcContext: object = {};
+        for (const middleware of middlewares) {
+            try {
+                const middlewareResult = await middleware(c);
+                Object.assign(rpcContext, middlewareResult);
+            } catch (e) {
+                return JSON.stringify({
+                    jsonrpc: '2.0',
+                    id: jsonMessage.id,
+                    error: (e as Error).message,
+                });
+            }
+        }
+
+        const response = await rpc.processRequest(message, rpcContext);
+        return response;
+
+        // return new Promise<string>((resolve) => {
+        //     nodeRpcAsyncLocalStorage.run(rpcContext, async () => {
+        //         const response = await rpc.processRequest(message);
+        //         resolve(response);
+        //     });
+        // });
+    };
+
+    const processWebSocketRpcMessage = async (message: string, peer: Peer) => {
+        // Create a minimal context object for middleware compatibility
+        const minimalContext = {
+            req: peer.request || { url: '/' },
+        } as unknown as Context;
+
+        const response = await processRequestWithMiddleware(rpcMiddlewares, minimalContext, message);
+        return response;
+    };
+
+    // const webappFolder = process.env.WEBAPP_FOLDER || './dist/browser';
+    // const webappDistFolder = path.join(webappFolder, './dist');
+
+    // const websocketHooks = service.createWebSocketHooks();
+
+    // WebSocket route - crossws will handle upgrade through the adapter
+
+
+    // TODO: is this actually necessary to have here?
+    app.get('/ws', (c) => {
+        // This route is a placeholder - crossws adapter handles the actual upgrade
+        return c.text('WebSocket endpoint', 426);
+    });
 
     app.get('/kv/get', async (c) => {
-        const key = c.req.param('key');
+        const key = c.req.query('key');
 
         if (!key) {
             return c.json({error: 'No key provided'}, 400);
@@ -69,21 +131,7 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
     });
 
     app.post('/kv/set', async (c) => {
-        const body = await c.req.text();
-        const {key, value} = JSON.parse(body);
-
-        c.header('Content-Type', 'application/json');
-
-        if (!key) {
-            return c.json({error: 'No key provided'}, 400);
-        }
-
-        if (!value) {
-            return c.json({error: 'No value provided'}, 400);
-        }
-
-        await remoteKV.set(key, value);
-        return c.json({success: true});
+        return c.json({error: 'Not supported'}, 400);
     });
 
     app.get('/kv/get-all', async (c) => {
@@ -95,139 +143,94 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         const body = await c.req.text();
         c.header('Content-Type', 'application/json');
 
-        const rpcResponse = await service.processRequestWithMiddleware(c, body);
+        const rpcResponse = await processRequestWithMiddleware(rpcMiddlewares, c, body);
         if (rpcResponse) {
             return c.text(rpcResponse);
         }
 
-        return c.text(JSON.stringify({
+        return c.json({
             error: 'No response',
-        }), 500);
+        }, 500);
     });
 
     // this is necessary because https://github.com/honojs/hono/issues/3483
     // node-server serveStatic is missing absolute path support
-    const serveFile = async (path: string, contentType: string, c: Context) => {
-        try {
-            const fullPath = `${webappDistFolder}/${path}`;
-            const fs = await import('node:fs');
-            const data = await fs.promises.readFile(fullPath, 'utf-8');
-            c.status(200);
-            return data;
-        } catch (error) {
-            console.error('Error serving fallback file:', error);
-            c.status(404);
-            return '404 Not Found';
+    // const serveFile = async (path: string, contentType: string, c: Context) => {
+    //     try {
+    //         const fullPath = `${webappDistFolder}/${path}`;
+    //         const fs = await import('node:fs');
+    //         const data = await fs.promises.readFile(fullPath, 'utf-8');
+    //         c.status(200);
+    //         return data;
+    //     } catch (error) {
+    //         console.error('Error serving fallback file:', error);
+    //         c.status(404);
+    //         return '404 Not Found';
+    //     }
+    // };
+
+    // app.use('/', serveStatic({
+    //     root: webappDistFolder,
+    //     path: 'index.html',
+    //     getContent: async (path, c) => {
+    //         return serveFile('index.html', 'text/html', c);
+    //     },
+    //     onFound: (path, c) => {
+    //         // c.header('Cross-Origin-Embedder-Policy',  'require-corp');
+    //         // c.header('Cross-Origin-Opener-Policy',  'same-origin');
+    //         c.header('Cache-Control', 'no-store, no-cache, must-revalidate');
+    //         c.header('Pragma', 'no-cache');
+    //         c.header('Expires', '0');
+    //     },
+    // }));
+
+    // Route handlers that require fetch context will be configured in injectResources
+    let serveStaticFileFn: ((c: Context, fileName: string, headers: Record<string, string>) => Promise<Response>) | undefined;
+    let getEnvValueFn: ((name: string) => string | undefined) | undefined;
+
+    app.use('/', async (c) => {
+        if (!serveStaticFileFn) {
+            return c.text('Server not fully initialized', 500);
         }
-    };
-
-    let cachedBaseHtml: string | undefined;
-    let storedEngine: Springboard | undefined;
-
-
-    // Serves index.html with dynamic metadata injection based on the route
-    const serveIndexWithMetadata = async (c: Context): Promise<string> => {
-        if (!cachedBaseHtml) {
-            const fullPath = `${webappDistFolder}/index.html`;
-            const fs = await import('node:fs');
-            cachedBaseHtml = await fs.promises.readFile(fullPath, 'utf-8');
-        }
-
-        if (!storedEngine) {
-            return cachedBaseHtml;
-        }
-
-        const requestPath = c.req.path;
-
-        let documentMetaOrFunction: DocumentMeta | DocumentMetaFunction | undefined;
-        let matchParams: Record<string, string> | undefined;
-        const modules = storedEngine.moduleRegistry.getModules();
-
-        for (const mod of modules) {
-            if (!mod.routes) {
-                continue;
-            }
-
-            for (const [routePath, route] of Object.entries(mod.routes)) {
-                if (!route.options?.documentMeta) {
-                    continue;
-                }
-
-                // Routes starting with '/' are absolute, others are relative to /modules/{moduleId}
-                const fullRoutePath = routePath.startsWith('/')
-                    ? routePath
-                    : `/modules/${mod.moduleId}${routePath}`;
-
-                const match = matchPath(fullRoutePath, requestPath);
-                if (match) {
-                    documentMetaOrFunction = route.options.documentMeta;
-                    matchParams = match.params as Record<string, string>;
-                    break;
-                }
-            }
-
-            if (documentMetaOrFunction) {
-                break;
-            }
-        }
-
-        if (documentMetaOrFunction) {
-            let documentMeta: DocumentMeta;
-
-            if (typeof documentMetaOrFunction === 'function') {
-                documentMeta = await documentMetaOrFunction({
-                    path: requestPath,
-                    params: matchParams,
-                });
-            } else {
-                documentMeta = documentMetaOrFunction;
-            }
-
-            return injectDocumentMeta(cachedBaseHtml, documentMeta);
-        }
-
-        return cachedBaseHtml;
-    };
-
-    app.use('/', serveStaticGeneric({
-        root: webappDistFolder,
-        path: 'index.html',
-        getContent: async (path, c) => {
-            return serveIndexWithMetadata(c);
-        },
-        onFound: (path, c) => {
-            // c.header('Cross-Origin-Embedder-Policy',  'require-corp');
-            // c.header('Cross-Origin-Opener-Policy',  'same-origin');
-            c.header('Cache-Control', 'no-store, no-cache, must-revalidate');
-            c.header('Pragma', 'no-cache');
-            c.header('Expires', '0');
-        },
-    }));
-
-    // Serve assets directory (for Vite production builds)
-    app.use('/assets/*', serveStatic({
-        root: webappDistFolder,
-    }));
+        const headers = {
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+            'Content-Type': 'text/html'
+        };
+        return serveStaticFileFn(c, 'index.html', headers);
+    });
 
     app.use('/dist/:file', async (c, next) => {
+        if (!serveStaticFileFn || !getEnvValueFn) {
+            return c.text('Server not fully initialized', 500);
+        }
+
         const requestedFile = c.req.param('file');
 
-        if (requestedFile.endsWith('.map') && process.env.NODE_ENV === 'production') {
+        if (requestedFile.endsWith('.map') && getEnvValueFn('NODE_ENV') === 'production') {
             return c.text('Source map disabled', 404);
         }
 
         const contentType = requestedFile.endsWith('.js') ? 'text/javascript' : 'text/css';
-        return serveStaticGeneric({
-            root: webappDistFolder,
-            path: `/${requestedFile}`,
-            getContent: async (path, c) => {
-                return serveFile(requestedFile, contentType, c);
-            },
-            onFound: (path, c) => {
-                c.header('Content-Type', contentType);
-                c.header('Cache-Control', 'public, max-age=31536000, immutable');
-            },
-        })(c, next);
+        const headers = {
+            'Content-Type': contentType,
+            'Cache-Control': 'public, max-age=31536000, immutable'
+        };
+
+        return serveStaticFileFn(c, requestedFile, headers);
+
+        // return serveStatic({
+        //     root: webappDistFolder,
+        //     path: `/${requestedFile}`,
+        //     getContent: async (path, c) => {
+        //         return serveFile(requestedFile, contentType, c);
+        //     },
+        //     onFound: (path, c) => {
+        //         c.header('Content-Type', contentType);
+        //         c.header('Cache-Control', 'public, max-age=31536000, immutable');
+        //     },
+        // })(c, next);
     });
 
     // app.use('/dist/manifest.json', serveStatic({
@@ -239,63 +242,33 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
     // }));
 
     // OTEL traces route
-    app.post('/v1/traces', async (c) => {
-        const otelHost = process.env.OTEL_HOST;
-        if (!otelHost) return c.json({message: 'No OTEL host set up via env var'});
+    // app.post('/v1/traces', async (c) => {
+    //     const otelHost = process.env.OTEL_HOST;
+    //     if (!otelHost) return c.json({message: 'No OTEL host set up via env var'});
 
-        try {
-            const response = await fetch(`${otelHost}/v1/traces`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(await c.req.json()),
-                signal: AbortSignal.timeout(1000),
-            });
-            return c.text(await response.text());
-        } catch {
-            return c.json({message: 'Failed to contact OTEL host'});
-        }
-    });
+    //     try {
+    //         const response = await fetch(`${otelHost}/v1/traces`, {
+    //             method: 'POST',
+    //             headers: {'Content-Type': 'application/json'},
+    //             body: JSON.stringify(await c.req.json()),
+    //             signal: AbortSignal.timeout(1000),
+    //         });
+    //         return c.text(await response.text());
+    //     } catch {
+    //         return c.json({message: 'Failed to contact OTEL host'});
+    //     }
+    // });
 
-    const nodeAppDependencies: NodeAppDependencies = {
+    let storedEngine: Springboard | undefined;
+
+    const serverAppDependencies: ServerAppDependencies = {
         rpc: {
             remote: rpc,
             local: undefined,
         },
         storage: {
             remote: remoteKV,
-            userAgent: userAgentStore,
-        },
-        injectEngine: (engine: Springboard) => {
-            if (storedEngine) {
-                throw new Error('Engine already injected');
-            }
-
-            storedEngine = engine;
-
-            const registerServerModule: typeof serverRegistry['registerServerModule'] = (cb) => {
-                cb(makeServerModuleAPI());
-            };
-
-            const registeredServerModuleCallbacks = (serverRegistry.registerServerModule as unknown as {calls: CapturedRegisterServerModuleCall[]}).calls || [];
-            serverRegistry.registerServerModule = registerServerModule;
-
-            for (const call of registeredServerModuleCallbacks) {
-                call(makeServerModuleAPI());
-            }
-
-            // Catch-all route for SPA
-            app.use('*', serveStaticGeneric({
-                root: webappDistFolder,
-                path: 'index.html',
-                getContent: async (path, c) => {
-                    return serveIndexWithMetadata(c);
-                },
-                onFound: (path, c) => {
-                    c.header('Cache-Control', 'no-store, no-cache, must-revalidate');
-                    c.header('Pragma', 'no-cache');
-                    c.header('Expires', '0');
-                },
-            }));
+            userAgent: userAgentKV,
         },
     };
 
@@ -311,7 +284,66 @@ export const initApp = (kvDeps: WebsocketServerCoreDependencies): InitAppReturnV
         };
     };
 
-    return {app, injectWebSocket, nodeAppDependencies};
+    // Catch-all route for SPA
+    // app.use('*', serveStatic({
+    //     root: webappDistFolder,
+    //     path: 'index.html',
+    //     getContent: async (path, c) => {
+    //         return serveFile('index.html', 'text/html', c);
+    //     },
+    //     onFound: (path, c) => {
+    //         // c.header('Cross-Origin-Embedder-Policy',  'require-corp');
+    //         // c.header('Cross-Origin-Opener-Policy',  'same-origin');
+    //         c.header('Cache-Control', 'no-store, no-cache, must-revalidate');
+    //         c.header('Pragma', 'no-cache');
+    //         c.header('Expires', '0');
+    //     },
+    // }));
+
+    app.use('*', async (c) => {
+        if (!serveStaticFileFn) {
+            return c.text('Server not fully initialized', 500);
+        }
+        const headers = {
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+            'Content-Type': 'text/html'
+        };
+
+        return serveStaticFileFn(c, 'index.html', headers);
+    });
+
+    const injectResources = (args: InjectResourcesArgs) => {
+        if (storedEngine) {
+            throw new Error('Resources already injected');
+        }
+
+        storedEngine = args.engine;
+        serveStaticFileFn = args.serveStaticFile;
+        getEnvValueFn = args.getEnvValue;
+
+        const registerServerModule: typeof serverRegistry['registerServerModule'] = (cb) => {
+            cb(makeServerModuleAPI());
+        };
+
+        const registeredServerModuleCallbacks = (serverRegistry.registerServerModule as unknown as {calls: CapturedRegisterServerModuleCall[]}).calls || [];
+        serverRegistry.registerServerModule = registerServerModule;
+
+        for (const call of registeredServerModuleCallbacks) {
+            call(makeServerModuleAPI());
+        }
+    };
+
+    const createWebSocketHooks = (enableRpc?: boolean) => {
+        if (enableRpc) {
+            return createCommonWebSocketHooks(processWebSocketRpcMessage);
+        } else {
+            return createCommonWebSocketHooks();
+        }
+    };
+
+    return {app, serverAppDependencies, injectResources, createWebSocketHooks};
 };
 
 type ServerModuleCallback = (server: ServerModuleAPI) => void;

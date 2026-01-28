@@ -26,11 +26,6 @@ export type {
 
 export type {
   SpringboardRegistry,
-  RegisterModuleOptions,
-  ModuleCallback,
-  ClassModuleCallback,
-  DocumentMetaFunction,
-  RegisterRouteOptions,
 } from './core/engine/register';
 
 // Export module registry
@@ -40,15 +35,11 @@ export {
 
 export type {
   Module,
-  ExtraModuleDependencies,
   DocumentMeta,
 } from './core/module_registry/module_registry';
 
 // Export ModuleAPI
 export { ModuleAPI } from './core/engine/module_api';
-
-// Export hooks
-export { useMount } from './core/hooks/useMount';
 
 // Export utility functions
 export { generateId } from './core/utils/generate_id';
@@ -61,13 +52,3 @@ export { HttpKvStoreClient } from './core/services/http_kv_store_client';
 export type {
   ErrorResponse,
 } from './core/types/response_types';
-
-// Export modules
-export { BaseModule } from './core/modules/base_module/base_module';
-export { FilesModule } from './core/modules/files/files_module';
-
-// Export test utilities
-export { makeMockCoreDependencies } from './core/test/mock_core_dependencies';
-
-// Legacy CLI is available via springboard/legacy-cli import
-// Do NOT export it from the main entry point as it contains Node.js-only code
