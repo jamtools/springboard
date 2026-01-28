@@ -43,8 +43,10 @@ type ViteDevServerWithEnvironments = ViteDevServer & {
   environments: ViteEnvironments;
 };
 
+type PlatformKey = 'node' | 'browser' | 'web';
+
 export type SpringboardOptions = {
-  entry: string;
+  entry: string | Record<PlatformKey, string>;
   documentMeta?: Record<string, string>;
   /** Port for the node dev server (default: 1337) */
   nodeServerPort?: number;
@@ -89,6 +91,15 @@ export function springboard(options: SpringboardOptions): Plugin {
   };
 
   const projectRoot = getProjectRoot();
+
+  const resolveEntry = (platform: 'node' | 'browser') => {
+    if (typeof options.entry === 'string') {
+      return options.entry;
+    }
+
+    const platformKey = platform === 'browser' ? 'browser' : 'node';
+    return options.entry[platformKey] ?? options.entry.web ?? options.entry.browser ?? options.entry.node;
+  };
   const SPRINGBOARD_DIR = path.resolve(projectRoot, '.springboard');
   const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
   const WEB_HTML_FILE = path.join(projectRoot, 'index.html'); // At project root for Vite
@@ -142,9 +153,10 @@ export function springboard(options: SpringboardOptions): Plugin {
       const buildPlatform = hasWeb ? 'browser' : hasNode ? 'node' : null;
 
       // Calculate the correct import path from .springboard/ to the user's entry file
-      const absoluteEntryPath = path.isAbsolute(options.entry)
-        ? options.entry
-        : path.resolve(projectRoot, options.entry);
+      const platformEntry = resolveEntry(buildPlatform ?? 'browser');
+      const absoluteEntryPath = path.isAbsolute(platformEntry)
+        ? platformEntry
+        : path.resolve(projectRoot, platformEntry);
 
       // Then calculate the relative path from .springboard/ to the entry file
       const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
@@ -278,9 +290,10 @@ export function springboard(options: SpringboardOptions): Plugin {
       }
 
       // Calculate the correct import path from .springboard/ to the user's entry file
-      const absoluteEntryPath = path.isAbsolute(options.entry)
-        ? options.entry
-        : path.resolve(projectRoot, options.entry);
+      const platformEntry = resolveEntry('node');
+      const absoluteEntryPath = path.isAbsolute(platformEntry)
+        ? platformEntry
+        : path.resolve(projectRoot, platformEntry);
       const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
 
       const port = options.nodeServerPort ?? 1337;
