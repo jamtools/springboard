@@ -4,6 +4,6 @@
  */
 
 // Export Tauri entrypoints
-export { startAndRenderBrowserApp as startTauriBrowserApp } from './entrypoints/platform_tauri_browser';
-// export { default as tauriMaestroEntrypoint } from './entrypoints/platform_tauri_maestro';
-export { default as tauriBrowserEntrypoint } from './entrypoints/platform_tauri_browser';
+export { startAndRenderBrowserApp as startTauriBrowserApp } from './entrypoints/platform_tauri_browser.js';
+// export { default as tauriMaestroEntrypoint } from './entrypoints/platform_tauri_maestro.js';
+export { default as tauriBrowserEntrypoint } from './entrypoints/platform_tauri_browser.js';

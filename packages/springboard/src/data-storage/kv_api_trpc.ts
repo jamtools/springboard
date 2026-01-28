@@ -1,4 +1,4 @@
-import {KyselyDBWithKVStoreTable} from './kv_store_db_types';
+import {KyselyDBWithKVStoreTable} from './kv_store_db_types.js';
 
 export class HttpKvStoreFromKysely {
     constructor(private db: KyselyDBWithKVStoreTable) {}

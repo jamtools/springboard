@@ -4,8 +4,8 @@
  */
 
 // Export the main springboard registry
-export { springboard, getRegisteredSplashScreen } from './engine/register';
-export { default } from './engine/register';
+export { springboard, getRegisteredSplashScreen } from './engine/register.js';
+export { default } from './engine/register.js';
 
 // Export types from register
 export type {
@@ -15,7 +15,7 @@ export type {
   ClassModuleCallback,
   DocumentMetaFunction,
   RegisterRouteOptions,
-} from './engine/register';
+} from './engine/register.js';
 
 // Export the Springboard engine and providers
 export {
@@ -23,10 +23,10 @@ export {
   SpringboardProvider,
   SpringboardProviderPure,
   useSpringboardEngine,
-} from './engine/engine';
+} from './engine/engine.js';
 
 // Export ModuleAPI
-export { ModuleAPI } from './engine/module_api';
+export { ModuleAPI } from './engine/module_api.js';
 
 // Export types from core
 export type {
@@ -35,37 +35,36 @@ export type {
   KVStore,
   Rpc,
   RpcArgs,
-} from './types/module_types';
+} from './types/module_types.js';
 
 // Export module registry
 export {
   ModuleRegistry,
-} from './module_registry/module_registry';
+} from './module_registry/module_registry.js';
 
 export type {
   Module,
   ExtraModuleDependencies,
   DocumentMeta,
-} from './module_registry/module_registry';
+} from './module_registry/module_registry.js';
 
 // Export hooks
-export { useMount } from './hooks/useMount';
+export { useMount } from './hooks/useMount.js';
 
 // Export utility functions
-export { generateId } from './utils/generate_id';
+export { generateId } from './utils/generate_id.js';
 
 // Export services
-export { SharedStateService } from './services/states/shared_state_service';
-export { HttpKvStoreClient } from './services/http_kv_store_client';
+export { SharedStateService } from './services/states/shared_state_service.js';
+export { HttpKvStoreClient } from './services/http_kv_store_client.js';
 
 // Export response types
 export type {
   ErrorResponse,
-} from './types/response_types';
+} from './types/response_types.js';
 
 // Export modules
-export { BaseModule } from './modules/base_module/base_module';
-export { FilesModule } from './modules/files/files_module';
+export { BaseModule } from './modules/base_module/base_module.js';
 
 // Export test utilities
-export { makeMockCoreDependencies } from './test/mock_core_dependencies';
+export { makeMockCoreDependencies } from './test/mock_core_dependencies.js';

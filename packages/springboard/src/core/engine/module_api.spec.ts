@@ -1,6 +1,6 @@
-import {Springboard} from './engine';
-import {makeMockCoreDependencies, makeMockExtraDependences} from '../test/mock_core_dependencies';
-import springboard from './register';
+import {Springboard} from './engine.js';
+import {makeMockCoreDependencies, makeMockExtraDependences} from '../test/mock_core_dependencies.js';
+import springboard from './register.js';
 
 describe('ModuleAPI', () => {
     beforeEach(() => {

@@ -1,6 +1,6 @@
 import {JSONRPCClient, JSONRPCServer} from 'json-rpc-2.0';
 
-import {Rpc, RpcArgs} from '../../core';
+import {Rpc, RpcArgs} from '../../core/index.js';
 
 type ServerJsonRpcClientAndServerInitArgs = {
     broadcastMessage: (message: string) => void;

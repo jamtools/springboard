@@ -1,7 +1,7 @@
-import {BrowserJsonRpcClientAndServer} from '../services/browser_json_rpc';
-import {BrowserKVStoreService} from '../services/browser_kvstore_service';
-import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client';
-import {startAndRenderBrowserApp} from './react_entrypoint';
+import {BrowserJsonRpcClientAndServer} from '../services/browser_json_rpc.js';
+import {BrowserKVStoreService} from '../services/browser_kvstore_service.js';
+import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
+import {startAndRenderBrowserApp} from './react_entrypoint.js';
 
 let wsProtocol = 'ws';
 let httpProtocol = 'http';

@@ -4,17 +4,17 @@
  */
 
 // Export browser services
-export { BrowserJsonRpcClientAndServer } from './services/browser_json_rpc';
-export { BrowserKVStoreService } from './services/browser_kvstore_service';
+export { BrowserJsonRpcClientAndServer } from './services/browser_json_rpc.js';
+export { BrowserKVStoreService } from './services/browser_kvstore_service.js';
 
 // Export browser entrypoints
-export { startAndRenderBrowserApp } from './entrypoints/react_entrypoint';
-export { Main as BrowserMain, Main } from './entrypoints/main';
-export { watchForChanges } from './entrypoints/esbuild_watch_for_changes';
+export { startAndRenderBrowserApp } from './entrypoints/react_entrypoint.js';
+export { Main as BrowserMain, Main } from './entrypoints/main.js';
+export { watchForChanges } from './entrypoints/esbuild_watch_for_changes.js';
 
 // Export browser components
-export { RunLocalButton } from './components/run_local_button';
+export { RunLocalButton } from './components/run_local_button.js';
 
 // Export default entrypoints
-export { default as onlineEntrypoint } from './entrypoints/online_entrypoint';
-export { default as offlineEntrypoint } from './entrypoints/offline_entrypoint';
+export { default as onlineEntrypoint } from './entrypoints/online_entrypoint.js';
+export { default as offlineEntrypoint } from './entrypoints/offline_entrypoint.js';

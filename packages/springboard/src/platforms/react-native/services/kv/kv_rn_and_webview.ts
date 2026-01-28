@@ -4,7 +4,7 @@ export type AsyncStorageDependency = {
     setItem(key: string, value: string): Promise<void>;
 }
 
-import {KVStore, Rpc} from '../../../../core/types/module_types';
+import {KVStore, Rpc} from '../../../../core/types/module_types.js';
 
 type Options = {
     prefix: string;

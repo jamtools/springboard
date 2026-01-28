@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 
-import {Module} from '../../module_registry/module_registry';
+import {Module} from '../../module_registry/module_registry.js';
 
 export type ModuleHookValue<M extends Module> = {
     mod: M;

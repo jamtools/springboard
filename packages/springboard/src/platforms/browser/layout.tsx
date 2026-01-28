@@ -2,7 +2,7 @@ import React from 'react';
 
 import {useLocation, matchPath} from 'react-router';
 
-import {Module} from '../../core/module_registry/module_registry';
+import {Module} from '../../core/module_registry/module_registry.js';
 
 type Props = React.PropsWithChildren<{
     modules: Module[];

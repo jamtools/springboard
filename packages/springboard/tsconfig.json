@@ -43,6 +43,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    // "verbatimModuleSyntax": true,
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,

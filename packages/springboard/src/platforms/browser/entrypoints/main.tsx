@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {Springboard, SpringboardProvider} from '../../../core/engine/engine';
+import {Springboard, SpringboardProvider} from '../../../core/engine/engine.js';
 
-import {FrontendRoutes} from '../frontend_routes';
+import {FrontendRoutes} from '../frontend_routes.js';
 
 type Props = {
     engine: Springboard;

@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import {Subject} from 'rxjs';
 
-import type {ModuleAPI} from '../engine/module_api';
-import {RegisterRouteOptions} from '../engine/register';
+import type {ModuleAPI} from '../engine/module_api.js';
+import {RegisterRouteOptions} from '../engine/register.js';
 
 export type DocumentMeta = {
     title?: string;

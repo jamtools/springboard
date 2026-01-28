@@ -1,12 +1,12 @@
 import {useEffect, useState} from 'react';
 
-import springboard from '../../../core/engine/register';
-import {Springboard} from '../../../core/engine/engine';
+import springboard from '../../../core/engine/register.js';
+import {Springboard} from '../../../core/engine/engine.js';
 
-import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types';
+import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
 
-import {ReactNativeToWebviewKVService} from '../services/kv/kv_rn_and_webview';
-import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview';
+import {ReactNativeToWebviewKVService} from '../services/kv/kv_rn_and_webview.js';
+import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview.js';
 
 type UseAndInitializeSpringboardEngineProps = {
     onMessageFromRN: (message: string) => void;
@@ -27,8 +27,8 @@ const storedOnMessageFromRN = (message: string) => {
 
 // }
 
-import {SpringboardRegistry} from '../../../core/engine/register';
-import {AsyncStorageDependency} from '../services/kv/kv_rn_and_webview';
+import {SpringboardRegistry} from '../../../core/engine/register.js';
+import {AsyncStorageDependency} from '../services/kv/kv_rn_and_webview.js';
 
 type ApplicationEntrypoint = (registry: SpringboardRegistry) => void;
 

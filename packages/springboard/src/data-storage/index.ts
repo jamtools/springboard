@@ -17,11 +17,11 @@
  */
 
 // SQLite database utilities
-export { makeKyselySqliteInstance, makeKyselyInstanceFromDialect } from './sqlite_db';
+export { makeKyselySqliteInstance, makeKyselyInstanceFromDialect } from './sqlite_db.js';
 
 // KV Store implementations
-export { KVStoreFromKysely } from './kv_api_kysely';
-export { HttpKvStoreFromKysely } from './kv_api_trpc';
+export { KVStoreFromKysely } from './kv_api_kysely.js';
+export { HttpKvStoreFromKysely } from './kv_api_trpc.js';
 
 // Types
-export type { KVStoreDatabaseSchema, KVEntry, KyselyDBWithKVStoreTable } from './kv_store_db_types';
+export type { KVStoreDatabaseSchema, KVEntry, KyselyDBWithKVStoreTable } from './kv_store_db_types.js';

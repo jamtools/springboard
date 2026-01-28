@@ -1,7 +1,7 @@
 import SQLite from 'better-sqlite3';
 import {Dialect, Kysely, SqliteDialect} from 'kysely';
 
-import {KyselyDBWithKVStoreTable} from './kv_store_db_types';
+import {KyselyDBWithKVStoreTable} from './kv_store_db_types.js';
 
 export const makeKyselySqliteInstance = async (fname: string) => {
     const dialect = new SqliteDialect({

@@ -1,5 +1,5 @@
-import {CoreDependencies, KVStore, Rpc, RpcArgs} from '../types/module_types';
-import {ExtraModuleDependencies} from '../module_registry/module_registry';
+import {CoreDependencies, KVStore, Rpc, RpcArgs} from '../types/module_types.js';
+import {ExtraModuleDependencies} from '../module_registry/module_registry.js';
 
 class MockKVStore implements KVStore {
     constructor(private store: Record<string, string> = {}) {}

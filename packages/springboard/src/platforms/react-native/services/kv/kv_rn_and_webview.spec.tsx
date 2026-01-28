@@ -4,15 +4,15 @@ import userEvent from '@testing-library/user-event';
 
 import '@testing-library/jest-dom';
 
-import {Springboard} from '../../../../core/engine/engine';
-import {makeMockCoreDependencies, makeMockExtraDependences} from '../../../../core/test/mock_core_dependencies';
-import springboard from '../../../../core/engine/register';
+import {Springboard} from '../../../../core/engine/engine.js';
+import {makeMockCoreDependencies, makeMockExtraDependences} from '../../../../core/test/mock_core_dependencies.js';
+import springboard from '../../../../core/engine/register.js';
 import {vitest} from 'vitest';
 
-import {SpringboardRegistry} from '../../../../core/engine/register';
-import {createRNWebviewEngine} from '../../entrypoints/platform_react_native_browser';
-import {Main} from '../../../browser/entrypoints/main';
-import {createRNMainEngine} from '../../entrypoints/rn_app_springboard_entrypoint';
+import {SpringboardRegistry} from '../../../../core/engine/register.js';
+import {createRNWebviewEngine} from '../../entrypoints/platform_react_native_browser.js';
+import {Main} from '../../../browser/entrypoints/main.js';
+import {createRNMainEngine} from '../../entrypoints/rn_app_springboard_entrypoint.js';
 
 describe('KvRnWebview', () => {
     beforeEach(() => {

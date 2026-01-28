@@ -1,5 +1,5 @@
-import {Module, ModuleRegistry} from '../module_registry/module_registry';
-import {SharedStateService} from '../services/states/shared_state_service';
+import {Module, ModuleRegistry} from '../module_registry/module_registry.js';
+import {SharedStateService} from '../services/states/shared_state_service.js';
 
 export type ModuleCallback<T extends object,> = (coreDeps: CoreDependencies, modDependencies: ModuleDependencies) =>
 Promise<Module<T>> | Module<T>;

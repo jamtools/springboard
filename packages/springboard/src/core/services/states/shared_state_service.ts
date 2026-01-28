@@ -1,9 +1,9 @@
 import {produce} from 'immer';
 import {Subject} from 'rxjs';
 
-import {useSubject} from '../../module_registry/module_registry';
+import {useSubject} from '../../module_registry/module_registry.js';
 
-import {CoreDependencies, KVStore, Rpc} from '../../types/module_types';
+import {CoreDependencies, KVStore, Rpc} from '../../types/module_types.js';
 
 type SharedStateMessage = {
     key: string;

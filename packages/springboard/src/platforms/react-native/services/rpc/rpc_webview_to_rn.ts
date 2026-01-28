@@ -1,6 +1,6 @@
 import {JSONRPCClient, JSONRPCServer} from 'json-rpc-2.0';
 
-import {Rpc, RpcArgs} from '../../../../core/types/module_types';
+import {Rpc, RpcArgs} from '../../../../core/types/module_types.js';
 
 type ClientParams = {
     clientId: string;

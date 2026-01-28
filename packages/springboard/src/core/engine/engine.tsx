@@ -1,14 +1,14 @@
-import {CoreDependencies, ModuleDependencies} from '../types/module_types';
+import {CoreDependencies, ModuleDependencies} from '../types/module_types.js';
 
-import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard, getRegisteredSplashScreen} from './register';
+import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard, getRegisteredSplashScreen} from './register.js';
 
 import React, {createContext, useContext, useState} from 'react';
 
-import {useMount} from '../hooks/useMount';
-import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry';
+import {useMount} from '../hooks/useMount.js';
+import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
-import {SharedStateService} from '../services/states/shared_state_service';
-import {ModuleAPI} from './module_api';
+import {SharedStateService} from '../services/states/shared_state_service.js';
+import {ModuleAPI} from './module_api.js';
 
 type CapturedRegisterModuleCalls = [string, RegisterModuleOptions, ModuleCallback<any>];
 type CapturedRegisterClassModuleCalls = ClassModuleCallback<any>;

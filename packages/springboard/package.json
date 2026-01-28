@@ -1,6 +1,6 @@
 {
   "name": "springboard",
-  "version": "0.15.52",
+  "version": "0.15.55",
   "description": "Full-stack JavaScript framework with real-time capabilities",
   "type": "module",
   "main": "./dist/index.js",
@@ -36,17 +36,9 @@
       "types": "./dist/core/modules/base_module/base_module.d.ts",
       "import": "./dist/core/modules/base_module/base_module.js"
     },
-    "./core/modules/files/file_storage_providers/indexed_db_file_storage_provider": {
-      "types": "./dist/core/modules/files/file_storage_providers/indexed_db_file_storage_provider.d.ts",
-      "import": "./dist/core/modules/files/file_storage_providers/indexed_db_file_storage_provider.js"
-    },
     "./core/modules/files/file_types": {
       "types": "./dist/core/modules/files/file_types.d.ts",
       "import": "./dist/core/modules/files/file_types.js"
-    },
-    "./core/modules/files/files_module": {
-      "types": "./dist/core/modules/files/files_module.d.ts",
-      "import": "./dist/core/modules/files/files_module.js"
     },
     "./core/modules/index": {
       "types": "./dist/core/modules/index.d.ts",
@@ -240,6 +232,10 @@
       "types": "./dist/server/register.d.ts",
       "import": "./dist/server/register.js"
     },
+    "./server/services/crossws_json_rpc": {
+      "types": "./dist/server/services/crossws_json_rpc.d.ts",
+      "import": "./dist/server/services/crossws_json_rpc.js"
+    },
     "./services/http_kv_store_client": {
       "types": "./dist/core/services/http_kv_store_client.d.ts",
       "import": "./dist/core/services/http_kv_store_client.js"
@@ -283,10 +279,6 @@
     "./modules/files/file_types": {
       "types": "./dist/core/modules/files/file_types.d.ts",
       "import": "./dist/core/modules/files/file_types.js"
-    },
-    "./modules/files/files_module": {
-      "types": "./dist/core/modules/files/files_module.d.ts",
-      "import": "./dist/core/modules/files/files_module.js"
     },
     "./modules/base_module/base_module": {
       "types": "./dist/core/modules/base_module/base_module.d.ts",

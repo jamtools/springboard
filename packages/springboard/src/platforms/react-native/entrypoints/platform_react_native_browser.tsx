@@ -28,16 +28,16 @@ console.error = function (message, ...args) {
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types';
+import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
 
-import {Main} from '../../browser/entrypoints/main';
-import {Springboard} from '../../../core/engine/engine';
+import {Main} from '../../browser/entrypoints/main.js';
+import {Springboard} from '../../../core/engine/engine.js';
 
-import {RpcWebviewToRN} from '../services/rpc/rpc_webview_to_rn';
-import {WebviewToReactNativeKVService} from '../services/kv/kv_rn_and_webview';
-import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc';
-import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client';
-import {ReactNativeWebviewLocalTokenService} from '../services/rn_webview_local_token_service';
+import {RpcWebviewToRN} from '../services/rpc/rpc_webview_to_rn.js';
+import {WebviewToReactNativeKVService} from '../services/kv/kv_rn_and_webview.js';
+import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
+import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
+import {ReactNativeWebviewLocalTokenService} from '../services/rn_webview_local_token_service.js';
 
 export const startAndRenderBrowserApp = async (args: {remoteUrl: string}): Promise<Springboard> => {
     const DATA_HOST = args.remoteUrl;

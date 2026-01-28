@@ -1,6 +1,6 @@
-import {Module, DocumentMeta} from '../module_registry/module_registry';
-import {CoreDependencies, ModuleDependencies} from '../types/module_types';
-import type {ModuleAPI} from './module_api';
+import {Module, DocumentMeta} from '../module_registry/module_registry.js';
+import {CoreDependencies, ModuleDependencies} from '../types/module_types.js';
+import type {ModuleAPI} from './module_api.js';
 import React from 'react';
 
 export type DocumentMetaFunction = (context: {path: string; params?: Record<string, string>}) => DocumentMeta | Promise<DocumentMeta>;
@@ -72,5 +72,5 @@ export const springboard: SpringboardRegistry = {
     },
 };
 
-// Add default export for files that import as: import springboard from './register'
+// Add default export for files that import as: import springboard from './register.js'
 export default springboard;

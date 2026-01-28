@@ -16,4 +16,4 @@
 export {
     useAndInitializeSpringboardEngine,
     createRNMainEngine,
-} from './rn_app_springboard_entrypoint';
+} from './rn_app_springboard_entrypoint.js';

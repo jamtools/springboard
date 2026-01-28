@@ -1,5 +1,5 @@
-import {KVStore} from '../core/types/module_types';
-import {KyselyDBWithKVStoreTable} from './kv_store_db_types';
+import {KVStore} from '../core/types/module_types.js';
+import {KyselyDBWithKVStoreTable} from './kv_store_db_types.js';
 
 export class KVStoreFromKysely implements KVStore {
     constructor(private db: KyselyDBWithKVStoreTable) { }

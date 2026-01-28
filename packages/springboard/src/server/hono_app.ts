@@ -3,14 +3,13 @@ import {Context, Hono} from 'hono';
 import {serveStatic} from 'hono/serve-static';
 import {cors} from 'hono/cors';
 
-import {ServerAppDependencies} from './types/server_app_dependencies';
+import {ServerAppDependencies} from './types/server_app_dependencies.js';
 
-import {createCommonWebSocketHooks} from './services/crossws_json_rpc';
-import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register';
-import {KVStore, Springboard} from '../core';
+import {createCommonWebSocketHooks} from './services/crossws_json_rpc.js';
+import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register.js';
+import {KVStore, Springboard} from '../core/index.js';
 import {Adapter, AdapterInstance, Hooks} from 'crossws';
-import {ServerJsonRpcClientAndServer} from './services/server_json_rpc';
-import {Data} from 'hono/dist/types/context';
+import {ServerJsonRpcClientAndServer} from './services/server_json_rpc.js';
 import type {Peer} from 'crossws';
 
 type InitAppReturnValue = {

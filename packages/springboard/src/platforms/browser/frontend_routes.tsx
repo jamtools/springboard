@@ -9,10 +9,10 @@ import {
     useNavigate,
 } from 'react-router';
 
-import {useSpringboardEngine} from '../../core/engine/engine';
-import {Module, RegisteredRoute} from '../../core/module_registry/module_registry';
+import {useSpringboardEngine} from '../../core/engine/engine.js';
+import {Module, RegisteredRoute} from '../../core/module_registry/module_registry.js';
 
-import {Layout} from './layout';
+import {Layout} from './layout.js';
 
 const CustomRoute = (props: {component: RegisteredRoute['component']}) => {
     const navigate = useNavigate();

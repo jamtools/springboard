@@ -1,4 +1,4 @@
-import {KVStore} from '../types/module_types';
+import {KVStore} from '../types/module_types.js';
 
 interface KVResponse {
     key: string;

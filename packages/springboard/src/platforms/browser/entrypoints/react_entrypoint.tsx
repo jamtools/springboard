@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import {CoreDependencies} from '../../../core/types/module_types';
+import {CoreDependencies} from '../../../core/types/module_types.js';
 
-import {Main} from './main';
-import {Springboard} from '../../../core/engine/engine';
-import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry';
+import {Main} from './main.js';
+import {Springboard} from '../../../core/engine/engine.js';
+import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
 
-import {watchForChanges} from './esbuild_watch_for_changes';
+import {watchForChanges} from './esbuild_watch_for_changes.js';
 
 const waitForPageLoad = () => new Promise<void>(resolve => {
     window.addEventListener('DOMContentLoaded', () => {

@@ -4,11 +4,11 @@ import path from 'node:path';
 import {serve} from '@hono/node-server';
 import crosswsNode from 'crossws/adapters/node';
 
-import {makeWebsocketServerCoreDependenciesWithSqlite} from '../services/ws_server_core_dependencies';
+import {makeWebsocketServerCoreDependenciesWithSqlite} from '../services/ws_server_core_dependencies.js';
 
-import {initApp} from '../../../server/hono_app';
-import {LocalJsonNodeKVStoreService} from '../services/node_kvstore_service';
-import {CoreDependencies, Springboard} from '../../../core';
+import {initApp} from '../../../server/hono_app.js';
+import {LocalJsonNodeKVStoreService} from '../services/node_kvstore_service.js';
+import {CoreDependencies, Springboard} from '../../../core/index.js';
 
 setTimeout(async () => {
     const webappFolder = process.env.WEBAPP_FOLDER || './dist/browser';

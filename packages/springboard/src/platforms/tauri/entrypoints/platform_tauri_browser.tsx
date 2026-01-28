@@ -4,16 +4,16 @@ import ReactDOM from 'react-dom/client';
 import {Command} from '@tauri-apps/plugin-shell';
 import {appDataDir} from '@tauri-apps/api/path';
 
-import {CoreDependencies} from '../../../core/types/module_types';
+import {CoreDependencies} from '../../../core/types/module_types.js';
 
-import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client';
+import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
 
-import {Main} from '../../browser/entrypoints/main';
-// import {Main} from './main';
-import {BrowserKVStoreService} from '../../browser/services/browser_kvstore_service';
-import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc';
-import {Springboard} from '../../../core/engine/engine';
-import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry';
+import {Main} from '../../browser/entrypoints/main.js';
+// import {Main} from './main.js';
+import {BrowserKVStoreService} from '../../browser/services/browser_kvstore_service.js';
+import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
+import {Springboard} from '../../../core/engine/engine.js';
+import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
 
 const RUN_SIDECAR_FROM_WEBVIEW = Boolean(process.env.RUN_SIDECAR_FROM_WEBVIEW);
 

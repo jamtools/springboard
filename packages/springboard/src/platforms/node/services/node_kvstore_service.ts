@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-import {KVStore} from '../../../core';
+import {KVStore} from '../../../core/index.js';
 
 // TODO: this needs to be optional I think. or just have a sane default
 // the file should be assumed to be in ./data/kv_data.json

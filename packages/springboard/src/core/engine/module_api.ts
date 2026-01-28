@@ -1,7 +1,7 @@
-import {SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
-import {ExtraModuleDependencies, Module, ModuleRegistry, NavigationItemConfig, RegisteredRoute} from '../module_registry/module_registry';
-import {CoreDependencies, ModuleDependencies} from '../types/module_types';
-import {RegisterRouteOptions} from './register';
+import {SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service.js';
+import {ExtraModuleDependencies, Module, ModuleRegistry, NavigationItemConfig, RegisteredRoute} from '../module_registry/module_registry.js';
+import {CoreDependencies, ModuleDependencies} from '../types/module_types.js';
+import {RegisterRouteOptions} from './register.js';
 
 // Helper to get middleware results from async local storage (when available)
 // This is platform-specific: on Node.js it uses AsyncLocalStorage, on browser it returns undefined
