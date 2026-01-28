@@ -55,7 +55,7 @@ export { useMount } from './hooks/useMount.js';
 export { generateId } from './utils/generate_id.js';
 
 // Export services
-export { SharedStateService } from './services/states/shared_state_service.js';
+export { SharedStateService, StateSupervisor } from './services/states/shared_state_service.js';
 export { HttpKvStoreClient } from './services/http_kv_store_client.js';
 
 // Export response types
