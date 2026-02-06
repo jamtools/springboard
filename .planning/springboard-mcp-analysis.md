@@ -1,89 +1,43 @@
-# Springboard MCP Server Analysis
+# Springboard CLI for AI Agents
 
-This document analyzes the svelte-mcp architecture and patterns to guide the creation of a springboard-mcp server.
+This document analyzes the svelte-mcp patterns and adapts them into a CLI tool that AI coding agents can use when building springboard applications.
 
-## Overview: svelte-mcp Architecture
+## Why CLI Instead of MCP?
 
-The svelte-mcp server is a well-designed MCP server that helps AI coding agents work efficiently with Svelte by providing:
+- **Simpler integration** - Any AI agent can run shell commands
+- **No protocol overhead** - Direct stdin/stdout communication
+- **Easier testing** - Run commands manually to verify behavior
+- **Portable** - Works with any AI tool, not just MCP-compatible ones
 
-1. **Documentation discovery and retrieval** - Agents find relevant docs without fetching everything
-2. **Code validation/autofixing** - Iterative code analysis catches errors before runtime
-3. **Playground integration** - Shareable code previews
-4. **Context-efficient workflow** - "Try knowledge first, validate, then fetch docs"
+## Key Patterns from svelte-mcp (Adapted for CLI)
 
-## Key Patterns from svelte-mcp
+### 1. Command Structure
 
-### 1. Tool Orchestration Pattern
+svelte-mcp exposes these via MCP tools - we expose them as CLI subcommands:
 
+```bash
+# Documentation discovery
+sb-ai list-sections              # List available docs with use_cases
+sb-ai get-docs <section...>      # Fetch specific documentation
+
+# Code validation
+sb-ai validate <file>            # Validate a module file
+sb-ai validate --stdin           # Validate code from stdin
+
+# Scaffolding
+sb-ai scaffold module <name>     # Generate module template
+sb-ai scaffold feature <name>    # Generate feature module
+sb-ai scaffold utility <name>    # Generate utility module
+
+# Context for agents
+sb-ai context                    # Output full context prompt for AI agents
+sb-ai types                      # Output core TypeScript definitions
 ```
-list-sections → analyze use_cases → get-documentation
-→ svelte-autofixer (iterative) → playground-link
-```
-
-**Why this matters:** Agents don't need to fetch all documentation upfront. They:
-1. Get a lightweight list of what's available with use-case keywords
-2. Selectively fetch only relevant sections
-3. Validate code iteratively
-4. Share results via playground links
 
 ### 2. Use Cases as Keywords
 
-`svelte-mcp` pre-generates "use_cases" metadata for each doc section using Claude:
+Pre-generated metadata lets agents select docs without semantic search:
 
-```json
-{
-  "docs/$state": "always, any svelte project, core reactivity, state management, counters...",
-  "docs/logic-blocks": "conditional rendering, each loops, iteration, key blocks..."
-}
-```
-
-This allows agents to make smart doc selection without semantic search or reading full docs.
-
-### 3. Iterative Autofixer Pattern
-
-```
-Generate code → autofixer → Has issues? → Fix → autofixer again → Until clean
-```
-
-The `svelte-autofixer` tool returns:
-- `issues[]` - Compilation/linting errors
-- `suggestions[]` - Improvements (not errors)
-- `require_another_tool_call_after_fixing` - Flag for iteration
-
-**Three-layer validation:**
-1. **Compilation** - Svelte compiler warnings/errors
-2. **Custom visitors** - Domain-specific pattern detection via AST walking
-3. **ESLint** - Standard linting rules
-
-### 4. Prompt-Based Context Loading
-
-The `svelte-task` prompt pre-loads:
-- Full list of available documentation sections
-- Instructions for using tools efficiently
-- Workflow guidance ("try autofixer first, then docs")
-
-This avoids repeated `list-sections` calls and guides agent behavior.
-
-### 5. Multi-Transport Design
-
-Same core server supports:
-- **HTTP** (Vercel deployment) - Stateless
-- **STDIO** (CLI) - Direct invocation via `npx @sveltejs/mcp`
-
----
-
-## Springboard MCP Server Design
-
-### Core Components to Build
-
-#### 1. Documentation System
-
-**Source files to expose:**
-- `/doks/content/docs/springboard/` - Core springboard docs
-- `/doks/content/docs/jamtools/` - Jamtools extension docs
-- `/packages/springboard/cli/docs-out/CLI_DOCS_sb.md` - CLI reference
-
-**Use cases to generate:**
 ```json
 {
   "springboard/module-development": "creating modules, registerModule, feature modules, utility modules, initializer modules...",
@@ -92,131 +46,212 @@ Same core server supports:
 }
 ```
 
-#### 2. Autofixer / Validator Tool
+**CLI output format:**
+```bash
+$ sb-ai list-sections
+springboard/module-development
+  Use cases: creating modules, registerModule, feature modules, utility modules...
 
-**Springboard-specific patterns to detect:**
-
-| Pattern | Detection | Suggestion |
-|---------|-----------|------------|
-| Direct state mutation | `state.value = x` outside setState | Use `state.setState()` or `state.setStateImmer()` |
-| Missing module interface | registerModule without return type | Add interface merge to `AllModules` |
-| Shared vs UserAgent state confusion | userAgent state used for cross-device data | Use `createSharedState` or `createPersistentState` |
-| Missing cleanup | Subscriptions without `onDestroy` | Add `moduleAPI.onDestroy()` callback |
-| Route conflicts | Duplicate route paths | Make route paths unique |
-| getModule before ready | getModule in synchronous code | Move to async initialization |
-| Missing error handling | Actions without try/catch | Use `coreDeps.showError()` |
-| Platform directive issues | Mismatched @platform tags | Close @platform directives properly |
-
-**Validation layers:**
-1. **TypeScript compilation** - Type errors in module code
-2. **Custom visitors** - Springboard-specific pattern detection
-3. **ESLint** - Standard React/TypeScript rules
-
-#### 3. Tools to Implement
-
-| Tool | Purpose | Input | Output |
-|------|---------|-------|--------|
-| `list-sections` | Discover available docs | - | Section list with use_cases |
-| `get-documentation` | Fetch doc content | Section name(s) | Markdown content |
-| `springboard-validator` | Analyze module code | Code string, options | `{issues[], suggestions[], needsRerun}` |
-| `scaffold-module` | Generate module template | Module type, name | Code template |
-| `module-types` | Get TypeScript definitions | - | Core type definitions |
-
-#### 4. Resources
-
-| Resource | URI Pattern | Description |
-|----------|-------------|-------------|
-| `springboard-doc` | `springboard://{slug}.md` | Documentation sections |
-| `module-api-reference` | `springboard://api/module-api` | ModuleAPI interface |
-| `type-definitions` | `springboard://types/{type}` | Core TypeScript types |
-
-#### 5. Prompts
-
-**`springboard-task`** - Main context prompt:
+springboard/state-management
+  Use cases: shared state, persistent state, user agent state, createSharedState...
 ```
+
+### 3. Iterative Validator Pattern
+
+```bash
+$ sb-ai validate src/modules/my-module.ts
+{
+  "issues": [
+    "Line 15: Direct state mutation detected. Use state.setState() or state.setStateImmer()"
+  ],
+  "suggestions": [
+    "Line 8: Consider adding onDestroy() cleanup for the subscription on line 12"
+  ],
+  "hasErrors": true
+}
+```
+
+Agents can iterate:
+```
+Generate code → sb-ai validate → Fix issues → sb-ai validate → Until clean
+```
+
+### 4. Context Prompt
+
+```bash
+$ sb-ai context
 You are working on a Springboard application. Springboard is a full-stack
 JavaScript framework built on React, Hono, JSON-RPC, and WebSockets.
 
 Available documentation sections:
-{sections_list}
+- springboard/module-development (creating modules, registerModule...)
+- springboard/state-management (shared state, persistent state...)
+- springboard/guides/registering-ui-routes (routing, routes...)
+...
 
 Workflow:
 1. Use your knowledge of React and TypeScript first
-2. Run `springboard-validator` to check your code
-3. Only fetch documentation when validator issues reference unknown APIs
-4. For new modules, use `scaffold-module` to start with correct structure
+2. Run `sb-ai validate <file>` to check your code
+3. Only fetch docs with `sb-ai get-docs <section>` when needed
+4. For new modules, use `sb-ai scaffold module <name>`
 
 Key concepts:
 - Modules are registered with `springboard.registerModule()`
-- State: shared (cross-device), persistent (DB), userAgent (local)
+- State types: shared (cross-device), persistent (DB), userAgent (local)
 - Actions are automatically RPC-enabled
 - Routes use React Router under the hood
 ```
 
 ---
 
-## Implementation Plan
+## CLI Design
 
-### Phase 1: Core Server Setup
+### Commands
+
+| Command | Purpose | Output |
+|---------|---------|--------|
+| `sb-ai list-sections` | List docs with use_cases | Text or JSON (`--json`) |
+| `sb-ai get-docs <section...>` | Fetch documentation | Markdown content |
+| `sb-ai validate <file>` | Validate module code | JSON `{issues, suggestions, hasErrors}` |
+| `sb-ai validate --stdin` | Validate from stdin | JSON `{issues, suggestions, hasErrors}` |
+| `sb-ai scaffold <type> <name>` | Generate templates | File path created |
+| `sb-ai context` | Full agent context | Text prompt |
+| `sb-ai types` | Core type definitions | TypeScript definitions |
+
+### Output Formats
+
+```bash
+# Default: human-readable
+$ sb-ai list-sections
+
+# JSON for programmatic use
+$ sb-ai list-sections --json
+
+# Quiet mode (errors only)
+$ sb-ai validate src/module.ts --quiet
+```
+
+---
+
+## Validator Patterns to Detect
+
+| Pattern | Detection | Message |
+|---------|-----------|---------|
+| Direct state mutation | `state.value = x` | Use `state.setState()` or `state.setStateImmer()` |
+| Missing module interface | registerModule without AllModules merge | Add interface merge for type-safe `getModule()` |
+| Wrong state type | userAgent state for cross-device data | Use `createSharedState` or `createPersistentState` |
+| Missing cleanup | Subscriptions without `onDestroy` | Add `moduleAPI.onDestroy()` callback |
+| Route conflicts | Duplicate route paths | Make route paths unique |
+| Sync getModule | getModule in synchronous code | Move to async initialization |
+| Missing error handling | Actions without error handling | Use `coreDeps.showError()` |
+| Platform directive issues | Unclosed @platform tags | Close `@platform` with `@platform end` |
+
+### Validation Layers
+
+1. **TypeScript** - Type errors via tsc
+2. **Custom AST visitors** - Springboard-specific patterns
+3. **ESLint** - React/TypeScript best practices
+
+---
+
+## Implementation Structure
 
 ```
 packages/
-  springboard-mcp/
+  springboard-ai-cli/
     src/
-      mcp/
-        index.ts              # McpServer initialization
-        handlers/
-          tools/
-            list-sections.ts
-            get-documentation.ts
-            springboard-validator.ts
-            scaffold-module.ts
-          resources/
-            doc-section.ts
-          prompts/
-            springboard-task.ts
-      parse/
-        parse.ts              # TypeScript/React AST parsing
+      cli.ts                    # Main entry point (commander/yargs)
+      commands/
+        list-sections.ts
+        get-docs.ts
+        validate.ts
+        scaffold.ts
+        context.ts
+        types.ts
       validators/
-        visitors/             # Pattern detection visitors
+        index.ts                # Orchestrates validation layers
+        visitors/
           state-mutation.ts
           missing-cleanup.ts
           route-conflicts.ts
           module-interface.ts
-      lib/
-        schemas.ts            # Valibot schemas
-      use_cases.json          # Pre-generated use cases
+          platform-directives.ts
+      docs/
+        sections.json           # Doc metadata with use_cases
+        content/                # LLM-optimized doc content
+      templates/
+        module.ts.template
+        feature.ts.template
+        utility.ts.template
     package.json
+    tsconfig.json
 ```
 
-### Phase 2: Validator Visitors
+### Key Dependencies
 
-Key AST visitors to implement:
-
-1. **`state-mutation.ts`** - Detect direct state mutations
-2. **`missing-cleanup.ts`** - Find subscriptions without onDestroy
-3. **`module-interface.ts`** - Check AllModules type merging
-4. **`action-patterns.ts`** - Validate action definitions
-5. **`route-patterns.ts`** - Check route registration
-6. **`platform-directives.ts`** - Validate @platform tags
-
-### Phase 3: Documentation Pipeline
-
-1. Convert existing doks content to LLM-optimized format
-2. Generate use_cases.json via Claude batch API
-3. Implement documentation fetching (local files or hosted)
-
-### Phase 4: Transport & Distribution
-
-- STDIO transport for CLI usage
-- HTTP transport for hosted deployment
-- npm package: `@springboard/mcp`
+```json
+{
+  "dependencies": {
+    "commander": "^12.0.0",
+    "typescript": "^5.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/typescript-estree": "^7.0.0"
+  }
+}
+```
 
 ---
 
-## API Surface: ModuleAPI Reference
+## Documentation Pipeline
 
-For the MCP server to be useful, it needs to understand and expose the ModuleAPI:
+### Source Files
+
+- `/doks/content/docs/springboard/` - Core docs
+- `/doks/content/docs/jamtools/` - Jamtools extension
+- `/packages/springboard/cli/docs-out/CLI_DOCS_sb.md` - CLI reference
+
+### LLM-Optimized Format
+
+Convert markdown docs to condensed format:
+
+```markdown
+# State Management
+
+## createSharedState(name, initialValue)
+Creates state synchronized across all connected devices.
+- Returns: StateSupervisor<T>
+- Use when: multiplayer features, real-time collaboration
+
+## createPersistentState(name, initialValue)
+Creates state persisted to database.
+- Returns: StateSupervisor<T>
+- Use when: user preferences, saved data
+
+## createUserAgentState(name, initialValue)
+Creates state stored locally (localStorage).
+- Returns: StateSupervisor<T>
+- Use when: UI state, device-specific settings
+```
+
+### Use Cases Generation
+
+Run Claude batch API on docs to generate `sections.json`:
+
+```json
+{
+  "sections": [
+    {
+      "slug": "springboard/module-development",
+      "title": "Module Development",
+      "use_cases": "creating modules, registerModule, feature modules, utility modules, initializer modules, module lifecycle, module dependencies"
+    }
+  ]
+}
+```
+
+---
+
+## API Reference (for context command)
 
 ```typescript
 interface ModuleAPI {
@@ -231,14 +266,10 @@ interface ModuleAPI {
   }
 
   // Actions
-  createActions<T extends ActionDefinitions>(actions: T): Actions<T>
+  createActions<T>(actions: T): Actions<T>
 
   // Routing
-  registerRoute(
-    path: string,
-    options: { hideApplicationShell?: boolean, documentMeta?: DocumentMeta },
-    component: React.ComponentType
-  ): void
+  registerRoute(path: string, options: RouteOptions, component: Component): void
 
   // Module Interaction
   getModule<K extends keyof AllModules>(id: K): AllModules[K]
@@ -258,53 +289,63 @@ interface StateSupervisor<T> {
 interface CoreDependencies {
   log: (...args: any[]) => void
   showError: (error: string) => void
-  files: { saveFile: (name: string, content: string) => Promise<void> }
-  storage: {
-    remote: KVStore
-    userAgent: KVStore
-  }
-  rpc: {
-    remote: Rpc
-    local?: Rpc
-  }
+  files: { saveFile(name: string, content: string): Promise<void> }
+  storage: { remote: KVStore; userAgent: KVStore }
+  rpc: { remote: Rpc; local?: Rpc }
   isMaestro: () => boolean
 }
 ```
 
 ---
 
-## Key Differences from svelte-mcp
+## Usage Examples
 
-| Aspect | svelte-mcp | springboard-mcp |
-|--------|------------|-----------------|
-| Compilation | Svelte compiler | TypeScript + React |
-| AST Parser | svelte-eslint-parser | TypeScript parser |
-| Domain | Component framework | Full-stack app framework |
-| State | Runes ($state, $derived) | StateSupervisor pattern |
-| Focus | Component code validation | Module architecture validation |
-| Playground | svelte.dev/playground | (future: stackblitz embed?) |
+### Agent Workflow
 
----
+```bash
+# 1. Get context at start of session
+sb-ai context > /tmp/springboard-context.md
 
-## Files to Reference in svelte-mcp
+# 2. Find relevant docs for task
+sb-ai list-sections | grep -i "state"
 
-When implementing, refer to these key files:
+# 3. Fetch specific documentation
+sb-ai get-docs springboard/state-management
 
-| svelte-mcp File | Purpose |
-|-----------------|---------|
-| `packages/mcp-server/src/mcp/index.ts` | Server setup pattern |
-| `packages/mcp-server/src/mcp/handlers/tools/svelte-autofixer.ts` | Validation tool structure |
-| `packages/mcp-server/src/mcp/autofixers/visitors/` | Visitor pattern examples |
-| `packages/mcp-server/src/parse/parse.ts` | Parser setup |
-| `packages/mcp-server/src/use_cases.json` | Use cases format |
-| `packages/mcp-server/src/mcp/handlers/prompts/svelte-task.ts` | Prompt structure |
+# 4. Generate module scaffold
+sb-ai scaffold feature user-profile
+
+# 5. Validate after writing code
+sb-ai validate src/modules/user-profile.ts
+
+# 6. Fix issues and re-validate until clean
+```
+
+### Integration with AI Tools
+
+**Claude Code CLAUDE.md:**
+```markdown
+## Springboard Development
+
+When working on springboard modules:
+1. Run `sb-ai context` to understand the framework
+2. Use `sb-ai list-sections` to find relevant docs
+3. Validate code with `sb-ai validate <file>` before finishing
+4. Use `sb-ai scaffold` for new modules
+```
+
+**Cursor rules:**
+```
+When creating springboard modules, always run `sb-ai validate` on the file.
+```
 
 ---
 
 ## Next Steps
 
-1. **Decide on hosting**: Fork svelte-mcp or build from scratch?
-2. **Generate use_cases.json**: Run Claude batch on springboard docs
-3. **Implement core validators**: Start with most common error patterns
-4. **Set up documentation pipeline**: Local or hosted doc serving
-5. **Create npm package**: `@springboard/mcp` or similar
+1. **Set up package structure** - Create `packages/springboard-ai-cli`
+2. **Implement list-sections** - Parse docs, generate use_cases
+3. **Implement validate** - TypeScript parsing + custom visitors
+4. **Implement scaffold** - Module templates
+5. **Generate use_cases.json** - Run Claude batch on docs
+6. **Publish** - `npx @springboard/ai` or `npx sb-ai`
