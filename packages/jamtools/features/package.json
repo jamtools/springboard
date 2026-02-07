@@ -1,6 +1,6 @@
 {
   "name": "@jamtools/features",
-  "version": "0.0.1-dev-vite-1",
+  "version": "0.0.1-dev-vite-2",
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint --ext ts --ext tsx .",

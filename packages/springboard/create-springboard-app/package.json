@@ -1,6 +1,6 @@
 {
   "name": "create-springboard-app",
-  "version": "0.0.1-dev-vite-1",
+  "version": "0.0.1-dev-vite-2",
   "main": "index.js",
   "bin": {
     "create-springboard-app": "dist/cli.js"
