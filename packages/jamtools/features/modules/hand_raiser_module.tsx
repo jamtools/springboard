@@ -13,7 +13,7 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
         handPositions: [0, 0],
     });
 
-    const actions = m.shared.createSharedActions({
+    const actions = m.actions.createHybridActions({
         changeHandPosition: async (args: {index: number, value: number}) => {
             states.handPositions.setStateImmer((positions) => {
                 positions[args.index] = args.value;

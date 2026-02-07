@@ -33,7 +33,7 @@ describe('KvRnWebview', () => {
                     myUserAgentState: {message: 'Hey'}
                 });
 
-                const actions = m.shared.createSharedActions({
+                const actions = m.actions.createHybridActions({
                     changeValue: async (args: {value: string}) => {
                         userAgentStates.myUserAgentState.setState({message: args.value});
                     },

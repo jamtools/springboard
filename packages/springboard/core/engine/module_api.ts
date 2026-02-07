@@ -1,6 +1,7 @@
 import {ServerStateSupervisor, SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service';
 import {AllModules, ExtraModuleDependencies, Module} from 'springboard/module_registry/module_registry';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
+import {ActionsAPI} from './actions_api';
 import {ServerAPI} from './server_api';
 import {SharedAPI} from './shared_api';
 import {UserAgentAPI} from './user_agent_api';
@@ -17,6 +18,11 @@ export type ActionCallOptions = {
  * The Action callback
 */
 export type ActionCallback<Args extends undefined | object, ReturnValue extends Promise<any> = Promise<any>> = (args: Args, options?: ActionCallOptions) => ReturnValue;
+
+export type ActionFnFromCallback<Cb extends ActionCallback<any, any>> =
+    undefined extends Parameters<Cb>[0]
+        ? (payload?: Parameters<Cb>[0], options?: ActionCallOptions) => ReturnType<Cb>
+        : (payload: Parameters<Cb>[0], options?: ActionCallOptions) => ReturnType<Cb>;
 
 // this would make it so modules/plugins can extend the module API dynamically through interface merging
 // export interface ModuleAPI {
@@ -143,6 +149,10 @@ export class ModuleAPI {
         this.internal = new ModuleAPIInternal(module, prefix, coreDeps, modDeps, extraDeps, options);
 
         // Initialize namespace APIs
+        this.actions = new ActionsAPI(
+            this.internal.createAction.bind(this.internal),
+        );
+
         this.server = new ServerAPI(
             this.internal.fullPrefix,
             this.internal.coreDeps,
@@ -155,7 +165,6 @@ export class ModuleAPI {
             this.internal.fullPrefix,
             this.internal.coreDeps,
             this.internal.modDeps,
-            this.internal.createAction.bind(this.internal),
             this.internal.onDestroy
         );
 
@@ -176,6 +185,13 @@ export class ModuleAPI {
             this.internal.modDeps
         );
     }
+
+    /**
+     * Hybrid actions (run locally or remotely via RPC).
+     *
+     * @see {@link ActionsAPI}
+     */
+    public readonly actions: ActionsAPI;
 
     /**
      * Server-only states and actions (stripped from client builds).

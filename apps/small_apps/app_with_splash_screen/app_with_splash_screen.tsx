@@ -57,7 +57,7 @@ springboard.registerModule('AppWithSplashScreen', {}, async (moduleAPI) => {
 
     await new Promise(r => setTimeout(r, 5000)); // fake waiting time
 
-    const actions = moduleAPI.shared.createSharedActions({
+    const actions = moduleAPI.actions.createHybridActions({
         updateMessage: async (args: {newMessage: string}) => {
             messageState.setState(args.newMessage);
         },

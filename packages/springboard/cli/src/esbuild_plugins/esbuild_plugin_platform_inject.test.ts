@@ -42,7 +42,7 @@ describe('esbuild_plugin_platform_inject', () => {
         expect(browserBuildContent).not.toContain('admin-key-123');
 
         // Verify regular actions are NOT stripped (they should have full bodies)
-        expect(browserBuildContent).toContain('createSharedAction("regular1"');
+        expect(browserBuildContent).toContain('createHybridAction("regular1"');
         expect(browserBuildContent).toContain('Regular action - will be kept in browser');
         // expect(browserBuildContent).toContain('regularActions');
         expect(browserBuildContent).toContain('Regular action that will be kept');
@@ -104,8 +104,8 @@ describe('esbuild_plugin_platform_inject', () => {
         const jsFiles = fs.readdirSync(browserDistPath).filter(f => f.endsWith('.js') && f.startsWith('index-'));
         const browserBuildContent = fs.readFileSync(path.join(browserDistPath, jsFiles[0]), 'utf-8');
 
-        // Verify regular createSharedAction keeps its body
-        expect(browserBuildContent).toContain('createSharedAction("regular1"');
+        // Verify regular createHybridAction keeps its body
+        expect(browserBuildContent).toContain('createHybridAction("regular1"');
         expect(browserBuildContent).toContain('Regular action - will be kept in browser');
 
         // Verify regular createActions keeps its bodies

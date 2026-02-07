@@ -26,8 +26,8 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
         return { success: true, name };
     };
 
-    // Test 4: Regular createSharedAction
-    const regularAction1 = moduleAPI.shared.createSharedAction('regular1', {}, async () => {
+    // Test 4: Regular createHybridAction
+    const regularAction1 = moduleAPI.actions.createHybridAction('regular1', {}, async () => {
         console.log('Regular action - will be kept in browser');
         return { data: 'regular' };
     });
@@ -48,8 +48,8 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
     };
     const serverAction3 = moduleAPI.server.createServerAction('serverAction3', {}, myHandler);
 
-    // Test 8: Mix of createSharedActions (regular - for backwards compat testing)
-    const regularActions = moduleAPI.shared.createSharedActions({
+    // Test 8: Mix of createHybridActions (regular - for backwards compat testing)
+    const regularActions = moduleAPI.actions.createHybridActions({
         // Inline arrow function
         inlineArrow: async () => {
             console.log('Regular action that will be kept');

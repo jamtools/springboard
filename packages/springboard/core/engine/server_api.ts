@@ -1,6 +1,6 @@
 import {ServerStateSupervisor, StateSupervisor} from '../services/states/shared_state_service';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types';
-import type {ActionCallback, ActionCallOptions} from './module_api';
+import type {ActionCallback, ActionCallOptions, ActionFnFromCallback} from './module_api';
 
 type ActionConfigOptions = object;
 
@@ -147,14 +147,14 @@ export class ServerAPI {
      */
     createServerActions = <Actions extends Record<string, ActionCallback<any, any>>>(
         actions: Actions
-    ): { [K in keyof Actions]: undefined extends Parameters<Actions[K]>[0] ? ((payload?: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) : ((payload: Parameters<Actions[K]>[0], options?: ActionCallOptions) => Promise<ReturnType<Actions[K]>>) } => {
+    ): {[K in keyof Actions]: ActionFnFromCallback<Actions[K]>} => {
         const keys = Object.keys(actions);
 
         for (const key of keys) {
             (actions[key] as ActionCallback<any, any>) = this.createActionFn(key, {}, actions[key]);
         }
 
-        return actions;
+        return actions as unknown as {[K in keyof Actions]: ActionFnFromCallback<Actions[K]>};
     };
 
     /**

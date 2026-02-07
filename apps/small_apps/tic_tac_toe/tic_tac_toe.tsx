@@ -62,7 +62,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
     const winnerState = states.winner;
     const scoreState = states.score;
 
-    const actions = moduleAPI.shared.createSharedActions({
+    const actions = moduleAPI.actions.createHybridActions({
         clickedCell: async (args: {row: number, column: number}) => {
             if (winnerState.getState()) {
                 return;
