@@ -8,6 +8,7 @@ import packageJSON from '../package.json';
 
 import {buildApplication, buildServer, platformBrowserBuildConfig, platformNodeBuildConfig, platformOfflineBrowserBuildConfig, platformPartykitBrowserBuildConfig, platformPartykitServerBuildConfig, platformTauriMaestroBuildConfig, platformTauriWebviewBuildConfig, Plugin, SpringboardPlatform} from './build';
 import {esbuildPluginTransformAwaitImportToRequire} from './esbuild_plugins/esbuild_plugin_transform_await_import';
+import {createDocsCommand} from './docs_command';
 
 function resolveEntrypoint(entrypoint: string): string {
     let applicationEntrypoint = entrypoint;
@@ -317,6 +318,8 @@ program
 //         await generateReactNativeProject();
 //     });
 
+// Register docs command
+program.addCommand(createDocsCommand());
 
 if (!(globalThis as any).AVOID_PROGRAM_PARSE) {
     program.parse();
