@@ -1,3 +1,0 @@
-# Isolated workspace - deliberately minimal to decouple from main repo
-# This file prevents pnpm from treating this as part of the parent workspace
-packages: []
