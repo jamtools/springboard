@@ -1,5 +1,14 @@
 #!/bin/bash
 
-echo 'export default `' > src/example/index-as-string.ts
-cat example/index.tsx >> src/example/index-as-string.ts
-echo '`;' >> src/example/index-as-string.ts
+set -euo pipefail
+
+out="src/example/index-as-string.ts"
+tmp="$(mktemp "${out}.tmp.XXXXXX")"
+
+{
+  echo 'export default `'
+  cat example/index.tsx
+  echo '`;'
+} > "$tmp"
+
+mv "$tmp" "$out"
