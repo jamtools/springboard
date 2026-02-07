@@ -8,7 +8,11 @@ import { Command } from 'commander';
  */
 export function createDocsCommand(): Command {
     const docs = new Command('docs')
-        .description('Documentation and AI agent support tools');
+        .description('Documentation and AI agent support tools')
+        .action(() => {
+            // When `sb docs` is called without subcommand, show help
+            docs.help();
+        });
 
     // sb docs list
     docs.command('list')
