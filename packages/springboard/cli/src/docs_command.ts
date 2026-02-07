@@ -9,6 +9,20 @@ import { Command } from 'commander';
 export function createDocsCommand(): Command {
     const docs = new Command('docs')
         .description('Documentation and AI agent support tools')
+        .addHelpText('after', `
+Getting Started:
+  For AI agents: Run 'sb docs context' first to get comprehensive framework
+  information and available documentation sections. This provides everything
+  you need to start working with Springboard.
+
+  The 'context' command includes the full list of available docs, so you
+  don't need to run 'list' separately.
+
+Workflow:
+  1. sb docs context       # Get full framework context (run this first)
+  2. sb docs validate      # Check your code follows Springboard patterns
+  3. sb docs get <section> # Fetch specific docs only when needed
+`)
         .action(() => {
             // When `sb docs` is called without subcommand, show help
             docs.help();

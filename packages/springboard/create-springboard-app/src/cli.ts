@@ -74,30 +74,38 @@ program
 
 This application is built with the **Springboard framework**.
 
-Before writing any code, run:
+## Getting Started
+
+**Before writing any code, run:**
 
 \`\`\`bash
-npx sb docs --help
+npx sb docs context
 \`\`\`
 
-This will show you available documentation commands that help ensure your code is correct and uses the framework as intended.
+This command outputs comprehensive framework information including all available
+documentation sections. It's the single command you need to start working efficiently.
 
-## Key Commands
+## Recommended Workflow
 
-- \`sb docs list\` - List available documentation sections
-- \`sb docs get <section>\` - Fetch specific documentation
-- \`sb docs validate <file>\` - Validate your module code
-- \`sb docs scaffold <type> <name>\` - Generate module templates
-- \`sb docs context\` - Get full framework context
+1. **Run \`sb docs context\`** at the start of your session
+   - This gives you everything: framework overview, available docs, and workflow guidance
+   - You don't need to run \`sb docs list\` separately
 
-## Workflow
+2. **Write code** using your knowledge + the context from step 1
 
-1. Run \`sb docs context\` at the start of your session
-2. Use \`sb docs list\` to find relevant documentation
-3. Always run \`sb docs validate <file>\` before finishing work
-4. Use \`sb docs scaffold\` to generate new modules
+3. **Run \`sb docs validate <file>\`** to check your code
+   - Fix any issues reported
+   - Re-run validate until clean
 
-This ensures your code follows Springboard patterns and avoids common mistakes.
+4. **Fetch specific docs** only when needed:
+   - \`sb docs get <section>\` - Use section names from the context output
+
+## Other Useful Commands
+
+- \`sb docs --help\` - See all available commands
+- \`sb docs types\` - Get TypeScript type definitions
+
+This approach ensures your code follows Springboard patterns and avoids common mistakes.
 `;
     writeFileSync(`${process.cwd()}/CLAUDE.md`, claudeMdContent);
     console.log('Created CLAUDE.md with AI agent instructions');
@@ -109,30 +117,34 @@ This application is created with the **Springboard framework**.
 
 ## Before You Start
 
-Run this command to learn about available documentation tools:
+Run this command to get comprehensive framework information:
 
 \`\`\`bash
-npx sb docs --help
+npx sb docs context
 \`\`\`
+
+This single command provides:
+- Framework overview and key concepts
+- Full list of available documentation sections with use cases
+- Recommended workflow for AI agents
+- Everything you need to start coding
 
 ## Important
 
 Please lean on the \`sb docs\` commands to make sure the code you're writing is correct and uses the framework as intended.
 
-### Available Commands
-
-- \`sb docs list\` - Discover what documentation is available
-- \`sb docs get <section>\` - Fetch documentation for a specific topic
-- \`sb docs validate <file>\` - Check if your code follows Springboard patterns
-- \`sb docs scaffold <type> <name>\` - Generate boilerplate for new modules
-- \`sb docs context\` - Get comprehensive framework information
-
 ### Recommended Workflow
 
-1. Start by running \`sb docs context\` to understand the framework
-2. Use \`sb docs list\` to find relevant documentation for your task
-3. Validate your code with \`sb docs validate <file>\` before completing
-4. Generate new modules with \`sb docs scaffold\` for consistent structure
+1. **Start with context**: Run \`sb docs context\` (includes full docs list)
+2. **Write code**: Use your knowledge + the context from step 1
+3. **Validate often**: Run \`sb docs validate <file>\` to catch issues early
+4. **Fetch docs when needed**: Use \`sb docs get <section>\` for specific topics
+
+### Other Commands
+
+- \`sb docs --help\` - See all available commands
+- \`sb docs types\` - Get TypeScript type definitions
+- \`sb docs list\` - Just the docs list (context includes this already)
 
 These tools help prevent common mistakes and ensure your code aligns with Springboard's architecture.
 `;
