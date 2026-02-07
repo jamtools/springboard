@@ -529,6 +529,22 @@ importers:
         specifier: 7.3.0
         version: 7.3.0(@types/node@20.17.48)(tsx@4.21.0)
 
+  packages/springboard/create-springboard-app:
+    dependencies:
+      commander:
+        specifier: 'catalog:'
+        version: 12.1.0
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.48
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/springboard/external/mantine:
     dependencies:
       '@mantine/core':
