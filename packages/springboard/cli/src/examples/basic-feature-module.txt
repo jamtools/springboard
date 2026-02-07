@@ -1,0 +1,95 @@
+/**
+ * Example: Basic Feature Module
+ *
+ * This example demonstrates a simple feature module with:
+ * - Shared state (synced across devices)
+ * - Actions (RPC-enabled functions)
+ * - Routes (UI pages)
+ * - Lifecycle cleanup
+ */
+
+import springboard from 'springboard';
+
+springboard.registerModule(
+    'BasicFeatureExample',
+    {},
+    async (moduleAPI) => {
+        // 1. Create shared state (synced across all connected devices)
+        const counterState = await moduleAPI.statesAPI.createSharedState(
+            'counter',
+            0
+        );
+
+        // 2. Create actions (automatically RPC-enabled)
+        const actions = moduleAPI.createActions({
+            increment: async () => {
+                const current = counterState.getState();
+                counterState.setState(current + 1);
+                return { newValue: current + 1 };
+            },
+
+            decrement: async () => {
+                const current = counterState.getState();
+                counterState.setState(current - 1);
+                return { newValue: current - 1 };
+            },
+
+            reset: async () => {
+                counterState.setState(0);
+                return { newValue: 0 };
+            },
+        });
+
+        // 3. Register routes
+        moduleAPI.registerRoute(
+            '/',
+            {},
+            () => {
+                const counter = counterState.useState();
+
+                return (
+                    <div>
+                        <h1>Basic Feature Example</h1>
+                        <p>Counter: {counter}</p>
+                        <button onClick={() => actions.increment()}>
+                            Increment
+                        </button>
+                        <button onClick={() => actions.decrement()}>
+                            Decrement
+                        </button>
+                        <button onClick={() => actions.reset()}>
+                            Reset
+                        </button>
+                    </div>
+                );
+            }
+        );
+
+        // 4. Lifecycle cleanup (if needed)
+        moduleAPI.onDestroy(() => {
+            console.log('BasicFeatureExample module destroyed');
+        });
+
+        // 5. Return public API for other modules
+        return {
+            states: { counter: counterState },
+            actions,
+        };
+    }
+);
+
+// Type-safe module registry
+declare module 'springboard/module_registry/module_registry' {
+    interface AllModules {
+        BasicFeatureExample: {
+            states: {
+                counter: ReturnType<typeof import('springboard').createSharedState<number>>;
+            };
+            actions: {
+                increment: () => Promise<{ newValue: number }>;
+                decrement: () => Promise<{ newValue: number }>;
+                reset: () => Promise<{ newValue: number }>;
+            };
+        };
+    }
+}

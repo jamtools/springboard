@@ -104,5 +104,52 @@ Workflow:
             // Will output ModuleAPI, StateSupervisor, CoreDependencies, etc.
         });
 
+    // sb docs examples
+    const examplesCmd = docs.command('examples')
+        .description('View example modules');
+
+    examplesCmd.command('list')
+        .description('List all available examples')
+        .option('--json', 'Output as JSON')
+        .action(async (options: { json?: boolean }) => {
+            const { listExamples } = await import('./examples/index.js');
+            const examplesList = listExamples();
+
+            if (options.json) {
+                console.log(JSON.stringify(examplesList, null, 2));
+            } else {
+                console.log('Available Springboard Examples:\n');
+                for (const ex of examplesList) {
+                    console.log(`${ex.name}`);
+                    console.log(`  ${ex.title}`);
+                    console.log(`  ${ex.description}`);
+                    console.log(`  Category: ${ex.category}`);
+                    console.log(`  Tags: ${ex.tags.join(', ')}`);
+                    console.log();
+                }
+            }
+        });
+
+    examplesCmd.command('show')
+        .description('Show code for a specific example')
+        .argument('<name>', 'Example name')
+        .action(async (name: string) => {
+            const { getExample } = await import('./examples/index.js');
+            const example = getExample(name);
+
+            if (!example) {
+                console.error(`Example "${name}" not found. Run 'sb docs examples list' to see available examples.`);
+                process.exit(1);
+            }
+
+            console.log(`# ${example.title}\n`);
+            console.log(`${example.description}\n`);
+            console.log(`Category: ${example.category}`);
+            console.log(`Tags: ${example.tags.join(', ')}\n`);
+            console.log('```tsx');
+            console.log(example.code);
+            console.log('```');
+        });
+
     return docs;
 }
