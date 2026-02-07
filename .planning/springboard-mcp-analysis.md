@@ -1,6 +1,6 @@
-# Springboard CLI for AI Agents
+# Springboard `sb docs` CLI for AI Agents
 
-This document analyzes the svelte-mcp patterns and adapts them into a CLI tool that AI coding agents can use when building springboard applications.
+This document analyzes the svelte-mcp patterns and adapts them into a `sb docs` subcommand that AI coding agents can use when building springboard applications.
 
 ## Why CLI Instead of MCP?
 
@@ -8,30 +8,31 @@ This document analyzes the svelte-mcp patterns and adapts them into a CLI tool t
 - **No protocol overhead** - Direct stdin/stdout communication
 - **Easier testing** - Run commands manually to verify behavior
 - **Portable** - Works with any AI tool, not just MCP-compatible ones
+- **Unified CLI** - Extends existing `sb` command rather than adding new tool
 
 ## Key Patterns from svelte-mcp (Adapted for CLI)
 
 ### 1. Command Structure
 
-svelte-mcp exposes these via MCP tools - we expose them as CLI subcommands:
+svelte-mcp exposes these via MCP tools - we expose them as `sb docs` subcommands:
 
 ```bash
 # Documentation discovery
-sb-ai list-sections              # List available docs with use_cases
-sb-ai get-docs <section...>      # Fetch specific documentation
+sb docs list                     # List available docs with use_cases
+sb docs get <section...>         # Fetch specific documentation
 
 # Code validation
-sb-ai validate <file>            # Validate a module file
-sb-ai validate --stdin           # Validate code from stdin
+sb docs validate <file>          # Validate a module file
+sb docs validate --stdin         # Validate code from stdin
 
 # Scaffolding
-sb-ai scaffold module <name>     # Generate module template
-sb-ai scaffold feature <name>    # Generate feature module
-sb-ai scaffold utility <name>    # Generate utility module
+sb docs scaffold module <name>   # Generate module template
+sb docs scaffold feature <name>  # Generate feature module
+sb docs scaffold utility <name>  # Generate utility module
 
 # Context for agents
-sb-ai context                    # Output full context prompt for AI agents
-sb-ai types                      # Output core TypeScript definitions
+sb docs context                  # Output full context prompt for AI agents
+sb docs types                    # Output core TypeScript definitions
 ```
 
 ### 2. Use Cases as Keywords
@@ -48,7 +49,7 @@ Pre-generated metadata lets agents select docs without semantic search:
 
 **CLI output format:**
 ```bash
-$ sb-ai list-sections
+$ sb docs list
 springboard/module-development
   Use cases: creating modules, registerModule, feature modules, utility modules...
 
@@ -59,7 +60,7 @@ springboard/state-management
 ### 3. Iterative Validator Pattern
 
 ```bash
-$ sb-ai validate src/modules/my-module.ts
+$ sb docs validate src/modules/my-module.ts
 {
   "issues": [
     "Line 15: Direct state mutation detected. Use state.setState() or state.setStateImmer()"
@@ -73,13 +74,13 @@ $ sb-ai validate src/modules/my-module.ts
 
 Agents can iterate:
 ```
-Generate code → sb-ai validate → Fix issues → sb-ai validate → Until clean
+Generate code → sb docs validate → Fix issues → sb docs validate → Until clean
 ```
 
 ### 4. Context Prompt
 
 ```bash
-$ sb-ai context
+$ sb docs context
 You are working on a Springboard application. Springboard is a full-stack
 JavaScript framework built on React, Hono, JSON-RPC, and WebSockets.
 
@@ -91,9 +92,9 @@ Available documentation sections:
 
 Workflow:
 1. Use your knowledge of React and TypeScript first
-2. Run `sb-ai validate <file>` to check your code
-3. Only fetch docs with `sb-ai get-docs <section>` when needed
-4. For new modules, use `sb-ai scaffold module <name>`
+2. Run `sb docs validate <file>` to check your code
+3. Only fetch docs with `sb docs get <section>` when needed
+4. For new modules, use `sb docs scaffold module <name>`
 
 Key concepts:
 - Modules are registered with `springboard.registerModule()`
@@ -110,25 +111,25 @@ Key concepts:
 
 | Command | Purpose | Output |
 |---------|---------|--------|
-| `sb-ai list-sections` | List docs with use_cases | Text or JSON (`--json`) |
-| `sb-ai get-docs <section...>` | Fetch documentation | Markdown content |
-| `sb-ai validate <file>` | Validate module code | JSON `{issues, suggestions, hasErrors}` |
-| `sb-ai validate --stdin` | Validate from stdin | JSON `{issues, suggestions, hasErrors}` |
-| `sb-ai scaffold <type> <name>` | Generate templates | File path created |
-| `sb-ai context` | Full agent context | Text prompt |
-| `sb-ai types` | Core type definitions | TypeScript definitions |
+| `sb docs list` | List docs with use_cases | Text or JSON (`--json`) |
+| `sb docs get <section...>` | Fetch documentation | Markdown content |
+| `sb docs validate <file>` | Validate module code | JSON `{issues, suggestions, hasErrors}` |
+| `sb docs validate --stdin` | Validate from stdin | JSON `{issues, suggestions, hasErrors}` |
+| `sb docs scaffold <type> <name>` | Generate templates | File path created |
+| `sb docs context` | Full agent context | Text prompt |
+| `sb docs types` | Core type definitions | TypeScript definitions |
 
 ### Output Formats
 
 ```bash
 # Default: human-readable
-$ sb-ai list-sections
+$ sb docs list
 
 # JSON for programmatic use
-$ sb-ai list-sections --json
+$ sb docs list --json
 
 # Quiet mode (errors only)
-$ sb-ai validate src/module.ts --quiet
+$ sb docs validate src/module.ts --quiet
 ```
 
 ---
@@ -156,44 +157,42 @@ $ sb-ai validate src/module.ts --quiet
 
 ## Implementation Structure
 
+Extends existing `sb` CLI in `/packages/springboard/cli/`:
+
 ```
-packages/
-  springboard-ai-cli/
-    src/
-      cli.ts                    # Main entry point (commander/yargs)
-      commands/
-        list-sections.ts
-        get-docs.ts
+packages/springboard/cli/
+  src/
+    commands/
+      docs/                     # New `sb docs` subcommand
+        index.ts                # Register docs subcommands
+        list.ts
+        get.ts
         validate.ts
         scaffold.ts
         context.ts
         types.ts
-      validators/
-        index.ts                # Orchestrates validation layers
-        visitors/
-          state-mutation.ts
-          missing-cleanup.ts
-          route-conflicts.ts
-          module-interface.ts
-          platform-directives.ts
-      docs/
-        sections.json           # Doc metadata with use_cases
-        content/                # LLM-optimized doc content
-      templates/
-        module.ts.template
-        feature.ts.template
-        utility.ts.template
-    package.json
-    tsconfig.json
+    validators/
+      index.ts                  # Orchestrates validation layers
+      visitors/
+        state-mutation.ts
+        missing-cleanup.ts
+        route-conflicts.ts
+        module-interface.ts
+        platform-directives.ts
+    docs-data/
+      sections.json             # Doc metadata with use_cases
+      content/                  # LLM-optimized doc content (or fetch from doks)
+    templates/
+      module.ts.template
+      feature.ts.template
+      utility.ts.template
 ```
 
-### Key Dependencies
+### Key Dependencies to Add
 
 ```json
 {
   "dependencies": {
-    "commander": "^12.0.0",
-    "typescript": "^5.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "@typescript-eslint/typescript-estree": "^7.0.0"
   }
@@ -304,19 +303,19 @@ interface CoreDependencies {
 
 ```bash
 # 1. Get context at start of session
-sb-ai context > /tmp/springboard-context.md
+sb docs context > /tmp/springboard-context.md
 
 # 2. Find relevant docs for task
-sb-ai list-sections | grep -i "state"
+sb docs list | grep -i "state"
 
 # 3. Fetch specific documentation
-sb-ai get-docs springboard/state-management
+sb docs get springboard/state-management
 
 # 4. Generate module scaffold
-sb-ai scaffold feature user-profile
+sb docs scaffold feature user-profile
 
 # 5. Validate after writing code
-sb-ai validate src/modules/user-profile.ts
+sb docs validate src/modules/user-profile.ts
 
 # 6. Fix issues and re-validate until clean
 ```
@@ -328,24 +327,25 @@ sb-ai validate src/modules/user-profile.ts
 ## Springboard Development
 
 When working on springboard modules:
-1. Run `sb-ai context` to understand the framework
-2. Use `sb-ai list-sections` to find relevant docs
-3. Validate code with `sb-ai validate <file>` before finishing
-4. Use `sb-ai scaffold` for new modules
+1. Run `sb docs context` to understand the framework
+2. Use `sb docs list` to find relevant docs
+3. Validate code with `sb docs validate <file>` before finishing
+4. Use `sb docs scaffold` for new modules
 ```
 
 **Cursor rules:**
 ```
-When creating springboard modules, always run `sb-ai validate` on the file.
+When creating springboard modules, always run `sb docs validate` on the file.
 ```
 
 ---
 
 ## Next Steps
 
-1. **Set up package structure** - Create `packages/springboard-ai-cli`
-2. **Implement list-sections** - Parse docs, generate use_cases
-3. **Implement validate** - TypeScript parsing + custom visitors
-4. **Implement scaffold** - Module templates
-5. **Generate use_cases.json** - Run Claude batch on docs
-6. **Publish** - `npx @springboard/ai` or `npx sb-ai`
+1. **Add `docs` subcommand to `sb` CLI** - Extend `/packages/springboard/cli/`
+2. **Implement `sb docs list`** - Parse doks content, generate use_cases
+3. **Implement `sb docs get`** - Fetch doc content by section
+4. **Implement `sb docs context`** - Output agent context prompt
+5. **Implement `sb docs validate`** - TypeScript parsing + custom visitors
+6. **Implement `sb docs scaffold`** - Module templates
+7. **Generate use_cases.json** - Run Claude batch on docs for keyword metadata
