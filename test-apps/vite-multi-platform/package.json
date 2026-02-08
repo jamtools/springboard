@@ -1,0 +1,41 @@
+{
+  "name": "vite-multi-platform-test",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Multi-platform test app validating Springboard Vite plugin across all platform targets",
+  "scripts": {
+    "dev": "vite",
+    "dev:browser": "SPRINGBOARD_PLATFORM=browser vite",
+    "dev:node": "SPRINGBOARD_PLATFORM=node vite",
+    "build": "npm run build:browser_online && npm run build:node_maestro",
+    "build:browser_online": "SPRINGBOARD_PLATFORM_VARIANT=browser_online vite build",
+    "build:browser_offline": "SPRINGBOARD_PLATFORM_VARIANT=browser_offline vite build --outDir dist/browser_offline",
+    "build:node_maestro": "SPRINGBOARD_PLATFORM_VARIANT=node_maestro vite build --outDir dist/node",
+    "build:tauri": "SPRINGBOARD_PLATFORM_VARIANT=tauri vite build --outDir dist/tauri",
+    "build:rn_webview": "SPRINGBOARD_PLATFORM_VARIANT=rn_webview vite build --outDir dist/rn_webview",
+    "build:rn_main": "SPRINGBOARD_PLATFORM_VARIANT=rn_main vite build --outDir dist/rn_main",
+    "build:all": "npm run build:browser_online && npm run build:browser_offline && npm run build:node_maestro && npm run build:tauri && npm run build:rn_webview && npm run build:rn_main",
+    "preview": "vite preview",
+    "check-types": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.9",
+    "hono": "^4.11.8",
+    "immer": "^11.1.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rxjs": "^7.8.2",
+    "springboard": "^0.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.1",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
