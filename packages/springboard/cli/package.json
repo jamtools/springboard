@@ -12,8 +12,9 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build-cli",
-    "build-cli": "tsc && npm run copy-examples && npm run add-header",
+    "build-cli": "tsc && npm run copy-examples && npm run copy-docs && npm run add-header",
     "copy-examples": "mkdir -p dist/examples && cp src/examples/*.txt dist/examples/",
+    "copy-docs": "mkdir -p dist/docs/content && cp src/docs/sections.json dist/docs/ && cp src/docs/content/*.md dist/docs/content/",
     "prepublishOnly": "npm run build",
     "dev:setup": "[ -f ./dist/cli.js ] || npm run build",
     "build-saas": "DISABLE_IO=true npx tsx src/cli.ts build ../../../apps/jamtools/modules/index.ts",
