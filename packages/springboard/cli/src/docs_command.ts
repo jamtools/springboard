@@ -3,8 +3,8 @@ import { Command } from 'commander';
 /**
  * Creates the `sb docs` command with all subcommands for AI agent support.
  *
- * Provides documentation discovery, code validation, scaffolding, and context
- * for AI coding agents working with Springboard applications.
+ * Provides documentation discovery and context for AI coding agents
+ * working with Springboard applications.
  */
 export function createDocsCommand(): Command {
     const docs = new Command('docs')
@@ -20,8 +20,8 @@ Getting Started:
 
 Workflow:
   1. sb docs context       # Get full framework context (run this first)
-  2. sb docs validate      # Check your code follows Springboard patterns
-  3. sb docs get <section> # Fetch specific docs only when needed
+  2. sb docs get <section> # Fetch specific docs only when needed
+  3. sb docs examples show <name> # View example code
 `)
         .action(() => {
             // When `sb docs` is called without subcommand, show help
@@ -72,31 +72,6 @@ Workflow:
                 console.log(content);
                 console.log('\n---\n');
             }
-        });
-
-    // sb docs validate
-    docs.command('validate')
-        .description('Validate a module file for common issues')
-        .argument('[file]', 'Module file to validate')
-        .option('--stdin', 'Read code from stdin instead of file')
-        .option('--json', 'Output as JSON (default)')
-        .option('--quiet', 'Only output errors')
-        .action(async (file: string | undefined, options: { stdin?: boolean; json?: boolean; quiet?: boolean }) => {
-            // TODO: Implement validation with TypeScript AST analysis
-            // For now, output a placeholder that explains what will be checked
-            const result = {
-                issues: [],
-                suggestions: [
-                    'Validation not yet implemented. Will check for:',
-                    '- getModule called at module level (should be in routes/actions)',
-                    '- Missing optional chaining on module access',
-                    '- Direct state mutation (should use setState/setStateImmer)',
-                    '- Missing onDestroy cleanup for subscriptions',
-                    '- Computed values stored in state (should use useMemo)'
-                ],
-                hasErrors: false
-            };
-            console.log(JSON.stringify(result, null, 2));
         });
 
     // sb docs context
@@ -159,9 +134,8 @@ state.useState()                 // React hook
 ## Workflow
 
 1. **Use this context** + your React/TypeScript knowledge to write code
-2. **Run \`sb docs validate <file>\`** to check for common issues
-3. **Fetch specific docs** with \`sb docs get <section>\` only when needed
-4. **See examples** with \`sb docs examples list\` and \`sb docs examples show <name>\`
+2. **Fetch specific docs** with \`sb docs get <section>\` only when needed
+3. **See examples** with \`sb docs examples list\` and \`sb docs examples show <name>\`
 
 ## Available Examples
 
@@ -305,16 +279,6 @@ declare module 'springboard/module_registry/module_registry' {
 `;
 
             console.log(types);
-        });
-
-    // sb docs scaffold (keeping for now - may remove in favor of examples)
-    const scaffold = docs.command('scaffold')
-        .description('Generate module templates (use "examples show" for reference code)')
-        .action(() => {
-            console.log('For module templates, use examples instead:');
-            console.log('  sb docs examples list');
-            console.log('  sb docs examples show basic-feature-module');
-            console.log('\nExamples provide complete, working code you can copy and modify.');
         });
 
     // sb docs examples
