@@ -313,9 +313,6 @@ importers:
       soundfont-player:
         specifier: ^0.12.0
         version: 0.12.0
-      springboard:
-        specifier: workspace:*
-        version: link:../../springboard
       webmidi:
         specifier: ^3.1.14
         version: 3.1.14
@@ -338,6 +335,9 @@ importers:
       rxjs:
         specifier: 7.8.1
         version: 7.8.1
+      springboard:
+        specifier: workspace:*
+        version: link:../../springboard
       svelte:
         specifier: 5.43.11
         version: 5.43.11
