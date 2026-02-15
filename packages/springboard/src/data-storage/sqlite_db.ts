@@ -19,17 +19,17 @@ export const makeKyselyInstanceFromDialect = async (dialect: Dialect): Promise<K
     await ensureKVTable(db);
 
     return db;
-}
+};
 
 const ensureKVTable = async (db: KyselyDBWithKVStoreTable) => {
     await db.schema.createTable('kvstore')
-    .ifNotExists()
-    .addColumn('id', 'integer', (col) => col.autoIncrement().primaryKey())
-    .addColumn('key', 'text', (col) => col.notNull().unique())
-    .addColumn('value', 'text', (col) => col.notNull())
+        .ifNotExists()
+        .addColumn('id', 'integer', (col) => col.autoIncrement().primaryKey())
+        .addColumn('key', 'text', (col) => col.notNull().unique())
+        .addColumn('value', 'text', (col) => col.notNull())
     // .addColumn('workspace', 'varchar(255)', (col) => col.notNull())
     // .addColumn('store', 'varchar(255)', (col) => col.notNull())
-    .execute();
+        .execute();
 
     // const indexColumns = ['key', 'value', 'workspace', 'store'] as const;
 
@@ -39,4 +39,4 @@ const ensureKVTable = async (db: KyselyDBWithKVStoreTable) => {
     //     .column(colName)
     //     .execute();
     // }
-}
+};

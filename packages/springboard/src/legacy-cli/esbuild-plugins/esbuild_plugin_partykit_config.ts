@@ -31,12 +31,12 @@ export const esbuildPluginPartykitConfig = (outDir: string): Plugin => {
                 }
 
                 const configContent = {
-                    "$schema": "https://www.partykit.io/schema.json",
-                    "name": "partykit-test",
-                    "main": `./dist/partykit/neutral/dist/${jsFileName}`,
-                    "compatibilityDate": "2025-02-26",
-                    "serve": {
-                        "path": "dist/partykit/browser"
+                    '$schema': 'https://www.partykit.io/schema.json',
+                    'name': 'partykit-test',
+                    'main': `./dist/partykit/neutral/dist/${jsFileName}`,
+                    'compatibilityDate': '2025-02-26',
+                    'serve': {
+                        'path': 'dist/partykit/browser'
                     }
                 };
 

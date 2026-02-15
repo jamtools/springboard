@@ -312,7 +312,7 @@ export default initApp;
 
     // For Node platform, auto-execute the entry point
     if (buildConfig.platform === 'node') {
-        allImports += `\ninitApp();`;
+        allImports += '\ninitApp();';
     }
 
     fs.writeFileSync(dynamicEntryPath, allImports);

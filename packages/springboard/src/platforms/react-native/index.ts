@@ -12,7 +12,7 @@ export { RpcWebviewToRN } from './services/rpc/rpc_webview_to_rn.js';
 
 // Export React Native entrypoints
 export {
-  useAndInitializeSpringboardEngine,
-  createRNMainEngine,
+    useAndInitializeSpringboardEngine,
+    createRNMainEngine,
 } from './entrypoints/rn_app_springboard_entrypoint.js';
 export { startAndRenderBrowserApp as startReactNativeBrowserApp } from './entrypoints/platform_react_native_browser.js';

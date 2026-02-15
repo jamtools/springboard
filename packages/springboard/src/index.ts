@@ -9,33 +9,33 @@ export { default } from './core/engine/register.js';
 
 // Export the Springboard engine and providers
 export {
-  Springboard,
-  SpringboardProvider,
-  SpringboardProviderPure,
-  useSpringboardEngine,
+    Springboard,
+    SpringboardProvider,
+    SpringboardProviderPure,
+    useSpringboardEngine,
 } from './core/engine/engine.js';
 
 // Export types from core
 export type {
-  CoreDependencies,
-  ModuleDependencies,
-  KVStore,
-  Rpc,
-  RpcArgs,
+    CoreDependencies,
+    ModuleDependencies,
+    KVStore,
+    Rpc,
+    RpcArgs,
 } from './core/types/module_types.js';
 
 export type {
-  SpringboardRegistry,
+    SpringboardRegistry,
 } from './core/engine/register.js';
 
 // Export module registry
 export {
-  ModuleRegistry,
+    ModuleRegistry,
 } from './core/module_registry/module_registry.js';
 
 export type {
-  Module,
-  DocumentMeta,
+    Module,
+    DocumentMeta,
 } from './core/module_registry/module_registry.js';
 
 // Export ModuleAPI
@@ -50,5 +50,5 @@ export { HttpKvStoreClient } from './core/services/http_kv_store_client.js';
 
 // Export response types
 export type {
-  ErrorResponse,
+    ErrorResponse,
 } from './core/types/response_types.js';
