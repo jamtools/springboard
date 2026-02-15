@@ -531,6 +531,7 @@ export type ServerBuildOptions = {
 const findNodeModulesParentFolder = async () => {
     let currentDir = process.cwd();
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
         try {
             const nodeModulesPath = path.join(currentDir, 'node_modules');

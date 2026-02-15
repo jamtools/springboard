@@ -36,8 +36,8 @@ export const esbuildPluginPlatformInject = (platform: 'node' | 'browser' | 'fetc
                 let source = await fs.promises.readFile(args.path, 'utf8');
 
                 // Replace platform-specific blocks based on the platform
-                const platformRegex = new RegExp(`\/\/ @platform "${platform}"([\\s\\S]*?)\/\/ @platform end`, 'g');
-                const otherPlatformRegex = new RegExp('\/\/ @platform "(node|browser|react-native|fetch)"([\\s\\S]*?)\/\/ @platform end', 'g');
+                const platformRegex = new RegExp(`// @platform "${platform}"([\\s\\S]*?)// @platform end`, 'g');
+                const otherPlatformRegex = new RegExp('// @platform "(node|browser|react-native|fetch)"([\\s\\S]*?)// @platform end', 'g');
 
                 // Include only the code relevant to the current platform
                 source = source.replace(platformRegex, '$1');

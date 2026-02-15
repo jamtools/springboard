@@ -17,6 +17,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./modules": {
+      "types": "./dist/modules/index.d.ts",
+      "import": "./dist/modules/index.js"
+    },
     "./constants/midi_number_to_note_name_mappings": {
       "types": "./dist/constants/midi_number_to_note_name_mappings.d.ts",
       "import": "./dist/constants/midi_number_to_note_name_mappings.js"

@@ -1,4 +1,5 @@
 module.exports = {
+    ignorePatterns: ['dist', 'build', '*.min.js'],
     env: {
         browser: true,
         es2021: true,

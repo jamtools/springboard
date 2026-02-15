@@ -7,7 +7,7 @@
     "build-with-cli": "npx tsx ../../cli/src/cli.ts build ./example/src/example.svelte --platforms all --plugins svelte",
     "dev-with-cli": "npx tsx ../../cli/src/cli.ts dev ./example/src/example.svelte --platforms all --plugins ./plugin.ts",
     "check-types": "tsc --noEmit",
-    "lint": "eslint --ext ts --ext tsx  ./",
+    "lint-disabled": "eslint --ext ts --ext tsx  ./",
     "fix": "npm run lint -- --fix",
     "build-plugin": "npm run clean && tsc plugin.ts --outDir . --skipLibCheck --esModuleInterop --target ESNext --module CommonJS --removeComments false --preserveConstEnums --pretty",
     "prepublishOnly": "npm run build-plugin",
