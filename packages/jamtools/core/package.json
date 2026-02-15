@@ -98,6 +98,7 @@
     "react": "19.2.0",
     "react-dom": "catalog:",
     "rxjs": "catalog:",
+    "springboard": "workspace:*",
     "svelte": "5.43.11"
   },
   "config": {
