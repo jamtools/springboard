@@ -32,10 +32,10 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
     });
 
     const handleSliderDrag = moduleAPI.createAction('slider_drag', {}, async (args: {index: 0 | 1, value: number}) => {
-        const output = [ccOutput1, ccOutput2][args.index];
+        const output = [ccOutput1, ccOutput2][args.index]!;
         output.send(args.value);
 
-        const state = [sliderPositionState1, sliderPositionState2][args.index];
+        const state = [sliderPositionState1, sliderPositionState2][args.index]!;
         state.setState(args.value);
     });
 

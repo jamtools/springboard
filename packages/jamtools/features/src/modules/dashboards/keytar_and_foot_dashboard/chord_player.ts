@@ -40,7 +40,7 @@ const getChord = (scaleRoot: number, notePlayed: number): ChordWithName | null =
         return null;
     }
 
-    const chord = chordMap[notePlayed % 12][scaleType];
+    const chord = chordMap[notePlayed % 12]![scaleType];
 
     return {
         notes: chord,

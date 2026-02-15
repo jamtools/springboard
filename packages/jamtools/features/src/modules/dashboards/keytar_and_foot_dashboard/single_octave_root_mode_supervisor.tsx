@@ -4,7 +4,7 @@ import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
 import {playChord, ChordWithName, noteNames} from './chord_player';
 import {OutputMidiDevice} from '@jamtools/core/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler';
-import {QRCode} from '@jamtools/features/components/QRCode';
+import {QRCode} from '../../../components/QRCode';
 
 type SingleOctaveRootModeSupervisorMidiState = {
     currentlyHeldDownInputNotes: MidiEvent[];

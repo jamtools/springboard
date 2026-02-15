@@ -32,12 +32,12 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
 
     const changePresetByName = moduleAPI.createAction('changePresetByName', {}, async (args: {presetName: string}) => {
         const words = args.presetName.split(' ');
-        const bankParts = words[0].split(':');
+        const bankParts = words[0]!.split(':');
 
         changePreset({
             name: '',
-            bankNumber: parseInt(bankParts[0]),
-            subBankNumber: parseInt(bankParts[1]),
+            bankNumber: parseInt(bankParts[0]!),
+            subBankNumber: parseInt(bankParts[1]!),
         });
     });
 

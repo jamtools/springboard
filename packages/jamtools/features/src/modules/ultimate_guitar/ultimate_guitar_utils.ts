@@ -69,7 +69,7 @@ export const getTabFromCurrentSetlistData = (setlistStatus: UltimateGuitarSetlis
         };
     }
 
-    const currentSong = setlist.songs[setlistStatus.songIndex];
+    const currentSong = setlist.songs[setlistStatus.songIndex]!;
     const tab = savedTabs.find(t => t.url === currentSong.url);
     return {
         setlist,
@@ -93,12 +93,12 @@ export const prepareLyricsWithChords = (tabLyrics: string, options: {showChords:
 
             let suffix = '';
             let mainPart = capture;
-            if (!isNaN(parseInt(capture[capture.length - 1]))) {
-                suffix = capture[capture.length - 1];
+            if (!isNaN(parseInt(capture[capture.length - 1]!))) {
+                suffix = capture[capture.length - 1]!;
                 mainPart = capture.substring(0, capture.length - 1);
             }
 
-            const interval = transposeIntervals[(options.transpose + 12) % 12];
+            const interval = transposeIntervals[(options.transpose + 12) % 12]!;
             const transposed = Note.transpose(mainPart, interval);
 
             return transposed + suffix;

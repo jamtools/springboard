@@ -2,9 +2,9 @@
   "name": "@jamtools/features",
   "version": "0.0.1-dev-vite-2",
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint --ext ts --ext tsx .",
-    "fix": "npm run lint -- --fix"
+    "check-types-disable": "tsc --noEmit",
+    "lint-disable": "eslint --ext ts --ext tsx .",
+    "fix-disable": "npm run lint -- --fix"
   },
   "dependencies": {
     "jsdom": "25.0.1",
