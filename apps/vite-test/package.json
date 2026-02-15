@@ -33,14 +33,14 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "esbuild": "^0.27.2",
-    "immer": "^11.1.0",
-    "rxjs": "^7.8.2",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "esbuild": "catalog:",
+    "immer": "catalog:",
+    "rxjs": "catalog:",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
+    "typescript": "catalog:",
     "vite": "catalog:"
   },
   "pnpm": {
