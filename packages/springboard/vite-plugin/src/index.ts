@@ -23,7 +23,7 @@
  * @packageDocumentation
  */
 
-import { Plugin, ViteDevServer } from 'vite';
+import { PluginOption, ViteDevServer } from 'vite';
 import * as path from 'path';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -54,7 +54,7 @@ export type SpringboardOptions = {
   platforms?: Array<'node' | 'browser' | 'web'>;
 };
 
-export function springboard(options: SpringboardOptions): Plugin {
+export function springboard(options: SpringboardOptions): PluginOption {
   // Parse platforms from options or env var
   const platformsFromOptions = options.platforms || [];
   const platformsEnv = process.env.SPRINGBOARD_PLATFORM || '';

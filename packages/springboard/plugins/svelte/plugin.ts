@@ -42,7 +42,9 @@ const sveltePlugin = (
                 : [
                     {
                         name: 'svelte-module-extractor',
+                        // @ts-ignore
                         setup(build) {
+                            // @ts-ignore
                             build.onLoad({ filter: /\.svelte$/ }, async (args) => {
                                 const source = await fs.readFile(args.path, 'utf8');
                                 const ast = parse(source, { modern: true });

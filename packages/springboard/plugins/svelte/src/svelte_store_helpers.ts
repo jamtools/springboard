@@ -1,5 +1,5 @@
 import type {Observable} from 'rxjs';
-import {StateSupervisor} from 'springboard/services/states/shared_state_service';
+import {StateSupervisor} from 'springboard/core';
 import {readable} from 'svelte/store';
 
 export function observableToStore<T>(observable: Observable<T>, initialValue: T) {
