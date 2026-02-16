@@ -2,8 +2,6 @@ import React from 'react';
 
 import springboard from 'springboard';
 
-console.log('hi mom 8')
-
 // @platform "node"
 console.log('only in node');
 // @platform end

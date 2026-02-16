@@ -5,7 +5,6 @@ import springboard from 'springboard';
 import {ParsedMidiFile} from '@jamtools/core/modules/midi_files/midi_file_parser/midi_file_parser';
 
 import '@jamtools/core/modules/midi_files/midi_files_module';
-// import '@jamtools/core/modules/midi_files/midi_files_module';
 
 declare module 'springboard/module_registry/module_registry' {
     interface AllModules {

@@ -98,11 +98,6 @@ bump_version "$root_dir/packages/springboard/vite-plugin"
 bump_version "$root_dir/packages/springboard/external/mantine"
 bump_version "$root_dir/packages/springboard/external/shoelace"
 
-# Plugins
-bump_version "$root_dir/packages/springboard/plugins/svelte"
-
-pnpm i
-
 # Publish core packages first (dependencies)
 publish_package "$root_dir/packages/springboard"
 
@@ -130,11 +125,6 @@ sleep 1
 
 # sleep 1
 
-# Publish plugins
-# publish_package "$root_dir/packages/springboard/plugins/svelte"
-
-# sleep 1
-
 # Publish CLI and tooling last (likely depend on core packages)
 # publish_package "$root_dir/packages/springboard/cli"
 
@@ -155,6 +145,3 @@ reset_version "$root_dir/packages/springboard/vite-plugin"
 # External integrations
 reset_version "$root_dir/packages/springboard/external/mantine"
 reset_version "$root_dir/packages/springboard/external/shoelace"
-
-# Plugins
-reset_version "$root_dir/packages/springboard/plugins/svelte"

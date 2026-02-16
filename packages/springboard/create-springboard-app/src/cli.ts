@@ -71,7 +71,6 @@ program
 
     const jamToolsPackage = template === 'jamtools' ? `@jamtools/core@${version}` : '';
 
-    // Use consolidated springboard package with subpath imports
     const installDepsCommand = [
         packageManager,
         'install',
