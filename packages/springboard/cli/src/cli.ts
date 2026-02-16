@@ -20,8 +20,6 @@ const require = createRequire(import.meta.url);
 const packageJSON = require('../package.json');
 
 import type { SpringboardPlatform, Plugin } from './types.js';
-import { buildAllPlatforms, buildMain, buildTauri, buildPartyKit, printBuildSummary } from './build/vite_build.js';
-import { startDevServer } from './dev/vite_dev_server.js';
 
 /**
  * Resolve an entrypoint path to an absolute path
@@ -105,13 +103,13 @@ program
         console.log(`Starting development server for platforms: ${options.platforms || 'main'}`);
 
         try {
-            await startDevServer({
-                applicationEntrypoint,
-                platforms: platformsToBuild,
-                plugins,
-                port,
-                hmr: true,
-            });
+            // await startDevServer({
+            //     applicationEntrypoint,
+            //     platforms: platformsToBuild,
+            //     plugins,
+            //     port,
+            //     hmr: true,
+            // });
 
             // Keep process alive
             console.log('\nDev server running. Press Ctrl+C to stop.\n');
@@ -138,61 +136,61 @@ program
         platforms?: string;
         plugins?: string;
     }) => {
-        // Determine platform to build
-        let platformToBuild = process.env.SPRINGBOARD_PLATFORM_VARIANT || options.platforms;
-        if (!platformToBuild) {
-            platformToBuild = 'main';
-        }
+        // // Determine platform to build
+        // let platformToBuild = process.env.SPRINGBOARD_PLATFORM_VARIANT || options.platforms;
+        // if (!platformToBuild) {
+        //     platformToBuild = 'main';
+        // }
 
-        const applicationEntrypoint = resolveEntrypoint(entrypoint);
-        const plugins = await loadPlugins(options.plugins);
-        const platformsToBuild = parsePlatforms(platformToBuild);
+        // const applicationEntrypoint = resolveEntrypoint(entrypoint);
+        // const plugins = await loadPlugins(options.plugins);
+        // const platformsToBuild = parsePlatforms(platformToBuild);
 
-        console.log(`Building application for platforms: ${platformToBuild}`);
+        // console.log(`Building application for platforms: ${platformToBuild}`);
 
-        try {
-            let results;
+        // try {
+        //     let results;
 
-            // Use specialized build functions for complex platforms
-            if (platformsToBuild.has('desktop') && platformsToBuild.size === 1) {
-                results = await buildTauri({
-                    applicationEntrypoint,
-                    plugins,
-                    watch: options.watch,
-                });
-            } else if (platformsToBuild.has('partykit') && platformsToBuild.size === 1) {
-                results = await buildPartyKit({
-                    applicationEntrypoint,
-                    plugins,
-                    watch: options.watch,
-                });
-            } else if (platformsToBuild.has('main') && platformsToBuild.size === 1) {
-                results = await buildMain({
-                    applicationEntrypoint,
-                    plugins,
-                    watch: options.watch,
-                });
-            } else {
-                // Generic multi-platform build
-                results = await buildAllPlatforms({
-                    applicationEntrypoint,
-                    platforms: platformsToBuild,
-                    plugins,
-                    watch: options.watch,
-                });
-            }
+        //     // Use specialized build functions for complex platforms
+        //     if (platformsToBuild.has('desktop') && platformsToBuild.size === 1) {
+        //         results = await buildTauri({
+        //             applicationEntrypoint,
+        //             plugins,
+        //             watch: options.watch,
+        //         });
+        //     } else if (platformsToBuild.has('partykit') && platformsToBuild.size === 1) {
+        //         results = await buildPartyKit({
+        //             applicationEntrypoint,
+        //             plugins,
+        //             watch: options.watch,
+        //         });
+        //     } else if (platformsToBuild.has('main') && platformsToBuild.size === 1) {
+        //         results = await buildMain({
+        //             applicationEntrypoint,
+        //             plugins,
+        //             watch: options.watch,
+        //         });
+        //     } else {
+        //         // Generic multi-platform build
+        //         results = await buildAllPlatforms({
+        //             applicationEntrypoint,
+        //             platforms: platformsToBuild,
+        //             plugins,
+        //             watch: options.watch,
+        //         });
+        //     }
 
-            printBuildSummary(results);
+        //     printBuildSummary(results);
 
-            // Check for failures
-            const failed = results.filter(r => !r.success);
-            if (failed.length > 0) {
-                process.exit(1);
-            }
-        } catch (error) {
-            console.error('Build failed:', error);
-            process.exit(1);
-        }
+        //     // Check for failures
+        //     const failed = results.filter(r => !r.success);
+        //     if (failed.length > 0) {
+        //         process.exit(1);
+        //     }
+        // } catch (error) {
+        //     console.error('Build failed:', error);
+        //     process.exit(1);
+        // }
     });
 
 // =============================================================================
@@ -219,53 +217,6 @@ program
                 restartTries: 0,
             }
         );
-    });
-
-// =============================================================================
-// UPGRADE Command (utility)
-// =============================================================================
-
-program
-    .command('upgrade')
-    .description('Upgrade Springboard package versions in package.json files.')
-    .argument('<new-version>', 'The new version number to set for matching packages.')
-    .option('--packages <files...>', 'package.json files to update', ['package.json'])
-    .option('--prefixes <prefixes...>', 'Package name prefixes to match', ['springboard', '@springboardjs/', '@jamtools/'])
-    .action(async (newVersion: string, options: {
-        packages: string[];
-        prefixes: string[];
-    }) => {
-        const { packages, prefixes } = options;
-
-        const normalizedPrefixes = prefixes.flatMap((p) => p.split(',')).map((p) => p.trim());
-
-        for (const packageFile of packages) {
-            const packagePath = path.resolve(process.cwd(), packageFile);
-            try {
-                const packageJson = JSON.parse(fs.readFileSync(packagePath).toString());
-                let modified = false;
-
-                for (const depType of ['dependencies', 'devDependencies', 'peerDependencies']) {
-                    if (!packageJson[depType]) continue;
-
-                    for (const [dep] of Object.entries<string>(packageJson[depType])) {
-                        if (normalizedPrefixes.some((prefix) => dep.startsWith(prefix))) {
-                            packageJson[depType][dep] = newVersion;
-                            console.log(`Updated ${dep} to ${newVersion} in ${packageFile}`);
-                            modified = true;
-                        }
-                    }
-                }
-
-                if (modified) {
-                    fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2));
-                } else {
-                    console.log(`No matching packages found in ${packageFile}`);
-                }
-            } catch (err) {
-                console.error(`Error processing ${packageFile}:`, err);
-            }
-        }
     });
 
 // =============================================================================
