@@ -3,7 +3,7 @@ import {act} from 'react';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
-import '@jamtools/core/modules';
+import '../../../../modules';
 import springboard, {Springboard} from 'springboard';
 
 import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
@@ -16,6 +16,8 @@ import {setIoDependencyCreator} from '../../../io/io_module';
 import {macroTypeRegistry} from '../../registered_macro_types';
 
 import {getMacroInputTestHelpers} from './macro_input_test_helpers';
+
+import '../../macro_handlers';
 
 describe('MusicalKeyboardInputMacroHandler', () => {
     beforeEach(() => {
@@ -73,7 +75,7 @@ describe('MusicalKeyboardInputMacroHandler', () => {
         const calls: MidiEventFull[] = [];
 
         await act(async () => {
-            await engine.registerModule(moduleId, {}, async (moduleAPI) => {
+            await (engine as Springboard).registerModule(moduleId, {}, async (moduleAPI) => {
                 const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
                 const midiInput = await macroModule.createMacro(moduleAPI, 'myinput', 'musical_keyboard_input', {});
                 midiInput.subject.subscribe(event => {
