@@ -37,7 +37,7 @@ program
     }
 
     const npmRcContent = [
-        'node-linker=hoisted',
+        // 'node-linker=hoisted',
     ];
 
     if (process.env.NPM_CONFIG_REGISTRY) {
@@ -74,9 +74,14 @@ program
     const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
     packageJson.scripts = {
         ...packageJson.scripts,
-        'dev': 'sb dev src/index.tsx',
-        'build': 'sb build src/index.tsx',
-        'start': 'sb start',
+        // 'dev': 'sb dev src/index.tsx',
+        // 'build': 'sb build src/index.tsx',
+        // 'start': 'sb start',
+        dev: 'vite',
+        build: 'npm run build:web && npm run build:node',
+        'build:web': 'SPRINGBOARD_PLATFORM=web vite build',
+        'build:node': 'SPRINGBOARD_PLATFORM=node vite build --outDir dist/node',
+        'check-types': 'tsc --noEmit',
     };
 
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
