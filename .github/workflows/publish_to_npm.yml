@@ -20,21 +20,21 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-            node-version: 21
+            node-version: 22
             cache: 'pnpm'
             registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
         run: pnpm i
 
+      - name: Build
+        run: npx turbo run build
+
       - name: Check types
         run: npx turbo run check-types
 
       - name: Test
         run: npx turbo run test
-
-      - name: Build
-        run: npx turbo run build
 
       - name: Run publish script with tag
         run: ./scripts/run-all-folders.sh ${{ github.ref_name }} --mode npm
