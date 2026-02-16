@@ -344,9 +344,6 @@ importers:
       springboard:
         specifier: workspace:*
         version: link:../../springboard
-      svelte:
-        specifier: 5.43.11
-        version: 5.43.11
 
   packages/jamtools/features:
     dependencies:

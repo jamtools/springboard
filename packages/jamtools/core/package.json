@@ -80,13 +80,7 @@
   },
   "peerDependencies": {
     "@tonejs/midi": "^2.0.0",
-    "springboard": "workspace:*",
-    "svelte": ">= 5"
-  },
-  "peerDependenciesMeta": {
-    "svelte": {
-      "optional": true
-    }
+    "springboard": "workspace:*"
   },
   "dependencies": {
     "easymidi": "^3.1.0",
@@ -99,11 +93,10 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "react": "19.2.0",
+    "react": "catalog:",
     "react-dom": "catalog:",
     "rxjs": "catalog:",
-    "springboard": "workspace:*",
-    "svelte": "5.43.11"
+    "springboard": "workspace:*"
   },
   "config": {
     "dir": "../../../configs"
