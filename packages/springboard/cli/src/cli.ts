@@ -17,9 +17,9 @@ import concurrently from 'concurrently';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const packageJSON = require('../package.json');
+const packageJSON = require('../../package.json');
 
-import {createDocsCommand} from './docs_command';
+const createDocsCommand = require('./docs_command');
 
 /**
  * Resolve an entrypoint path to an absolute path
