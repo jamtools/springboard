@@ -29,25 +29,6 @@ jobs:
               run: pnpm i
             - name: Build app
               run: npx turbo run build
-    build-saas:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: Install pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                version: 9.13.2
-            - name: Install Node.js
-              uses: actions/setup-node@v4
-              with:
-                node-version: 22
-                cache: 'pnpm'
-
-            - name: Install modules
-              run: pnpm i
-            - name: Build app
-              run: npx turbo run build-saas
     types:
         runs-on: ubuntu-latest
         steps:
@@ -63,6 +44,8 @@ jobs:
                 cache: 'pnpm'
             - name: Install modules
               run: pnpm i
+            - name: Build app
+              run: npx turbo run build
             - name: Check Types
               run: npx turbo run check-types
     lint:
@@ -80,6 +63,8 @@ jobs:
                 cache: 'pnpm'
             - name: Install modules
               run: pnpm i
+            - name: Build app
+              run: npx turbo run build
             - name: Run eslint
               run: npx turbo run lint
     test:
@@ -97,5 +82,7 @@ jobs:
                 cache: 'pnpm'
             - name: Install modules
               run: pnpm i
+            - name: Build app
+              run: npx turbo run build
             - name: Run tests
               run: npx turbo run test
