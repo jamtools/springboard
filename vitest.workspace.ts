@@ -1,9 +1,9 @@
-import { defineWorkspace } from 'vitest/config'
+import { defineWorkspace } from 'vitest/config';
 
 export default defineWorkspace([
-  "./vite.config.ts",
-  "./configs/vite.config.ts",
-  "./packages/springboard/core/vite.config.ts",
-  "./packages/jamtools/core/vite.config.ts",
-  "./packages/springboard/platforms/react-native/vite.config.ts"
-])
+  // E2E tests (root level)
+  './vitest.config.ts',
+  // Package tests
+  './packages/jamtools/core/vite.config.ts',
+  './packages/springboard/vite.config.ts',
+]);

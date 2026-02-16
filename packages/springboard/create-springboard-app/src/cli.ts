@@ -13,6 +13,7 @@ program
 const version = packageJSON.version;
 
 import exampleString from './example/index-as-string';
+import viteString from './example/vite-as-string';
 
 program
 .option('--template <bare | jamtools>', 'Template to use for the app', 'bare')
@@ -37,45 +38,87 @@ program
     }
 
     const npmRcContent = [
-        'node-linker=hoisted',
+        // 'node-linker=hoisted',
     ];
 
     if (process.env.NPM_CONFIG_REGISTRY) {
         npmRcContent.push(`registry=${process.env.NPM_CONFIG_REGISTRY}`);
     }
 
-    execSync('npm init -y', {cwd: process.cwd()});
-    writeFileSync('./.npmrc', npmRcContent.join('\n'), {flag: 'w'});
+    const originalPackageJson = {
+        "name": process.cwd().split('/').pop(),
+        "version": "1.0.0",
+        "type": "module",
+        "scripts": {}
+    };
+
+    writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(originalPackageJson, null, 2));
+
+    if (npmRcContent.length > 0) {
+        writeFileSync('./.npmrc', npmRcContent.join('\n'), {flag: 'w'});
+    }
 
     const gitIgnore = [
         'node_modules',
         'dist',
         'data/kv_data.json',
+        'data/kv.db',
+        '.springboard',
+        'index.html',
     ];
 
     writeFileSync('./.gitignore', gitIgnore.join('\n'), {flag: 'a'});
 
     const jamToolsPackage = template === 'jamtools' ? `@jamtools/core@${version}` : '';
 
-    const installDepsCommand = `${packageManager} install springboard@${version} springboard-server@${version} @springboardjs/platforms-node@${version} @springboardjs/platforms-browser@${version} ${jamToolsPackage} react react-dom react-router`;
-    console.log(installDepsCommand);
-    execSync(installDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
+    const installDepsCommand = [
+        packageManager,
+        'install',
+        `springboard@${version}`,
+        jamToolsPackage,
+        'react',
+        'react-dom',
+        'react-router',
+        '@hono/node-server',
+        'better-sqlite3',
+        'crossws',
+        'hono',
+        'immer',
+        'kysely',
+        'rxjs',
+    ];
+    console.log(installDepsCommand.join(' '));
+    execSync(installDepsCommand.join(' '), {cwd: process.cwd(), stdio: 'inherit'});
 
-    const installDevDepsCommand = `${packageManager} install -D springboard-cli@${version} typescript @types/node @types/react @types/react-dom`;
+    const installDevDepsCommand = `${packageManager} install -D vite typescript @types/node @types/react @types/react-dom`;
     console.log(installDevDepsCommand);
     execSync(installDevDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
+
+    execSync(`npm rebuild better-sqlite3`, {cwd: process.cwd()});
 
     execSync(`mkdir -p src`, {cwd: process.cwd()});
     writeFileSync(`${process.cwd()}/src/index.tsx`, exampleString);
     console.log('Created application entrypoint src/index.tsx');
 
+    writeFileSync(`${process.cwd()}/vite.config.ts`, viteString);
+    console.log('Created vite config vite.config.ts');
+
     const packageJsonPath = `${process.cwd()}/package.json`;
     const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
+
+    packageJson.type = 'module';
+
     packageJson.scripts = {
         ...packageJson.scripts,
-        'dev': 'sb dev src/index.tsx',
-        'build': 'sb build src/index.tsx',
-        'start': 'sb start',
+        // 'dev': 'sb dev src/index.tsx',
+        // 'build': 'sb build src/index.tsx',
+        // 'start': 'sb start',
+        dev: 'vite',
+        start: 'node dist/node/node-entry.mjs',
+        build: 'npm run build:web && npm run build:node',
+        'build:web': 'SPRINGBOARD_PLATFORM=web vite build',
+        'build:node': 'SPRINGBOARD_PLATFORM=node vite build --outDir dist/node',
+        'check-types': 'tsc --noEmit',
     };
 
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
