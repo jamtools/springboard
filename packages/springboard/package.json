@@ -322,10 +322,14 @@
       ]
     }
   },
+  "bin": {
+    "sb": "./cli/dist/cli.js"
+  },
   "files": [
     "src",
     "dist",
-    "vite-plugin"
+    "vite-plugin",
+    "cli/dist"
   ],
   "scripts": {
     "test": "vitest --run",
@@ -337,7 +341,7 @@
     "build:watch": "npm run build -- --watch",
     "build:all": "./scripts/build-all.sh",
     "build:vite-plugin": "cd vite-plugin && npm run build",
-    "prepublishOnly": "npm run build && npm run build:vite-plugin",
+    "prepublishOnly": "npm run build:all",
     "publish:local": "./scripts/publish-local.sh"
   },
   "repository": {
@@ -362,6 +366,7 @@
   },
   "homepage": "https://springboard.js.org",
   "dependencies": {
+    "commander": "^14.0.3",
     "dexie": "^4.2.1",
     "json-rpc-2.0": "^1.7.1",
     "reconnecting-websocket": "^4.4.0"

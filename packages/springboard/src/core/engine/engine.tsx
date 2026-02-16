@@ -5,7 +5,7 @@ import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard,
 import React, {createContext, useContext, useState} from 'react';
 
 import {useMount} from '../hooks/useMount.js';
-import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
+import {AllModules, ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
 import {SharedStateService} from '../services/states/shared_state_service.js';
 import {ModuleAPI} from './module_api.js';
@@ -225,6 +225,19 @@ const isModuleEnabled = (mod: Module) => {
 
 export const useSpringboardEngine = () => {
     return useContext(engineContext);
+};
+
+/**
+ * React hook to access a module by ID from within a component.
+ * Use this instead of moduleAPI.getModule() when in React components.
+ *
+ * @example
+ * const audioPlayer = useModule('AudioPlayer');
+ * const currentFile = audioPlayer.currentlyPlayingFile.useState();
+ */
+export const useModule = <ModuleId extends keyof AllModules>(moduleId: ModuleId): AllModules[ModuleId] => {
+    const engine = useSpringboardEngine();
+    return engine.moduleRegistry.getModule(moduleId);
 };
 
 type SpringboardProviderProps = React.PropsWithChildren<{

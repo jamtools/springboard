@@ -1,0 +1,134 @@
+/**
+ * Example: User Agent State Module
+ *
+ * This example demonstrates local state that is:
+ * - Stored only in localStorage (not synced)
+ * - Device-specific
+ * - Perfect for UI preferences, local-only data
+ */
+
+import springboard from 'springboard';
+
+interface LocalUIState {
+    sidebarCollapsed: boolean;
+    lastViewedPage: string;
+    recentSearches: string[];
+}
+
+springboard.registerModule(
+    'UserAgentStateExample',
+    {},
+    async (moduleAPI) => {
+        // User agent state - stored locally in localStorage
+        const uiState = await moduleAPI.statesAPI.createUserAgentState<LocalUIState>(
+            'localUIState',
+            {
+                sidebarCollapsed: false,
+                lastViewedPage: '/',
+                recentSearches: [],
+            }
+        );
+
+        // Actions for local UI state
+        const actions = moduleAPI.createActions({
+            toggleSidebar: async () => {
+                uiState.setStateImmer((draft) => {
+                    draft.sidebarCollapsed = !draft.sidebarCollapsed;
+                });
+            },
+
+            recordPageView: async (args: { page: string }) => {
+                uiState.setStateImmer((draft) => {
+                    draft.lastViewedPage = args.page;
+                });
+            },
+
+            addSearch: async (args: { query: string }) => {
+                uiState.setStateImmer((draft) => {
+                    // Keep only last 10 searches
+                    draft.recentSearches = [
+                        args.query,
+                        ...draft.recentSearches.filter((q) => q !== args.query),
+                    ].slice(0, 10);
+                });
+            },
+
+            clearSearchHistory: async () => {
+                uiState.setStateImmer((draft) => {
+                    draft.recentSearches = [];
+                });
+            },
+        });
+
+        // Register UI
+        moduleAPI.registerRoute(
+            '/local-ui',
+            {},
+            () => {
+                const ui = uiState.useState();
+
+                return (
+                    <div style={{ display: 'flex' }}>
+                        {/* Sidebar */}
+                        {!ui.sidebarCollapsed && (
+                            <aside style={{ width: '200px', background: '#f0f0f0', padding: '1rem' }}>
+                                <h3>Recent Searches</h3>
+                                <ul>
+                                    {ui.recentSearches.map((search, i) => (
+                                        <li key={i}>{search}</li>
+                                    ))}
+                                </ul>
+                                <button onClick={() => actions.clearSearchHistory()}>
+                                    Clear History
+                                </button>
+                            </aside>
+                        )}
+
+                        {/* Main content */}
+                        <main style={{ flex: 1, padding: '1rem' }}>
+                            <h1>User Agent State Example</h1>
+                            <p>Last viewed: {ui.lastViewedPage}</p>
+                            <button onClick={() => actions.toggleSidebar()}>
+                                {ui.sidebarCollapsed ? 'Show' : 'Hide'} Sidebar
+                            </button>
+
+                            <div style={{ marginTop: '2rem' }}>
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && e.currentTarget.value) {
+                                            actions.addSearch({ query: e.currentTarget.value });
+                                            e.currentTarget.value = '';
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </main>
+                    </div>
+                );
+            }
+        );
+
+        return {
+            states: { ui: uiState },
+            actions,
+        };
+    }
+);
+
+declare module 'springboard/module_registry/module_registry' {
+    interface AllModules {
+        UserAgentStateExample: {
+            states: {
+                ui: ReturnType<typeof import('springboard').createUserAgentState<LocalUIState>>;
+            };
+            actions: {
+                toggleSidebar: () => Promise<void>;
+                recordPageView: (args: { page: string }) => Promise<void>;
+                addSearch: (args: { query: string }) => Promise<void>;
+                clearSearchHistory: () => Promise<void>;
+            };
+        };
+    }
+}

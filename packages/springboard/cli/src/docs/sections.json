@@ -1,0 +1,69 @@
+{
+  "sections": [
+    {
+      "slug": "springboard/overview",
+      "title": "Springboard Overview",
+      "use_cases": "getting started, framework introduction, what is springboard, architecture overview, multi-device apps, real-time sync, full-stack javascript"
+    },
+    {
+      "slug": "springboard/module-api",
+      "title": "ModuleAPI Reference",
+      "use_cases": "always, any springboard module, core API, registerRoute, createActions, onDestroy, getModule, statesAPI, module development"
+    },
+    {
+      "slug": "springboard/state-management",
+      "title": "State Management",
+      "use_cases": "state, data storage, createSharedState, createPersistentState, createUserAgentState, cross-device sync, localStorage, database, StateSupervisor, useState, setState, setStateImmer"
+    },
+    {
+      "slug": "springboard/actions",
+      "title": "Actions & RPC",
+      "use_cases": "actions, createActions, createAction, RPC, remote procedure call, server communication, async functions, action handlers"
+    },
+    {
+      "slug": "springboard/routing",
+      "title": "Routing & Navigation",
+      "use_cases": "routes, registerRoute, navigation, React Router, URL params, documentMeta, SEO, hideApplicationShell, page components"
+    },
+    {
+      "slug": "springboard/module-types",
+      "title": "Module Types",
+      "use_cases": "feature module, utility module, initializer module, module patterns, when to use each type, module organization"
+    },
+    {
+      "slug": "springboard/module-communication",
+      "title": "Module Communication",
+      "use_cases": "getModule, module dependencies, AllModules interface, type-safe module access, interface merging, cross-module calls"
+    },
+    {
+      "slug": "springboard/core-dependencies",
+      "title": "Core Dependencies",
+      "use_cases": "coreDependencies, log, showError, files, storage, rpc, isMaestro, KVStore, error handling, file operations"
+    },
+    {
+      "slug": "springboard/lifecycle",
+      "title": "Module Lifecycle",
+      "use_cases": "onDestroy, cleanup, initialization order, module registration, Provider, subscriptions, memory leaks"
+    },
+    {
+      "slug": "springboard/platforms",
+      "title": "Platform Support",
+      "use_cases": "browser, node, react-native, desktop, tauri, partykit, platform-specific code, deployment targets"
+    },
+    {
+      "slug": "springboard/server-modules",
+      "title": "Server Modules",
+      "use_cases": "serverRegistry, Hono, HTTP routes, API endpoints, RPC middleware, server-side code, backend"
+    },
+    {
+      "slug": "springboard/patterns",
+      "title": "Common Patterns",
+      "use_cases": "best practices, navigation reasons, modal system, activity tracking, hook system, songdrive patterns"
+    },
+    {
+      "slug": "springboard/anti-patterns",
+      "title": "Anti-Patterns to Avoid",
+      "use_cases": "common mistakes, getModule at module level, missing optional chaining, race conditions, computed values in state"
+    }
+  ]
+}

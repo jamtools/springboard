@@ -1,0 +1,124 @@
+/**
+ * Example: Persistent State Module
+ *
+ * This example demonstrates using persistent state that is:
+ * - Stored in the database
+ * - Survives app restarts
+ * - Synced across devices
+ */
+
+import springboard from 'springboard';
+
+interface UserSettings {
+    theme: 'light' | 'dark';
+    notifications: boolean;
+    language: string;
+}
+
+springboard.registerModule(
+    'PersistentStateExample',
+    {},
+    async (moduleAPI) => {
+        // Persistent state - stored in database
+        const settingsState = await moduleAPI.statesAPI.createPersistentState<UserSettings>(
+            'userSettings',
+            {
+                theme: 'light',
+                notifications: true,
+                language: 'en',
+            }
+        );
+
+        // Actions to modify settings
+        const actions = moduleAPI.createActions({
+            toggleTheme: async () => {
+                settingsState.setStateImmer((draft) => {
+                    draft.theme = draft.theme === 'light' ? 'dark' : 'light';
+                });
+            },
+
+            toggleNotifications: async () => {
+                settingsState.setStateImmer((draft) => {
+                    draft.notifications = !draft.notifications;
+                });
+            },
+
+            setLanguage: async (args: { language: string }) => {
+                settingsState.setStateImmer((draft) => {
+                    draft.language = args.language;
+                });
+            },
+        });
+
+        // Register UI
+        moduleAPI.registerRoute(
+            '/settings',
+            {},
+            () => {
+                const settings = settingsState.useState();
+
+                return (
+                    <div>
+                        <h1>User Settings</h1>
+
+                        <div>
+                            <label>
+                                Theme: {settings.theme}
+                                <button onClick={() => actions.toggleTheme()}>
+                                    Toggle
+                                </button>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={settings.notifications}
+                                    onChange={() => actions.toggleNotifications()}
+                                />
+                                Enable Notifications
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>
+                                Language:
+                                <select
+                                    value={settings.language}
+                                    onChange={(e) =>
+                                        actions.setLanguage({ language: e.target.value })
+                                    }
+                                >
+                                    <option value="en">English</option>
+                                    <option value="es">Español</option>
+                                    <option value="fr">Français</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                );
+            }
+        );
+
+        return {
+            states: { settings: settingsState },
+            actions,
+        };
+    }
+);
+
+declare module 'springboard/module_registry/module_registry' {
+    interface AllModules {
+        PersistentStateExample: {
+            states: {
+                settings: ReturnType<typeof import('springboard').createPersistentState<UserSettings>>;
+            };
+            actions: {
+                toggleTheme: () => Promise<void>;
+                toggleNotifications: () => Promise<void>;
+                setLanguage: (args: { language: string }) => Promise<void>;
+            };
+        };
+    }
+}

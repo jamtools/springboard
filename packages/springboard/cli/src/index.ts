@@ -26,5 +26,4 @@ export {
     program,
     resolveEntrypoint,
     loadPlugins,
-    parsePlatforms,
 } from './cli.js';
