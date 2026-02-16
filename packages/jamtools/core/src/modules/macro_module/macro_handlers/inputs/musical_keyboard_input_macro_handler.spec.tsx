@@ -4,17 +4,16 @@ import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
 import '@jamtools/core/modules';
-import {Springboard} from 'springboard/engine/engine';
-import springboard from 'springboard';
+import springboard, {Springboard} from 'springboard';
 
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';
+import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
-import {QwertyCallbackPayload} from '@jamtools/core/types/io_types';
-import {MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {MockQwertyService} from '@jamtools/core/test/services/mock_qwerty_service';
-import {MockMidiService} from '@jamtools/core/test/services/mock_midi_service';
-import {setIoDependencyCreator} from '@jamtools/core/modules/io/io_module';
-import {macroTypeRegistry} from '@jamtools/core/modules/macro_module/registered_macro_types';
+import {QwertyCallbackPayload} from '../../../../types/io_types';
+import {MidiEventFull} from '../../macro_module_types';
+import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
+import {MockMidiService} from '../../../../test/services/mock_midi_service';
+import {setIoDependencyCreator} from '../../../io/io_module';
+import {macroTypeRegistry} from '../../registered_macro_types';
 
 import {getMacroInputTestHelpers} from './macro_input_test_helpers';
 

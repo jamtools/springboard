@@ -48,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "@vitejs/plugin-react": "4.4.1",
-    "@vitest/ui": "^2.1.9",
+    "@vitest/ui": "catalog:",
     "esbuild": "catalog:",
     "eslint": "8.57.1",
     "eslint-plugin-react": "7.37.5",
@@ -62,7 +62,7 @@
     "verdaccio": "^6.2.4",
     "vite": "catalog:",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "2.1.9"
+    "vitest": "catalog:"
   },
   "dependencies": {
     "turbo": "2.6.1"

@@ -328,8 +328,7 @@
     "vite-plugin"
   ],
   "scripts": {
-    "test": "echo 'Springboard tests temporarily disabled due to Vitest ESM issues' && exit 0",
-    "test:vitest": "vitest --run",
+    "test": "vitest --run",
     "test:watch": "vitest",
     "check-types": "tsc --noEmit",
     "lint": "eslint --ext ts --ext tsx ./src",
@@ -461,7 +460,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "typescript": "catalog:",
-    "vitest": "^2.1.9"
+    "vitest": "catalog:"
   },
   "config": {
     "dir": "../../configs"
