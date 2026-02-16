@@ -7,8 +7,6 @@ import {Main} from './main.js';
 import {Springboard} from '../../../core/engine/engine.js';
 import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
 
-import {watchForChanges} from './esbuild_watch_for_changes.js';
-
 const waitForPageLoad = () => new Promise<void>(resolve => {
     window.addEventListener('DOMContentLoaded', () => {
         resolve();
@@ -25,10 +23,6 @@ type BrowserDependencies = Pick<CoreDependencies, 'rpc' | 'storage'> & {
 
 export const startAndRenderBrowserApp = async (browserDeps: BrowserDependencies): Promise<Springboard> => {
     const isLocal = browserDeps.isLocal || localStorage.getItem('isLocal') === 'true';
-
-    if ((browserDeps.dev?.reloadCss || browserDeps.dev?.reloadJs) && location.hostname === 'localhost') {
-        watchForChanges(browserDeps.dev?.reloadCss, browserDeps.dev?.reloadJs);
-    }
 
     const coreDeps: CoreDependencies = {
         log: console.log,

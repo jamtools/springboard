@@ -10,7 +10,6 @@ export { BrowserKVStoreService } from './services/browser_kvstore_service.js';
 // Export browser entrypoints
 export { startAndRenderBrowserApp } from './entrypoints/react_entrypoint.js';
 export { Main as BrowserMain, Main } from './entrypoints/main.js';
-export { watchForChanges } from './entrypoints/esbuild_watch_for_changes.js';
 
 // Export browser components
 export { RunLocalButton } from './components/run_local_button.js';
