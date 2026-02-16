@@ -114,6 +114,7 @@ program
         // 'build': 'sb build src/index.tsx',
         // 'start': 'sb start',
         dev: 'vite',
+        start: 'node dist/node/node-entry.mjs',
         build: 'npm run build:web && npm run build:node',
         'build:web': 'SPRINGBOARD_PLATFORM=web vite build',
         'build:node': 'SPRINGBOARD_PLATFORM=node vite build --outDir dist/node',
