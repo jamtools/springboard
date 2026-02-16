@@ -3,7 +3,8 @@
         "target": "ESNext",
         "resolveJsonModule": true,
         "importHelpers": true,
-        "module": "CommonJS",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
         "declaration": true,
         "emitDeclarationOnly": false,
         "outDir": "./dist",
@@ -17,11 +18,11 @@
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "downlevelIteration": false,
-        "baseUrl": "./",
-        "rootDir": "./src"
+        "rootDir": "./src",
+        "types": ["node"]
     },
     "include": [
-        "src"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",

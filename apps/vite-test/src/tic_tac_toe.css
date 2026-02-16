@@ -1,0 +1,13 @@
+td {
+    border: 1px solid black;
+    padding: 100px;
+    font-size: 16px;
+    text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        filter: invert(100%) hue-rotate(180deg);
+        background: black;
+    }
+}

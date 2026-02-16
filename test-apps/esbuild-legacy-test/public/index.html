@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="esbuild Legacy Test - Validating backward compatibility with consolidated Springboard package" />
+    <title>esbuild Legacy Test</title>
+    <style>
+      /* Minimal reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+      }
+
+      /* Loading state (before React hydrates) */
+      #root:empty::before {
+        content: 'Loading...';
+        display: block;
+        text-align: center;
+        padding: 40px;
+        font-family: system-ui, sans-serif;
+        color: #718096;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- React mount point -->
+    <div id="root"></div>
+
+    <!-- Application bundle - loaded as ES module -->
+    <script type="module" src="/dist/browser/index.js"></script>
+  </body>
+</html>
