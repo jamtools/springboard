@@ -238,6 +238,25 @@ export function springboardDev(options: NormalizedOptions): Plugin {
                 logger.debug(`HMR update: ${file}`);
             }
 
+            // If user code changed, re-initialize the engine after module reload
+            // The ModuleRunner will automatically re-import the module, but we need
+            // to call start() again to re-initialize the Springboard engine
+            if (isNodePlatformActive && file.includes('/src/')) {
+                // Schedule start() to be called after the module reloads
+                // Use setImmediate to allow the module reload to complete first
+                setImmediate(async () => {
+                    try {
+                        if (nodeEntryModule && typeof nodeEntryModule.start === 'function') {
+                            logger.info('[HMR] Re-initializing Springboard engine...');
+                            await nodeEntryModule.start();
+                            logger.info('[HMR] Engine re-initialized successfully');
+                        }
+                    } catch (err) {
+                        logger.error(`[HMR] Failed to re-initialize engine: ${err}`);
+                    }
+                });
+            }
+
             // Let Vite handle HMR normally
             return undefined;
         },
