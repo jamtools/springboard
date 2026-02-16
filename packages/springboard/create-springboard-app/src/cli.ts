@@ -93,19 +93,17 @@ documentation sections. It's the single command you need to start working effici
 
 2. **Write code** using your knowledge + the context from step 1
 
-3. **Run \`sb docs validate <file>\`** to check your code
-   - Fix any issues reported
-   - Re-run validate until clean
-
-4. **Fetch specific docs** only when needed:
+3. **Fetch specific docs** only when needed:
    - \`sb docs get <section>\` - Use section names from the context output
+
+4. **View examples** for reference code:
+   - \`sb docs examples list\` - See available examples
+   - \`sb docs examples show <name>\` - View example code
 
 ## Other Useful Commands
 
 - \`sb docs --help\` - See all available commands
 - \`sb docs types\` - Get TypeScript type definitions
-
-This approach ensures your code follows Springboard patterns and avoids common mistakes.
 `;
     writeFileSync(`${process.cwd()}/CLAUDE.md`, claudeMdContent);
     console.log('Created CLAUDE.md with AI agent instructions');
@@ -137,16 +135,14 @@ Please lean on the \`sb docs\` commands to make sure the code you're writing is 
 
 1. **Start with context**: Run \`sb docs context\` (includes full docs list)
 2. **Write code**: Use your knowledge + the context from step 1
-3. **Validate often**: Run \`sb docs validate <file>\` to catch issues early
-4. **Fetch docs when needed**: Use \`sb docs get <section>\` for specific topics
+3. **Fetch docs when needed**: Use \`sb docs get <section>\` for specific topics
+4. **View examples**: Use \`sb docs examples show <name>\` for reference code
 
 ### Other Commands
 
 - \`sb docs --help\` - See all available commands
 - \`sb docs types\` - Get TypeScript type definitions
-- \`sb docs list\` - Just the docs list (context includes this already)
-
-These tools help prevent common mistakes and ensure your code aligns with Springboard's architecture.
+- \`sb docs examples list\` - See available example modules
 `;
     writeFileSync(`${process.cwd()}/AGENTS.md`, agentsMdContent);
     console.log('Created AGENTS.md with AI agent instructions');
