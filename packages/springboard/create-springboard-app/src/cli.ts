@@ -13,6 +13,7 @@ program
 const version = packageJSON.version;
 
 import exampleString from './example/index-as-string';
+import viteString from './example/vite-as-string';
 
 program
 .option('--template <bare | jamtools>', 'Template to use for the app', 'bare')
@@ -51,6 +52,7 @@ program
         'node_modules',
         'dist',
         'data/kv_data.json',
+        '.springboard',
     ];
 
     writeFileSync('./.gitignore', gitIgnore.join('\n'), {flag: 'a'});
@@ -58,20 +60,43 @@ program
     const jamToolsPackage = template === 'jamtools' ? `@jamtools/core@${version}` : '';
 
     // Use consolidated springboard package with subpath imports
-    const installDepsCommand = `${packageManager} install springboard@${version} ${jamToolsPackage} react react-dom react-router`;
-    console.log(installDepsCommand);
-    execSync(installDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
+    const installDepsCommand = [
+        packageManager,
+        'install',
+        `springboard@${version}`,
+        jamToolsPackage,
+        'react',
+        'react-dom',
+        'react-router',
+        '@hono/node-server',
+        'better-sqlite3',
+        'crossws',
+        'hono',
+        'immer',
+        'kysely',
+        'rxjs',
+    ];
+    console.log(installDepsCommand.join(' '));
+    execSync(installDepsCommand.join(' '), {cwd: process.cwd(), stdio: 'inherit'});
 
-    const installDevDepsCommand = `${packageManager} install -D springboard-cli@${version} vite typescript @types/node @types/react @types/react-dom`;
+    const installDevDepsCommand = `${packageManager} install -D vite typescript @types/node @types/react @types/react-dom`;
     console.log(installDevDepsCommand);
     execSync(installDevDepsCommand, {cwd: process.cwd(), stdio: 'inherit'});
+
+    execSync(`npm rebuild better-sqlite3`, {cwd: process.cwd()});
 
     execSync(`mkdir -p src`, {cwd: process.cwd()});
     writeFileSync(`${process.cwd()}/src/index.tsx`, exampleString);
     console.log('Created application entrypoint src/index.tsx');
 
+    writeFileSync(`${process.cwd()}/vite.config.ts`, viteString);
+    console.log('Created vite config vite.config.ts');
+
     const packageJsonPath = `${process.cwd()}/package.json`;
     const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
+
+    packageJson.type = 'module';
+
     packageJson.scripts = {
         ...packageJson.scripts,
         // 'dev': 'sb dev src/index.tsx',

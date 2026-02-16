@@ -90,7 +90,7 @@ bump_version "$root_dir/packages/jamtools/core"
 bump_version "$root_dir/packages/jamtools/features"
 
 # CLI and tooling
-bump_version "$root_dir/packages/springboard/cli"
+# bump_version "$root_dir/packages/springboard/cli"
 bump_version "$root_dir/packages/springboard/create-springboard-app"
 bump_version "$root_dir/packages/springboard/vite-plugin"
 
@@ -136,7 +136,7 @@ publish_package "$root_dir/packages/springboard/plugins/svelte"
 sleep 1
 
 # Publish CLI and tooling last (likely depend on core packages)
-publish_package "$root_dir/packages/springboard/cli"
+# publish_package "$root_dir/packages/springboard/cli"
 
 sleep 1
 
@@ -148,7 +148,7 @@ reset_version "$root_dir/packages/jamtools/core"
 reset_version "$root_dir/packages/jamtools/features"
 
 # CLI and tooling
-reset_version "$root_dir/packages/springboard/cli"
+# reset_version "$root_dir/packages/springboard/cli"
 reset_version "$root_dir/packages/springboard/create-springboard-app"
 reset_version "$root_dir/packages/springboard/vite-plugin"
 
