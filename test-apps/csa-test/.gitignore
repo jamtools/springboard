@@ -1,0 +1,3 @@
+node_modules
+dist
+data/kv_data.json

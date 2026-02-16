@@ -381,7 +381,7 @@
     "better-sqlite3": "^12.4.1",
     "crossws": "^0.4.4",
     "hono": "^4.6.17",
-    "immer": "^10.1.1",
+    "immer": ">= 10",
     "isomorphic-ws": "^4.0.1",
     "kysely": ">= 0.24.0",
     "partysocket": "^1.1.6",
