@@ -11,8 +11,8 @@ import {LocalJsonNodeKVStoreService} from '../services/node_kvstore_service.js';
 import {CoreDependencies, Springboard} from '../../../core/index.js';
 
 setTimeout(async () => {
-    const webappFolder = process.env.WEBAPP_FOLDER || './dist/browser';
-    const webappDistFolder = path.join(webappFolder, './dist');
+    const webappFolder = process.env.WEBAPP_FOLDER || './dist';
+    const webappDistFolder = webappFolder;
 
     const nodeKvDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
 

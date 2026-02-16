@@ -200,7 +200,7 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
         return serveStaticFileFn(c, 'index.html', headers);
     });
 
-    app.use('/dist/:file', async (c, next) => {
+    app.use('/assets/:file', async (c, next) => {
         if (!serveStaticFileFn || !getEnvValueFn) {
             return c.text('Server not fully initialized', 500);
         }
@@ -217,19 +217,7 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
             'Cache-Control': 'public, max-age=31536000, immutable'
         };
 
-        return serveStaticFileFn(c, requestedFile, headers);
-
-        // return serveStatic({
-        //     root: webappDistFolder,
-        //     path: `/${requestedFile}`,
-        //     getContent: async (path, c) => {
-        //         return serveFile(requestedFile, contentType, c);
-        //     },
-        //     onFound: (path, c) => {
-        //         c.header('Content-Type', contentType);
-        //         c.header('Cache-Control', 'public, max-age=31536000, immutable');
-        //     },
-        // })(c, next);
+        return serveStaticFileFn(c, `assets/${requestedFile}`, headers);
     });
 
     // app.use('/dist/manifest.json', serveStatic({

@@ -35,8 +35,8 @@ export async function start() {
   }
 
   try {
-    const webappFolder = process.env.WEBAPP_FOLDER || './dist/browser';
-    const webappDistFolder = path.join(webappFolder, './dist');
+    const webappFolder = process.env.WEBAPP_FOLDER || './dist';
+    const webappDistFolder = webappFolder;
 
     const nodeKvDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
     const useWebSocketsForRpc = import.meta.env.VITE_USE_WEBSOCKETS_FOR_RPC === 'true';
