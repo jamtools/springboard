@@ -23,3 +23,5 @@ tests/**/node_modules
 tests/**/dist
 tests/**/.npmrc
 tests/**/*.backup
+
+.vscode/settings.json
