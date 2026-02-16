@@ -241,7 +241,16 @@ export function springboardDev(options: NormalizedOptions): Plugin {
             // If user code changed, re-initialize the engine after module reload
             // The ModuleRunner will automatically re-import the module, but we need
             // to call start() again to re-initialize the Springboard engine
-            if (isNodePlatformActive && file.includes('/src/')) {
+
+            // Check if the changed file is within the project root (excludes node_modules, etc.)
+            // and is not a generated file (excludes .springboard/, dist/, etc.)
+            const isUserCode = isNodePlatformActive &&
+                file.startsWith(options.root) &&
+                !file.includes(path.sep + 'node_modules' + path.sep) &&
+                !file.includes(path.sep + '.springboard' + path.sep) &&
+                !file.includes(path.sep + 'dist' + path.sep);
+
+            if (isUserCode) {
                 // Schedule start() to be called after the module reloads
                 // Use setImmediate to allow the module reload to complete first
                 setImmediate(async () => {
