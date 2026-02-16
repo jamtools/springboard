@@ -322,10 +322,14 @@
       ]
     }
   },
+  "bin": {
+    "sb": "./cli/dist/cli.js"
+  },
   "files": [
     "src",
     "dist",
-    "vite-plugin"
+    "vite-plugin",
+    "cli/dist"
   ],
   "scripts": {
     "test": "vitest --run",
@@ -337,7 +341,7 @@
     "build:watch": "npm run build -- --watch",
     "build:all": "./scripts/build-all.sh",
     "build:vite-plugin": "cd vite-plugin && npm run build",
-    "prepublishOnly": "npm run build && npm run build:vite-plugin",
+    "prepublishOnly": "npm run build:all",
     "publish:local": "./scripts/publish-local.sh"
   },
   "repository": {
