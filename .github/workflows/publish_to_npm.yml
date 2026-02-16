@@ -38,5 +38,3 @@ jobs:
 
       - name: Run publish script with tag
         run: ./scripts/run-all-folders.sh ${{ github.ref_name }} --mode npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
