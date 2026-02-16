@@ -5,7 +5,8 @@
  */
 
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 export interface DocSection {
     slug: string;
@@ -17,6 +18,8 @@ export interface SectionsData {
     sections: DocSection[];
 }
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const docsDir = __dirname;
 
 /**

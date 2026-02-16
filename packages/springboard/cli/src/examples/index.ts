@@ -6,7 +6,8 @@
  */
 
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 export interface Example {
     name: string;
@@ -17,6 +18,8 @@ export interface Example {
     code: string;
 }
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const examplesDir = __dirname;
 
 export const examples: Example[] = [
