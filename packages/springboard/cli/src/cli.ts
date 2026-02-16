@@ -1,6 +1,6 @@
 import path from 'path';
 import { program } from 'commander';
-import concurrently from 'concurrently';
+// import concurrently from 'concurrently';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -184,19 +184,19 @@ program
     .action(async () => {
         console.log('Starting production server...');
 
-        concurrently(
-            [
-                {
-                    command: 'node dist/server/dist/local-server.cjs',
-                    name: 'Server',
-                    prefixColor: 'blue',
-                },
-            ],
-            {
-                prefix: 'name',
-                restartTries: 0,
-            }
-        );
+        // concurrently(
+        //     [
+        //         {
+        //             command: 'node dist/server/dist/local-server.cjs',
+        //             name: 'Server',
+        //             prefixColor: 'blue',
+        //         },
+        //     ],
+        //     {
+        //         prefix: 'name',
+        //         restartTries: 0,
+        //     }
+        // );
     });
 
 program.addCommand(createDocsCommand());
