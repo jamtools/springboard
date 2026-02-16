@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const packageJSON = require('../../package.json');
 
-const {createDocsCommand} = require('./docs_command');
+import {createDocsCommand} from './docs_command.js';
 
 /**
  * Resolve an entrypoint path to an absolute path
