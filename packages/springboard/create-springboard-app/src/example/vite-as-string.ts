@@ -2,11 +2,21 @@ export default `import { defineConfig } from 'vite';
 import { springboard } from 'springboard/vite-plugin';
 import path from 'node:path';
 
+const platformVariant = process.env.SPRINGBOARD_PLATFORM || '';
+
+let platforms: ('browser' | 'node')[] = ['browser', 'node'];
+
+if (platformVariant === 'node') {
+  platforms = ['node'];
+} else if (platformVariant === 'browser') {
+  platforms = ['browser'];
+}
+
 export default defineConfig({
   plugins: [
     springboard({
       entry: './src/index.tsx',
-      platforms: ['browser', 'node'],
+      platforms,
       documentMeta: {
         title: 'My App',
         description: 'My really cool app',
@@ -21,9 +31,6 @@ export default defineConfig({
   },
   define: {
     'process.env.DEBUG_LOG_PERFORMANCE': '""',
-  },
-  build: {
-    sourcemap: true,
   },
   server: {
     port: 3000,
