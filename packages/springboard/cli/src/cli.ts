@@ -1,17 +1,4 @@
-/**
- * Springboard CLI
- *
- * Vite-based CLI wrapper for multi-platform application builds.
- * Implements Option D: Monolithic CLI Wrapper from PLAN_VITE_CLI_INTEGRATION.md
- *
- * Commands:
- * - sb dev <entrypoint>  - Start development server with HMR
- * - sb build <entrypoint> - Build for production
- * - sb start - Start the production server
- */
-
 import path from 'path';
-import fs from 'node:fs';
 import { program } from 'commander';
 import concurrently from 'concurrently';
 import { createRequire } from 'node:module';
