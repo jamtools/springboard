@@ -37,6 +37,14 @@ program
     } catch (error) {
     }
 
+    const npmRcContent = [
+        // 'node-linker=hoisted',
+    ];
+
+    if (process.env.NPM_CONFIG_REGISTRY) {
+        npmRcContent.push(`registry=${process.env.NPM_CONFIG_REGISTRY}`);
+    }
+
     const originalPackageJson = {
         "name": process.cwd().split('/').pop(),
         "version": "1.0.0",
@@ -45,6 +53,10 @@ program
     };
 
     writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(originalPackageJson, null, 2));
+
+    if (npmRcContent.length > 0) {
+        writeFileSync('./.npmrc', npmRcContent.join('\n'), {flag: 'w'});
+    }
 
     const gitIgnore = [
         'node_modules',
