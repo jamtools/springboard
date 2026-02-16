@@ -430,7 +430,7 @@ importers:
         specifier: ^4.2.1
         version: 4.2.1
       immer:
-        specifier: ^10.1.1
+        specifier: '>= 10'
         version: 10.2.0
       isomorphic-ws:
         specifier: ^4.0.1
