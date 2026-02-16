@@ -17,6 +17,3 @@ springboard.registerModule('RNWebviewInit', {}, async (moduleAPI) => {
 
   return {};
 });
-
-// Start springboard
-springboard.start().catch(console.error);

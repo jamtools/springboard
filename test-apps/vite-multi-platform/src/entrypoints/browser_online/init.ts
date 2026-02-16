@@ -16,6 +16,3 @@ springboard.registerModule('BrowserOnlineInit', {}, async (moduleAPI) => {
 
   return {};
 });
-
-// Start springboard
-springboard.start().catch(console.error);

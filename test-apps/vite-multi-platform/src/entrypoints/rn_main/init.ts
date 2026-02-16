@@ -12,9 +12,3 @@ springboard.registerModule('RNMainInit', {}, async (moduleAPI) => {
 
   return {};
 });
-
-// Export for RN to consume
-export { springboard };
-
-// Start springboard
-springboard.start().catch(console.error);

@@ -23,11 +23,13 @@ const browserPlatforms = ['browser_online', 'browser_offline', 'tauri', 'rn_webv
 const nodePlatforms = ['node_maestro'];
 const neutralPlatforms = ['rn_main'];
 
-const platforms: ('browser' | 'node')[] = browserPlatforms.includes(platformVariant)
-  ? ['browser']
-  : nodePlatforms.includes(platformVariant)
-  ? ['node']
-  : ['browser']; // default
+// const platforms: ('browser' | 'node')[] = browserPlatforms.includes(platformVariant)
+//   ? ['browser']
+//   : nodePlatforms.includes(platformVariant)
+//   ? ['node']
+//   : ['browser']; // default
+
+const platforms = ['browser', 'node'] as ['browser', 'node'];
 
 console.log(`Building for platform variant: ${platformVariant}`);
 console.log(`Entry: ${entry}`);
@@ -36,7 +38,11 @@ console.log(`Platforms: ${platforms.join(', ')}`);
 export default defineConfig({
   plugins: [
     springboard({
-      entry,
+      entry: {
+        web: entryMap.browser_online,
+        browser: entryMap.browser_online,
+        node: entryMap.node_maestro,
+      },
       platforms,
       documentMeta: {
         title: 'Springboard Multi-Platform Test',
@@ -49,6 +55,9 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  define: {
+    'process.env.DEBUG_LOG_PERFORMANCE': '""',
   },
   build: {
     sourcemap: true,

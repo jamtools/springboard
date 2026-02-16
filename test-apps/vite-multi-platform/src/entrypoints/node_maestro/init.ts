@@ -10,6 +10,3 @@ springboard.registerModule('NodeMaestroInit', {}, async (moduleAPI) => {
 
   return {};
 });
-
-// Start springboard
-springboard.start().catch(console.error);

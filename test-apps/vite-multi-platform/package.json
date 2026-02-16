@@ -24,12 +24,15 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.9",
+    "better-sqlite3": "^12.6.2",
+    "crossws": "^0.4.4",
     "hono": "^4.11.8",
     "immer": "^11.1.3",
+    "kysely": "^0.28.11",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "rxjs": "^7.8.2",
-    "springboard": "^0.16.0"
+    "springboard": "0.0.1-dev-vite-3"
   },
   "devDependencies": {
     "@types/node": "^25.2.1",
