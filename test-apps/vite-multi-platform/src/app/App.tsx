@@ -1,18 +1,17 @@
 import React from 'react';
 
-interface AppProps {
-  platform: string;
+interface Props {
+  increment: () => void;
+  decrement: () => void;
+  count: number;
 }
 
-export const App: React.FC<AppProps> = ({ platform }) => {
-  const [count, setCount] = React.useState(0);
-
+export const App = (props: Props) => {
   return (
     <div style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-      <h1>Springboard Multi-Platform Test</h1>
-      <p>Platform: <strong>{platform}</strong></p>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(c => c + 1)}>Increment</button>
+      <p>Count: {props.count}</p>
+      <button onClick={() => props.increment()}>Increment</button>
+      <button onClick={() => props.decrement()}>Decrement</button>
     </div>
   );
 };
