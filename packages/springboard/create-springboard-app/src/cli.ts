@@ -37,22 +37,22 @@ program
     } catch (error) {
     }
 
-    const npmRcContent = [
-        // 'node-linker=hoisted',
-    ];
+    const originalPackageJson = {
+        "name": process.cwd().split('/').pop(),
+        "version": "1.0.0",
+        "type": "module",
+        "scripts": {}
+    };
 
-    if (process.env.NPM_CONFIG_REGISTRY) {
-        npmRcContent.push(`registry=${process.env.NPM_CONFIG_REGISTRY}`);
-    }
-
-    execSync('npm init -y', {cwd: process.cwd()});
-    writeFileSync('./.npmrc', npmRcContent.join('\n'), {flag: 'w'});
+    writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(originalPackageJson, null, 2));
 
     const gitIgnore = [
         'node_modules',
         'dist',
         'data/kv_data.json',
+        'data/kv.db',
         '.springboard',
+        'index.html',
     ];
 
     writeFileSync('./.gitignore', gitIgnore.join('\n'), {flag: 'a'});
