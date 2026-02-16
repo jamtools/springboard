@@ -112,33 +112,33 @@ publish_package "$root_dir/packages/jamtools/core"
 
 sleep 1
 
-publish_package "$root_dir/packages/jamtools/features"
+# publish_package "$root_dir/packages/jamtools/features"
 
-sleep 1
+# sleep 1
 
 # Publish vite plugin (may be needed by CLI)
-publish_package "$root_dir/packages/springboard/vite-plugin"
+# publish_package "$root_dir/packages/springboard/vite-plugin"
 
-sleep 1
+# sleep 1
 
 # Publish external integrations
-publish_package "$root_dir/packages/springboard/external/mantine"
+# publish_package "$root_dir/packages/springboard/external/mantine"
 
-sleep 1
+# sleep 1
 
-publish_package "$root_dir/packages/springboard/external/shoelace"
+# publish_package "$root_dir/packages/springboard/external/shoelace"
 
-sleep 1
+# sleep 1
 
 # Publish plugins
-publish_package "$root_dir/packages/springboard/plugins/svelte"
+# publish_package "$root_dir/packages/springboard/plugins/svelte"
 
-sleep 1
+# sleep 1
 
 # Publish CLI and tooling last (likely depend on core packages)
 # publish_package "$root_dir/packages/springboard/cli"
 
-sleep 1
+# sleep 1
 
 publish_package "$root_dir/packages/springboard/create-springboard-app"
 
