@@ -13,16 +13,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
-    },
-    "./vite_plugins": {
-      "types": "./dist/vite_plugins/index.d.ts",
-      "import": "./dist/vite_plugins/index.js",
-      "default": "./dist/vite_plugins/index.js"
-    },
-    "./config": {
-      "types": "./dist/config/vite_config_generator.d.ts",
-      "import": "./dist/config/vite_config_generator.js",
-      "default": "./dist/config/vite_config_generator.js"
     }
   },
   "files": [
