@@ -69,8 +69,8 @@ program
     writeFileSync(`${process.cwd()}/src/index.tsx`, exampleString);
     console.log('Created application entrypoint src/index.tsx');
 
-    // Create CLAUDE.md for Claude Code agents
-    const claudeMdContent = `# Springboard Development Guide
+    // Create CLAUDE.md and AGENTS.md for AI coding agents
+    const agentDocsContent = `# Springboard Development Guide
 
 This application is built with the **Springboard framework**.
 
@@ -82,70 +82,25 @@ This application is built with the **Springboard framework**.
 npx sb docs context
 \`\`\`
 
-This command outputs comprehensive framework information including all available
-documentation sections. It's the single command you need to start working efficiently.
+This outputs comprehensive framework information including available documentation
+sections, key concepts, and workflow guidance.
 
 ## Recommended Workflow
 
 1. **Run \`sb docs context\`** at the start of your session
-   - This gives you everything: framework overview, available docs, and workflow guidance
-   - You don't need to run \`sb docs list\` separately
-
 2. **Write code** using your knowledge + the context from step 1
-
-3. **Fetch specific docs** only when needed:
-   - \`sb docs get <section>\` - Use section names from the context output
-
-4. **View examples** for reference code:
-   - \`sb docs examples list\` - See available examples
-   - \`sb docs examples show <name>\` - View example code
+3. **Fetch specific docs** only when needed: \`sb docs get <section>\`
+4. **View examples** for reference code: \`sb docs examples show <name>\`
 
 ## Other Useful Commands
 
 - \`sb docs --help\` - See all available commands
 - \`sb docs types\` - Get TypeScript type definitions
-`;
-    writeFileSync(`${process.cwd()}/CLAUDE.md`, claudeMdContent);
-    console.log('Created CLAUDE.md with AI agent instructions');
-
-    // Create AGENTS.md for other AI coding assistants
-    const agentsMdContent = `# AI Agent Instructions
-
-This application is created with the **Springboard framework**.
-
-## Before You Start
-
-Run this command to get comprehensive framework information:
-
-\`\`\`bash
-npx sb docs context
-\`\`\`
-
-This single command provides:
-- Framework overview and key concepts
-- Full list of available documentation sections with use cases
-- Recommended workflow for AI agents
-- Everything you need to start coding
-
-## Important
-
-Please lean on the \`sb docs\` commands to make sure the code you're writing is correct and uses the framework as intended.
-
-### Recommended Workflow
-
-1. **Start with context**: Run \`sb docs context\` (includes full docs list)
-2. **Write code**: Use your knowledge + the context from step 1
-3. **Fetch docs when needed**: Use \`sb docs get <section>\` for specific topics
-4. **View examples**: Use \`sb docs examples show <name>\` for reference code
-
-### Other Commands
-
-- \`sb docs --help\` - See all available commands
-- \`sb docs types\` - Get TypeScript type definitions
 - \`sb docs examples list\` - See available example modules
 `;
-    writeFileSync(`${process.cwd()}/AGENTS.md`, agentsMdContent);
-    console.log('Created AGENTS.md with AI agent instructions');
+    writeFileSync(`${process.cwd()}/CLAUDE.md`, agentDocsContent);
+    writeFileSync(`${process.cwd()}/AGENTS.md`, agentDocsContent);
+    console.log('Created CLAUDE.md and AGENTS.md with AI agent instructions');
 
     const packageJsonPath = `${process.cwd()}/package.json`;
     const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
