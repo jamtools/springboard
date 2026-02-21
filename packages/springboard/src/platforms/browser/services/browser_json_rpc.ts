@@ -27,6 +27,7 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
     private clientId = '';
     private ws?: ReconnectingWebSocket;
     private latestQueryParams?: Record<string, string>;
+    private onReconnectCallback?: () => void | Promise<void>;
 
     getClientId = () => {
         if (this.clientId) {
@@ -42,6 +43,10 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
         const newClientId = Math.random().toString().slice(2);
         this.clientId = newClientId;
         return this.clientId;
+    };
+
+    onReconnect = (callback: () => void | Promise<void>) => {
+        this.onReconnectCallback = callback;
     };
 
     registerRpc = <Args, Return>(method: string, cb: (args: Args) => Promise<Return>) => {
@@ -109,9 +114,10 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
         return new Promise<boolean>((resolve, _reject) => {
             let connected = false;
 
-            ws.onopen = () => {
+            ws.onopen = async () => {
+                const isReconnection = connected;
                 connected = true;
-                console.log('websocket connected');
+                console.log(isReconnection ? 'websocket reconnected' : 'websocket connected');
 
                 // conditionally use websockets if the rpc protocol is set to websocket
                 if (this.rpcProtocol === 'websocket') {
@@ -125,6 +131,12 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
                         }
                     });
                 }
+
+                // Call the reconnection callback to refresh KV values
+                if (isReconnection && this.onReconnectCallback) {
+                    await this.onReconnectCallback();
+                }
+
                 resolve(true);
             };
 

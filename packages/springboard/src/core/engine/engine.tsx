@@ -86,6 +86,14 @@ export class Springboard {
         });
         await this.remoteSharedStateService.initialize();
 
+        // Set up reconnection handler to refresh all KV values when websocket reconnects
+        if (this.coreDeps.rpc.remote.onReconnect) {
+            this.coreDeps.rpc.remote.onReconnect(async () => {
+                console.log('Refreshing all KV values after reconnection');
+                await this.remoteSharedStateService.refreshAll();
+            });
+        }
+
         const remoteSharedStateServiceFinishedTime = now();
         logPerformance(websocketConnectedTime, remoteSharedStateServiceFinishedTime, 'SharedStateService initialized');
 

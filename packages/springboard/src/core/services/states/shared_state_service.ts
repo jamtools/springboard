@@ -48,6 +48,29 @@ export class SharedStateService {
         }
     };
 
+    refreshAll = async () => {
+        const allValues = await this.props.kv.getAll();
+        if (allValues) {
+            for (const key of Object.keys(allValues)) {
+                const newValue = allValues[key];
+                const oldValue = this.getCachedValue(key);
+
+                // Update cached value
+                this.setCachedValue(key, newValue);
+
+                // Trigger subscriptions if value changed
+                if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                    const subscriptions = this.subscriptions[key];
+                    if (subscriptions) {
+                        for (const sub of subscriptions) {
+                            sub(newValue);
+                        }
+                    }
+                }
+            }
+        }
+    };
+
     subscribe = <Value>(key: string, cb: SubscribeCallback<Value>) => {
         this.subscriptions[key] = this.subscriptions[key] || [];
         this.subscriptions[key].push(cb);
