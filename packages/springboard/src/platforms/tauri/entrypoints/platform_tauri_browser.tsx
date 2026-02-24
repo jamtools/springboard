@@ -11,6 +11,7 @@ import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/ht
 import {Main} from '../../browser/entrypoints/main.js';
 // import {Main} from './main.js';
 import {BrowserKVStoreService} from '../../browser/services/browser_kvstore_service.js';
+import {BrowserSessionKVStoreService} from '../../browser/services/browser_session_kvstore_service.js';
 import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
 import {Springboard} from '../../../core/engine/engine.js';
 import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
@@ -35,6 +36,7 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
 
     // const kvStore = new BrowserKVStoreService(localStorage);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);
+    const sessionKVStore = new BrowserSessionKVStoreService(sessionStorage);
 
     // const kvStore = mockDeps.storage.remote;
     // const userAgentKVStore = mockDeps.storage.userAgent;
@@ -48,6 +50,7 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
         storage: {
             remote: kvStore,
             userAgent: userAgentKVStore,
+            session: sessionKVStore,
         },
         rpc: {
             remote: rpc,

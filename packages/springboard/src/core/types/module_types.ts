@@ -14,6 +14,7 @@ export type CoreDependencies = {
     storage: {
         remote: KVStore;
         userAgent: KVStore;
+        session?: KVStore;
     };
     rpc: {
         remote: Rpc;
@@ -60,5 +61,6 @@ export type ModuleDependencies = {
     services: {
         remoteSharedStateService: SharedStateService;
         localSharedStateService : SharedStateService;
+        sessionSharedStateService?: SharedStateService;
     };
 }
