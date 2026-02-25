@@ -5,6 +5,7 @@ dist
 site
 typedoc_docs
 kv.db
+kv-2.db
 .env
 kv_data.json
 
