@@ -7,56 +7,24 @@ import springboard from 'springboard';
 import {StateSupervisor} from 'springboard/services/states/shared_state_service';
 import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {MockMidiService} from '@jamtools/core/test/services/mock_midi_service';
-import {MockQwertyService} from '@jamtools/core/test/services/mock_qwerty_service';
 
-import {MidiService, QwertyService} from '@jamtools/core/types/io_types';
+import type {IoDeps} from './io_dependencies';
 
-type IoDeps = {
-    midi: MidiService;
-    qwerty: QwertyService;
-}
-
-let createIoDependencies = async (): Promise<IoDeps> => {
-    return {
-        qwerty: new MockQwertyService(),
-        midi: new MockMidiService(),
-    };
-};
+let createIoDependencies: () => Promise<IoDeps>;
 
 // @platform "browser"
-createIoDependencies = async () => {
-    const {BrowserQwertyService} = await import('@jamtools/core/services/browser/browser_qwerty_service');
-    const {BrowserMidiService} = await import('@jamtools/core/services/browser/browser_midi_service');
-
-    const qwerty = new BrowserQwertyService(document);
-    const midi = new BrowserMidiService();
-    return {
-        qwerty,
-        midi,
-    };
-};
+import {createIoDependencies as browserDeps} from './io_dependencies.browser';
+createIoDependencies = browserDeps;
 // @platform end
 
 // @platform "node"
-createIoDependencies = async () => {
-    if (process.env.DISABLE_IO === 'true') {
-        return {
-            qwerty: new MockQwertyService(),
-            midi: new MockMidiService(),
-        };
-    }
+import {createIoDependencies as nodeDeps} from './io_dependencies.node';
+createIoDependencies = nodeDeps;
+// @platform end
 
-    const {NodeQwertyService} = await import('@jamtools/core/services/node/node_qwerty_service');
-    const {NodeMidiService} = await import('@jamtools/core/services/node/node_midi_service');
-
-    const qwerty = new NodeQwertyService();
-    const midi = new NodeMidiService();
-    return {
-        qwerty,
-        midi,
-    };
-};
+// @platform "default"
+import {createIoDependencies as defaultDeps} from './io_dependencies';
+createIoDependencies = defaultDeps;
 // @platform end
 
 export const setIoDependencyCreator = (func: typeof createIoDependencies) => {
