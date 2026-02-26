@@ -50,6 +50,10 @@
       "types": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.d.ts",
       "import": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.js"
     },
+    "./modules/midi_files/midi_files_module": {
+      "types": "./dist/modules/midi_files/midi_files_module.d.ts",
+      "import": "./dist/modules/midi_files/midi_files_module.js"
+    },
     "./modules/macro_module/registered_macro_types": {
       "types": "./dist/modules/macro_module/registered_macro_types.d.ts",
       "import": "./dist/modules/macro_module/registered_macro_types.js"
