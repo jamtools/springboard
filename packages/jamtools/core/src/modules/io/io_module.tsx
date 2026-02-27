@@ -9,11 +9,16 @@ import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
 
 import type {IoDeps, CreateIoDependencies} from './io_dependencies_types';
-import {createIoDependencies} from './io_dependencies';
+import {createIoDependencies as defaultCreateIoDependencies} from './io_dependencies';
+
+// Wrapper object to allow mutation for testing
+const ioDepsConfig = {
+    createIoDependencies: defaultCreateIoDependencies
+};
 
 export const setIoDependencyCreator = (func: CreateIoDependencies) => {
     // This is used for testing to override the platform-specific implementation
-    (createIoDependencies as any) = func;
+    ioDepsConfig.createIoDependencies = func;
 };
 
 type IoState = {
@@ -73,7 +78,7 @@ export class IoModule implements Module<IoState> {
     };
 
     initialize = async (moduleAPI: ModuleAPI) => {
-        this.ioDeps = await createIoDependencies();
+        this.ioDeps = await ioDepsConfig.createIoDependencies();
 
         this.qwertyInputSubject = this.ioDeps.qwerty.onInputEvent;
         this.midiInputSubject = this.ioDeps.midi.onInputEvent;

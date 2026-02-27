@@ -4,7 +4,7 @@ services:
   verdaccio:
     image: verdaccio/verdaccio
     container_name: 'verdaccio'
-    network_mode: 'host'
+    # network_mode: 'host'
 #    networks:
 #      - verdaccio-network
     environment:

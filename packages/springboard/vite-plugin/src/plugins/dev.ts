@@ -244,7 +244,7 @@ export function springboardDev(options: NormalizedOptions): Plugin {
 
             // Check if the changed file is within the project root (excludes node_modules, etc.)
             // and is not a generated file (excludes .springboard/, dist/, etc.)
-            const isUserCode = isNodePlatformActive &&
+            const isUserCode = hasNode &&
                 file.startsWith(options.root) &&
                 !file.includes(path.sep + 'node_modules' + path.sep) &&
                 !file.includes(path.sep + '.springboard' + path.sep) &&
