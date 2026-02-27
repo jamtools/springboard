@@ -8,27 +8,12 @@ import {StateSupervisor} from 'springboard/services/states/shared_state_service'
 import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
 
-import type {IoDeps} from './io_dependencies';
+import type {IoDeps, CreateIoDependencies} from './io_dependencies_types';
+import {createIoDependencies} from './io_dependencies';
 
-let createIoDependencies: () => Promise<IoDeps>;
-
-// @platform "browser"
-import {createIoDependencies as browserDeps} from './io_dependencies.browser';
-createIoDependencies = browserDeps;
-// @platform end
-
-// @platform "node"
-import {createIoDependencies as nodeDeps} from './io_dependencies.node';
-createIoDependencies = nodeDeps;
-// @platform end
-
-// @platform "default"
-import {createIoDependencies as defaultDeps} from './io_dependencies';
-createIoDependencies = defaultDeps;
-// @platform end
-
-export const setIoDependencyCreator = (func: typeof createIoDependencies) => {
-    createIoDependencies = func;
+export const setIoDependencyCreator = (func: CreateIoDependencies) => {
+    // This is used for testing to override the platform-specific implementation
+    (createIoDependencies as any) = func;
 };
 
 type IoState = {
