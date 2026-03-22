@@ -12,29 +12,13 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { Readable, type Duplex } from 'node:stream';
+import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 
 const FALLBACK_HEADER = 'x-springboard-fallback';
 
-// Vite 6+ types (not available in Vite 5 types but available at runtime with Vite 6+)
 type ModuleRunner = {
     import: <TModule>(url: string) => Promise<TModule>;
     close: () => void;
-};
-
-type ModuleGraph = {
-    getModuleById: (id: string) => { id: string } | null;
-    getModuleByUrl?: (url: string) => { id: string } | null;
-    invalidateModule: (mod: { id: string }) => void;
-};
-
-type ViteEnvironments = {
-    ssr: {
-        moduleGraph: ModuleGraph;
-    };
-};
-
-type ViteDevServerWithEnvironments = ViteDevServer & {
-    environments: ViteEnvironments;
 };
 
 type WsAdapter = {
@@ -50,6 +34,10 @@ type DevServerHandle = {
 
 type DevServerModule = {
     createDevServer: () => Promise<DevServerHandle> | DevServerHandle;
+};
+
+type RequestInitWithDuplex = RequestInit & {
+    duplex?: 'half';
 };
 
 /**
@@ -86,12 +74,14 @@ const createRequestFromNode = (req: IncomingMessage): Request => {
     const method = req.method ?? 'GET';
     const hasBody = method !== 'GET' && method !== 'HEAD';
     if (hasBody) {
-        return new Request(url, {
+        const requestBody = Readable.toWeb(req) as unknown as BodyInit;
+        const requestInit: RequestInitWithDuplex = {
             method,
             headers,
-            body: Readable.toWeb(req),
+            body: requestBody,
             duplex: 'half',
-        });
+        };
+        return new Request(url, requestInit);
     }
 
     return new Request(url, { method, headers });
@@ -123,7 +113,8 @@ const applyResponseToNode = async (res: ServerResponse, response: Response, meth
         return;
     }
 
-    const body = Readable.fromWeb(response.body);
+    const webStream = response.body as unknown as NodeReadableStream<Uint8Array>;
+    const body = Readable.fromWeb(webStream);
     body.on('error', (err) => {
         res.destroy(err);
     });
@@ -135,7 +126,7 @@ const applyResponseToNode = async (res: ServerResponse, response: Response, meth
  */
 export function springboardDev(options: NormalizedOptions): Plugin {
     const logger = createLogger('dev', options.debug);
-    let server: ViteDevServerWithEnvironments | null = null;
+    let server: ViteDevServer | null = null;
     let runner: ModuleRunner | null = null;
     let currentFetch: ((request: Request) => Promise<Response>) | null = null;
     let currentWs: WsAdapter | null = null;
@@ -172,7 +163,7 @@ export function springboardDev(options: NormalizedOptions): Plugin {
          * Configure the dev server
          */
         async configureServer(devServer: ViteDevServer) {
-            server = devServer as ViteDevServerWithEnvironments;
+            server = devServer;
 
             logger.info(`Dev server starting for platform: ${options.platform}`);
 
@@ -224,7 +215,7 @@ export function springboardDev(options: NormalizedOptions): Plugin {
 
             const startServer = async () => {
                 const viteModule = await import('vite') as unknown as {
-                    createServerModuleRunner: (env: ViteEnvironments['ssr']) => ModuleRunner;
+                    createServerModuleRunner: (env: ViteDevServer['environments']['ssr']) => ModuleRunner;
                 };
 
                 runner = viteModule.createServerModuleRunner(server!.environments.ssr);
@@ -301,14 +292,19 @@ export function springboardDev(options: NormalizedOptions): Plugin {
             });
 
             devServer.watcher.on('change', (file) => {
-                const ssrModule = server?.environments.ssr.moduleGraph.getModuleById(file)
-                    ?? server?.environments.ssr.moduleGraph.getModuleByUrl?.(file)
-                    ?? null;
-                if (!ssrModule) {
+                const ssrModuleGraph = server?.environments.ssr.moduleGraph;
+                if (!ssrModuleGraph) {
                     return;
                 }
 
-                server?.environments.ssr.moduleGraph.invalidateModule(ssrModule);
+                const changedModules = ssrModuleGraph.getModulesByFile(file);
+                if (!changedModules || changedModules.size === 0) {
+                    return;
+                }
+
+                for (const moduleNode of changedModules) {
+                    ssrModuleGraph.invalidateModule(moduleNode);
+                }
                 void reloadServer();
             });
         },
