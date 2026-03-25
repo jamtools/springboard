@@ -69,7 +69,6 @@ type PlatformKey = 'node' | 'browser' | 'web';
 
 const FALLBACK_HEADER = 'x-springboard-fallback';
 const SPRINGBOARD_GENERATED_DIR = path.join('node_modules', '.springboard');
-const SPRINGBOARD_PUBLIC_PREFIX = '/.springboard';
 
 const createRequestFromNode = (req: IncomingMessage): Request => {
   const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
@@ -202,14 +201,15 @@ export function springboard(options: SpringboardOptions): PluginOption {
   );
 
   // Generate HTML for dev and build modes
-  const generateHtml = (): string => {
+  const generateHtml = (entryScriptSrc: string): string => {
     const meta = options.documentMeta || {};
     const title = meta.title || 'Springboard App';
     const description = meta.description || '';
 
     return htmlTemplate
       .replace('{{TITLE}}', title)
-      .replace('{{DESCRIPTION_META}}', description ? `<meta name="description" content="${description}">` : '');
+      .replace('{{DESCRIPTION_META}}', description ? `<meta name="description" content="${description}">` : '')
+      .replace('{{ENTRY_SCRIPT_SRC}}', entryScriptSrc);
   };
 
   // Load entry templates
@@ -261,10 +261,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
         writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
 
         // Generate HTML file at project root that references the web entry (relative path for Vite processing)
-        const buildHtml = generateHtml().replace(
-          `${SPRINGBOARD_PUBLIC_PREFIX}/web-entry.js`,
-          `./${SPRINGBOARD_GENERATED_DIR}/web-entry.js`
-        );
+        const buildHtml = generateHtml(`./${SPRINGBOARD_GENERATED_DIR}/web-entry.js`);
         writeFileSync(WEB_HTML_FILE, buildHtml, 'utf-8');
 
         console.log('[springboard] Generated web entry file in node_modules/.springboard/');
@@ -424,24 +421,6 @@ export function springboard(options: SpringboardOptions): PluginOption {
         }
       });
 
-      server.middlewares.use(async (req, res, next) => {
-        if (!req.url?.startsWith(`${SPRINGBOARD_PUBLIC_PREFIX}/`)) {
-          next();
-          return;
-        }
-
-        try {
-          const fileName = req.url.slice(`${SPRINGBOARD_PUBLIC_PREFIX}/`.length);
-          const filePath = path.join(SPRINGBOARD_DIR, fileName);
-          const contents = await import('node:fs/promises').then((fs) => fs.readFile(filePath, 'utf-8'));
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'text/javascript');
-          res.end(contents);
-        } catch (err) {
-          next(err as Error);
-        }
-      });
-
       server.httpServer?.on('upgrade', (req, socket, head) => {
         if (!currentWs) {
           return;
@@ -464,10 +443,11 @@ export function springboard(options: SpringboardOptions): PluginOption {
         // Serve HTML for / and /index.html
         server.middlewares.use((req, res, next) => {
           if (req.url === '/' || req.url === '/index.html') {
+            const devEntrySrc = `/@fs/${WEB_ENTRY_FILE.split(path.sep).join('/')}`;
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/html');
             // Let Vite transform the HTML (for HMR injection)
-            server.transformIndexHtml(req.url, generateHtml()).then(transformed => {
+            server.transformIndexHtml(req.url, generateHtml(devEntrySrc)).then(transformed => {
               res.end(transformed);
             }).catch(next);
             return;
@@ -527,12 +507,6 @@ export function springboard(options: SpringboardOptions): PluginOption {
     },
 
     transformIndexHtml(html, ctx) {
-      // Only transform HTML in dev mode - in build mode, use the generated file
-      if (ctx.server) {
-        // Dev mode: generate HTML dynamically
-        return generateHtml();
-      }
-      // Build mode: return the HTML as-is (already generated in buildStart)
       return html;
     },
   };
