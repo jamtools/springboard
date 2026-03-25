@@ -4,6 +4,13 @@ import springboard from 'springboard';
 
 // @platform "node"
 console.log('only in node');
+
+import {serverRegistry} from 'springboard/server/register'
+serverRegistry.registerServerModule(api => {
+    api.hono.get('/yeah', async (req) => {
+        return new Response('Oh yeah');
+    });
+});
 // @platform end
 
 // @platform "browser"
@@ -59,10 +66,7 @@ const checkForWinner = (board: Board): Winner => {
     return null;
 };
 
-console.log('yeah2')
-
 springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
-    console.log('yeah')
     const boardState = await moduleAPI.statesAPI.createPersistentState<Board>('board_v5', initialBoard);
     const winnerState = await moduleAPI.statesAPI.createPersistentState<Winner>('winner', null);
     const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});

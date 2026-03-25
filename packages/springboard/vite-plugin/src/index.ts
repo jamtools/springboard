@@ -333,6 +333,110 @@ export function springboard(options: SpringboardOptions): PluginOption {
     },
 
     configureServer(server: ViteDevServer) {
+      let runner: ModuleRunner | null = null;
+      let currentFetch: ((request: Request) => Promise<Response>) | null = null;
+      let currentWs: WsAdapter | null = null;
+      let currentDispose: (() => Promise<void> | void) | null = null;
+      let reloadInFlight: Promise<void> | null = null;
+
+      const stopDevServer = async () => {
+        if (currentDispose) {
+          await currentDispose();
+        }
+        if (currentWs) {
+          currentWs.closeAll();
+        }
+        currentFetch = null;
+        currentWs = null;
+        currentDispose = null;
+        if (runner) {
+          runner.close();
+          runner = null;
+        }
+      };
+
+      const startDevServer = async () => {
+        try {
+          const viteModule = await import('vite') as unknown as {
+            createServerModuleRunner: (env: ViteDevServerWithEnvironments['environments']['ssr']) => ModuleRunner;
+          };
+
+          const serverWithEnv = server as ViteDevServerWithEnvironments;
+          runner = viteModule.createServerModuleRunner(serverWithEnv.environments.ssr);
+
+          const mod = await runner.import<DevServerModule>(NODE_DEV_ENTRY_FILE);
+          if (!mod || typeof mod.createDevServer !== 'function') {
+            console.error('[springboard] Node dev entry does not export createDevServer()');
+            return;
+          }
+
+          const handle = await mod.createDevServer();
+          currentFetch = handle.fetch;
+          currentWs = handle.ws ?? null;
+          currentDispose = handle.dispose ?? null;
+        } catch (err) {
+          console.error('[springboard] Failed to start node dev server:', err);
+        }
+      };
+
+      const reloadDevServer = async () => {
+        if (reloadInFlight) {
+          return reloadInFlight;
+        }
+
+        reloadInFlight = (async () => {
+          await stopDevServer();
+          await startDevServer();
+        })();
+
+        try {
+          await reloadInFlight;
+        } finally {
+          reloadInFlight = null;
+        }
+
+        return undefined;
+      };
+
+      server.middlewares.use(async (req, res, next) => {
+        if (!currentFetch) {
+          next();
+          return;
+        }
+
+        try {
+          const request = createRequestFromNode(req);
+          const response = await currentFetch(request);
+
+          if (response.headers.get(FALLBACK_HEADER) === '1') {
+            next();
+            return;
+          }
+
+          await applyResponseToNode(res, response, request.method);
+        } catch (err) {
+          next(err as Error);
+        }
+      });
+
+      server.httpServer?.on('upgrade', (req, socket, head) => {
+        if (!currentWs) {
+          return;
+        }
+
+        const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+        if (url.pathname !== '/ws') {
+          return;
+        }
+
+        void currentWs.handleUpgrade(req, socket, head);
+      });
+
+      // Clean up when Vite dev server closes
+      server.httpServer?.on('close', () => {
+        void stopDevServer();
+      });
+
       return async () => {
         // Serve HTML for / and /index.html
         server.middlewares.use((req, res, next) => {
@@ -368,111 +472,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
         writeFileSync(NODE_DEV_ENTRY_FILE, nodeDevEntryCode, 'utf-8');
         console.log('[springboard] Generated node dev entry file for single-port mode');
 
-        let runner: ModuleRunner | null = null;
-        let currentFetch: ((request: Request) => Promise<Response>) | null = null;
-        let currentWs: WsAdapter | null = null;
-        let currentDispose: (() => Promise<void> | void) | null = null;
-        let reloadInFlight: Promise<void> | null = null;
-
-        const stopDevServer = async () => {
-          if (currentDispose) {
-            await currentDispose();
-          }
-          if (currentWs) {
-            currentWs.closeAll();
-          }
-          currentFetch = null;
-          currentWs = null;
-          currentDispose = null;
-          if (runner) {
-            runner.close();
-            runner = null;
-          }
-        };
-
-        const startDevServer = async () => {
-          try {
-            const viteModule = await import('vite') as unknown as {
-              createServerModuleRunner: (env: ViteDevServerWithEnvironments['environments']['ssr']) => ModuleRunner;
-            };
-
-            const serverWithEnv = server as ViteDevServerWithEnvironments;
-            runner = viteModule.createServerModuleRunner(serverWithEnv.environments.ssr);
-
-            const mod = await runner.import<DevServerModule>(NODE_DEV_ENTRY_FILE);
-            if (!mod || typeof mod.createDevServer !== 'function') {
-              console.error('[springboard] Node dev entry does not export createDevServer()');
-              return;
-            }
-
-            const handle = await mod.createDevServer();
-            currentFetch = handle.fetch;
-            currentWs = handle.ws ?? null;
-            currentDispose = handle.dispose ?? null;
-          } catch (err) {
-            console.error('[springboard] Failed to start node dev server:', err);
-          }
-        };
-
-        const reloadDevServer = async () => {
-          if (reloadInFlight) {
-            return reloadInFlight;
-          }
-
-          reloadInFlight = (async () => {
-            await stopDevServer();
-            await startDevServer();
-          })();
-
-          try {
-            await reloadInFlight;
-          } finally {
-            reloadInFlight = null;
-          }
-
-          return undefined;
-        };
-
         await startDevServer();
-
-        server.middlewares.use(async (req, res, next) => {
-          if (!currentFetch) {
-            next();
-            return;
-          }
-
-          try {
-            const request = createRequestFromNode(req);
-            const response = await currentFetch(request);
-
-            if (response.headers.get(FALLBACK_HEADER) === '1') {
-              next();
-              return;
-            }
-
-            await applyResponseToNode(res, response, request.method);
-          } catch (err) {
-            next(err as Error);
-          }
-        });
-
-        server.httpServer?.on('upgrade', (req, socket, head) => {
-          if (!currentWs) {
-            return;
-          }
-
-          const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
-          if (url.pathname !== '/ws') {
-            return;
-          }
-
-          void currentWs.handleUpgrade(req, socket, head);
-        });
-
-        // Clean up when Vite dev server closes
-        server.httpServer?.on('close', () => {
-          void stopDevServer();
-        });
 
         server.watcher.on('change', (file) => {
           const ssrModuleGraph = server.environments.ssr.moduleGraph;
