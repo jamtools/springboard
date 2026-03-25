@@ -12,7 +12,8 @@
     "build:web": "SPRINGBOARD_PLATFORM=web vite build",
     "build:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
     "dev": "vite",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "start": "node dist/node/node-entry.mjs"
   },
   "engines": {
     "node": ">=20.0.0"
