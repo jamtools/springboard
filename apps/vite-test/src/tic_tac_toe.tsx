@@ -60,6 +60,7 @@ const checkForWinner = (board: Board): Winner => {
 };
 
 springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
+    console.log('yeah')
     const boardState = await moduleAPI.statesAPI.createPersistentState<Board>('board_v5', initialBoard);
     const winnerState = await moduleAPI.statesAPI.createPersistentState<Winner>('winner', null);
     const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});
