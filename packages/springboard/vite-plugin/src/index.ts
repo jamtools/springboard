@@ -68,6 +68,8 @@ type RequestInitWithDuplex = RequestInit & {
 type PlatformKey = 'node' | 'browser' | 'web';
 
 const FALLBACK_HEADER = 'x-springboard-fallback';
+const SPRINGBOARD_GENERATED_DIR = path.join('node_modules', '.springboard');
+const SPRINGBOARD_PUBLIC_PREFIX = '/.springboard';
 
 const createRequestFromNode = (req: IncomingMessage): Request => {
   const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
@@ -170,7 +172,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
   // When running from dist/, we need to go up one level and into src/templates/
   const templatesDir = path.resolve(currentDir, '../src/templates');
 
-  // Helper to get project root (where .springboard/ will be created)
+  // Helper to get project root (where node_modules/.springboard/ will be created)
   const getProjectRoot = () => {
     // __dirname would be the test app directory in dev, or node_modules in production
     // We need to find the actual project root
@@ -187,7 +189,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
     const platformKey = platform === 'browser' ? 'browser' : 'node';
     return options.entry[platformKey] ?? options.entry.web ?? options.entry.browser ?? options.entry.node;
   };
-  const SPRINGBOARD_DIR = path.resolve(projectRoot, '.springboard');
+  const SPRINGBOARD_DIR = path.resolve(projectRoot, SPRINGBOARD_GENERATED_DIR);
   const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
   const WEB_HTML_FILE = path.join(projectRoot, 'index.html'); // At project root for Vite
   const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.ts');
@@ -236,7 +238,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
     },
 
     buildStart() {
-      // Create .springboard directory if it doesn't exist
+      // Create node_modules/.springboard directory if it doesn't exist
       if (!existsSync(SPRINGBOARD_DIR)) {
         mkdirSync(SPRINGBOARD_DIR, { recursive: true });
       }
@@ -244,13 +246,13 @@ export function springboard(options: SpringboardOptions): PluginOption {
       // Generate physical entry files based on platform
       const buildPlatform = hasWeb ? 'browser' : hasNode ? 'node' : null;
 
-      // Calculate the correct import path from .springboard/ to the user's entry file
+      // Calculate the correct import path from node_modules/.springboard/ to the user's entry file
       const platformEntry = resolveEntry(buildPlatform ?? 'browser');
       const absoluteEntryPath = path.isAbsolute(platformEntry)
         ? platformEntry
         : path.resolve(projectRoot, platformEntry);
 
-      // Then calculate the relative path from .springboard/ to the entry file
+      // Then calculate the relative path from node_modules/.springboard/ to the entry file
       const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
 
       if (buildPlatform === 'browser') {
@@ -259,10 +261,13 @@ export function springboard(options: SpringboardOptions): PluginOption {
         writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
 
         // Generate HTML file at project root that references the web entry (relative path for Vite processing)
-        const buildHtml = generateHtml().replace('/.springboard/dev-entry.js', './.springboard/web-entry.js');
+        const buildHtml = generateHtml().replace(
+          `${SPRINGBOARD_PUBLIC_PREFIX}/web-entry.js`,
+          `./${SPRINGBOARD_GENERATED_DIR}/web-entry.js`
+        );
         writeFileSync(WEB_HTML_FILE, buildHtml, 'utf-8');
 
-        console.log('[springboard] Generated web entry file in .springboard/');
+        console.log('[springboard] Generated web entry file in node_modules/.springboard/');
       } else if (buildPlatform === 'node') {
         // Generate node entry file with user entry injected and port configured
         const port = options.nodeServerPort ?? 1337;
@@ -271,7 +276,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
           .replace('__PORT__', String(port));
         writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
 
-        console.log('[springboard] Generated node entry file in .springboard/');
+        console.log('[springboard] Generated node entry file in node_modules/.springboard/');
       }
     },
 
@@ -419,6 +424,24 @@ export function springboard(options: SpringboardOptions): PluginOption {
         }
       });
 
+      server.middlewares.use(async (req, res, next) => {
+        if (!req.url?.startsWith(`${SPRINGBOARD_PUBLIC_PREFIX}/`)) {
+          next();
+          return;
+        }
+
+        try {
+          const fileName = req.url.slice(`${SPRINGBOARD_PUBLIC_PREFIX}/`.length);
+          const filePath = path.join(SPRINGBOARD_DIR, fileName);
+          const contents = await import('node:fs/promises').then((fs) => fs.readFile(filePath, 'utf-8'));
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'text/javascript');
+          res.end(contents);
+        } catch (err) {
+          next(err as Error);
+        }
+      });
+
       server.httpServer?.on('upgrade', (req, socket, head) => {
         if (!currentWs) {
           return;
@@ -461,7 +484,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
           mkdirSync(SPRINGBOARD_DIR, { recursive: true });
         }
 
-        // Calculate the correct import path from .springboard/ to the user's entry file
+        // Calculate the correct import path from node_modules/.springboard/ to the user's entry file
         const platformEntry = resolveEntry('node');
         const absoluteEntryPath = path.isAbsolute(platformEntry)
           ? platformEntry

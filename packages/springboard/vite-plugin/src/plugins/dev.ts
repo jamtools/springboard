@@ -185,7 +185,7 @@ export function springboardDev(options: NormalizedOptions): Plugin {
                 return;
             }
 
-            const springboardDir = path.resolve(options.root, '.springboard');
+            const springboardDir = path.resolve(options.root, 'node_modules', '.springboard');
             const nodeDevEntryFile = path.join(springboardDir, 'node-dev-entry.ts');
 
             if (!existsSync(springboardDir)) {
