@@ -34,6 +34,14 @@ const registerServerModule = (
 };
 
 export type ServerModuleRegistry = {
+    /**
+     * Register server routes and server-scoped hooks.
+     *
+     * Server modules may attach route handlers and RPC middleware, but should
+     * not replace global Hono fallback behavior such as `notFound()`.
+     * Development mode relies on the framework-owned fallback remaining intact
+     * so browser requests can fall through to Vite when no server route matches.
+     */
     registerServerModule: (
         cb: ServerModuleCallback,
     ) => void;
