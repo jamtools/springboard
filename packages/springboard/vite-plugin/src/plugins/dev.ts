@@ -147,6 +147,10 @@ export function springboardDev(options: NormalizedOptions): Plugin {
         config() {
             if (hasNode || hasBrowser) {
                 return {
+                    server: {
+                        perEnvironmentStartEndDuringDev: true,
+                        perEnvironmentWatchChangeDuringDev: true,
+                    },
                     ssr: {
                         // noExternal fixes missing .js extensions in springboard imports
                         noExternal: ['springboard'],

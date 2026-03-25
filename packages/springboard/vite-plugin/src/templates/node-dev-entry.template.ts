@@ -20,15 +20,15 @@ export type DevServerHandle = {
   dispose: () => Promise<void>;
 };
 
+springboard.reset();
+clearRegisteredModules();
+clearRegisteredClassModules();
+clearRegisteredSplashScreen();
+resetServerRegistry();
+
+await import('__USER_ENTRY__');
+
 export async function createDevServer(): Promise<DevServerHandle> {
-  springboard.reset();
-  clearRegisteredModules();
-  clearRegisteredClassModules();
-  clearRegisteredSplashScreen();
-  resetServerRegistry();
-
-  await import('__USER_ENTRY__');
-
   const nodeKvDeps = await makeWebsocketServerCoreDependenciesWithSqlite();
   const useWebSocketsForRpc = import.meta.env.VITE_USE_WEBSOCKETS_FOR_RPC === 'true';
 
