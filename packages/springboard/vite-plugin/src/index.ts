@@ -25,7 +25,7 @@
 
 import { PluginOption, ViteDevServer } from 'vite';
 import * as path from 'path';
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, unlinkSync } from 'fs';
 import { fileURLToPath } from 'url';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { Readable, type Duplex } from 'node:stream';
@@ -134,7 +134,7 @@ const applyResponseToNode = async (res: ServerResponse, response: Response, meth
 };
 
 export type SpringboardOptions = {
-  entry: string | Record<PlatformKey, string>;
+  entry: string | Partial<Record<PlatformKey, string>>;
   documentMeta?: Record<string, string>;
   /** Port for the node dev server (default: 1337) */
   nodeServerPort?: number;
@@ -163,6 +163,8 @@ export function springboard(options: SpringboardOptions): PluginOption {
 
   // Track whether we're in dev mode (set by config hook)
   let isDevMode = false;
+  let originalWebHtml: string | null | undefined;
+  let generatedWebHtml = false;
 
   // Get the directory where this file is located (will be in dist/ when built)
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
@@ -180,13 +182,17 @@ export function springboard(options: SpringboardOptions): PluginOption {
 
   const projectRoot = getProjectRoot();
 
-  const resolveEntry = (platform: 'node' | 'browser') => {
+  const resolveEntry = (platform: 'node' | 'browser'): string => {
     if (typeof options.entry === 'string') {
       return options.entry;
     }
 
     const platformKey = platform === 'browser' ? 'browser' : 'node';
-    return options.entry[platformKey] ?? options.entry.web ?? options.entry.browser ?? options.entry.node;
+    const entry = options.entry[platformKey] ?? options.entry.web ?? options.entry.browser ?? options.entry.node;
+    if (!entry) {
+      throw new Error(`No entry configured for Springboard ${platform} platform`);
+    }
+    return entry;
   };
   const SPRINGBOARD_DIR = path.resolve(projectRoot, SPRINGBOARD_GENERATED_DIR);
   const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
@@ -225,6 +231,20 @@ export function springboard(options: SpringboardOptions): PluginOption {
     path.join(templatesDir, 'node-dev-entry.template.ts'),
     'utf-8'
   );
+  const restoreGeneratedWebHtml = () => {
+    if (!generatedWebHtml || isDevMode) {
+      return;
+    }
+
+    if (typeof originalWebHtml === 'string') {
+      writeFileSync(WEB_HTML_FILE, originalWebHtml, 'utf-8');
+    } else if (originalWebHtml === null && existsSync(WEB_HTML_FILE)) {
+      unlinkSync(WEB_HTML_FILE);
+    }
+
+    generatedWebHtml = false;
+    originalWebHtml = undefined;
+  };
 
   return {
     name: 'springboard',
@@ -261,8 +281,12 @@ export function springboard(options: SpringboardOptions): PluginOption {
         writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
 
         // Generate HTML file at project root that references the web entry (relative path for Vite processing)
+        if (!generatedWebHtml) {
+          originalWebHtml = existsSync(WEB_HTML_FILE) ? readFileSync(WEB_HTML_FILE, 'utf-8') : null;
+        }
         const buildHtml = generateHtml(`./${SPRINGBOARD_GENERATED_DIR}/web-entry.js`);
         writeFileSync(WEB_HTML_FILE, buildHtml, 'utf-8');
+        generatedWebHtml = true;
 
         console.log('[springboard] Generated web entry file in node_modules/.springboard/');
       } else if (buildPlatform === 'node') {
@@ -277,9 +301,21 @@ export function springboard(options: SpringboardOptions): PluginOption {
       }
     },
 
+    writeBundle() {
+      restoreGeneratedWebHtml();
+    },
+
+    closeBundle() {
+      restoreGeneratedWebHtml();
+    },
+
     config(config, env) {
       // Set dev mode flag based on Vite's command
       isDevMode = env.command === 'serve';
+
+      const existingOutput = Array.isArray(config.build?.rollupOptions?.output)
+        ? config.build?.rollupOptions?.output[0] ?? {}
+        : config.build?.rollupOptions?.output ?? {};
 
       if (isDevMode && hasNode) {
         return {
@@ -313,8 +349,9 @@ export function springboard(options: SpringboardOptions): PluginOption {
             rollupOptions: {
               input: NODE_ENTRY_FILE, // Physical file path
               output: {
-                format: 'esm',
-                entryFileNames: 'node-entry.mjs',
+                ...existingOutput,
+                format: existingOutput.format ?? 'esm',
+                entryFileNames: existingOutput.entryFileNames ?? 'node-entry.mjs',
               },
               external: [
                 'better-sqlite3',
