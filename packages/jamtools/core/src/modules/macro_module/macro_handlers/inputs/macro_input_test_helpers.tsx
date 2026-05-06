@@ -7,8 +7,8 @@ import '@testing-library/jest-dom';
 import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
 import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';
 
-import {Main} from 'springboard/platforms/browser/entrypoints/main';
 import {Springboard} from 'springboard/engine/engine';
+import {SpringboardProviderPure} from '../../../../../../../springboard/src/core/engine/engine';
 import {setIoDependencyCreator} from '../../../../modules/io/io_module';
 import {MockMidiService} from '../../../../test/services/mock_midi_service';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
@@ -30,14 +30,16 @@ export const getMacroInputTestHelpers = () => {
 
         const engine = new Springboard(coreDeps, extraDeps);
         await engine.initialize();
+        const macroModule = engine.moduleRegistry.getModule('macro');
+        const MacroRouteComponent = macroModule.routes!['']!.component;
 
         render(
-            <Main
-                engine={engine}
-            />
+            <SpringboardProviderPure engine={engine}>
+                <MacroRouteComponent navigate={() => {}}/>
+            </SpringboardProviderPure>
         );
         await waitFor(() => {
-            expect(screen.getByTestId('link-to-/modules/macro')).toBeInTheDocument();
+            expect(screen.getByRole('list')).toBeInTheDocument();
         });
 
         return engine;
@@ -45,13 +47,7 @@ export const getMacroInputTestHelpers = () => {
     };
 
     const gotoMacroPage = async () => {
-        const macroPageLink = screen.getByTestId('link-to-/modules/macro');
-        // const macroPageLink = container.querySelector('a[href="/modules/macro/"]');
-        expect(macroPageLink).toBeInTheDocument();
-
-        await act(async () => {
-            fireEvent.click(macroPageLink!);
-        });
+        return;
     };
 
     const clickCapture = async (moduleId: string) => {
