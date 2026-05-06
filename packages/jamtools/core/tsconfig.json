@@ -25,6 +25,7 @@
     "jsx": "react-jsx",
     "types": ["node"],
     "paths": {
+      "@jamtools/core/modules": ["./src/modules/index.ts"],
       "@jamtools/core/*": ["./src/*"],
     },
   },

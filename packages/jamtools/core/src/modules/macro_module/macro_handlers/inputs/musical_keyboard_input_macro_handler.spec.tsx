@@ -4,7 +4,7 @@ import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
 import '../../../../modules';
-import springboard, {Springboard} from 'springboard';
+import {Springboard} from 'springboard';
 
 import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
@@ -21,7 +21,6 @@ import '../../macro_handlers';
 
 describe('MusicalKeyboardInputMacroHandler', () => {
     beforeEach(() => {
-        springboard.reset();
         macroTypeRegistry.reset();
     });
 

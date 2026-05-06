@@ -1,4 +1,4 @@
-import '@jamtools/core/modules';
+import '../index';
 
 import {Springboard} from 'springboard/engine/engine';
 import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';

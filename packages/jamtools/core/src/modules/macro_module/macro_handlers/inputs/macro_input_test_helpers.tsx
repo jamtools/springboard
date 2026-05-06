@@ -1,6 +1,6 @@
 import React, {act} from 'react';
 
-import {fireEvent, render, within} from '@testing-library/react';
+import {fireEvent, render, within, waitFor} from '@testing-library/react';
 import {Subject} from 'rxjs';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
@@ -29,24 +29,16 @@ export const getMacroInputTestHelpers = () => {
         });
 
         const engine = new Springboard(coreDeps, extraDeps);
+        await engine.initialize();
 
-        const { container } = render(
+        render(
             <Main
                 engine={engine}
             />
-            // <div id='yup'/>
         );
-
-        // screen.debug();
-
-        // const { container } = render(<MyComponent />);
-
-
-        // await engine.initialize();
-        await act(async () => {
-            await new Promise(r => setTimeout(r, 10));
+        await waitFor(() => {
+            expect(screen.getByTestId('link-to-/modules/macro')).toBeInTheDocument();
         });
-        await new Promise(r => setTimeout(r, 10));
 
         return engine;
 
