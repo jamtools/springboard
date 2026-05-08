@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 
-import springboard from '../../../core/engine/register.js';
+import springboard, {SpringboardDescriptor, SpringboardRegistry} from '../../../core/engine/register.js';
 import {Springboard} from '../../../core/engine/engine.js';
 
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
@@ -27,10 +27,9 @@ const storedOnMessageFromRN = (message: string) => {
 
 // }
 
-import {SpringboardRegistry} from '../../../core/engine/register.js';
 import {AsyncStorageDependency} from '../services/kv/kv_rn_and_webview.js';
 
-type ApplicationEntrypoint = (registry: SpringboardRegistry) => void;
+type ApplicationEntrypoint = ((registry: SpringboardRegistry) => void) | SpringboardDescriptor;
 
 export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringboardEngineProps) => {
     const [engineAndMessageCallback, setEngineAndMessageCallback] = useState<{engine: Springboard; handleMessageFromWebview: (message: string) => void} | null>(null);
@@ -47,7 +46,15 @@ export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringb
 
             springboard.reset();
             try {
-                props.applicationEntrypoint(springboard);
+                if (typeof props.applicationEntrypoint === 'function') {
+                    props.applicationEntrypoint(springboard);
+                } else {
+                    const localEngine = createRNMainEngine({remoteRpc, remoteKv, onMessageFromRN: props.onMessageFromRN, asyncStorageDependency: props.asyncStorageDependency});
+                    localEngine.engine.registerDescriptor(props.applicationEntrypoint);
+                    await localEngine.engine.initialize();
+                    setEngineAndMessageCallback(localEngine);
+                    return;
+                }
             } catch (e) {
                 console.error(e);
                 throw e;

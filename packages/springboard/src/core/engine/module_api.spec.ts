@@ -25,4 +25,46 @@ describe('ModuleAPI', () => {
         await mod.api.state.setState({yep: 'nah'});
         expect(mod.api.state.getState()).toEqual({yep: 'nah'});
     });
+
+    it('should initialize a defined module descriptor', async () => {
+        const coreDeps = makeMockCoreDependencies({store: {}});
+        const extraDeps = makeMockExtraDependences();
+
+        const engine = new Springboard(coreDeps, extraDeps);
+        engine.registerDescriptor(springboard.defineModule('DefinedModule', {}, async () => {
+            return {
+                routes: {
+                    '': {
+                        component: () => null,
+                    },
+                },
+            };
+        }));
+
+        await engine.initialize();
+
+        expect(engine.moduleRegistry.getModule('DefinedModule' as never)).toBeTruthy();
+    });
+
+    it('should initialize modules registered through an entrypoint descriptor in order', async () => {
+        const coreDeps = makeMockCoreDependencies({store: {}});
+        const extraDeps = makeMockExtraDependences();
+        const initialized: string[] = [];
+
+        const engine = new Springboard(coreDeps, extraDeps);
+        engine.registerDescriptor(springboard.entrypoint(({register}) => {
+            register(springboard.defineModule('First', {}, async () => {
+                initialized.push('First');
+                return {};
+            }));
+            register(springboard.defineModule('Second', {}, async () => {
+                initialized.push('Second');
+                return {};
+            }));
+        }));
+
+        await engine.initialize();
+
+        expect(initialized).toEqual(['First', 'Second']);
+    });
 });

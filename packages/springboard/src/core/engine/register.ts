@@ -16,6 +16,34 @@ Promise<ModuleReturnValue> | ModuleReturnValue;
 export type ClassModuleCallback<T extends object> = (coreDeps: CoreDependencies, modDependencies: ModuleDependencies) =>
 Promise<Module<T>> | Module<T>;
 
+export type RegisterModuleOptions = {
+    rpcMode?: 'remote' | 'local';
+};
+
+export type DefinedModuleDescriptor<ModuleReturnValue extends object = object> = {
+    kind: 'defineModule';
+    moduleId: string;
+    options: RegisterModuleOptions;
+    initialize: ModuleCallback<ModuleReturnValue>;
+};
+
+export type SpringboardEntrypointComposer = {
+    register: (descriptor: SpringboardDescriptor) => void;
+};
+
+export type SpringboardEntrypointCallback = (
+    composer: SpringboardEntrypointComposer,
+) => void;
+
+export type SpringboardEntrypointDescriptor = {
+    kind: 'entrypoint';
+    initialize: SpringboardEntrypointCallback;
+};
+
+export type SpringboardDescriptor =
+    | DefinedModuleDescriptor
+    | SpringboardEntrypointDescriptor;
+
 export type SpringboardRegistry = {
     registerModule: <ModuleOptions extends RegisterModuleOptions, ModuleReturnValue extends object>(
         moduleId: string,
@@ -23,12 +51,46 @@ export type SpringboardRegistry = {
         cb: ModuleCallback<ModuleReturnValue>,
     ) => void;
     registerClassModule: <T extends object>(cb: ClassModuleCallback<T>) => void;
+    defineModule: <ModuleOptions extends RegisterModuleOptions, ModuleReturnValue extends object>(
+        moduleId: string,
+        options: ModuleOptions,
+        cb: ModuleCallback<ModuleReturnValue>,
+    ) => DefinedModuleDescriptor<ModuleReturnValue>;
+    entrypoint: (
+        cb: SpringboardEntrypointCallback,
+    ) => SpringboardEntrypointDescriptor;
     registerSplashScreen: (component: React.ComponentType) => void;
     reset: () => void;
 };
 
-export type RegisterModuleOptions = {
-    rpcMode?: 'remote' | 'local';
+export const isDefinedModuleDescriptor = (value: unknown): value is DefinedModuleDescriptor => {
+    return typeof value === 'object'
+        && value !== null
+        && 'kind' in value
+        && value.kind === 'defineModule';
+};
+
+export const isEntrypointDescriptor = (value: unknown): value is SpringboardEntrypointDescriptor => {
+    return typeof value === 'object'
+        && value !== null
+        && 'kind' in value
+        && value.kind === 'entrypoint';
+};
+
+export const getApplicationDescriptorFromExports = (moduleExports: Record<string, unknown>): SpringboardDescriptor => {
+    const preferredExport = 'entrypoint' in moduleExports
+        ? moduleExports.entrypoint
+        : moduleExports.default;
+
+    if (isDefinedModuleDescriptor(preferredExport) || isEntrypointDescriptor(preferredExport)) {
+        return preferredExport;
+    }
+
+    if (typeof preferredExport === 'undefined') {
+        return entrypoint(() => {});
+    }
+
+    throw new Error('Springboard application entrypoint must export either a defineModule descriptor or a springboard.entrypoint descriptor.');
 };
 
 type CapturedRegisterModuleCall = [string, RegisterModuleOptions, ModuleCallback<any>];
@@ -79,6 +141,28 @@ const registerClassModule = <T extends object>(cb: ClassModuleCallback<T>) => {
     setRegisterClassModuleCalls(calls);
 };
 
+const defineModule = <ModuleOptions extends RegisterModuleOptions, ModuleReturnValue extends object>(
+    moduleId: string,
+    options: ModuleOptions,
+    cb: ModuleCallback<ModuleReturnValue>,
+): DefinedModuleDescriptor<ModuleReturnValue> => {
+    return {
+        kind: 'defineModule',
+        moduleId,
+        options,
+        initialize: cb,
+    };
+};
+
+const entrypoint = (
+    cb: SpringboardEntrypointCallback,
+): SpringboardEntrypointDescriptor => {
+    return {
+        kind: 'entrypoint',
+        initialize: cb,
+    };
+};
+
 let registeredSplashScreen: React.ComponentType | null = null;
 
 const registerSplashScreen = (component: React.ComponentType) => {
@@ -104,10 +188,14 @@ export const clearRegisteredSplashScreen = (): void => {
 export const springboard: SpringboardRegistry = {
     registerModule,
     registerClassModule,
+    defineModule,
+    entrypoint,
     registerSplashScreen,
     reset: () => {
         springboard.registerModule = registerModule;
         springboard.registerClassModule = registerClassModule;
+        springboard.defineModule = defineModule;
+        springboard.entrypoint = entrypoint;
         springboard.registerSplashScreen = registerSplashScreen;
         clearRegisteredModules();
         clearRegisteredClassModules();

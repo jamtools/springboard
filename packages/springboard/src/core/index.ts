@@ -4,11 +4,21 @@
  */
 
 // Export the main springboard registry
-export { springboard, getRegisteredSplashScreen } from './engine/register.js';
+export {
+    springboard,
+    getApplicationDescriptorFromExports,
+    getRegisteredSplashScreen,
+    isDefinedModuleDescriptor,
+    isEntrypointDescriptor,
+} from './engine/register.js';
 export { default } from './engine/register.js';
 
 // Export types from register
 export type {
+    DefinedModuleDescriptor,
+    SpringboardDescriptor,
+    SpringboardEntrypointComposer,
+    SpringboardEntrypointDescriptor,
     SpringboardRegistry,
     RegisterModuleOptions,
     ModuleCallback,

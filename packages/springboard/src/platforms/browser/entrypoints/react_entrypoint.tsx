@@ -5,6 +5,7 @@ import {CoreDependencies} from '../../../core/types/module_types.js';
 
 import {Main} from './main.js';
 import {Springboard} from '../../../core/engine/engine.js';
+import {SpringboardDescriptor} from '../../../core/engine/register.js';
 import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
 
 const waitForPageLoad = () => new Promise<void>(resolve => {
@@ -21,7 +22,27 @@ type BrowserDependencies = Pick<CoreDependencies, 'rpc' | 'storage'> & {
     };
 };
 
-export const startAndRenderBrowserApp = async (browserDeps: BrowserDependencies): Promise<Springboard> => {
+export const startAndRenderBrowserApp = async (
+    browserDeps: BrowserDependencies,
+    applicationDescriptor?: SpringboardDescriptor,
+): Promise<Springboard> => {
+    const engine = createBrowserEngine(browserDeps, applicationDescriptor);
+    const rootElem = document.createElement('div');
+    // rootElem.style.overflowY = 'scroll';
+    document.body.appendChild(rootElem);
+
+    const root = ReactDOM.createRoot(rootElem);
+    root.render(<Main engine={engine} />);
+
+    await engine.waitForInitialize();
+
+    return engine;
+};
+
+export const createBrowserEngine = (
+    browserDeps: BrowserDependencies,
+    applicationDescriptor?: SpringboardDescriptor,
+): Springboard => {
     const isLocal = browserDeps.isLocal || localStorage.getItem('isLocal') === 'true';
 
     const coreDeps: CoreDependencies = {
@@ -32,21 +53,12 @@ export const startAndRenderBrowserApp = async (browserDeps: BrowserDependencies)
         isMaestro: () => isLocal,
     };
 
-    const extraDeps: ExtraModuleDependencies = {
-    };
-
+    const extraDeps: ExtraModuleDependencies = {};
     const engine = new Springboard(coreDeps, extraDeps);
 
-    // await waitForPageLoad();
-
-    const rootElem = document.createElement('div');
-    // rootElem.style.overflowY = 'scroll';
-    document.body.appendChild(rootElem);
-
-    const root = ReactDOM.createRoot(rootElem);
-    root.render(<Main engine={engine} />);
-
-    await engine.waitForInitialize();
+    if (applicationDescriptor) {
+        engine.registerDescriptor(applicationDescriptor);
+    }
 
     return engine;
 };

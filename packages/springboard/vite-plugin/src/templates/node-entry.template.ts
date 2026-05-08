@@ -9,7 +9,8 @@ import { initApp } from 'springboard/server/hono_app';
 import { makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/platforms/node/services/ws_server_core_dependencies';
 import { LocalJsonNodeKVStoreService } from 'springboard/platforms/node/services/node_kvstore_service';
 import { CoreDependencies, Springboard } from 'springboard/core';
-import '__USER_ENTRY__';
+import { getApplicationDescriptorFromExports } from 'springboard/engine/register';
+import * as applicationEntrypointModule from '__USER_ENTRY__';
 
 /**
  * Node.js server entrypoint with HMR support
@@ -88,6 +89,7 @@ export async function start() {
     const extraDeps = {}; // TODO: remove this extraDeps thing from the framework
 
     engine = new Springboard(coreDeps, extraDeps);
+    engine.registerDescriptor(getApplicationDescriptorFromExports(applicationEntrypointModule));
 
     injectResources({
       engine,
