@@ -6,6 +6,12 @@ declare module 'react-native' {
     export const BackHandler: {
         addEventListener(eventName: string, handler: () => boolean): {remove(): void};
     };
+    export const Platform: {
+        OS: string;
+    };
+    export const Linking: {
+        openURL(url: string): Promise<void>;
+    };
     export const useColorScheme: () => 'light' | 'dark' | null;
 }
 
@@ -63,4 +69,75 @@ declare module 'expo-file-system' {
 
 declare module 'expo-splash-screen' {
     export function hideAsync(): Promise<void>;
+}
+
+
+declare module 'expo-auth-session' {
+    export function makeRedirectUri(options?: {path?: string}): string;
+}
+
+declare module 'expo-web-browser' {
+    export function maybeCompleteAuthSession(): void;
+    export function openAuthSessionAsync(url: string, redirectUrl?: string): Promise<{type: string; url?: string}>;
+    export function dismissBrowser(): Promise<void>;
+}
+
+declare module 'expo-device' {
+    export const isDevice: boolean;
+}
+
+declare module 'expo-constants' {
+    const Constants: {
+        expoConfig?: {extra?: {eas?: {projectId?: string}}};
+        easConfig?: {projectId?: string};
+    };
+    export default Constants;
+}
+
+declare module 'expo-notifications' {
+    export type Notification = {
+        request: {
+            content: {
+                title?: string | null;
+                body?: string | null;
+                data?: unknown;
+            };
+        };
+    };
+
+    export type NotificationResponse = {
+        notification: Notification;
+    };
+
+    export type EventSubscription = {
+        remove(): void;
+    };
+
+    export const AndroidImportance: {
+        MAX: number;
+    };
+
+    export function setNotificationHandler(handler: {
+        handleNotification(): Promise<{
+            shouldShowAlert: boolean;
+            shouldPlaySound: boolean;
+            shouldSetBadge: boolean;
+            shouldShowBanner: boolean;
+            shouldShowList: boolean;
+        }>;
+    }): void;
+
+    export function setNotificationChannelAsync(channelId: string, channel: {
+        name: string;
+        importance: number;
+        vibrationPattern?: number[];
+        lightColor?: string;
+    }): Promise<void>;
+
+    export function getPermissionsAsync(): Promise<{status: string}>;
+    export function requestPermissionsAsync(): Promise<{status: string}>;
+    export function getExpoPushTokenAsync(args: {projectId: string}): Promise<{data: string}>;
+    export function addNotificationReceivedListener(listener: (notification: Notification) => void): EventSubscription;
+    export function addNotificationResponseReceivedListener(listener: (response: NotificationResponse) => void): EventSubscription;
+    export function removeNotificationSubscription(subscription: EventSubscription): void;
 }

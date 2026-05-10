@@ -398,7 +398,12 @@
     "rxjs": "^7.8.1",
     "vite": "^7.0.0",
     "ws": "^8.18.3",
-    "zod": "^3.25.7"
+    "zod": "^3.25.7",
+    "expo-auth-session": "*",
+    "expo-web-browser": "*",
+    "expo-notifications": "*",
+    "expo-device": "*",
+    "expo-constants": "*"
   },
   "peerDependenciesMeta": {
     "@hono/node-server": {
@@ -453,6 +458,21 @@
       "optional": true
     },
     "zod": {
+      "optional": true
+    },
+    "expo-auth-session": {
+      "optional": true
+    },
+    "expo-web-browser": {
+      "optional": true
+    },
+    "expo-notifications": {
+      "optional": true
+    },
+    "expo-device": {
+      "optional": true
+    },
+    "expo-constants": {
       "optional": true
     }
   },
