@@ -67,4 +67,24 @@ describe('ModuleAPI', () => {
 
         expect(initialized).toEqual(['First', 'Second']);
     });
+
+    it('should await async entrypoint composition before initializing modules', async () => {
+        const coreDeps = makeMockCoreDependencies({store: {}});
+        const extraDeps = makeMockExtraDependences();
+        const initialized: string[] = [];
+
+        const engine = new Springboard(coreDeps, extraDeps);
+        await engine.registerDescriptor(springboard.entrypoint(async ({register}) => {
+            await Promise.resolve();
+            await register(springboard.defineModule('AsyncFirst', {}, async () => {
+                initialized.push('AsyncFirst');
+                return {};
+            }));
+        }));
+
+        await engine.initialize();
+
+        expect(initialized).toEqual(['AsyncFirst']);
+        expect(engine.moduleRegistry.getModule('AsyncFirst' as never)).toBeTruthy();
+    });
 });

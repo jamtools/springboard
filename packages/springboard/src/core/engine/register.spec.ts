@@ -27,17 +27,17 @@ describe('register descriptors', () => {
         expect(descriptor.moduleId).toBe('Default');
     });
 
-    it('falls back to a no-op entrypoint when no descriptor export is provided yet', () => {
-        const descriptor = getApplicationDescriptorFromExports({});
-
-        expect(isEntrypointDescriptor(descriptor)).toBe(true);
+    it('throws when no descriptor export is provided', () => {
+        expect(() => {
+            getApplicationDescriptorFromExports({}, 'test-entrypoint.ts');
+        }).toThrow('Springboard test-entrypoint.ts must export a defineModule descriptor or a springboard.entrypoint descriptor from its default export. The module did not export any values.');
     });
 
     it('throws when the preferred export is not a Springboard descriptor', () => {
         expect(() => {
             getApplicationDescriptorFromExports({
                 default: 'nope',
-            });
-        }).toThrow('Springboard application entrypoint must export either a defineModule descriptor or a springboard.entrypoint descriptor.');
+            }, 'test-entrypoint.ts');
+        }).toThrow('Springboard test-entrypoint.ts exported an unsupported value from its default export. Expected a defineModule descriptor or a springboard.entrypoint descriptor. Available exports: default.');
     });
 });

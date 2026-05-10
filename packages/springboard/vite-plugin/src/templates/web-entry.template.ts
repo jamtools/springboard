@@ -1,4 +1,4 @@
-import { getApplicationDescriptorFromExports } from 'springboard/engine/register';
+import { getApplicationDescriptorFromExports } from 'springboard';
 import { startAndRenderBrowserApp } from 'springboard/platforms/browser/entrypoints/react_entrypoint';
 import { BrowserJsonRpcClientAndServer } from 'springboard/platforms/browser/services/browser_json_rpc';
 import { HttpKvStoreClient } from 'springboard/core/services/http_kv_store_client';
@@ -17,7 +17,7 @@ const DATA_HOST = import.meta.env.VITE_DATA_HOST || `${httpProtocol}://${locatio
 const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
 const remoteKvStore = new HttpKvStoreClient(DATA_HOST);
 const userAgentKvStore = new BrowserKVStoreService(localStorage);
-const applicationDescriptor = getApplicationDescriptorFromExports(applicationEntrypointModule);
+const applicationDescriptor = getApplicationDescriptorFromExports(applicationEntrypointModule, '__USER_ENTRY__');
 
 startAndRenderBrowserApp({
   rpc: { remote: rpc, local: undefined },

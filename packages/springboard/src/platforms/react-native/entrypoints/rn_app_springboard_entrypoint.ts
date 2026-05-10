@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 
-import springboard, {SpringboardDescriptor, SpringboardRegistry} from '../../../core/engine/register.js';
+import {SpringboardDescriptor} from '../../../core/engine/register.js';
 import {Springboard} from '../../../core/engine/engine.js';
 
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
@@ -10,7 +10,7 @@ import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview.js';
 
 type UseAndInitializeSpringboardEngineProps = {
     onMessageFromRN: (message: string) => void;
-    applicationEntrypoint: ApplicationEntrypoint;
+    applicationEntrypoint: SpringboardDescriptor;
     asyncStorageDependency: AsyncStorageDependency;
     remoteRpc: Rpc; // new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
     remoteKv: KVStore;
@@ -29,8 +29,6 @@ const storedOnMessageFromRN = (message: string) => {
 
 import {AsyncStorageDependency} from '../services/kv/kv_rn_and_webview.js';
 
-type ApplicationEntrypoint = ((registry: SpringboardRegistry) => void) | SpringboardDescriptor;
-
 export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringboardEngineProps) => {
     const [engineAndMessageCallback, setEngineAndMessageCallback] = useState<{engine: Springboard; handleMessageFromWebview: (message: string) => void} | null>(null);
     // const storedOnReceiveMessageFromWebview = useRef((message: string) => { });
@@ -44,37 +42,16 @@ export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringb
             // const remoteKv = new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'remote'}, props.asyncStorageDependency);
             const remoteKv = props.remoteKv;
 
-            springboard.reset();
             try {
-                if (typeof props.applicationEntrypoint === 'function') {
-                    props.applicationEntrypoint(springboard);
-                } else {
-                    const localEngine = createRNMainEngine({remoteRpc, remoteKv, onMessageFromRN: props.onMessageFromRN, asyncStorageDependency: props.asyncStorageDependency});
-                    localEngine.engine.registerDescriptor(props.applicationEntrypoint);
-                    await localEngine.engine.initialize();
-                    setEngineAndMessageCallback(localEngine);
-                    return;
-                }
+                const localEngine = createRNMainEngine({remoteRpc, remoteKv, onMessageFromRN: props.onMessageFromRN, asyncStorageDependency: props.asyncStorageDependency});
+                await localEngine.engine.registerDescriptor(props.applicationEntrypoint);
+                await localEngine.engine.initialize();
+                setEngineAndMessageCallback(localEngine);
+                return;
             } catch (e) {
                 console.error(e);
                 throw e;
             }
-
-            const localEngine = createRNMainEngine({remoteRpc, remoteKv, onMessageFromRN: props.onMessageFromRN, asyncStorageDependency: props.asyncStorageDependency});
-
-            try {
-                await localEngine.engine.initialize();
-                setEngineAndMessageCallback(localEngine);
-            } catch (e) {
-                alert(e);
-                throw e;
-            }
-
-            await new Promise<void>(r => setTimeout(() => {
-                r();
-            }, 20));
-
-            console.log('initialized engine');
         })();
     }, []);
 

@@ -64,9 +64,10 @@ export class Springboard {
     public moduleRegistry!: ModuleRegistry;
     private constructorStartTime: number;
     private readonly definedModulesToInitialize: DefinedModuleDescriptor[] = [];
+    private readonly pendingEntrypointRegistrations = new Set<Promise<void>>();
     private readonly entrypointComposer: SpringboardEntrypointComposer = {
-        register: (descriptor) => {
-            this.registerDescriptor(descriptor);
+        register: async (descriptor) => {
+            await this.registerDescriptor(descriptor);
         },
     };
 
@@ -113,6 +114,8 @@ export class Springboard {
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.localSharedStateService.initialize();
+
+        await this.waitForPendingEntrypointRegistrations();
 
         this.moduleRegistry = new ModuleRegistry();
 
@@ -179,18 +182,31 @@ export class Springboard {
         }
     };
 
-    public registerDescriptor = (descriptor: SpringboardDescriptor) => {
+    public registerDescriptor = async (descriptor: SpringboardDescriptor): Promise<void> => {
         if (isDefinedModuleDescriptor(descriptor)) {
             this.definedModulesToInitialize.push(descriptor);
             return;
         }
 
         if (isEntrypointDescriptor(descriptor)) {
-            descriptor.initialize(this.entrypointComposer);
+            const registrationPromise = Promise.resolve(descriptor.initialize(this.entrypointComposer));
+            this.pendingEntrypointRegistrations.add(registrationPromise);
+            try {
+                await registrationPromise;
+            } finally {
+                this.pendingEntrypointRegistrations.delete(registrationPromise);
+            }
             return;
         }
 
         throw new Error('Unknown Springboard descriptor');
+    };
+
+    private waitForPendingEntrypointRegistrations = async () => {
+        while (this.pendingEntrypointRegistrations.size > 0) {
+            const pending = Array.from(this.pendingEntrypointRegistrations);
+            await Promise.all(pending);
+        }
     };
 
     private initializeDefinedModule = async <ModuleReturnValue extends object>(

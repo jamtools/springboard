@@ -26,7 +26,7 @@ export const startAndRenderBrowserApp = async (
     browserDeps: BrowserDependencies,
     applicationDescriptor?: SpringboardDescriptor,
 ): Promise<Springboard> => {
-    const engine = createBrowserEngine(browserDeps, applicationDescriptor);
+    const engine = await createBrowserEngine(browserDeps, applicationDescriptor);
     const rootElem = document.createElement('div');
     // rootElem.style.overflowY = 'scroll';
     document.body.appendChild(rootElem);
@@ -39,10 +39,10 @@ export const startAndRenderBrowserApp = async (
     return engine;
 };
 
-export const createBrowserEngine = (
+export const createBrowserEngine = async (
     browserDeps: BrowserDependencies,
     applicationDescriptor?: SpringboardDescriptor,
-): Springboard => {
+): Promise<Springboard> => {
     const isLocal = browserDeps.isLocal || localStorage.getItem('isLocal') === 'true';
 
     const coreDeps: CoreDependencies = {
@@ -57,7 +57,7 @@ export const createBrowserEngine = (
     const engine = new Springboard(coreDeps, extraDeps);
 
     if (applicationDescriptor) {
-        engine.registerDescriptor(applicationDescriptor);
+        await engine.registerDescriptor(applicationDescriptor);
     }
 
     return engine;
