@@ -4,9 +4,13 @@ import {SpringboardDescriptor} from '../../../core/engine/register.js';
 import {Springboard} from '../../../core/engine/engine.js';
 
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
+import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
+import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
 
 import {ReactNativeToWebviewKVService} from '../services/kv/kv_rn_and_webview.js';
 import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview.js';
+import {SpringboardExpoWebViewHost} from '../components/expo_springboard_webview_host.js';
+import type {BundledWebAssetModules} from '../services/expo_bundled_web_asset_loader.js';
 
 type UseAndInitializeSpringboardEngineProps = {
     onMessageFromRN: (message: string) => void;
@@ -57,6 +61,19 @@ export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringb
 
     return engineAndMessageCallback;
 };
+
+export const createReactNativeRemoteServices = (remoteUrl: string) => {
+    const wsHost = remoteUrl.replace('http', 'ws');
+    const wsFullUrl = `${wsHost}/ws`;
+
+    return {
+        remoteRpc: new BrowserJsonRpcClientAndServer(wsFullUrl),
+        remoteKv: new HttpKVStoreService(remoteUrl),
+    };
+};
+
+export {SpringboardExpoWebViewHost};
+export type {BundledWebAssetModules};
 
 export const createRNMainEngine = (props: {
     remoteRpc: Rpc,
