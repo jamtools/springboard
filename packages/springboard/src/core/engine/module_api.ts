@@ -306,4 +306,40 @@ export class StatesAPI {
 
         return supervisor;
     };
+
+    /**
+     * Create a piece of state to be saved in sessionStorage. This state persists only for the current browser tab/window session.
+     * The state is cleared when the tab/window is closed, making it useful for temporary, tab-specific state.
+    */
+    public createLocalSessionState = async <State>(stateName: string, initialValue: State): Promise<StateSupervisor<State>> => {
+        const fullKey = `${this.prefix}|state.session|${stateName}`;
+
+        if (this.coreDeps.storage.session && this.modDeps.services.sessionSharedStateService) {
+            const cachedValue = this.modDeps.services.sessionSharedStateService.getCachedValue(fullKey) as State | undefined;
+            if (cachedValue !== undefined) {
+                initialValue = cachedValue;
+            } else {
+                const storedValue = await this.coreDeps.storage.session.get<State>(fullKey);
+                if (storedValue !== null && storedValue !== undefined) {
+                    initialValue = storedValue;
+                }
+            }
+
+            const supervisor = new SharedStateSupervisor(fullKey, initialValue, this.modDeps.services.sessionSharedStateService);
+
+            const sub = supervisor.subjectForKVStorePublish.subscribe(async value => {
+                await this.coreDeps.storage.session!.set(fullKey, value);
+            });
+            this.onDestroy(sub.unsubscribe);
+
+            return supervisor;
+        }
+
+        // Fallback to UserAgentStateSupervisor if session storage not available
+        const supervisor = new UserAgentStateSupervisor(fullKey, initialValue, this.coreDeps.storage.userAgent);
+        this.onDestroy(() => {
+            // No-op cleanup since UserAgentStateSupervisor handles its own storage
+        });
+        return supervisor;
+    };
 }

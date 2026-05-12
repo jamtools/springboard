@@ -55,8 +55,8 @@ export async function start() {
       hooks: createWebSocketHooks(useWebSocketsForRpc),
     });
 
-    // Use configured port (ignores process.env.PORT to avoid conflicts)
-    const port = __PORT__;
+    // Use PORT environment variable if defined, otherwise use configured port
+    const port = process.env.PORT ? parseInt(process.env.PORT, 10) : __PORT__;
 
     // Start the HTTP server
     server = serve({
