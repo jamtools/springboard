@@ -4,8 +4,21 @@
 # VERDACCIO_PLUGINS_PATH="$BASE_PATH/plugins" \
 # docker compose up
 
-echo "registry=http://localhost:4873/" >> ../.npmrc
-echo "//localhost:4873/:_authToken=fake" >> ../.npmrc
+set -euo pipefail
+
+TMP_NPMRC="$(mktemp)"
+cat > "$TMP_NPMRC" <<'EOF'
+registry=http://localhost:4873/
+//localhost:4873/:_authToken=fake
+EOF
+
+export NPM_CONFIG_USERCONFIG="$TMP_NPMRC"
+
+cleanup() {
+  rm -f "$TMP_NPMRC"
+}
+
+trap cleanup EXIT
 
 npx verdaccio --config ./config/config.yaml
 
@@ -16,4 +29,3 @@ npx verdaccio --config ./config/config.yaml
 # export npm_config__authToken=fake
 # export npm_config_registry=http://localhost:4873/
 # ./scripts/run-all-folders.sh 0.0.1-dev-jamapp-3
-
