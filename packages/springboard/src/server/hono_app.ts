@@ -274,7 +274,7 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
     //     },
     // }));
 
-    app.notFound(async (c) => {
+    const registerSpaFallback = () => app.notFound(async (c) => {
         if (!serveStaticFileFn) {
             return c.text('Server not fully initialized', 500);
         }
@@ -307,6 +307,8 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
         for (const call of registeredServerModuleCallbacks) {
             call(makeServerModuleAPI());
         }
+
+        registerSpaFallback();
     };
 
     const createWebSocketHooks = (enableRpc?: boolean) => {
