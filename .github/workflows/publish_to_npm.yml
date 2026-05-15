@@ -32,13 +32,13 @@ jobs:
         run: pnpm i
 
       - name: Build
-        run: npx turbo run build
+        run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app
 
       - name: Check types
-        run: npx turbo run check-types
+        run: npx turbo run check-types --filter=springboard --filter=@springboard/vite-plugin
 
       - name: Test
-        run: npx turbo run test
+        run: npx turbo run test --filter=springboard
 
       - name: Run publish script with tag
-        run: ./scripts/run-all-folders.sh ${{ github.ref_name }} --mode npm
+        run: ./scripts/run-all-folders.sh ${{ github.ref_name }} --mode npm --packages springboard,create-springboard-app

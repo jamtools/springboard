@@ -8,12 +8,17 @@ else
 fi
 
 PUBLISH_MODE="verdaccio"
+PACKAGES="all"
 
 shift # Skip the first argument (version)
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --mode)
       PUBLISH_MODE="$2"
+      shift 2
+      ;;
+    --packages)
+      PACKAGES="$2"
       shift 2
       ;;
     *)
@@ -31,6 +36,51 @@ fi
 
 set -e
 root_dir=$(pwd)
+
+should_process_package() {
+  local package_name=$1
+
+  if [[ "$PACKAGES" == "all" ]]; then
+    return 0
+  fi
+
+  IFS=',' read -ra selected_packages <<< "$PACKAGES"
+  for selected_package in "${selected_packages[@]}"; do
+    if [[ "$selected_package" == "$package_name" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+bump_package_version() {
+  local package_name=$1
+  local target_dir=$2
+
+  if should_process_package "$package_name"; then
+    bump_version "$target_dir"
+  fi
+}
+
+publish_selected_package() {
+  local package_name=$1
+  local target_dir=$2
+
+  if should_process_package "$package_name"; then
+    publish_package "$target_dir"
+    sleep 1
+  fi
+}
+
+reset_package_version() {
+  local package_name=$1
+  local target_dir=$2
+
+  if should_process_package "$package_name"; then
+    reset_version "$target_dir"
+  fi
+}
 
 bump_version() {
   local target_dir=$1
@@ -85,63 +135,42 @@ publish_package() {
 }
 
 # Core packages
-bump_version "$root_dir/packages/springboard"
-bump_version "$root_dir/packages/jamtools/core"
-bump_version "$root_dir/packages/jamtools/features"
+bump_package_version "springboard" "$root_dir/packages/springboard"
+bump_package_version "jamtools-core" "$root_dir/packages/jamtools/core"
+bump_package_version "jamtools-features" "$root_dir/packages/jamtools/features"
 
 # CLI and tooling
-# bump_version "$root_dir/packages/springboard/cli"
-bump_version "$root_dir/packages/springboard/create-springboard-app"
-bump_version "$root_dir/packages/springboard/vite-plugin"
+# bump_package_version "springboard-cli" "$root_dir/packages/springboard/cli"
+bump_package_version "create-springboard-app" "$root_dir/packages/springboard/create-springboard-app"
+bump_package_version "springboard-vite-plugin" "$root_dir/packages/springboard/vite-plugin"
 
 # External integrations
-bump_version "$root_dir/packages/springboard/external/mantine"
-bump_version "$root_dir/packages/springboard/external/shoelace"
+bump_package_version "springboard-mantine" "$root_dir/packages/springboard/external/mantine"
+bump_package_version "springboard-shoelace" "$root_dir/packages/springboard/external/shoelace"
 
 # Publish core packages first (dependencies)
-publish_package "$root_dir/packages/springboard"
+publish_selected_package "springboard" "$root_dir/packages/springboard"
+publish_selected_package "jamtools-core" "$root_dir/packages/jamtools/core"
 
-sleep 1
-
-publish_package "$root_dir/packages/jamtools/core"
-
-sleep 1
-
-# publish_package "$root_dir/packages/jamtools/features"
-
-# sleep 1
-
-# Publish vite plugin (may be needed by CLI)
-# publish_package "$root_dir/packages/springboard/vite-plugin"
-
-# sleep 1
-
-# Publish external integrations
-# publish_package "$root_dir/packages/springboard/external/mantine"
-
-# sleep 1
-
-# publish_package "$root_dir/packages/springboard/external/shoelace"
-
-# sleep 1
+# publish_selected_package "jamtools-features" "$root_dir/packages/jamtools/features"
+# publish_selected_package "springboard-vite-plugin" "$root_dir/packages/springboard/vite-plugin"
+# publish_selected_package "springboard-mantine" "$root_dir/packages/springboard/external/mantine"
+# publish_selected_package "springboard-shoelace" "$root_dir/packages/springboard/external/shoelace"
+# publish_selected_package "springboard-cli" "$root_dir/packages/springboard/cli"
 
 # Publish CLI and tooling last (likely depend on core packages)
-# publish_package "$root_dir/packages/springboard/cli"
-
-# sleep 1
-
-publish_package "$root_dir/packages/springboard/create-springboard-app"
+publish_selected_package "create-springboard-app" "$root_dir/packages/springboard/create-springboard-app"
 
 # Core packages
-reset_version "$root_dir/packages/springboard"
-reset_version "$root_dir/packages/jamtools/core"
-reset_version "$root_dir/packages/jamtools/features"
+reset_package_version "springboard" "$root_dir/packages/springboard"
+reset_package_version "jamtools-core" "$root_dir/packages/jamtools/core"
+reset_package_version "jamtools-features" "$root_dir/packages/jamtools/features"
 
 # CLI and tooling
-# reset_version "$root_dir/packages/springboard/cli"
-reset_version "$root_dir/packages/springboard/create-springboard-app"
-reset_version "$root_dir/packages/springboard/vite-plugin"
+# reset_package_version "springboard-cli" "$root_dir/packages/springboard/cli"
+reset_package_version "create-springboard-app" "$root_dir/packages/springboard/create-springboard-app"
+reset_package_version "springboard-vite-plugin" "$root_dir/packages/springboard/vite-plugin"
 
 # External integrations
-reset_version "$root_dir/packages/springboard/external/mantine"
-reset_version "$root_dir/packages/springboard/external/shoelace"
+reset_package_version "springboard-mantine" "$root_dir/packages/springboard/external/mantine"
+reset_package_version "springboard-shoelace" "$root_dir/packages/springboard/external/shoelace"
