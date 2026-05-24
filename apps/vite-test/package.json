@@ -1,0 +1,51 @@
+{
+  "name": "vite-test",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Test app validating legacy esbuild-based build workflows with the consolidated Springboard package",
+  "scripts": {
+    "build:esbuild": "tsx esbuild.ts",
+    "build:esbuild:watch": "tsx esbuild.ts --watch",
+    "build": "npm run build:web && npm run build:node",
+    "build-sb-and-app": "cd ../../packages/springboard && npm run build && cd vite-plugin && npm run build && cd ../../../apps/vite-test && npm run build",
+    "build:web": "SPRINGBOARD_PLATFORM=web vite build",
+    "build:node": "SPRINGBOARD_PLATFORM=node vite build --outDir dist/node",
+    "dev": "vite",
+    "check-types": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.7",
+    "@hono/node-ws": "^1.2.0",
+    "@jamtools/core": "workspace:*",
+    "better-sqlite3": "^12.5.0",
+    "crossws": "^0.4.4",
+    "hono": "^4.11.3",
+    "isomorphic-ws": "^5.0.0",
+    "kysely": "^0.28.9",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-router": "^7.11.0",
+    "springboard": "workspace:*",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "esbuild": "catalog:",
+    "immer": "catalog:",
+    "rxjs": "catalog:",
+    "tsx": "^4.21.0",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
+}

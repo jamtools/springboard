@@ -9,7 +9,7 @@ import springboard from 'springboard';
 import {Springboard} from 'springboard/engine/engine';
 
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
-import {Main} from '@springboardjs/platforms-browser/entrypoints/main';
+import {Main} from 'springboard/platforms/browser';
 
 import './tic_tac_toe';
 

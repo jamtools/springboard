@@ -13,3 +13,15 @@ esbuild_meta.json
 stats.html
 games
 platform-examples
+
+# Vitest
+coverage
+.vitest
+
+# Test artifacts
+tests/**/node_modules
+tests/**/dist
+tests/**/.npmrc
+tests/**/*.backup
+
+.vscode/settings.json

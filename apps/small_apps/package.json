@@ -12,8 +12,6 @@
   "dependencies": {
     "@jamtools/core": "workspace:*",
     "@jamtools/features": "workspace:*",
-    "@springboardjs/platforms-browser": "workspace:*",
-    "@springboardjs/platforms-node": "workspace:*",
     "better-sqlite3": "^11.3.0",
     "react": "catalog:",
     "react-dom": "catalog:",

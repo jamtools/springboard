@@ -21,7 +21,7 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v4
               with:
-                node-version: 20
+                node-version: 22
                 cache: 'pnpm'
             - name: Install modules
               run: pnpm i
@@ -62,13 +62,32 @@ jobs:
                     exit 1
                 fi
 
-            - name: Create a new app
-              run: mkdir test-app && cd test-app && create-springboard-app
+            - name: Create a new app outside repo
+              run: |
+                cd ..
+                mkdir test-app
+                cd test-app
+                create-springboard-app
               env:
                 NPM_CONFIG_REGISTRY: http://localhost:4873
+
+            - name: Debug - List node_modules structure
+              run: |
+                echo "=== Listing test-app/node_modules structure ==="
+                find ../test-app/node_modules -maxdepth 3 -type d | sort
+                echo ""
+                echo "=== Checking springboard package ==="
+                ls -la ../test-app/node_modules/springboard/ || echo "springboard not found"
+                echo ""
+                echo "=== Checking for vite-plugin ==="
+                ls -la ../test-app/node_modules/springboard/vite-plugin/ || echo "vite-plugin directory not found"
+                echo ""
+                echo "=== Checking springboard package.json exports ==="
+                cat ../test-app/node_modules/springboard/package.json | grep -A 3 "vite-plugin" || echo "No vite-plugin export found"
+
             - name: Build App
               run: npm run build
-              working-directory: ./test-app
+              working-directory: ../test-app
 
             - name: Display Verdaccio logs on failure
               if: failure()

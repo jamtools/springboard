@@ -1,5 +1,5 @@
 // @platform "node"
-import {serverRegistry} from 'springboard-server/src/register';
+import {serverRegistry} from 'springboard/server/register';
 
 serverRegistry.registerServerModule(async (api) => {
     api.hono.get('/hello', (c) => {

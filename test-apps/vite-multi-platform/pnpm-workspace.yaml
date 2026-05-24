@@ -1,0 +1,2 @@
+# Standalone test app - uses Verdaccio, not workspace packages
+packages: []

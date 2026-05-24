@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import springboard from 'springboard';
+import springboard from '../../src/core/engine/register.js';
 
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';

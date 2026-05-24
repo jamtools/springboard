@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "springboard": ["../../packages/springboard/src/index.ts"],
+      "springboard/vite-plugin": ["../../packages/springboard/vite-plugin/src/index.ts"],
+      "@jamtools/core/*": ["../../packages/jamtools/core/src/*"],
+      "springboard/*": ["../../packages/springboard/src/*"],
+      "springboard/engine/*": ["../../packages/springboard/src/core/engine/*"],
+      "springboard/module_registry/*": ["../../packages/springboard/src/core/module_registry/*"],
+      "springboard/modules/*": ["../../packages/springboard/src/core/modules/*"],
+      "springboard/services/*": ["../../packages/springboard/src/core/services/*"],
+      "springboard/types/*": ["../../packages/springboard/src/core/types/*"],
+      "springboard/test/*": ["../../packages/springboard/src/core/test/*"],
+      "springboard/platforms/*": ["../../packages/springboard/src/platforms/*"],
+      "springboard/server/*": ["../../packages/springboard/src/server/*"]
+    },
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*", "vite.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}

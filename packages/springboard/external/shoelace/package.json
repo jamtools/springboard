@@ -6,20 +6,19 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.16.0"
+    "@shoelace-style/shoelace": "^2.20.1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "peerDependencies": {
-    "@springboardjs/platforms-browser": "workspace:*",
     "react": "*",
     "springboard": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "catalog:",
     "react": "catalog:",
-    "react-router-dom": "catalog:"
+    "react-router": "catalog:"
   }
 }

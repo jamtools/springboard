@@ -1,0 +1,10 @@
+# Springboard generated files
+.springboard/
+
+# Build output
+dist/
+node_modules/
+
+# Vite
+.vite/
+index.html

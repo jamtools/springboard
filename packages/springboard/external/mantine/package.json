@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/react": "catalog:",
-    "react": "catalog:"
+    "react": "catalog:",
+    "springboard": "workspace:*"
   }
 }

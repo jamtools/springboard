@@ -26,7 +26,7 @@ This will install the following packages:
 
 - `react`
 - `react-dom`
-- `react-router` (Will be replaced with [TanStack Router](https://tanstack.com/router/latest))
+- `react-router`
 - `springboard` - Used for RPC and state management
 - `springboard-cli` - User for building and deploying your app
 - `@jamtools/core` - MIDI and IO device related functionality
@@ -103,10 +103,10 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
 8. Mess around with changing the code in `src/index.tsx` to do other things. You can:
     - Try more purposeful [macro types](/docs/jamtools/midi/macros) that can have a more intentional experience for the user.
     - Change the styling of the Macro editors to your liking using CSS.
-    - Add UI elements to interact with your DAW from your phone. A simple example of this here: [https://github.com/jamtools/easy](https://github.com/jamtools/easy)
+    - Add UI elements to interact with your DAW from your phone. A simple example of this here: [https://github.com/jamtools/daw-easy-button](https://github.com/jamtools/daw-easy-button)
 
-9. If you'd like to discuss the UX around using macros, please comment on [this issue](https://github.com/jamtools/jamtools/issues/24). To report an issue or request support for other macro types, [submit an issue](https://github.com/jamtools/jamtools/issues/new).
+9. If you'd like to discuss the UX around using macros, please comment on [this issue](https://github.com/jamtools/springboard/issues/24). To report an issue or request support for other macro types, [submit an issue](https://github.com/jamtools/springboard/issues/new).
 
 Nice job! You've built your first Jam Tools app. Next you can learn about:
-- [Deploying as a desktop app](/docs/springboard/platforms/desktop-app)
+- [Deploying as a desktop app that hosts the UI for local devices](/docs/springboard/platforms/desktop-app)
 - [Creating your own modules](/docs/springboard/module-development)
