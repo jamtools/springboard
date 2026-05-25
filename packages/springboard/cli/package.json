@@ -39,7 +39,7 @@
     "add-header": "./scripts/add-node-executable-header.sh",
     "cli-docs": "npx tsx scripts/make_cli_docs.ts",
     "check-types": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:watch": "vitest"
   },
   "dependencies": {

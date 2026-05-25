@@ -6,9 +6,12 @@
  */
 
 import * as parser from '@babel/parser';
-import traverse, {NodePath} from '@babel/traverse';
-import generate from '@babel/generator';
+import traverseImport, {NodePath} from '@babel/traverse';
+import generateImport from '@babel/generator';
 import type * as t from '@babel/types';
+
+const traverse = ((traverseImport as any).default ?? traverseImport) as typeof traverseImport;
+const generate = ((generateImport as any).default ?? (generateImport as any).generate ?? generateImport) as typeof generateImport;
 
 export type SpringboardTransformPlatform =
     | 'node'

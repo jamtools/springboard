@@ -386,6 +386,9 @@
   },
   "homepage": "https://springboard.js.org",
   "dependencies": {
+    "@babel/generator": "^7.28.5",
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
     "dexie": "^4.2.1",
     "json-rpc-2.0": "^1.7.1",
     "reconnecting-websocket": "^4.4.0"

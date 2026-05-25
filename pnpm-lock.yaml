@@ -426,6 +426,15 @@ importers:
 
   packages/springboard:
     dependencies:
+      '@babel/generator':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/parser':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/traverse':
+        specifier: ^7.28.5
+        version: 7.28.5
       '@tauri-apps/api':
         specifier: ^2.9.0
         version: 2.9.1
