@@ -28,7 +28,7 @@ springboard.registerModule('Dashboards', {}, async (moduleAPI): Promise<Dashboar
     const promises = allDashboards.map(d => d.dashboard(moduleAPI, d.id));
     await Promise.all(promises);
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         return (
             <div>
                 <h2>Dashboards:</h2>

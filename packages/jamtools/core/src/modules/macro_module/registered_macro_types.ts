@@ -1,4 +1,5 @@
-import {ModuleAPI, StatesAPI} from 'springboard/engine/module_api';
+import {ModuleAPI} from 'springboard/engine/module_api';
+import type {StateSupervisor} from 'springboard/services/states/shared_state_service';
 
 import type {MacroTypeConfigs} from './macro_module_types';
 import {IoModule} from '../io/io_module';
@@ -11,8 +12,8 @@ export type RegisterMacroTypeOptions = {
 export type MacroAPI = {
     moduleAPI: ModuleAPI;
     midiIO: IoModule;
-    statesAPI: Pick<StatesAPI, 'createSharedState' | 'createPersistentState'>;
-    createAction: ModuleAPI['createAction'];
+    statesAPI: {createSharedState: <State>(stateName: string, initialValue: State) => Promise<StateSupervisor<State>>};
+    createAction: ModuleAPI['internal']['createAction'];
     isMidiMaestro: () => boolean;
     onDestroy: (cb: () => void) => void;
     createMacro: MacroModule['createMacro'];

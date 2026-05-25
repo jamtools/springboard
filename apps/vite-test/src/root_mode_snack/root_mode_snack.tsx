@@ -14,7 +14,7 @@ type ChordState = {
 }
 
 springboard.registerModule('Main', {}, async (moduleAPI) => {
-    const states = await moduleAPI.createStates({
+    const states = await moduleAPI.shared.createSharedStates({
         chords: {chord: null, note: null, scale: 0} as ChordState,
     });
 
@@ -28,7 +28,7 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
         });
     };
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         const state = rootModeState.useState();
 
         const onClick = () => {
@@ -43,12 +43,12 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
         );
     });
 
-    const {input, output} = await moduleAPI.getModule('macro').createMacros(moduleAPI, {
+    const {input, output} = await (moduleAPI.getModule as any)('macro').createMacros(moduleAPI, {
         input: {type: 'musical_keyboard_input', config: {}},
         output: {type: 'musical_keyboard_output', config: {}},
     });
 
-    input.subject.subscribe(evt => {
+    input.subject.subscribe((evt: any) => {
         const midiNumber = evt.event.number;
         const scale = rootModeState.getState().scale;
 

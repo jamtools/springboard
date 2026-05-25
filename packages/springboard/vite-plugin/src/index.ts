@@ -27,7 +27,7 @@ import { PluginOption, ViteDevServer } from 'vite';
 import * as path from 'path';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
-import { applyPlatformTransform } from './plugins/platform-inject.js';
+import { applyPlatformTransform, SpringboardTransformPlatform } from './plugins/platform-inject.js';
 
 // Vite 6+ types (ModuleRunner not exported from vite types but available at runtime)
 type ModuleRunner = {
@@ -378,15 +378,29 @@ export function springboard(options: SpringboardOptions): PluginOption {
     transform(code: string, id: string) {
       const env = this.environment;
       const environmentName = env?.name || 'client';
-      const buildPlatform = environmentName === 'ssr' ? 'node' : 'browser';
+      const platformVariant = process.env.SPRINGBOARD_PLATFORM_VARIANT;
+      const explicitPlatform = process.env.SPRINGBOARD_PLATFORM;
 
-      // Debug logging (can be removed later)
-      if (id.includes('tic_tac_toe.tsx') && code.includes('// @platform')) {
-        console.log(`[springboard] Platform transform for ${buildPlatform} environment`);
-      }
+      const buildPlatform: SpringboardTransformPlatform = environmentName === 'ssr'
+        ? 'node'
+        : platformVariant === 'tauri'
+          ? 'tauri'
+          : platformVariant === 'rn_webview'
+            ? 'react-native-webview'
+            : platformVariant === 'rn_main'
+              ? 'react-native'
+              : platformVariant === 'browser_offline'
+                ? 'browser_offline'
+                : explicitPlatform === 'web'
+                  ? 'web'
+                  : explicitPlatform === 'browser'
+                    ? 'browser'
+                    : 'browser';
+
+      const preserveServerStatesAndActions = buildPlatform === 'browser_offline' || buildPlatform === 'tauri';
 
       // Apply platform transform (all logic is in platform-inject.ts)
-      return applyPlatformTransform(code, id, buildPlatform);
+      return applyPlatformTransform(code, id, buildPlatform, {preserveServerStatesAndActions});
     },
 
     transformIndexHtml(html, ctx) {

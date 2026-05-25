@@ -289,7 +289,31 @@
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./core/engine/client_api": {
+      "types": "./dist/core/engine/client_api.d.ts",
+      "import": "./dist/core/engine/client_api.js"
+    },
+    "./core/engine/server_api": {
+      "types": "./dist/core/engine/server_api.d.ts",
+      "import": "./dist/core/engine/server_api.js"
+    },
+    "./core/engine/shared_api": {
+      "types": "./dist/core/engine/shared_api.d.ts",
+      "import": "./dist/core/engine/shared_api.js"
+    },
+    "./core/engine/ui_api": {
+      "types": "./dist/core/engine/ui_api.d.ts",
+      "import": "./dist/core/engine/ui_api.js"
+    },
+    "./core/engine/user_agent_api": {
+      "types": "./dist/core/engine/user_agent_api.d.ts",
+      "import": "./dist/core/engine/user_agent_api.js"
+    },
+    "./core/services/namespaced_kv_store": {
+      "types": "./dist/core/services/namespaced_kv_store.d.ts",
+      "import": "./dist/core/services/namespaced_kv_store.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -362,6 +386,9 @@
   },
   "homepage": "https://springboard.js.org",
   "dependencies": {
+    "@babel/generator": "^7.28.5",
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
     "dexie": "^4.2.1",
     "json-rpc-2.0": "^1.7.1",
     "reconnecting-websocket": "^4.4.0"

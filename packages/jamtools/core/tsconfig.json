@@ -1,7 +1,6 @@
 {
   // "extends": "../../configs/tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "./dist",
     // "composite": true,
     "declaration": true,
@@ -26,6 +25,16 @@
     "types": ["node"],
     "paths": {
       "@jamtools/core/*": ["./src/*"],
+      "springboard": ["../../springboard/src/index.ts"],
+      "springboard/*": ["../../springboard/src/*"],
+      "springboard/engine/*": ["../../springboard/src/core/engine/*"],
+      "springboard/module_registry/*": ["../../springboard/src/core/module_registry/*"],
+      "springboard/modules/*": ["../../springboard/src/core/modules/*"],
+      "springboard/services/*": ["../../springboard/src/core/services/*"],
+      "springboard/types/*": ["../../springboard/src/core/types/*"],
+      "springboard/test/*": ["../../springboard/src/core/test/*"],
+      "springboard/platforms/*": ["../../springboard/src/platforms/*"],
+      "springboard/server/*": ["../../springboard/src/server/*"]
     },
   },
   "include": [

@@ -15,7 +15,7 @@ springboard.registerModule('TestMacro', {}, async (moduleAPI) => {
         console.log('MIDI event received:', evt.event.number);
     });
 
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         return <div>Test Macro Module</div>;
     });
 });

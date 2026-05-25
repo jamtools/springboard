@@ -1,11 +1,22 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "./dist",
     // "composite": true,
     "declaration": true,
     "declarationMap": true,
     "baseUrl": ".",
+    "paths": {
+      "springboard": ["../../springboard/src/index.ts"],
+      "springboard/*": ["../../springboard/src/*"],
+      "springboard/engine/*": ["../../springboard/src/core/engine/*"],
+      "springboard/module_registry/*": ["../../springboard/src/core/module_registry/*"],
+      "springboard/modules/*": ["../../springboard/src/core/modules/*"],
+      "springboard/services/*": ["../../springboard/src/core/services/*"],
+      "springboard/types/*": ["../../springboard/src/core/types/*"],
+      "springboard/test/*": ["../../springboard/src/core/test/*"],
+      "springboard/platforms/*": ["../../springboard/src/platforms/*"],
+      "springboard/server/*": ["../../springboard/src/server/*"]
+    },
     "target": "ES2022",
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],

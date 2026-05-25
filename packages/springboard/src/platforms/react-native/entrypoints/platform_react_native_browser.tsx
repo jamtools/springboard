@@ -37,6 +37,7 @@ import {RpcWebviewToRN} from '../services/rpc/rpc_webview_to_rn.js';
 import {WebviewToReactNativeKVService} from '../services/kv/kv_rn_and_webview.js';
 import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
 import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
+import {NullKVStore} from '../../../core/services/namespaced_kv_store.js';
 import {ReactNativeWebviewLocalTokenService} from '../services/rn_webview_local_token_service.js';
 
 export const startAndRenderBrowserApp = async (args: {remoteUrl: string}): Promise<Springboard> => {
@@ -132,7 +133,8 @@ export const createRNWebviewEngine = (props: {remoteRpc: Rpc, remoteKv: KVStore,
         log: console.log,
         showError: (error: string) => console.error(error),
         storage: {
-            remote: remoteKVStore,
+            shared: remoteKVStore,
+            server: new NullKVStore(),
             userAgent: userAgentKVStore,
         },
         rpc: {

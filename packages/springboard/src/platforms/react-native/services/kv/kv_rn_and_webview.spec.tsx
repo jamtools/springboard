@@ -30,16 +30,18 @@ describe.skip('KvRnWebview', () => {
 
         const entrypoint = (sb: SpringboardRegistry | Springboard) => {
             sb.registerModule('Test', {}, async (m) => {
-                const myUserAgentState = await m.statesAPI.createUserAgentState('myUserAgentState', {message: 'Hey'});
+                const userAgentStates = await m.userAgent.createUserAgentStates({
+                    myUserAgentState: {message: 'Hey'}
+                });
 
-                const actions = m.createActions({
+                const actions = m.shared.createSharedActions({
                     changeValue: async (args: {value: string}) => {
-                        myUserAgentState.setState({message: args.value});
+                        userAgentStates.myUserAgentState.setState({message: args.value});
                     },
                 });
 
-                m.registerRoute('/', {}, () => {
-                    const myState = myUserAgentState.useState();
+                m.ui.registerRoute('/', {}, () => {
+                    const myState = userAgentStates.myUserAgentState.useState();
 
                     const [localState, setLocalState] = useState('');
 
@@ -61,7 +63,7 @@ describe.skip('KvRnWebview', () => {
                             <button
                                 data-testid={'test-submit-set-state'}
                                 onClick={async () => {
-                                    myUserAgentState.setState({message: 'hardcoded'});
+                                    userAgentStates.myUserAgentState.setState({message: 'hardcoded'});
                                 }}
                             >
                                 Submit set state
@@ -87,7 +89,7 @@ describe.skip('KvRnWebview', () => {
 
         const rnEngine = createRNMainEngine({
             remoteRpc: mockRemoteRpcForRN,
-            remoteKv: mockCoreDepsForRN.storage.remote,
+            remoteKv: mockCoreDepsForRN.storage.shared,
             onMessageFromRN,
             asyncStorageDependency: mockAsyncStorage,
         });
@@ -102,7 +104,7 @@ describe.skip('KvRnWebview', () => {
 
         const webviewEngine = createRNWebviewEngine({
             remoteRpc: mockRpcWebview,
-            remoteKv: mockCoreDepsForWebview.storage.remote,
+            remoteKv: mockCoreDepsForWebview.storage.shared,
             onMessageFromWebview,
         });
 

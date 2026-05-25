@@ -48,7 +48,7 @@ describe('MusicalKeyboardInputMacroHandler', () => {
         const calls: MidiEventFull[] = [];
 
         await engine.registerModule('Test_MusicalKeyboardInputMacro', {}, async (moduleAPI) => {
-            const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+            const macroModule = moduleAPI.getModule('macro');
             const midiInput = await macroModule.createMacro(moduleAPI, 'myinput', 'musical_keyboard_input', {enableQwerty: true});
             midiInput.subject.subscribe(event => {
                 calls.push(event);
@@ -75,8 +75,8 @@ describe('MusicalKeyboardInputMacroHandler', () => {
         const calls: MidiEventFull[] = [];
 
         await act(async () => {
-            await (engine as Springboard).registerModule(moduleId, {}, async (moduleAPI) => {
-                const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+            await engine.registerModule(moduleId, {}, async (moduleAPI) => {
+                const macroModule = moduleAPI.getModule('macro');
                 const midiInput = await macroModule.createMacro(moduleAPI, 'myinput', 'musical_keyboard_input', {});
                 midiInput.subject.subscribe(event => {
                     calls.push(event);

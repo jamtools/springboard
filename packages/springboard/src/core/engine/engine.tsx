@@ -7,7 +7,7 @@ import React, {createContext, useContext, useState} from 'react';
 import {useMount} from '../hooks/useMount.js';
 import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
-import {SharedStateService} from '../services/states/shared_state_service.js';
+import {ServerStateService, SharedStateService} from '../services/states/shared_state_service.js';
 import {ModuleAPI} from './module_api.js';
 
 type CapturedRegisterModuleCalls = [string, RegisterModuleOptions, ModuleCallback<any>];
@@ -61,6 +61,7 @@ export class Springboard {
 
     private remoteSharedStateService!: SharedStateService;
     private localSharedStateService!: SharedStateService;
+    private serverStateService!: ServerStateService;
 
     initialize = async () => {
         const initStartTime = now();
@@ -80,7 +81,7 @@ export class Springboard {
 
         this.remoteSharedStateService = new SharedStateService({
             rpc: this.coreDeps.rpc.remote,
-            kv: this.coreDeps.storage.remote,
+            kv: this.coreDeps.storage.shared,
             log: this.coreDeps.log,
             isMaestro: this.coreDeps.isMaestro,
         });
@@ -96,6 +97,11 @@ export class Springboard {
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.localSharedStateService.initialize();
+
+        this.serverStateService = new ServerStateService(this.coreDeps.storage.server);
+        if (this.coreDeps.isMaestro()) {
+            await this.serverStateService.initialize();
+        }
 
         this.moduleRegistry = new ModuleRegistry();
 
@@ -182,6 +188,7 @@ export class Springboard {
             services: {
                 remoteSharedStateService: this.remoteSharedStateService,
                 localSharedStateService: this.localSharedStateService,
+                serverStateService: this.serverStateService,
             },
         };
     };
@@ -265,16 +272,37 @@ export const SpringboardProviderPure = (props: SpringboardProviderProps) => {
     const {engine} = props;
     const mods = engine.moduleRegistry.getModules();
 
-    let stackedProviders: React.ReactNode = props.children;
+    // Collect all providers with their ranks from all modules
+    const allProvidersWithRank: Array<{provider: React.ElementType, rank: number}> = [];
+
     for (const mod of mods) {
-        const ModProvider = mod.Provider;
-        if (ModProvider) {
-            stackedProviders = (
-                <ModProvider>
-                    {stackedProviders}
-                </ModProvider>
-            );
+        // Support legacy single Provider property (treat as rank 0)
+        if (mod.Provider) {
+            allProvidersWithRank.push({
+                provider: mod.Provider,
+                rank: 0,
+            });
         }
+
+        // Collect new providers with their ranks
+        if (mod.providers) {
+            allProvidersWithRank.push(...mod.providers);
+        }
+    }
+
+    // Sort by rank descending (higher rank = outer wrapper)
+    // Within same rank, maintain registration order (stable sort)
+    allProvidersWithRank.sort((a, b) => b.rank - a.rank);
+
+    // Stack providers from lowest rank to highest (so highest rank ends up outermost)
+    let stackedProviders: React.ReactNode = props.children;
+    for (let i = allProvidersWithRank.length - 1; i >= 0; i--) {
+        const Provider = allProvidersWithRank[i]!.provider;
+        stackedProviders = (
+            <Provider>
+                {stackedProviders}
+            </Provider>
+        );
     }
 
     return (
