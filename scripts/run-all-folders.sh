@@ -62,6 +62,7 @@ publish_package() {
     environment="npm"
   else
     export NPM_CONFIG_REGISTRY="http://localhost:4873"
+    # export NPM_CONFIG_REGISTRY="http://10.0.1.1:4873"
     environment="local Verdaccio"
   fi
 

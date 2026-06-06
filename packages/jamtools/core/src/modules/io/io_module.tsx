@@ -7,60 +7,18 @@ import springboard from 'springboard';
 import {StateSupervisor} from 'springboard/services/states/shared_state_service';
 import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {MockMidiService} from '@jamtools/core/test/services/mock_midi_service';
-import {MockQwertyService} from '@jamtools/core/test/services/mock_qwerty_service';
 
-import {MidiService, QwertyService} from '@jamtools/core/types/io_types';
+import type {IoDeps, CreateIoDependencies} from './io_dependencies_types';
+import {createIoDependencies as defaultCreateIoDependencies} from './io_dependencies';
 
-type IoDeps = {
-    midi: MidiService;
-    qwerty: QwertyService;
-}
-
-let createIoDependencies = async (): Promise<IoDeps> => {
-    return {
-        qwerty: new MockQwertyService(),
-        midi: new MockMidiService(),
-    };
+// Wrapper object to allow mutation for testing
+const ioDepsConfig = {
+    createIoDependencies: defaultCreateIoDependencies
 };
 
-// @platform "browser"
-createIoDependencies = async () => {
-    const {BrowserQwertyService} = await import('@jamtools/core/services/browser/browser_qwerty_service');
-    const {BrowserMidiService} = await import('@jamtools/core/services/browser/browser_midi_service');
-
-    const qwerty = new BrowserQwertyService(document);
-    const midi = new BrowserMidiService();
-    return {
-        qwerty,
-        midi,
-    };
-};
-// @platform end
-
-// @platform "node"
-createIoDependencies = async () => {
-    if (process.env.DISABLE_IO === 'true') {
-        return {
-            qwerty: new MockQwertyService(),
-            midi: new MockMidiService(),
-        };
-    }
-
-    const {NodeQwertyService} = await import('@jamtools/core/services/node/node_qwerty_service');
-    const {NodeMidiService} = await import('@jamtools/core/services/node/node_midi_service');
-
-    const qwerty = new NodeQwertyService();
-    const midi = new NodeMidiService();
-    return {
-        qwerty,
-        midi,
-    };
-};
-// @platform end
-
-export const setIoDependencyCreator = (func: typeof createIoDependencies) => {
-    createIoDependencies = func;
+export const setIoDependencyCreator = (func: CreateIoDependencies) => {
+    // This is used for testing to override the platform-specific implementation
+    ioDepsConfig.createIoDependencies = func;
 };
 
 type IoState = {
@@ -120,7 +78,7 @@ export class IoModule implements Module<IoState> {
     };
 
     initialize = async (moduleAPI: ModuleAPI) => {
-        this.ioDeps = await createIoDependencies();
+        this.ioDeps = await ioDepsConfig.createIoDependencies();
 
         this.qwertyInputSubject = this.ioDeps.qwerty.onInputEvent;
         this.midiInputSubject = this.ioDeps.midi.onInputEvent;

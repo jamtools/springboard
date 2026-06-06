@@ -33,22 +33,50 @@ export type RegisterModuleOptions = {
 
 type CapturedRegisterModuleCall = [string, RegisterModuleOptions, ModuleCallback<any>];
 
+const getRegisterModuleCalls = (): CapturedRegisterModuleCall[] => {
+    const store = registerModule as unknown as {
+        calls?: CapturedRegisterModuleCall[];
+    };
+    return store.calls ? [...store.calls] : [];
+};
+
+const setRegisterModuleCalls = (calls: CapturedRegisterModuleCall[]): void => {
+    const store = registerModule as unknown as {
+        calls?: CapturedRegisterModuleCall[];
+    };
+    store.calls = calls;
+};
+
 const registerModule = <ModuleOptions extends RegisterModuleOptions, ModuleReturnValue extends object>(
     moduleName: string,
     options: ModuleOptions,
     cb: ModuleCallback<ModuleReturnValue>,
 ) => {
-    const calls = (registerModule as unknown as {calls: CapturedRegisterModuleCall[]}).calls || [];
+    const calls = getRegisterModuleCalls();
     calls.push([moduleName, options, cb]);
-    (registerModule as unknown as {calls: CapturedRegisterModuleCall[]}).calls = calls;
+    setRegisterModuleCalls(calls);
 };
 
 type CapturedRegisterClassModuleCalls = ClassModuleCallback<any>;
 
+const getRegisterClassModuleCalls = (): CapturedRegisterClassModuleCalls[] => {
+    const store = registerClassModule as unknown as {
+        calls?: CapturedRegisterClassModuleCalls[];
+    };
+    return store.calls ? [...store.calls] : [];
+};
+
+const setRegisterClassModuleCalls = (calls: CapturedRegisterClassModuleCalls[]): void => {
+    const store = registerClassModule as unknown as {
+        calls?: CapturedRegisterClassModuleCalls[];
+    };
+    store.calls = calls;
+};
+
 const registerClassModule = <T extends object>(cb: ClassModuleCallback<T>) => {
-    const calls = (registerClassModule as unknown as {calls: CapturedRegisterClassModuleCalls[]}).calls || [];
+    const calls = getRegisterClassModuleCalls();
     calls.push(cb);
-    (registerClassModule as unknown as {calls: CapturedRegisterClassModuleCalls[]}).calls = calls;
+    setRegisterClassModuleCalls(calls);
 };
 
 let registeredSplashScreen: React.ComponentType | null = null;
@@ -59,6 +87,18 @@ const registerSplashScreen = (component: React.ComponentType) => {
 
 export const getRegisteredSplashScreen = (): React.ComponentType | null => {
     return registeredSplashScreen;
+};
+
+export const clearRegisteredModules = (): void => {
+    setRegisterModuleCalls([]);
+};
+
+export const clearRegisteredClassModules = (): void => {
+    setRegisterClassModuleCalls([]);
+};
+
+export const clearRegisteredSplashScreen = (): void => {
+    registeredSplashScreen = null;
 };
 
 export const springboard: SpringboardRegistry = {
