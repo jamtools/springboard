@@ -109,9 +109,6 @@ export const springboard: SpringboardRegistry = {
         springboard.registerModule = registerModule;
         springboard.registerClassModule = registerClassModule;
         springboard.registerSplashScreen = registerSplashScreen;
-        clearRegisteredModules();
-        clearRegisteredClassModules();
-        clearRegisteredSplashScreen();
     },
 };
 
