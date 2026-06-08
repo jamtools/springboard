@@ -85,8 +85,21 @@ jobs:
               --clean \
               --no-install \
               --skip-dependency-update "$skip_dependency_update"
-            (cd android && ./gradlew assembleDebug --no-daemon --stacktrace)
-            cp android/app/build/outputs/apk/debug/app-debug.apk "$artifact_dir/app.apk"
+            mkdir -p android/app/src/main/assets
+            pnpm exec react-native bundle \
+              --platform android \
+              --dev false \
+              --entry-file index.js \
+              --bundle-output android/app/src/main/assets/index.android.bundle \
+              --assets-dest android/app/src/main/res
+            (cd android && ./gradlew assembleRelease --no-daemon --stacktrace)
+            release_apk="$(find android/app/build/outputs/apk/release -type f -name '*.apk' | head -n 1)"
+            if [ -z "$release_apk" ]; then
+              echo "No release APK found" >&2
+              find android/app/build/outputs/apk -maxdepth 4 -type f >&2 || true
+              exit 1
+            fi
+            cp "$release_apk" "$artifact_dir/app.apk"
           fi
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
