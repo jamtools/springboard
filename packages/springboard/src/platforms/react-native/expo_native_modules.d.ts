@@ -6,6 +6,7 @@ declare module 'react-native' {
     export const BackHandler: {
         addEventListener(eventName: string, handler: () => boolean): {remove(): void};
     };
+    export const View: React.ComponentType<any>;
     export const Platform: {
         OS: string;
     };

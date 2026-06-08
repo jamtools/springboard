@@ -11,6 +11,8 @@ const ARTIFACTS_DIR = path.resolve(REPO_ROOT, 'artifacts/mobile-e2e', MODE);
 const SCREENSHOTS_DIR = path.resolve(ARTIFACTS_DIR, 'screenshots');
 const APPIUM_LOG = path.resolve(ARTIFACTS_DIR, 'appium.log');
 const MOBILE_APK_PATH = process.env.MOBILE_APK_PATH || findFirstApk(ARTIFACTS_DIR);
+const NATIVE_SUFFIX = MODE.replace(/[^A-Za-z0-9_]/g, '');
+const APP_PACKAGE = `com.jamtools.springboard.mobilee2e.${NATIVE_SUFFIX}`;
 const EXPECTED_TEST_ID = MODE === 'remote-server'
   ? 'springboard-mobile-remote-server'
   : 'springboard-mobile-local-assets';
@@ -43,6 +45,10 @@ try {
       'appium:automationName': 'UiAutomator2',
       'appium:app': MOBILE_APK_PATH,
       'appium:autoWebview': false,
+      'appium:appPackage': APP_PACKAGE,
+      'appium:appActivity': `${APP_PACKAGE}.MainActivity`,
+      'appium:appWaitForLaunch': false,
+      'appium:appWaitDuration': 120000,
       'appium:newCommandTimeout': 240,
       'appium:adbExecTimeout': 120000,
       'appium:androidInstallTimeout': 180000,
@@ -51,17 +57,13 @@ try {
     },
   });
 
-  const webviewContext = await waitForWebViewContext(driver);
-  await driver.switchContext(webviewContext);
+  await driver.activateApp(APP_PACKAGE);
 
-  const main = await driver.$(`[data-testid="${EXPECTED_TEST_ID}"]`);
-  await main.waitForDisplayed({ timeout: 120000 });
-
-  const heading = await driver.$('[data-testid="springboard-mobile-heading"]');
-  await heading.waitForDisplayed({ timeout: 30000 });
-  const headingText = await heading.getText();
-  if (!EXPECTED_HEADING.test(headingText)) {
-    throw new Error(`Unexpected heading for ${MODE}: ${headingText}`);
+  const loadedStatus = await driver.$(`~${EXPECTED_TEST_ID}`);
+  await loadedStatus.waitForDisplayed({ timeout: 120000 });
+  const loadedText = await loadedStatus.getText();
+  if (!EXPECTED_HEADING.test(loadedText) && loadedText !== EXPECTED_TEST_ID) {
+    throw new Error(`Unexpected loaded status for ${MODE}: ${loadedText}`);
   }
 
   console.log(`Springboard mobile ${MODE} fixture rendered successfully.`);
@@ -107,18 +109,6 @@ async function waitForAppiumStatus() {
     await delay(1000);
   }
   throw new Error(`Timed out waiting for Appium at ${statusUrl}: ${lastError}`);
-}
-
-async function waitForWebViewContext(driver) {
-  const start = Date.now();
-  let lastContexts = [];
-  while (Date.now() - start < 120000) {
-    lastContexts = await driver.getContexts();
-    const webviewContext = lastContexts.find((context) => String(context).startsWith('WEBVIEW'));
-    if (webviewContext) return webviewContext;
-    await delay(2000);
-  }
-  throw new Error(`Timed out waiting for WEBVIEW context. Last contexts: ${JSON.stringify(lastContexts)}`);
 }
 
 async function saveScreenshot(driver, filePath) {

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BackHandler, StyleSheet} from 'react-native';
+import {BackHandler, StyleSheet, View} from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import {WebView} from 'react-native-webview';
 import type {ShouldStartLoadRequest} from 'react-native-webview/lib/WebViewTypes';
@@ -105,6 +105,10 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
         return null;
     }
 
+    if (!sourceUri) {
+        return <View style={styles.webview} />;
+    }
+
     return (
         <>
             <WebView
@@ -164,6 +168,7 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
 const styles = StyleSheet.create({
     webview: {
         flex: 1,
+        backgroundColor: '#fff',
     },
 });
 
