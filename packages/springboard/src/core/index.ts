@@ -77,4 +77,14 @@ export type {
 export { BaseModule } from './modules/base_module/base_module.js';
 
 // Export test utilities
-export { makeMockCoreDependencies } from './test/mock_core_dependencies.js';
+export {
+    makeMockCoreDependencies,
+    makeMockExtraDependencies,
+    makeMockExtraDependences,
+    makeMockSpringboardEngine,
+} from './test/mock_core_dependencies.js';
+
+export type {
+    MakeMockCoreDependenciesOptions,
+    MakeMockSpringboardEngineOptions,
+} from './test/mock_core_dependencies.js';
