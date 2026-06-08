@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { Springboard } from 'springboard/core/engine/engine';
-import { SpringboardExpoWebViewHost } from 'springboard/platforms/react-native/entrypoints/rn_app_springboard_entrypoint';
+import { SpringboardExpoWebViewHost } from 'springboard/platforms/react-native/components/expo_springboard_webview_host';
 
 void SplashScreen.preventAutoHideAsync();
 
