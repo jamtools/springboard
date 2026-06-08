@@ -47,6 +47,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
@@ -59,12 +62,34 @@ jobs:
       - name: Build Springboard packages
         run: pnpm --filter springboard build
 
-      - name: Build Android APK with EAS local mode
+      - name: Build Android APK (EAS local when authenticated)
         working-directory: apps/mobile-e2e
+        shell: bash
         run: |
-          mkdir -p "$GITHUB_WORKSPACE/artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}"
-          eas build --non-interactive --wait --platform android --profile "$SPRINGBOARD_MOBILE_E2E_MODE" --local
+          artifact_dir="$GITHUB_WORKSPACE/artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}"
+          mkdir -p "$artifact_dir"
+
+          if [ -n "${EXPO_TOKEN:-}" ]; then
+            eas build \
+              --non-interactive \
+              --wait \
+              --platform android \
+              --profile "$SPRINGBOARD_MOBILE_E2E_MODE" \
+              --local \
+              --output "$artifact_dir/app.apk"
+          else
+            echo "::notice::EXPO_TOKEN is not configured, so EAS CLI cannot run in CI. Falling back to Expo prebuild + Gradle to keep the Android E2E fixture compiling and runnable on PRs."
+            skip_dependency_update="expo,react,react-native,react-native-webview,expo-asset,expo-constants,expo-file-system,expo-splash-screen,react-native-safe-area-context"
+            pnpm exec expo prebuild \
+              --platform android \
+              --clean \
+              --no-install \
+              --skip-dependency-update "$skip_dependency_update"
+            (cd android && ./gradlew assembleDebug --no-daemon --stacktrace)
+            cp android/app/build/outputs/apk/debug/app-debug.apk "$artifact_dir/app.apk"
+          fi
         env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_GITHUB_ACTIONS_RUN: 'true'
           EAS_LOCAL_BUILD_ARTIFACTS_DIR: ${{ github.workspace }}/artifacts/mobile-e2e/${{ matrix.mode }}
           EXPO_MOBILE_E2E_MODE: ${{ matrix.mode }}
