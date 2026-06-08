@@ -325,7 +325,9 @@
   "files": [
     "src",
     "dist",
-    "vite-plugin"
+    "vite-plugin",
+    "tsconfig.json",
+    "tsconfig.build.json"
   ],
   "scripts": {
     "test": "vitest --run",
