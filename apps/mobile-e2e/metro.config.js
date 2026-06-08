@@ -1,9 +1,11 @@
 const { getDefaultConfig } = require('expo/metro-config');
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 const path = require('path');
 
 const appRoot = __dirname;
 const workspaceRoot = path.resolve(appRoot, '../..');
 const config = getDefaultConfig(appRoot);
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const appModules = path.resolve(appRoot, 'node_modules');
 const aliases = new Map([
@@ -39,6 +41,10 @@ config.resolver.extraNodeModules = {
   'react-native': aliases.get('react-native'),
   '@react-native/assets-registry': aliases.get('@react-native/assets-registry'),
 };
+config.resolver.blockList = exclusionList([
+  new RegExp(`${escapeRegExp(path.resolve(appRoot, 'android'))}/.*`),
+  new RegExp(`${escapeRegExp(path.resolve(appRoot, 'ios'))}/.*`),
+]);
 config.resolver.assetExts = Array.from(new Set([...config.resolver.assetExts, 'asset']));
 
 module.exports = config;
