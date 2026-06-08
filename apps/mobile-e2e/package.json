@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "@springboard/mobile-e2e-fixture",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start --clear",
+    "prebuild": "expo prebuild"
+  },
+  "dependencies": {
+    "expo": "~53.0.25",
+    "expo-asset": "~11.1.7",
+    "expo-constants": "~17.1.8",
+    "expo-file-system": "~18.1.11",
+    "expo-splash-screen": "^31.0.13",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-webview": "^13.16.0",
+    "springboard": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.6",
+    "babel-preset-expo": "~13.0.0",
+    "typescript": "5.9.3",
+    "@types/node": "20.17.48",
+    "@types/react": "19.2.6"
+  }
+}

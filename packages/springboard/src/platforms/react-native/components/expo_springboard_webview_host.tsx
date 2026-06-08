@@ -24,7 +24,9 @@ const initialNavigationState: NavigationState = {
 
 export type SpringboardExpoWebViewHostProps = {
     engine: Springboard | null;
-    assetModules: BundledWebAssetModules;
+    assetModules?: BundledWebAssetModules;
+    siteUrl?: string;
+    loadFromSiteUrl?: boolean;
     handleMessageFromWebview: (message: string) => void;
     onMessageFromRN: (cb: (message: string) => void) => void;
     spaRoute?: {route: string} | null;
@@ -38,18 +40,28 @@ export type SpringboardExpoWebViewHostProps = {
 export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProps) => {
     const [nonce, setNonce] = useState(Math.random().toString());
     const [htmlUri, setHtmlUri] = useState('');
+    const sourceUri = props.loadFromSiteUrl ? props.siteUrl || '' : htmlUri;
     const [webviewLoaded, setWebviewLoaded] = useState(false);
     const [navigationState, setNavigationState] = useState(initialNavigationState);
     const webViewRef = useRef<WebView>(null);
 
     useEffect(() => {
         props.onMessageFromRN((message) => {
-            webViewRef.current?.injectJavaScript(`window.receiveMessageFromRN(${JSON.stringify(message)});`);
+            webViewRef.current?.injectJavaScript(`window.receiveMessageFromRN(${JSON.stringify(message)}); true;`);
         });
     }, [props.onMessageFromRN]);
 
     useEffect(() => {
         const loadHtml = async () => {
+            if (props.loadFromSiteUrl) {
+                return;
+            }
+
+            if (!props.assetModules) {
+                props.onWebViewError?.(new Error('assetModules are required when loadFromSiteUrl is false'));
+                return;
+            }
+
             try {
                 const {htmlFilePath} = await loadBundledWebAppAssets({
                     assetModules: props.assetModules,
@@ -63,7 +75,7 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
         };
 
         loadHtml();
-    }, [props.assetModules, props.transformHtml, props.onWebViewError]);
+    }, [props.assetModules, props.transformHtml, props.onWebViewError, props.loadFromSiteUrl]);
 
     useEffect(() => {
         if (!props.spaRoute) {
@@ -74,7 +86,7 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
     }, [props.spaRoute]);
 
     useEffect(() => {
-        if (!webviewLoaded || !htmlUri || navigationState.loading) {
+        if (!webviewLoaded || !sourceUri || navigationState.loading) {
             return;
         }
 
@@ -85,7 +97,7 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
         return () => {
             clearTimeout(timeout);
         };
-    }, [webviewLoaded, htmlUri, navigationState.loading, props.hideSplashScreen, props.splashHideDelayMs]);
+    }, [webviewLoaded, sourceUri, navigationState.loading, props.hideSplashScreen, props.splashHideDelayMs]);
 
     useBackNavigation(webViewRef);
 
@@ -112,8 +124,8 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
                 onLoadEnd={() => {
                     setWebviewLoaded(true);
                 }}
-                source={{uri: htmlUri}}
-                allowingReadAccessToURL={htmlUri ? htmlUri.replace(/[^/]+$/, '') : undefined}
+                source={{uri: sourceUri}}
+                allowingReadAccessToURL={!props.loadFromSiteUrl && htmlUri ? htmlUri.replace(/[^/]+$/, '') : undefined}
                 onMessage={(event: {nativeEvent: {data: string}}) => {
                     props.handleMessageFromWebview(event.nativeEvent.data);
                 }}
@@ -125,8 +137,8 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
                 mediaPlaybackRequiresUserAction={false}
                 webviewDebuggingEnabled={true}
                 domStorageEnabled={true}
-                allowFileAccess={true}
-                allowFileAccessFromFileURLs={true}
+                allowFileAccess={!props.loadFromSiteUrl}
+                allowFileAccessFromFileURLs={!props.loadFromSiteUrl}
                 onError={(syntheticEvent: {nativeEvent: unknown}) => {
                     console.warn('WebView error: ', syntheticEvent.nativeEvent);
                     props.onWebViewError?.(syntheticEvent.nativeEvent);
@@ -134,7 +146,7 @@ export const SpringboardExpoWebViewHost = (props: SpringboardExpoWebViewHostProp
                 onShouldStartLoadWithRequest={props.onShouldStartLoadWithRequest}
                 sharedCookiesEnabled={true}
                 thirdPartyCookiesEnabled={true}
-                allowUniversalAccessFromFileURLs={true}
+                allowUniversalAccessFromFileURLs={!props.loadFromSiteUrl}
                 allowsAirPlayForMediaPlayback={true}
                 allowsBackForwardNavigationGestures={true}
                 allowsFullscreenVideo={true}

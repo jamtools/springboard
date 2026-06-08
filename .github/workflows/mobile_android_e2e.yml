@@ -1,0 +1,137 @@
+name: mobile_android_e2e
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  android-mobile-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        mode:
+          - local-assets
+          - remote-server
+    env:
+      SPRINGBOARD_MOBILE_E2E_MODE: ${{ matrix.mode }}
+      MOBILE_E2E_SITE_URL: http://10.0.2.2:1337
+      HOST_SITE_URL: http://127.0.0.1:1337
+      PORT: '1337'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Enable KVM group permissions
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.13.2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          packager: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Springboard packages
+        run: pnpm --filter springboard build
+
+      - name: Build Android APK with EAS local mode
+        working-directory: apps/mobile-e2e
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}"
+          eas build --non-interactive --wait --platform android --profile "$SPRINGBOARD_MOBILE_E2E_MODE" --local
+        env:
+          EXPO_GITHUB_ACTIONS_RUN: 'true'
+          EAS_LOCAL_BUILD_ARTIFACTS_DIR: ${{ github.workspace }}/artifacts/mobile-e2e/${{ matrix.mode }}
+          EXPO_MOBILE_E2E_MODE: ${{ matrix.mode }}
+          EXPO_PUBLIC_SITE_URL: ${{ env.MOBILE_E2E_SITE_URL }}
+
+      - name: Locate APK
+        shell: bash
+        run: |
+          apk_path="$(find "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}" -type f -name '*.apk' | head -n 1)"
+          if [ -z "$apk_path" ]; then
+            echo "No APK found" >&2
+            find "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}" -maxdepth 4 -type f >&2 || true
+            exit 1
+          fi
+          echo "MOBILE_APK_PATH=$GITHUB_WORKSPACE/$apk_path" >> "$GITHUB_ENV"
+
+      - name: Install mobile E2E dependencies
+        working-directory: tests/mobile-e2e
+        run: npm ci
+
+      - name: Install Appium Android driver
+        working-directory: tests/mobile-e2e
+        run: npx appium driver install uiautomator2
+
+      - name: Start remote fixture server
+        if: matrix.mode == 'remote-server'
+        shell: bash
+        run: |
+          mkdir -p "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}"
+          nohup node tests/mobile-e2e/remote-server.mjs > "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/server.log" 2>&1 &
+          echo $! > "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/server.pid"
+          for i in {1..30}; do
+            if curl -fsS "$HOST_SITE_URL" >/dev/null; then
+              echo "Remote fixture server is ready at $HOST_SITE_URL"
+              exit 0
+            fi
+            sleep 1
+          done
+          cat "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/server.log" >&2 || true
+          exit 1
+
+      - name: Run Android WebView E2E test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: |
+            adb devices
+            set +e
+            npm --prefix tests/mobile-e2e test
+            status=$?
+            adb logcat -d > "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/logcat.txt" || true
+            exit $status
+
+      - name: Stop remote fixture server
+        if: always() && matrix.mode == 'remote-server'
+        run: |
+          if [ -f "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/server.pid" ]; then
+            kill "$(cat "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/server.pid")" || true
+          fi
+
+      - name: Upload mobile E2E artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: springboard-mobile-android-e2e-${{ matrix.mode }}
+          path: artifacts/mobile-e2e/${{ matrix.mode }}
