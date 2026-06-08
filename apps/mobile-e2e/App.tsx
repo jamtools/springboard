@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   loadedStatus: {
     backgroundColor: 'transparent',
-    color: 'transparent',
+    color: '#000',
     fontSize: 1,
     left: 0,
     position: 'absolute',
