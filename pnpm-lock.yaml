@@ -182,6 +182,9 @@ importers:
       '@babel/core':
         specifier: ^7.28.6
         version: 7.29.7
+      '@expo/config-plugins':
+        specifier: ^10.1.2
+        version: 10.1.2
       '@types/node':
         specifier: 20.17.48
         version: 20.17.48
