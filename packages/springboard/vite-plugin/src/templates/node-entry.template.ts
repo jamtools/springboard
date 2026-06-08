@@ -2,8 +2,11 @@ import process from 'node:process';
 import path from 'node:path';
 
 import { serve } from '@hono/node-server';
-import crosswsNode from 'crossws/adapters/node';
+import crosswsNodeImport from 'crossws/adapters/node';
 import type { Server } from 'node:http';
+
+type CrosswsNodeAdapter = typeof crosswsNodeImport;
+const crosswsNode = ((crosswsNodeImport as unknown as {default?: CrosswsNodeAdapter}).default ?? crosswsNodeImport) as CrosswsNodeAdapter;
 
 import { initApp } from 'springboard/server/hono_app';
 import { makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/platforms/node/services/ws_server_core_dependencies';
