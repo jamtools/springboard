@@ -79,7 +79,7 @@ jobs:
               --output "$artifact_dir/app.apk"
           else
             echo "::notice::EXPO_TOKEN is not configured, so EAS CLI cannot run in CI. Falling back to Expo prebuild + Gradle to keep the Android E2E fixture compiling and runnable on PRs."
-            skip_dependency_update="expo,react,react-native,react-native-webview,expo-asset,expo-constants,expo-file-system,expo-splash-screen,react-native-safe-area-context"
+            skip_dependency_update="expo,react,react-native,react-native-webview,expo-asset,expo-constants,expo-file-system,expo-splash-screen,react-native-safe-area-context,@react-native-community/cli"
             pnpm exec expo prebuild \
               --platform android \
               --clean \
@@ -94,6 +94,7 @@ jobs:
           EAS_LOCAL_BUILD_ARTIFACTS_DIR: ${{ github.workspace }}/artifacts/mobile-e2e/${{ matrix.mode }}
           EXPO_MOBILE_E2E_MODE: ${{ matrix.mode }}
           EXPO_PUBLIC_SITE_URL: ${{ env.MOBILE_E2E_SITE_URL }}
+          NODE_ENV: production
 
       - name: Locate APK
         shell: bash
