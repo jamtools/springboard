@@ -289,7 +289,11 @@
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./platforms/react-native": {
+      "types": "./dist/platforms/react-native/index.d.ts",
+      "import": "./dist/platforms/react-native/index.js"
+    }
   },
   "typesVersions": {
     "*": {
