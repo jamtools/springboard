@@ -86,6 +86,9 @@ export class Springboard {
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.remoteSharedStateService.initialize();
+        this.coreDeps.rpc.remote.onReconnect?.(async () => {
+            await this.remoteSharedStateService.refreshFromKV();
+        });
 
         const remoteSharedStateServiceFinishedTime = now();
         logPerformance(websocketConnectedTime, remoteSharedStateServiceFinishedTime, 'SharedStateService initialized');

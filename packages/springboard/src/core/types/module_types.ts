@@ -40,6 +40,7 @@ export type Rpc = {
     initialize: () => Promise<boolean>;
     role: 'server' | 'client';
     reconnect?: (queryParams?: Record<string, string>) => Promise<boolean>;
+    onReconnect?: (cb: () => void | Promise<void>) => void;
 }
 
 type ToastOptions = {

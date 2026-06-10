@@ -48,6 +48,22 @@ export class SharedStateService {
         }
     };
 
+    refreshFromKV = async () => {
+        const allValues = await this.props.kv.getAll();
+        if (!allValues) {
+            return;
+        }
+
+        for (const key of Object.keys(allValues)) {
+            const value = allValues[key];
+            if (this.globalState[key] === value) {
+                continue;
+            }
+
+            this.publishLocalValue(key, value);
+        }
+    };
+
     subscribe = <Value>(key: string, cb: SubscribeCallback<Value>) => {
         this.subscriptions[key] = this.subscriptions[key] || [];
         this.subscriptions[key].push(cb);
@@ -59,6 +75,19 @@ export class SharedStateService {
 
     setCachedValue = <Value>(key: string, value: Value): void => {
         this.globalState[key] = value;
+    };
+
+    private publishLocalValue = <Value>(key: string, value: Value): void => {
+        this.setCachedValue(key, value);
+
+        const subscriptions = this.subscriptions[key];
+        if (!subscriptions) {
+            return;
+        }
+
+        for (const sub of subscriptions) {
+            sub(value);
+        }
     };
 
     // TODO: this function isn't called anywhere, so it should probably be removed
@@ -104,16 +133,12 @@ export class SharedStateService {
 
     private receiveRpcSetSharedState = async (args: SharedStateMessage) => {
         // console.log('received shared state', JSON.stringify(args));
-        this.setCachedValue(args.key, args.data);
+        this.publishLocalValue(args.key, args.data);
 
         const subscriptions = this.subscriptions[args.key];
         if (!subscriptions) {
             console.log(`no shared state subscription for key '${args.key}'. Received '${JSON.stringify(args.data)}'`);
             return;
-        }
-
-        for (const sub of subscriptions) {
-            sub(args.data);
         }
     };
 }

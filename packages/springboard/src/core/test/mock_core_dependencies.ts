@@ -32,6 +32,7 @@ class MockKVStore implements KVStore {
 
 export class MockRpcService implements Rpc {
     public role = 'client' as const;
+    private reconnectCallbacks: Array<() => void | Promise<void>> = [];
 
     callRpc = async <Args, Return>(name: string, args: Args, rpcArgs?: RpcArgs | undefined): Promise<Return | string> => {
         return {} as Return;
@@ -47,6 +48,16 @@ export class MockRpcService implements Rpc {
 
     initialize = async () => {
         return true;
+    };
+
+    onReconnect = (cb: () => void | Promise<void>) => {
+        this.reconnectCallbacks.push(cb);
+    };
+
+    triggerReconnect = async () => {
+        for (const cb of this.reconnectCallbacks) {
+            await cb();
+        }
     };
 }
 
