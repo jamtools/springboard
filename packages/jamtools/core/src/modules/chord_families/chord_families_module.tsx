@@ -3,7 +3,7 @@ import React from 'react';
 import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegreeQualities} from './root_mode_snack/root_mode_types.js';
 
 import {RootModeComponent} from './root_mode_snack/root_mode_component.js';
-import springboard from 'springboard';
+import springboard from 'springboard/core/engine/register';
 
 type State = {
     chord: ScaleDegreeInfo | null;

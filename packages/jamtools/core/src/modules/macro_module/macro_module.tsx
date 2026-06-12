@@ -8,7 +8,7 @@ import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_typ
 import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types.js';
 import {BaseModule, ModuleHookValue} from 'springboard/modules/base_module/base_module';
 import {MacroPage} from './macro_page.js';
-import springboard from 'springboard';
+import springboard from 'springboard/core/engine/register';
 import {CapturedRegisterMacroTypeCall, MacroAPI, MacroCallback} from '@jamtools/core/modules/macro_module/registered_macro_types';
 import {ModuleAPI} from 'springboard/engine/module_api';
 
