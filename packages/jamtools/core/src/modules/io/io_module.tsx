@@ -7,9 +7,9 @@ import springboard from 'springboard';
 import {StateSupervisor} from 'springboard/services/states/shared_state_service';
 import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
+import {createIoDependencies as defaultCreateIoDependencies} from '@jamtools/core/modules/io/io_dependencies';
 
 import type {IoDeps, CreateIoDependencies} from './io_dependencies_types';
-import {createIoDependencies as defaultCreateIoDependencies} from './io_dependencies';
 
 // Wrapper object to allow mutation for testing
 const ioDepsConfig = {
