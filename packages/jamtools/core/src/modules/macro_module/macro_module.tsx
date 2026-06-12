@@ -1,19 +1,19 @@
 import React from 'react';
 
-import '../io/io_module';
+import '../io/io_module.js';
 
 import type {Module} from 'springboard/module_registry/module_registry';
 
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
-import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types';
+import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types.js';
 import {BaseModule, ModuleHookValue} from 'springboard/modules/base_module/base_module';
-import {MacroPage} from './macro_page';
+import {MacroPage} from './macro_page.js';
 import springboard from 'springboard';
 import {CapturedRegisterMacroTypeCall, MacroAPI, MacroCallback} from '@jamtools/core/modules/macro_module/registered_macro_types';
 import {ModuleAPI} from 'springboard/engine/module_api';
 
-import './macro_handlers';
-import {macroTypeRegistry} from './registered_macro_types';
+import './macro_handlers/index.js';
+import {macroTypeRegistry} from './registered_macro_types.js';
 
 type ModuleId = string;
 

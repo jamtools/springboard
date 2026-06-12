@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {getKeyForMacro} from '../inputs/input_macro_handler_utils';
-import {AddingOutputDeviceState, Edit, SavedOutputDeviceState} from './components/output_macro_edit';
-import {MidiOutputMacroPayload, OutputMacroStateHolders, checkSavedMidiOutputsAreEqual, useOutputMacroWaiterAndSaver} from './output_macro_handler_utils';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {getKeyForMacro} from '../inputs/input_macro_handler_utils.js';
+import {AddingOutputDeviceState, Edit, SavedOutputDeviceState} from './components/output_macro_edit.js';
+import {MidiOutputMacroPayload, OutputMacroStateHolders, checkSavedMidiOutputsAreEqual, useOutputMacroWaiterAndSaver} from './output_macro_handler_utils.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 type Base = Omit<MidiOutputMacroPayload, 'send'>;
 

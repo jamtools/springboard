@@ -2,8 +2,8 @@ import React from 'react';
 
 import {MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
 
-import {SavedMacroValues} from './saved_macro_values';
-import {CaptureForm} from './capture_form';
+import {SavedMacroValues} from './saved_macro_values.js';
+import {CaptureForm} from './capture_form.js';
 
 type EditProps = {
     editing: boolean;

@@ -3,21 +3,21 @@ import {act} from 'react';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
-import '../../../../modules';
+import '../../../../modules/index.js';
 import springboard, {Springboard} from 'springboard';
 
 import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
-import {QwertyCallbackPayload} from '../../../../types/io_types';
-import {MidiEventFull} from '../../macro_module_types';
-import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
-import {MockMidiService} from '../../../../test/services/mock_midi_service';
-import {setIoDependencyCreator} from '../../../io/io_module';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {QwertyCallbackPayload} from '../../../../types/io_types.js';
+import {MidiEventFull} from '../../macro_module_types.js';
+import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
+import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
+import {setIoDependencyCreator} from '../../../io/io_module.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
-import {getMacroInputTestHelpers} from './macro_input_test_helpers';
+import {getMacroInputTestHelpers} from './macro_input_test_helpers.js';
 
-import '../../macro_handlers';
+import '../../macro_handlers/index.js';
 
 describe('MusicalKeyboardInputMacroHandler', () => {
     beforeEach(() => {

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {MidiDeviceAndChannelMap, MidiEvent, MidiEventFull, makeHashedMidiDeviceAndChannel} from '../../macro_module_types';
-import {QwertyCallbackPayload} from '../../../../types/io_types';
-import {QWERTY_TO_MIDI_MAPPINGS} from '../../../../constants/qwerty_to_midi_mappings';
-import {InputMacroStateHolders, MidiInputMacroPayload, getKeyForMacro, getKeyForMidiEvent, useInputMacroWaiterAndSaver} from './input_macro_handler_utils';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {MidiDeviceAndChannelMap, MidiEvent, MidiEventFull, makeHashedMidiDeviceAndChannel} from '../../macro_module_types.js';
+import {QwertyCallbackPayload} from '../../../../types/io_types.js';
+import {QWERTY_TO_MIDI_MAPPINGS} from '../../../../constants/qwerty_to_midi_mappings.js';
+import {InputMacroStateHolders, MidiInputMacroPayload, getKeyForMacro, getKeyForMidiEvent, useInputMacroWaiterAndSaver} from './input_macro_handler_utils.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 type MusicalKeyboardInputResult = MidiInputMacroPayload;
 

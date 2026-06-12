@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegreeQualities} from './root_mode_snack/root_mode_types';
+import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegreeQualities} from './root_mode_snack/root_mode_types.js';
 
-import {RootModeComponent} from './root_mode_snack/root_mode_component';
+import {RootModeComponent} from './root_mode_snack/root_mode_component.js';
 import springboard from 'springboard';
 
 type State = {

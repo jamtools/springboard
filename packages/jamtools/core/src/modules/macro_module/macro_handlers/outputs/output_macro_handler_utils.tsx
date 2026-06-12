@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {StateSupervisor} from 'springboard/services/states/shared_state_service';
-import {AddingOutputDeviceState, Edit, SavedOutputDeviceState} from './components/output_macro_edit';
-import {SoundfontPeripheral} from '../../../../peripherals/outputs/soundfont_peripheral';
+import {AddingOutputDeviceState, Edit, SavedOutputDeviceState} from './components/output_macro_edit.js';
+import {SoundfontPeripheral} from '../../../../peripherals/outputs/soundfont_peripheral.js';
 import {BaseMidiEventPayload} from '@jamtools/core/modules/macro_module/macro_module_types';
 import {MacroAPI} from '@jamtools/core/modules/macro_module/registered_macro_types';
 
