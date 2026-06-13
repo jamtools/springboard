@@ -16,7 +16,7 @@ import {
 import React, {createContext, useContext, useState} from 'react';
 
 import {useMount} from '../hooks/useMount.js';
-import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
+import {Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
 import {SharedStateService} from '../services/states/shared_state_service.js';
 import {ModuleAPI} from './module_api.js';
@@ -71,7 +71,7 @@ export class Springboard {
         },
     };
 
-    constructor(public coreDeps: CoreDependencies, public extraModuleDependencies: ExtraModuleDependencies) {
+    constructor(public coreDeps: CoreDependencies) {
         this.constructorStartTime = now();
     }
 
@@ -216,7 +216,7 @@ export class Springboard {
         api: ModuleReturnValue
     }> => {
         const mod: Module = {moduleId: descriptor.moduleId};
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), this.extraModuleDependencies, descriptor.options);
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), descriptor.options);
         const moduleReturnValue = await descriptor.initialize(moduleAPI);
 
         Object.assign(mod, moduleReturnValue);
@@ -234,7 +234,7 @@ export class Springboard {
         api: ModuleReturnValue
     }> => {
         const mod: Module = {moduleId};
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), this.extraModuleDependencies, options);
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), options);
         const moduleReturnValue = await cb(moduleAPI);
 
         Object.assign(mod, moduleReturnValue);
@@ -262,7 +262,7 @@ export class Springboard {
 
         const mod = await Promise.resolve(cb(this.coreDeps, modDependencies));
 
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, modDependencies, this.extraModuleDependencies, {});
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, modDependencies, {});
 
         if (!isModuleEnabled(mod)) {
             return null;

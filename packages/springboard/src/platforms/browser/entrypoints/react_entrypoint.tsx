@@ -6,7 +6,6 @@ import {CoreDependencies} from '../../../core/types/module_types.js';
 import {Main} from './main.js';
 import {Springboard} from '../../../core/engine/engine.js';
 import {SpringboardDescriptor} from '../../../core/engine/register.js';
-import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
 
 const waitForPageLoad = () => new Promise<void>(resolve => {
     window.addEventListener('DOMContentLoaded', () => {
@@ -53,8 +52,7 @@ export const createBrowserEngine = async (
         isMaestro: () => isLocal,
     };
 
-    const extraDeps: ExtraModuleDependencies = {};
-    const engine = new Springboard(coreDeps, extraDeps);
+    const engine = new Springboard(coreDeps);
 
     if (applicationDescriptor) {
         await engine.registerDescriptor(applicationDescriptor);

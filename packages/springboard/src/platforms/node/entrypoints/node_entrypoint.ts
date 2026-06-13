@@ -64,9 +64,8 @@ setTimeout(async () => {
 
     Object.assign(coreDeps, serverAppDependencies);
 
-    const extraDeps = {}; // TODO: remove this extraDeps thing from the framework
 
-    const engine = new Springboard(coreDeps, extraDeps);
+    const engine = new Springboard(coreDeps);
 
     injectResources({
         engine,

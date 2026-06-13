@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 
 import springboard, {Springboard} from 'springboard';
 
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
+import {makeMockCoreDependencies} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
 import {QwertyCallbackPayload} from '../../../../types/io_types';
 import {MidiEventFull} from '../../macro_module_types';
@@ -28,7 +28,6 @@ describe('MusicalKeyboardInputMacroHandler', () => {
 
     it('should handle qwerty events', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
         const qwertySubject = new Subject<QwertyCallbackPayload>();
 
@@ -43,7 +42,7 @@ describe('MusicalKeyboardInputMacroHandler', () => {
 
         // coreDeps.inputs.qwerty.onInputEvent = qwertySubject;
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         await engine.initialize();
 
         const calls: MidiEventFull[] = [];

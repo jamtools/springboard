@@ -24,11 +24,6 @@ type UltimateGuitarModuleReturnValue = {
     // getSong(setlistId: string, songId: string): SavedUltimateGuitarSong;
 }
 
-// declare module 'springboard/module_registry/module_registry' {
-//     interface ExtraModuleDependencies {
-//     }
-// }
-
 declare module 'springboard/module_registry/module_registry' {
     interface AllModules {
         Ultimate_Guitar: UltimateGuitarModuleReturnValue;
@@ -203,7 +198,6 @@ class Actions {
         if (!foundTab) {
             const ugService = new UltimateGuitarService();
             const tab = await handleSubmitTabUrl(args.url, {
-                // TODO: this code is unimplemented now, to get rid of ExtraModuleDependencies
                 domParser: (htmlString: string) => document,
                 ultimateGuitarService: ugService,
             });

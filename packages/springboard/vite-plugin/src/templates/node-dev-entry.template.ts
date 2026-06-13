@@ -65,7 +65,7 @@ export async function createDevServer(): Promise<DevServerHandle> {
 
   Object.assign(coreDeps, serverAppDependencies);
 
-  const engine = new Springboard(coreDeps, {});
+  const engine = new Springboard(coreDeps);
 
   injectResources({
     engine,

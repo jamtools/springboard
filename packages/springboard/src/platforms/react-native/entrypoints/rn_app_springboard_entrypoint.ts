@@ -119,7 +119,7 @@ export const createRNMainEngine = (props: {
 
     // springboard.reset();
 
-    const engine = new Springboard(coreDeps, {});
+    const engine = new Springboard(coreDeps);
     return {
         engine,
         handleMessageFromWebview: (message: string) => storedOnReceiveMessageFromWebview(message),

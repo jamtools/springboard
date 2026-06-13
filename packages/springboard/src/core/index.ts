@@ -54,7 +54,6 @@ export {
 
 export type {
     Module,
-    ExtraModuleDependencies,
     DocumentMeta,
 } from './module_registry/module_registry.js';
 
@@ -79,8 +78,6 @@ export { BaseModule } from './modules/base_module/base_module.js';
 // Export test utilities
 export {
     makeMockCoreDependencies,
-    makeMockExtraDependencies,
-    makeMockExtraDependences,
     makeMockSpringboardEngine,
 } from './test/mock_core_dependencies.js';
 

@@ -1,5 +1,5 @@
 import {Springboard} from './engine.js';
-import {makeMockCoreDependencies, makeMockExtraDependences} from '../test/mock_core_dependencies.js';
+import {makeMockCoreDependencies} from '../test/mock_core_dependencies.js';
 import springboard from './register.js';
 
 describe('ModuleAPI', () => {
@@ -9,9 +9,8 @@ describe('ModuleAPI', () => {
 
     it('should create shared state', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         await engine.initialize();
 
         const mod = await engine.registerModule('TestModule', {}, async (moduleAPI) => {
@@ -28,9 +27,8 @@ describe('ModuleAPI', () => {
 
     it('should initialize a defined module descriptor', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         engine.registerDescriptor(springboard.defineModule('DefinedModule', {}, async () => {
             return {
                 routes: {
@@ -48,10 +46,9 @@ describe('ModuleAPI', () => {
 
     it('should initialize modules registered through an entrypoint descriptor in order', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
         const initialized: string[] = [];
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         engine.registerDescriptor(springboard.entrypoint(({register}) => {
             register(springboard.defineModule('First', {}, async () => {
                 initialized.push('First');
@@ -70,10 +67,9 @@ describe('ModuleAPI', () => {
 
     it('should await async entrypoint composition before initializing modules', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
         const initialized: string[] = [];
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         await engine.registerDescriptor(springboard.entrypoint(async ({register}) => {
             await Promise.resolve();
             await register(springboard.defineModule('AsyncFirst', {}, async () => {

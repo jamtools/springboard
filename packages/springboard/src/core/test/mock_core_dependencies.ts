@@ -1,5 +1,4 @@
 import {CoreDependencies, KVStore, Rpc, RpcArgs} from '../types/module_types.js';
-import {ExtraModuleDependencies} from '../module_registry/module_registry.js';
 import {Springboard} from '../engine/engine.js';
 import springboard, {SpringboardDescriptor} from '../engine/register.js';
 
@@ -72,14 +71,6 @@ export const makeMockCoreDependencies = ({store = {}}: MakeMockCoreDependenciesO
     };
 };
 
-export const makeMockExtraDependences = (): ExtraModuleDependencies => {
-    return {
-
-    };
-};
-
-export const makeMockExtraDependencies = makeMockExtraDependences;
-
 export type MakeMockSpringboardEngineOptions = {
     /**
      * The serialized KV store used by both mock remote and user-agent storage.
@@ -91,7 +82,6 @@ export type MakeMockSpringboardEngineOptions = {
      * story needs to replace a specific service.
      */
     coreDeps?: CoreDependencies;
-    extraDeps?: ExtraModuleDependencies;
     /**
      * Descriptor exports from a Springboard app/module. Passing descriptors
      * mirrors platform bootstrapping without importing a module only for its
@@ -108,16 +98,12 @@ export type MakeMockSpringboardEngineOptions = {
 export const makeMockSpringboardEngine = async ({
     store,
     coreDeps,
-    extraDeps,
     descriptors = [],
     initialize = true,
 }: MakeMockSpringboardEngineOptions = {}): Promise<Springboard> => {
     springboard.reset();
 
-    const engine = new Springboard(
-        coreDeps ?? makeMockCoreDependencies({store}),
-        extraDeps ?? makeMockExtraDependencies(),
-    );
+    const engine = new Springboard(coreDeps ?? makeMockCoreDependencies({store}));
 
     for (const descriptor of Array.isArray(descriptors) ? descriptors : [descriptors]) {
         await engine.registerDescriptor(descriptor);

@@ -1,5 +1,5 @@
 import springboard from '../engine/register.js';
-import {makeMockCoreDependencies, makeMockExtraDependencies, makeMockSpringboardEngine} from './mock_core_dependencies.js';
+import {makeMockCoreDependencies, makeMockSpringboardEngine} from './mock_core_dependencies.js';
 
 beforeEach(() => {
     springboard.reset();
@@ -28,10 +28,9 @@ describe('mock_core_dependencies', () => {
         expect(engine.moduleRegistry.getCustomModule('StorybookFixture')).toBeTruthy();
     });
 
-    it('initializes entrypoint descriptors with mock extra dependencies', async () => {
+    it('initializes entrypoint descriptors with a mock Springboard engine', async () => {
         const initialized: string[] = [];
         const engine = await makeMockSpringboardEngine({
-            extraDeps: makeMockExtraDependencies(),
             descriptors: springboard.entrypoint(async ({register}) => {
                 await register(springboard.defineModule('NestedFixture', {}, async () => {
                     initialized.push('NestedFixture');

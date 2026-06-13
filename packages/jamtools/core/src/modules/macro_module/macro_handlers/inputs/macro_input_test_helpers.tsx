@@ -5,10 +5,9 @@ import {Subject} from 'rxjs';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';
+import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 
-import {Springboard} from 'springboard/engine/engine';
-import {SpringboardProviderPure} from '../../../../../../../springboard/src/core/engine/engine';
+import {Springboard, SpringboardProviderPure} from 'springboard/engine/engine';
 import {setIoDependencyCreator} from '../../../../modules/io/io_module';
 import {MockMidiService} from '../../../../test/services/mock_midi_service';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
@@ -16,7 +15,6 @@ import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
 export const getMacroInputTestHelpers = () => {
     const setupTest = async (midiSubject: Subject<MidiEventFull>): Promise<Springboard> => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
         setIoDependencyCreator(async () => {
             const midi = new MockMidiService();
@@ -28,14 +26,14 @@ export const getMacroInputTestHelpers = () => {
             };
         });
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         await engine.initialize();
         const macroModule = engine.moduleRegistry.getModule('macro');
         const MacroRouteComponent = macroModule.routes!['']!.component;
 
         render(
             <SpringboardProviderPure engine={engine}>
-                <MacroRouteComponent navigate={() => {}}/>
+                <MacroRouteComponent />
             </SpringboardProviderPure>
         );
         await waitFor(() => {
