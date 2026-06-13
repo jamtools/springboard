@@ -1,11 +1,22 @@
 import {CoreDependencies, ModuleDependencies} from '../types/module_types.js';
 
-import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard, getRegisteredSplashScreen} from './register.js';
+import {
+    ClassModuleCallback,
+    DefinedModuleDescriptor,
+    isDefinedModuleDescriptor,
+    isEntrypointDescriptor,
+    ModuleCallback,
+    RegisterModuleOptions,
+    springboard,
+    SpringboardDescriptor,
+    SpringboardEntrypointComposer,
+    getRegisteredSplashScreen
+} from './register.js';
 
 import React, {createContext, useContext, useState} from 'react';
 
 import {useMount} from '../hooks/useMount.js';
-import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
+import {Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
 import {SharedStateService} from '../services/states/shared_state_service.js';
 import {ModuleAPI} from './module_api.js';
@@ -52,8 +63,15 @@ const roundDecimal = (num: number) => {
 export class Springboard {
     public moduleRegistry!: ModuleRegistry;
     private constructorStartTime: number;
+    private readonly definedModulesToInitialize: DefinedModuleDescriptor[] = [];
+    private readonly pendingEntrypointRegistrations = new Set<Promise<void>>();
+    private readonly entrypointComposer: SpringboardEntrypointComposer = {
+        register: async (descriptor) => {
+            await this.registerDescriptor(descriptor);
+        },
+    };
 
-    constructor(public coreDeps: CoreDependencies, public extraModuleDependencies: ExtraModuleDependencies) {
+    constructor(public coreDeps: CoreDependencies) {
         this.constructorStartTime = now();
     }
 
@@ -97,6 +115,8 @@ export class Springboard {
         });
         await this.localSharedStateService.initialize();
 
+        await this.waitForPendingEntrypointRegistrations();
+
         this.moduleRegistry = new ModuleRegistry();
 
         const registeredClassModuleCallbacks = (springboard.registerClassModule as unknown as {calls: CapturedRegisterClassModuleCalls[]}).calls || [];
@@ -116,6 +136,14 @@ export class Springboard {
 
         // TODO: this is not good that classes are unconditionally all registered first. Let's use performance.now() to determine the order of when things were called
         // or put them all in the same array instead of different arrays like they currently are
+        for (const definedModule of this.definedModulesToInitialize) {
+            const start = now();
+            await this.initializeDefinedModule(definedModule);
+            const end = now();
+
+            handleInitTime({id: definedModule.moduleId, start, end});
+        }
+
         for (const modClassCallback of registeredClassModuleCallbacks) {
             const start = now(); // would be great to use `using` here to time this
             const mod = await this.registerClassModule(modClassCallback);
@@ -154,6 +182,49 @@ export class Springboard {
         }
     };
 
+    public registerDescriptor = async (descriptor: SpringboardDescriptor): Promise<void> => {
+        if (isDefinedModuleDescriptor(descriptor)) {
+            this.definedModulesToInitialize.push(descriptor);
+            return;
+        }
+
+        if (isEntrypointDescriptor(descriptor)) {
+            const registrationPromise = Promise.resolve(descriptor.initialize(this.entrypointComposer));
+            this.pendingEntrypointRegistrations.add(registrationPromise);
+            try {
+                await registrationPromise;
+            } finally {
+                this.pendingEntrypointRegistrations.delete(registrationPromise);
+            }
+            return;
+        }
+
+        throw new Error('Unknown Springboard descriptor');
+    };
+
+    private waitForPendingEntrypointRegistrations = async () => {
+        while (this.pendingEntrypointRegistrations.size > 0) {
+            const pending = Array.from(this.pendingEntrypointRegistrations);
+            await Promise.all(pending);
+        }
+    };
+
+    private initializeDefinedModule = async <ModuleReturnValue extends object>(
+        descriptor: DefinedModuleDescriptor<ModuleReturnValue>,
+    ): Promise<{
+        module: Module;
+        api: ModuleReturnValue
+    }> => {
+        const mod: Module = {moduleId: descriptor.moduleId};
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), descriptor.options);
+        const moduleReturnValue = await descriptor.initialize(moduleAPI);
+
+        Object.assign(mod, moduleReturnValue);
+
+        this.moduleRegistry.registerModule(mod);
+        return {module: mod, api: moduleReturnValue};
+    };
+
     public registerModule = async <ModuleOptions extends RegisterModuleOptions, ModuleReturnValue extends object>(
         moduleId: string,
         options: ModuleOptions,
@@ -163,7 +234,7 @@ export class Springboard {
         api: ModuleReturnValue
     }> => {
         const mod: Module = {moduleId};
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), this.extraModuleDependencies, options);
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), options);
         const moduleReturnValue = await cb(moduleAPI);
 
         Object.assign(mod, moduleReturnValue);
@@ -191,7 +262,7 @@ export class Springboard {
 
         const mod = await Promise.resolve(cb(this.coreDeps, modDependencies));
 
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, modDependencies, this.extraModuleDependencies, {});
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, modDependencies, {});
 
         if (!isModuleEnabled(mod)) {
             return null;

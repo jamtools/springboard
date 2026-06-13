@@ -47,8 +47,6 @@ export type Module<State extends object = any> = {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AllModules {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ExtraModuleDependencies {}
 
 type ModuleMap = {[moduleId: string]: Module};
 

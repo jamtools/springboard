@@ -1,0 +1,12 @@
+{
+  "name": "springboard-mobile-e2e-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node ./run-mobile-e2e.mjs"
+  },
+  "dependencies": {
+    "appium": "^3.1.0",
+    "webdriverio": "^9.20.0"
+  }
+}

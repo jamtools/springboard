@@ -4,11 +4,21 @@
  */
 
 // Export the main springboard registry
-export { springboard, getRegisteredSplashScreen } from './engine/register.js';
+export {
+    springboard,
+    getApplicationDescriptorFromExports,
+    getRegisteredSplashScreen,
+    isDefinedModuleDescriptor,
+    isEntrypointDescriptor,
+} from './engine/register.js';
 export { default } from './engine/register.js';
 
 // Export types from register
 export type {
+    DefinedModuleDescriptor,
+    SpringboardDescriptor,
+    SpringboardEntrypointComposer,
+    SpringboardEntrypointDescriptor,
     SpringboardRegistry,
     RegisterModuleOptions,
     ModuleCallback,
@@ -44,7 +54,6 @@ export {
 
 export type {
     Module,
-    ExtraModuleDependencies,
     DocumentMeta,
 } from './module_registry/module_registry.js';
 
@@ -67,4 +76,12 @@ export type {
 export { BaseModule } from './modules/base_module/base_module.js';
 
 // Export test utilities
-export { makeMockCoreDependencies } from './test/mock_core_dependencies.js';
+export {
+    makeMockCoreDependencies,
+    makeMockSpringboardEngine,
+} from './test/mock_core_dependencies.js';
+
+export type {
+    MakeMockCoreDependenciesOptions,
+    MakeMockSpringboardEngineOptions,
+} from './test/mock_core_dependencies.js';

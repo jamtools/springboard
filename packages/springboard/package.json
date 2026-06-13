@@ -289,7 +289,15 @@
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./platforms/react-native": {
+      "types": "./dist/platforms/react-native/index.d.ts",
+      "import": "./dist/platforms/react-native/index.js"
+    },
+    "./platforms/react-native/components/expo_springboard_webview_host": {
+      "types": "./dist/platforms/react-native/components/expo_springboard_webview_host.d.ts",
+      "import": "./dist/platforms/react-native/components/expo_springboard_webview_host.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -325,7 +333,9 @@
   "files": [
     "src",
     "dist",
-    "vite-plugin"
+    "vite-plugin",
+    "tsconfig.json",
+    "tsconfig.build.json"
   ],
   "scripts": {
     "test": "vitest --run",
@@ -382,6 +392,9 @@
     "@tauri-apps/plugin-shell": "^2.3.3",
     "better-sqlite3": "^12.4.1",
     "crossws": "^0.4.4",
+    "expo-asset": "*",
+    "expo-file-system": "*",
+    "expo-splash-screen": "*",
     "hono": "^4.6.17",
     "immer": ">= 10",
     "isomorphic-ws": "^4.0.1",
@@ -389,11 +402,18 @@
     "partysocket": "^1.1.6",
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-native": "*",
+    "react-native-webview": "*",
     "react-router": "^7.9.6",
     "rxjs": "^7.8.1",
     "vite": "^7.0.0",
     "ws": "^8.18.3",
-    "zod": "^3.25.7"
+    "zod": "^3.25.7",
+    "expo-auth-session": "*",
+    "expo-web-browser": "*",
+    "expo-notifications": "*",
+    "expo-device": "*",
+    "expo-constants": "*"
   },
   "peerDependenciesMeta": {
     "@hono/node-server": {
@@ -448,6 +468,21 @@
       "optional": true
     },
     "zod": {
+      "optional": true
+    },
+    "expo-auth-session": {
+      "optional": true
+    },
+    "expo-web-browser": {
+      "optional": true
+    },
+    "expo-notifications": {
+      "optional": true
+    },
+    "expo-device": {
+      "optional": true
+    },
+    "expo-constants": {
       "optional": true
     }
   },
