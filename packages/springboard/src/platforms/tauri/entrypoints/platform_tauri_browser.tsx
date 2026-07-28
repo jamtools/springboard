@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 
 import {Command} from '@tauri-apps/plugin-shell';
 import {appDataDir} from '@tauri-apps/api/path';
@@ -70,7 +70,7 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
     // rootElem.style.overflowY = 'scroll';
     document.body.appendChild(rootElem);
 
-    const root = ReactDOM.createRoot(rootElem);
+    const root = createRoot(rootElem);
     root.render(<Main engine={engine} />);
 
     await engine.waitForInitialize();
