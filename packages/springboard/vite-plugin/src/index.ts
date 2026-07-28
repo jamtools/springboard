@@ -69,6 +69,7 @@ type PlatformKey = 'node' | 'browser' | 'web';
 
 const FALLBACK_HEADER = 'x-springboard-fallback';
 const SPRINGBOARD_GENERATED_DIR = path.join('node_modules', '.springboard');
+const BROWSER_OPTIMIZE_DEPS = ['react-dom/client'];
 
 const createRequestFromNode = (req: IncomingMessage): Request => {
   const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
@@ -283,6 +284,9 @@ export function springboard(options: SpringboardOptions): PluginOption {
 
       if (isDevMode && hasNode) {
         return {
+          optimizeDeps: {
+            include: BROWSER_OPTIMIZE_DEPS,
+          },
           server: {
             perEnvironmentStartEndDuringDev: true,
             perEnvironmentWatchChangeDuringDev: true,
@@ -325,6 +329,9 @@ export function springboard(options: SpringboardOptions): PluginOption {
       } else {
         // Web builds use standard client mode with HTML entry
         return {
+          optimizeDeps: {
+            include: BROWSER_OPTIMIZE_DEPS,
+          },
           build: {
             rollupOptions: {
               input: WEB_HTML_FILE, // HTML file so Vite can process and hash assets
