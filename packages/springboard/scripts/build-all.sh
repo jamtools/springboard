@@ -17,7 +17,12 @@ cd "$PACKAGE_DIR"
 pnpm build
 
 echo ""
-echo "2. Building vite-plugin..."
+echo "2. Building CLI..."
+cd "$PACKAGE_DIR/cli"
+pnpm build
+
+echo ""
+echo "3. Building vite-plugin..."
 cd "$PACKAGE_DIR/vite-plugin"
 pnpm build
 
@@ -27,4 +32,5 @@ echo "✓ Build complete!"
 echo ""
 echo "Outputs:"
 echo "  - Main package: $PACKAGE_DIR/dist/"
+echo "  - CLI: $PACKAGE_DIR/cli/dist/"
 echo "  - Vite plugin: $PACKAGE_DIR/vite-plugin/dist/"

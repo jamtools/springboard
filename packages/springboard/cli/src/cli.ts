@@ -1,25 +1,12 @@
-/**
- * Springboard CLI
- *
- * Vite-based CLI wrapper for multi-platform application builds.
- * Implements Option D: Monolithic CLI Wrapper from PLAN_VITE_CLI_INTEGRATION.md
- *
- * Commands:
- * - sb dev <entrypoint>  - Start development server with HMR
- * - sb build <entrypoint> - Build for production
- * - sb start - Start the production server
- */
-
 import path from 'path';
-import fs from 'node:fs';
 import { program } from 'commander';
-import concurrently from 'concurrently';
+// import concurrently from 'concurrently';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const packageJSON = require('../package.json');
+const packageJSON = require('../../package.json');
 
-import type { SpringboardPlatform, Plugin } from './types.js';
+import {createDocsCommand} from './docs_command.js';
 
 /**
  * Resolve an entrypoint path to an absolute path
@@ -62,13 +49,6 @@ async function loadPlugins(pluginPaths?: string): Promise<Plugin[]> {
     return plugins;
 }
 
-/**
- * Parse platforms string into a Set
- */
-function parsePlatforms(platformsStr: string): Set<SpringboardPlatform> {
-    return new Set(platformsStr.split(',') as SpringboardPlatform[]);
-}
-
 // =============================================================================
 // CLI Program Setup
 // =============================================================================
@@ -95,10 +75,10 @@ program
         plugins?: string;
         port?: string;
     }) => {
-        const applicationEntrypoint = resolveEntrypoint(entrypoint);
-        const plugins = await loadPlugins(options.plugins);
-        const platformsToBuild = parsePlatforms(options.platforms || 'main');
-        const port = parseInt(options.port || '5173', 10);
+        // const applicationEntrypoint = resolveEntrypoint(entrypoint);
+        // const plugins = await loadPlugins(options.plugins);
+        // const platformsToBuild = parsePlatforms(options.platforms || 'main');
+        // const port = parseInt(options.port || '5173', 10);
 
         console.log(`Starting development server for platforms: ${options.platforms || 'main'}`);
 
@@ -204,20 +184,22 @@ program
     .action(async () => {
         console.log('Starting production server...');
 
-        concurrently(
-            [
-                {
-                    command: 'node dist/server/dist/local-server.cjs',
-                    name: 'Server',
-                    prefixColor: 'blue',
-                },
-            ],
-            {
-                prefix: 'name',
-                restartTries: 0,
-            }
-        );
+        // concurrently(
+        //     [
+        //         {
+        //             command: 'node dist/server/dist/local-server.cjs',
+        //             name: 'Server',
+        //             prefixColor: 'blue',
+        //         },
+        //     ],
+        //     {
+        //         prefix: 'name',
+        //         restartTries: 0,
+        //     }
+        // );
     });
+
+program.addCommand(createDocsCommand());
 
 // =============================================================================
 // Parse and Execute
@@ -228,4 +210,4 @@ if (!(globalThis as Record<string, unknown>).AVOID_PROGRAM_PARSE) {
 }
 
 // Export for testing
-export { program, resolveEntrypoint, loadPlugins, parsePlatforms };
+export { program, resolveEntrypoint, loadPlugins };
