@@ -1,6 +1,6 @@
 # State Management
 
-Springboard provides three types of state, each with different persistence and sync behavior.
+Springboard provides four types of state, each with different persistence and sync behavior.
 
 ## State Types Comparison
 
@@ -9,6 +9,7 @@ Springboard provides three types of state, each with different persistence and s
 | SharedState | In-memory (server cache) | Real-time cross-device | Temporary shared data, UI sync |
 | PersistentState | Database | Cross-device on load | User data, settings, saved state |
 | UserAgentState | localStorage | None (device-local) | UI preferences, local settings |
+| LocalSessionState | sessionStorage | None (tab-local) | Tab-specific temporary state |
 
 ## createSharedState
 
@@ -92,6 +93,39 @@ localPrefs.setStateImmer(draft => {
 });
 ```
 
+## createLocalSessionState
+
+```typescript
+const formData = await moduleAPI.statesAPI.createLocalSessionState('formData', {
+  step: 1,
+  values: {}
+});
+```
+
+**Behavior:**
+- Stored in sessionStorage (browser only)
+- Never synced to server or other devices
+- Tab/window-specific
+- Cleared when tab/window is closed
+- Use for: multi-step forms, temporary drafts, tab-specific UI state
+
+**Example:**
+```typescript
+const wizardState = await moduleAPI.statesAPI.createLocalSessionState('wizard', {
+  currentStep: 1,
+  formData: {} as Record<string, any>,
+  visited: [] as number[]
+});
+
+// Only affects this browser tab
+wizardState.setStateImmer(draft => {
+  draft.currentStep = 2;
+  draft.visited.push(1);
+});
+
+// State is automatically cleared when tab closes
+```
+
 ## StateSupervisor API
 
 All state types return a `StateSupervisor<T>`:
@@ -140,4 +174,11 @@ moduleAPI.onDestroy(() => subscription.unsubscribe());
 **Use UserAgentState when:**
 - Data is device-specific
 - No need to sync across devices
-- Examples: UI state, local preferences, cached data
+- Should persist across sessions
+- Examples: UI preferences, local settings, cached data
+
+**Use LocalSessionState when:**
+- Data is tab/window-specific
+- Should NOT persist when tab closes
+- No need to sync across devices or tabs
+- Examples: multi-step form progress, temporary drafts, wizard state, tab-specific UI

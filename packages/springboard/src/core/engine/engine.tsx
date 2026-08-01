@@ -61,6 +61,7 @@ export class Springboard {
 
     private remoteSharedStateService!: SharedStateService;
     private localSharedStateService!: SharedStateService;
+    private sessionSharedStateService?: SharedStateService;
 
     initialize = async () => {
         const initStartTime = now();
@@ -96,6 +97,16 @@ export class Springboard {
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.localSharedStateService.initialize();
+
+        if (this.coreDeps.storage.session) {
+            this.sessionSharedStateService = new SharedStateService({
+                rpc: this.coreDeps.rpc.local,
+                kv: this.coreDeps.storage.session,
+                log: this.coreDeps.log,
+                isMaestro: this.coreDeps.isMaestro,
+            });
+            await this.sessionSharedStateService.initialize();
+        }
 
         this.moduleRegistry = new ModuleRegistry();
 
@@ -182,6 +193,7 @@ export class Springboard {
             services: {
                 remoteSharedStateService: this.remoteSharedStateService,
                 localSharedStateService: this.localSharedStateService,
+                sessionSharedStateService: this.sessionSharedStateService,
             },
         };
     };

@@ -1,5 +1,6 @@
 import {BrowserJsonRpcClientAndServer} from '../services/browser_json_rpc.js';
 import {BrowserKVStoreService} from '../services/browser_kvstore_service.js';
+import {BrowserSessionKVStoreService} from '../services/browser_session_kvstore_service.js';
 import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
 import {startAndRenderBrowserApp} from './react_entrypoint.js';
 
@@ -20,6 +21,7 @@ setTimeout(() => {
     const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
     const remoteKvStore = new HttpKVStoreService(DATA_HOST);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);
+    const sessionKVStore = new BrowserSessionKVStoreService(sessionStorage);
 
     startAndRenderBrowserApp({
         rpc: {
@@ -29,6 +31,7 @@ setTimeout(() => {
         storage: {
             userAgent: userAgentKVStore,
             remote: remoteKvStore,
+            session: sessionKVStore,
         },
         dev: {
             reloadCss,

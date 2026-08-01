@@ -2,6 +2,7 @@ import {MockRpcService} from '../../../core/test/mock_core_dependencies.js';
 import React from 'react';
 
 import {BrowserKVStoreService} from '../services/browser_kvstore_service.js';
+import {BrowserSessionKVStoreService} from '../services/browser_session_kvstore_service.js';
 import {startAndRenderBrowserApp} from './react_entrypoint.js';
 
 (globalThis as {useHashRouter?: boolean}).useHashRouter = true;
@@ -11,6 +12,7 @@ setTimeout(() => {
     const rpc = new MockRpcService();
     const remoteKvStore = new BrowserKVStoreService(localStorage);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);
+    const sessionKVStore = new BrowserSessionKVStoreService(sessionStorage);
 
     startAndRenderBrowserApp({
         rpc: {
@@ -21,6 +23,7 @@ setTimeout(() => {
         storage: {
             userAgent: userAgentKVStore,
             remote: remoteKvStore,
+            session: sessionKVStore,
         },
     });
 });
