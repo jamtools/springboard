@@ -6,6 +6,7 @@ import {Springboard} from '../../../core/engine/engine.js';
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
 import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
 import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
+import {NullKVStore} from '../../../core/services/namespaced_kv_store.js';
 
 import {ReactNativeToWebviewKVService} from '../services/kv/kv_rn_and_webview.js';
 import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview.js';
@@ -108,7 +109,9 @@ export const createRNMainEngine = (props: {
         log: (...args) => console.log(...args),
         showError: (error) => console.error(error),
         storage: {
-            remote: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'remote'}, props.asyncStorageDependency),
+            shared: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'shared'}, props.asyncStorageDependency),
+            remote: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'shared'}, props.asyncStorageDependency),
+            server: new NullKVStore(),
             userAgent: new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'userAgent'}, props.asyncStorageDependency),
         },
         rpc: {

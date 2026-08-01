@@ -36,7 +36,13 @@ export {
 } from './engine/engine.js';
 
 // Export ModuleAPI
-export { ModuleAPI } from './engine/module_api.js';
+export {ModuleAPI, ModuleAPIInternal, setRpcMiddlewareResultsGetter} from './engine/module_api.js';
+export type {ActionCallback, ActionCallOptions, RpcMiddlewareResults} from './engine/module_api.js';
+export {ServerAPI} from './engine/server_api.js';
+export {SharedAPI} from './engine/shared_api.js';
+export {UserAgentAPI} from './engine/user_agent_api.js';
+export {ClientAPI} from './engine/client_api.js';
+export {UIAPI} from './engine/ui_api.js';
 
 // Export types from core
 export type {
@@ -64,8 +70,9 @@ export { useMount } from './hooks/useMount.js';
 export { generateId } from './utils/generate_id.js';
 
 // Export services
-export { SharedStateService, StateSupervisor } from './services/states/shared_state_service.js';
+export {ServerStateService, ServerStateSupervisor, SharedStateService, SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from './services/states/shared_state_service.js';
 export { HttpKvStoreClient } from './services/http_kv_store_client.js';
+export {NamespacedKVStore, NullKVStore} from './services/namespaced_kv_store.js';
 
 // Export response types
 export type {

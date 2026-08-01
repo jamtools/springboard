@@ -33,10 +33,16 @@ export type NavigationItemConfig = {
     route: string;
 };
 
+export type ProviderWithRank = {
+    provider: React.ElementType;
+    rank: number;
+};
+
 export type Module<State extends object = any> = {
     moduleId: string;
     initialize?: (moduleAPI: ModuleAPI) => void | Promise<void>;
-    Provider?: React.ElementType;
+    Provider?: React.ElementType; // Deprecated: use providers array instead
+    providers?: ProviderWithRank[];
     state?: State;
     subject?: Subject<State>;
     routes?: Record<string, RegisteredRoute>;
@@ -46,6 +52,10 @@ export type Module<State extends object = any> = {
 // this interface is meant to be extended by each individual module file through interface merging
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AllModules {}
+
+// this interface is meant to be extended by applications/plugins through interface merging
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ExtraModuleDependencies {}
 
 
 type ModuleMap = {[moduleId: string]: Module};

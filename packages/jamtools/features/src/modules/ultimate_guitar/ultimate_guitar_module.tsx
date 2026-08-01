@@ -36,7 +36,7 @@ springboard.registerModule('Ultimate_Guitar', {}, async (moduleAPI): Promise<Ult
 
     const actions = new Actions(moduleAPI, states);
 
-    moduleAPI.registerRoute('', {hideApplicationShell: true}, () => (
+    moduleAPI.ui.registerRoute('', {hideApplicationShell: true}, () => (
         <UltimateGuitarMainView
             currentSetlistStatus={states.currentSetlistStatus.useState()}
             savedSetlists={states.savedSetlists.useState()}
@@ -44,7 +44,7 @@ springboard.registerModule('Ultimate_Guitar', {}, async (moduleAPI): Promise<Ult
         />
     ));
 
-    moduleAPI.registerRoute('manage', {}, () => (
+    moduleAPI.ui.registerRoute('manage', {}, () => (
         <UltimateGuitarManageView
             currentSetlistStatus={states.currentSetlistStatus.useState()}
             savedSetlists={states.savedSetlists.useState()}
@@ -62,7 +62,7 @@ springboard.registerModule('Ultimate_Guitar', {}, async (moduleAPI): Promise<Ult
         />
     ));
 
-    moduleAPI.registerRoute('qrcode', {}, () => (
+    moduleAPI.ui.registerRoute('qrcode', {}, () => (
         <UltimateGuitarQRCode/>
     ));
 
@@ -77,33 +77,29 @@ class States {
     constructor(private moduleAPI: ModuleAPI) {}
 
     public initialize = async () => {
-        const [
-            savedSetlists,
-            savedTabs,
-            currentSetlistStatus,
-        ] = await Promise.all([
-            this.moduleAPI.statesAPI.createPersistentState<UltimateGuitarSetlist[]>('saved_setlists', []),
-            this.moduleAPI.statesAPI.createPersistentState<UltimateGuitarTab[]>('saved_tabs', []),
-            this.moduleAPI.statesAPI.createPersistentState<UltimateGuitarSetlistStatus | null>('current_setlist_status', null),
-        ]);
+        const states = await this.moduleAPI.shared.createSharedStates({
+            saved_setlists: [] as UltimateGuitarSetlist[],
+            saved_tabs: [] as UltimateGuitarTab[],
+            current_setlist_status: null as UltimateGuitarSetlistStatus | null,
+        });
 
-        this.savedSetlists = savedSetlists;
-        this.savedTabs = savedTabs;
-        this.currentSetlistStatus = currentSetlistStatus;
+        this.savedSetlists = states.saved_setlists;
+        this.savedTabs = states.saved_tabs;
+        this.currentSetlistStatus = states.current_setlist_status;
     };
 }
 
 class Actions {
     constructor(private moduleAPI: ModuleAPI, private states: States) {}
 
-    gotoSong = this.moduleAPI.createAction('gotoSong', {}, async (args: {setlistId: string, songIndex: number}) => {
+    gotoSong = this.moduleAPI.internal.createAction('gotoSong', {}, async (args: {setlistId: string, songIndex: number}) => {
         this.states.currentSetlistStatus.setState({
             setlistId: args.setlistId,
             songIndex: args.songIndex,
         });
     });
 
-    gotoNextSong = this.moduleAPI.createAction('gotoNextSong', {}, async () => {
+    gotoNextSong = this.moduleAPI.internal.createAction('gotoNextSong', {}, async () => {
         const {currentSetlistStatus, savedSetlists} = this.states;
 
         const status = currentSetlistStatus.getState();
@@ -124,7 +120,7 @@ class Actions {
         currentSetlistStatus.setState({setlistId: setlist.id, songIndex: nextIndex});
     });
 
-    queueSongForNext = this.moduleAPI.createAction('queueSongForNext', {}, async (args: {setlistId: string, song: UltimateGuitarSetlistSong}) => {
+    queueSongForNext = this.moduleAPI.internal.createAction('queueSongForNext', {}, async (args: {setlistId: string, song: UltimateGuitarSetlistSong}) => {
         const {savedSetlists, currentSetlistStatus} = this.states;
 
         const status = currentSetlistStatus.getState();
@@ -157,7 +153,7 @@ class Actions {
         ]);
     });
 
-    createNewSetlist = this.moduleAPI.createAction('createNewSetlist', {}, async (args: {name: string}) => {
+    createNewSetlist = this.moduleAPI.internal.createAction('createNewSetlist', {}, async (args: {name: string}) => {
         const {savedSetlists} = this.states;
 
         const id = generateId();
@@ -170,7 +166,7 @@ class Actions {
         savedSetlists.setState([...savedSetlists.getState(), setlist]);
     });
 
-    startSetlist = this.moduleAPI.createAction('startSetlist', {}, async (args: {setlistId: string}) => {
+    startSetlist = this.moduleAPI.internal.createAction('startSetlist', {}, async (args: {setlistId: string}) => {
         const {currentSetlistStatus} = this.states;
 
         currentSetlistStatus.setState({
@@ -179,7 +175,7 @@ class Actions {
         });
     });
 
-    addTabUrlToSetlist = this.moduleAPI.createAction('addTabUrlToSetlist', {}, async (args: {setlistId: string, url: string}) => {
+    addTabUrlToSetlist = this.moduleAPI.internal.createAction('addTabUrlToSetlist', {}, async (args: {setlistId: string, url: string}) => {
         const {savedTabs, savedSetlists} = this.states;
 
         const tabs = savedTabs.getState();
@@ -226,7 +222,7 @@ class Actions {
         ]);
     });
 
-    transposeSong = this.moduleAPI.createAction('transposeSong', {}, async (args: {setlistId: string, url: string, transpose: number}) => {
+    transposeSong = this.moduleAPI.internal.createAction('transposeSong', {}, async (args: {setlistId: string, url: string, transpose: number}) => {
         const {savedTabs, savedSetlists} = this.states;
 
         const setlists = savedSetlists.getState();
@@ -260,7 +256,7 @@ class Actions {
         savedSetlists.setState(newSetlists);
     });
 
-    reorderSongUrlsForSetlist = this.moduleAPI.createAction('reorderSongUrlsForSetlist', {}, async (args: {setlistId: string, songs: UltimateGuitarSetlistSong[]}) => {
+    reorderSongUrlsForSetlist = this.moduleAPI.internal.createAction('reorderSongUrlsForSetlist', {}, async (args: {setlistId: string, songs: UltimateGuitarSetlistSong[]}) => {
         const {savedSetlists} = this.states;
 
         const setlists = savedSetlists.getState();
@@ -281,7 +277,7 @@ class Actions {
         ]);
     });
 
-    submitPlaylistUrl = this.moduleAPI.createAction('submitPlaylistUrl', {}, async (args: {url: string}) => {
+    submitPlaylistUrl = this.moduleAPI.internal.createAction('submitPlaylistUrl', {}, async (args: {url: string}) => {
     });
 }
 

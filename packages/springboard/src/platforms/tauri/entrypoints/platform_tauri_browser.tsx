@@ -7,6 +7,7 @@ import {appDataDir} from '@tauri-apps/api/path';
 import {CoreDependencies} from '../../../core/types/module_types.js';
 
 import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
+import {NullKVStore} from '../../../core/services/namespaced_kv_store.js';
 
 import {Main} from '../../browser/entrypoints/main.js';
 // import {Main} from './main.js';
@@ -31,13 +32,13 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
     const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
     // const rpc = mockDeps.rpc;
 
-    const kvStore = new HttpKVStoreService(DATA_HOST);
+    const sharedKvStore = new HttpKVStoreService(DATA_HOST);
 
-    // const kvStore = new BrowserKVStoreService(localStorage);
+    // const sharedKvStore = new BrowserKVStoreService(localStorage);
     const userAgentKVStore = new BrowserKVStoreService(localStorage);
     const sessionKVStore = new BrowserSessionKVStoreService(sessionStorage);
 
-    // const kvStore = mockDeps.storage.remote;
+    // const sharedKvStore = mockDeps.storage.shared;
     // const userAgentKVStore = mockDeps.storage.userAgent;
 
     const isLocal = false;
@@ -47,7 +48,8 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
         log: console.log,
         showError: (error: string) => console.error(error),
         storage: {
-            remote: kvStore,
+            shared: sharedKvStore,
+            server: new NullKVStore(),
             userAgent: userAgentKVStore,
             session: sessionKVStore,
         },

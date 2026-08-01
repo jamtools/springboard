@@ -67,7 +67,7 @@ export class MacroModule implements Module<MacroConfigState> {
     };
 
     public createMacro = async <MacroType extends keyof MacroTypeConfigs, T extends MacroConfigItem<MacroType>>(moduleAPI: ModuleAPI, name: string, macroType: MacroType, config: T): Promise<MacroTypeConfigs[MacroType]['output']> => {
-        const moduleId = moduleAPI.moduleId;
+        const moduleId = moduleAPI.internal.moduleId;
 
         const tempConfig = {[name]: {...config, type: macroType}};
         this.state.configs = {...this.state.configs, [moduleId]: {...this.state.configs[moduleId], ...tempConfig}};
@@ -144,24 +144,25 @@ export class MacroModule implements Module<MacroConfigState> {
         const macroAPI: MacroAPI = {
             midiIO: moduleAPI.getModule('io'),
             createAction: (...args) => {
-                const action = moduleAPI.createAction(...args);
+                const action = moduleAPI.internal.createAction(...args);
                 return (args: any) => action(args, this.localMode ? {mode: 'local'} : undefined);
             },
             statesAPI: {
-                createSharedState: (key: string, defaultValue: any) => {
-                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createSharedState;
-                    return func(key, defaultValue);
-                },
-                createPersistentState: (key: string, defaultValue: any) => {
-                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createPersistentState;
-                    return func(key, defaultValue);
+                createSharedState: async <State,>(key: string, defaultValue: State) => {
+                    if (this.localMode) {
+                        const states = await moduleAPI.userAgent.createUserAgentStates({[key]: defaultValue});
+                        return states[key]!;
+                    } else {
+                        const states = await moduleAPI.shared.createSharedStates({[key]: defaultValue});
+                        return states[key]!;
+                    }
                 },
             },
             createMacro: this.createMacro,
             isMidiMaestro: () => this.coreDeps.isMaestro() || this.localMode,
             moduleAPI,
             onDestroy: (cb: () => void) => {
-                moduleAPI.onDestroy(cb);
+                moduleAPI.internal.onDestroy(cb);
             },
         };
 

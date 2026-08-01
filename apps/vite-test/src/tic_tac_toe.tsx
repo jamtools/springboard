@@ -67,11 +67,11 @@ const checkForWinner = (board: Board): Winner => {
 };
 
 springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
-    const boardState = await moduleAPI.statesAPI.createPersistentState<Board>('board_v5', initialBoard);
-    const winnerState = await moduleAPI.statesAPI.createPersistentState<Winner>('winner', null);
-    const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});
+    const boardState = await moduleAPI.shared.createSharedState<Board>('board_v5', initialBoard);
+    const winnerState = await moduleAPI.shared.createSharedState<Winner>('winner', null);
+    const scoreState = await moduleAPI.shared.createSharedState<Score>('score', {X: 0, O: 0, stalemate: 0});
 
-    const actions = moduleAPI.createActions({
+    const actions = moduleAPI.shared.createSharedActions({
         clickedCell: async (args: {row: number, column: number}) => {
             if (winnerState.getState()) {
                 return;
@@ -105,7 +105,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.registerRoute('/', {documentMeta: async () => ({
+    moduleAPI.ui.registerRoute('/', {documentMeta: async () => ({
         title: 'Tic Tac Toe! Yeah!',
         description: 'A simple tic-tac-toe game',
     })}, () => {

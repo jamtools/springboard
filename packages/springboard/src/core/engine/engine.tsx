@@ -16,9 +16,9 @@ import {
 import React, {createContext, useContext, useState} from 'react';
 
 import {useMount} from '../hooks/useMount.js';
-import {AllModules, Module, ModuleRegistry} from '../module_registry/module_registry.js';
+import {AllModules, ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
-import {SharedStateService} from '../services/states/shared_state_service.js';
+import {ServerStateService, SharedStateService} from '../services/states/shared_state_service.js';
 import {ModuleAPI} from './module_api.js';
 
 type CapturedRegisterModuleCalls = [string, RegisterModuleOptions, ModuleCallback<any>];
@@ -71,7 +71,7 @@ export class Springboard {
         },
     };
 
-    constructor(public coreDeps: CoreDependencies) {
+    constructor(public coreDeps: CoreDependencies, public extraModuleDependencies: ExtraModuleDependencies = {}) {
         this.constructorStartTime = now();
     }
 
@@ -80,6 +80,7 @@ export class Springboard {
     private remoteSharedStateService!: SharedStateService;
     private localSharedStateService!: SharedStateService;
     private sessionSharedStateService?: SharedStateService;
+    private serverStateService!: ServerStateService;
 
     initialize = async () => {
         const initStartTime = now();
@@ -99,7 +100,7 @@ export class Springboard {
 
         this.remoteSharedStateService = new SharedStateService({
             rpc: this.coreDeps.rpc.remote,
-            kv: this.coreDeps.storage.remote,
+            kv: this.coreDeps.storage.shared,
             log: this.coreDeps.log,
             isMaestro: this.coreDeps.isMaestro,
         });
@@ -127,6 +128,11 @@ export class Springboard {
                 isMaestro: this.coreDeps.isMaestro,
             });
             await this.sessionSharedStateService.initialize();
+        }
+
+        this.serverStateService = new ServerStateService(this.coreDeps.storage.server);
+        if (this.coreDeps.isMaestro()) {
+            await this.serverStateService.initialize();
         }
 
         await this.waitForPendingEntrypointRegistrations();
@@ -230,7 +236,7 @@ export class Springboard {
         api: ModuleReturnValue
     }> => {
         const mod: Module = {moduleId: descriptor.moduleId};
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), descriptor.options);
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), this.extraModuleDependencies, descriptor.options);
         const moduleReturnValue = await descriptor.initialize(moduleAPI);
 
         Object.assign(mod, moduleReturnValue);
@@ -248,7 +254,7 @@ export class Springboard {
         api: ModuleReturnValue
     }> => {
         const mod: Module = {moduleId};
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), options);
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), this.extraModuleDependencies, options);
         const moduleReturnValue = await cb(moduleAPI);
 
         Object.assign(mod, moduleReturnValue);
@@ -268,6 +274,7 @@ export class Springboard {
                 remoteSharedStateService: this.remoteSharedStateService,
                 localSharedStateService: this.localSharedStateService,
                 sessionSharedStateService: this.sessionSharedStateService,
+                serverStateService: this.serverStateService,
             },
         };
     };
@@ -277,7 +284,7 @@ export class Springboard {
 
         const mod = await Promise.resolve(cb(this.coreDeps, modDependencies));
 
-        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, modDependencies, {});
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, modDependencies, this.extraModuleDependencies, {});
 
         if (!isModuleEnabled(mod)) {
             return null;
@@ -364,16 +371,37 @@ export const SpringboardProviderPure = (props: SpringboardProviderProps) => {
     const {engine} = props;
     const mods = engine.moduleRegistry.getModules();
 
-    let stackedProviders: React.ReactNode = props.children;
+    // Collect all providers with their ranks from all modules
+    const allProvidersWithRank: Array<{provider: React.ElementType, rank: number}> = [];
+
     for (const mod of mods) {
-        const ModProvider = mod.Provider;
-        if (ModProvider) {
-            stackedProviders = (
-                <ModProvider>
-                    {stackedProviders}
-                </ModProvider>
-            );
+        // Support legacy single Provider property (treat as rank 0)
+        if (mod.Provider) {
+            allProvidersWithRank.push({
+                provider: mod.Provider,
+                rank: 0,
+            });
         }
+
+        // Collect new providers with their ranks
+        if (mod.providers) {
+            allProvidersWithRank.push(...mod.providers);
+        }
+    }
+
+    // Sort by rank descending (higher rank = outer wrapper)
+    // Within same rank, maintain registration order (stable sort)
+    allProvidersWithRank.sort((a, b) => b.rank - a.rank);
+
+    // Stack providers from lowest rank to highest (so highest rank ends up outermost)
+    let stackedProviders: React.ReactNode = props.children;
+    for (let i = allProvidersWithRank.length - 1; i >= 0; i--) {
+        const Provider = allProvidersWithRank[i]!.provider;
+        stackedProviders = (
+            <Provider>
+                {stackedProviders}
+            </Provider>
+        );
     }
 
     return (

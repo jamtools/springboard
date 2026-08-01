@@ -23,6 +23,6 @@ const applicationDescriptor = getApplicationDescriptorFromExports(applicationEnt
 
 startAndRenderBrowserApp({
   rpc: { remote: rpc, local: undefined },
-  storage: { userAgent: userAgentKvStore, remote: remoteKvStore, session: sessionKvStore },
+  storage: { shared: remoteKvStore, remote: remoteKvStore, server: remoteKvStore, userAgent: userAgentKvStore, session: sessionKvStore },
   dev: { reloadCss: false, reloadJs: false },
 }, applicationDescriptor);

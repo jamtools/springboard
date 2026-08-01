@@ -17,14 +17,17 @@ async function promiseAllObject<Obj extends Record<string, Promise<any>>>(
 }
 
 const createStates = async (moduleAPI: ModuleAPI) => {
-    return promiseAllObject({
-        myState: moduleAPI.statesAPI.createSharedState('myState', 'initial state'),
+    const states = await moduleAPI.shared.createSharedStates({
+        myState: 'initial state',
     });
+    return {
+        myState: states.myState,
+    };
 };
 
 const createMacros = async (moduleAPI: ModuleAPI) => {
     return promiseAllObject({
-        myMacro: moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, '', 'midi_button_input', {}),
+        myMacro: moduleAPI.getModule('macro').createMacro(moduleAPI, '', 'midi_button_input', {}),
     });
 };
 
@@ -37,7 +40,7 @@ springboard.registerModule('ModuleOrSnackTemplate', {}, async (moduleAPI): Promi
     const macros = await createMacros(moduleAPI);
 
     const actions: Actions = {
-        changeTheThing: moduleAPI.createAction('changeTheThing', {}, async ({newValue}) => {
+        changeTheThing: moduleAPI.internal.createAction('changeTheThing', {}, async ({newValue}) => {
             states.myState.setState(newValue);
         }),
     };
@@ -56,7 +59,7 @@ type States = Awaited<ReturnType<typeof createStates>>;
 type Macros = Awaited<ReturnType<typeof createMacros>>;
 
 const registerRoutes = (moduleAPI: ModuleAPI, states: States, macros: Macros, actions: Actions) => {
-    moduleAPI.registerRoute('', {}, () => {
+    moduleAPI.ui.registerRoute('', {}, () => {
         const myState = states.myState.useState();
 
         return (

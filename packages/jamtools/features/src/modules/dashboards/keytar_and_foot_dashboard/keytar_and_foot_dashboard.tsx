@@ -9,9 +9,9 @@ const KeytarAndFootDashboard = async (moduleAPI: ModuleAPI, dashboardName: strin
     const multiOctaveSupervisor = new MultiOctaveSupervisor(moduleAPI, dashboardName + '|multi-octave');
     const singleOctaveSupervisor = new SingleOctaveRootModeSupervisor(moduleAPI, dashboardName + '|single-octave-root-mode');
 
-    const randomNoteMacro = await moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, 'randomNoteTrigger', 'midi_button_input', {
+    const randomNoteMacro = await moduleAPI.getModule('macro').createMacro(moduleAPI, 'randomNoteTrigger', 'midi_button_input', {
         onTrigger: () => {
-            const randomNoteModule = moduleAPI.deps.module.moduleRegistry.getModule('RandomNote');
+            const randomNoteModule = moduleAPI.getModule('RandomNote');
             randomNoteModule.togglePlaying();
         },
     });
@@ -21,11 +21,11 @@ const KeytarAndFootDashboard = async (moduleAPI: ModuleAPI, dashboardName: strin
         singleOctaveSupervisor.initialize(),
     ]);
 
-    moduleAPI.registerRoute('kiosk', {hideApplicationShell: true}, () => (
+    moduleAPI.ui.registerRoute('kiosk', {hideApplicationShell: true}, () => (
         <singleOctaveSupervisor.renderKiosk/>
     ));
 
-    moduleAPI.registerRoute(dashboardName, {}, () => (
+    moduleAPI.ui.registerRoute(dashboardName, {}, () => (
         <div>
             <h1>
                 Keytar and Foot Dashboard

@@ -8,6 +8,7 @@ import {ServerAppDependencies} from './types/server_app_dependencies.js';
 import {createCommonWebSocketHooks} from './services/crossws_json_rpc.js';
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register.js';
 import {KVStore, Springboard} from '../core/index.js';
+import {NamespacedKVStore} from '../core/services/namespaced_kv_store.js';
 import {Adapter, AdapterInstance, Hooks} from 'crossws';
 import {ServerJsonRpcClientAndServer} from './services/server_json_rpc.js';
 import type {Peer} from 'crossws';
@@ -45,6 +46,8 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
 
 
     const remoteKV = initArgs.remoteKV;
+    const sharedKV = new NamespacedKVStore(remoteKV, 'shared:');
+    const serverKV = new NamespacedKVStore(remoteKV, 'server:');
     const userAgentKV = initArgs.userAgentKV;
 
     const rpc = new ServerJsonRpcClientAndServer({
@@ -259,7 +262,8 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
             local: undefined,
         },
         storage: {
-            remote: remoteKV,
+            shared: sharedKV,
+            server: serverKV,
             userAgent: userAgentKV,
         },
     };
