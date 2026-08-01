@@ -7,6 +7,7 @@ const require = createRequire(import.meta.url);
 const packageJSON = require('../../package.json');
 
 import {createDocsCommand} from './docs_command.js';
+import {generateReactNativeProject} from './generators/mobile/react_native_project_generator.js';
 
 /**
  * Resolve an entrypoint path to an absolute path
@@ -197,6 +198,15 @@ program
         //         restartTries: 0,
         //     }
         // );
+    });
+
+const scaffoldCommand = program.command('scaffold');
+
+scaffoldCommand.command('mobile')
+    .description('Scaffold a React Native mobile app')
+    .argument('[project-name]', 'Name of the mobile project', 'mobile-app')
+    .action(async (projectName: string) => {
+        await generateReactNativeProject(projectName);
     });
 
 program.addCommand(createDocsCommand());

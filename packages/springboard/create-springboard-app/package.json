@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "npm run clean && npm run prebuild && npm run build-cli",
-    "prebuild": "./scripts/generate-example-string.sh",
+    "prebuild": "./scripts/generate-example-string.sh && node scripts/serialize-workflows.js",
     "prepublishOnly": "npm run clean && npm run prebuild && npm run build-cli",
     "postinstall": "[ -f ./dist/cli.js ] || npm run build",
     "build-cli": "tsc && npm run add-header",

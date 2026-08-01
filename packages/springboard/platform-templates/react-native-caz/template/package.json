@@ -1,0 +1,68 @@
+{
+  "private": true,
+  "name": "<%= flat %>-mobile",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "expo start",
+    "lint": "eslint --ext js,ts,tsx .",
+    "start": "EXPO_APP_PROFILE=local expo start --clear",
+    "android": "[ ! -d android ] && (expo prebuild || exit 1); EXPO_APP_PROFILE=local JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home expo run:android --device",
+    "ios": "EXPO_APP_PROFILE=local expo run:ios --device",
+    "build-android": "EXPO_APP_PROFILE=preview JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home eas build --platform android --local --profile preview --output dist/$(date +%s)_app-release_${EXPO_APP_PROFILE}.apk",
+    "build-ios": "EXPO_APP_PROFILE=preview eas build --platform ios --local --profile preview --output dist/$(date +%s)_app-release_${EXPO_APP_PROFILE}.ipa",<% if (injectCustomCode) { %>
+    "inject-code": "echo 'Code injection complete'",
+    "post-scaffold": "npm run inject-code && echo 'Ready for development'",
+    "prebuild": "echo 'Pre-build hooks - can be customized by CLI'",<% } %>
+    "ci:build-android": "EXPO_APP_PROFILE=production eas build --platform android --profile production --non-interactive",
+    "ci:build-ios": "EXPO_APP_PROFILE=production eas build --platform ios --profile production --non-interactive",
+    "ci:build": "npm run ci:build-android && npm run ci:build-ios"
+  },
+  "dependencies": {<% if (customRnMainPackage) { %>
+    "<%= customRnMainPackage %>": "workspace:*",<% } %><% if (customRnSharedPackage) { %>
+    "<%= customRnSharedPackage %>": "workspace:*",<% } %><% if (customStorePackage) { %>
+    "<%= customStorePackage %>": "workspace:*",<% } %><% if (customFilesPackage) { %>
+    "<%= customFilesPackage %>": "workspace:*",<% } %>
+    "@expo/fingerprint": "^0.11.6",
+    "@expo/metro-runtime": "^4.0.1",
+    "@notifee/react-native": "^9.1.2",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-cookies/cookies": "^6.2.1",
+    "@springboardjs/platforms-react-native": "<%= springboardVersion || 'latest' %>",
+    "expo": "~52.0.46",
+    "expo-application": "~6.0.2",
+    "expo-auth-session": "~6.0.3",
+    "expo-background-fetch": "~13.0.6",
+    "expo-constants": "~17.0.8",
+    "expo-crypto": "~14.0.2",
+    "expo-dev-client": "~5.0.20",
+    "expo-device": "~7.0.3",
+    "expo-document-picker": "~13.0.3",
+    "expo-file-system": "~18.0.12",
+    "expo-haptics": "~14.0.1",
+    "expo-linking": "~7.0.5",
+    "expo-notifications": "~0.29.14",
+    "expo-screen-orientation": "~8.0.4",
+    "expo-share-intent": "^3.0.0",
+    "expo-status-bar": "~2.0.1",
+    "expo-system-ui": "~4.0.9",
+    "expo-task-manager": "~12.0.6",
+    "expo-updates": "~0.27.4",
+    "expo-web-browser": "~14.0.2",
+    "kysely-expo": "^3.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.9",
+    "react-native-get-random-values": "^1.11.0",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-web": "~0.19.11",
+    "react-native-webview": "^13.12.2",
+    "springboard": "<%= springboardVersion || 'latest' %>"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "babel-preset-expo": "~12.0.2",
+    "patch-package": "^8.0.0"
+  }
+}

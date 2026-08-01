@@ -148,6 +148,7 @@ bump_package_version "springboard-vite-plugin" "$root_dir/packages/springboard/v
 # External integrations
 bump_package_version "springboard-mantine" "$root_dir/packages/springboard/external/mantine"
 bump_package_version "springboard-shoelace" "$root_dir/packages/springboard/external/shoelace"
+bump_package_version "@springboardjs/template-react-native" "$root_dir/packages/springboard/platform-templates/react-native-caz"
 
 # Publish core packages first (dependencies)
 publish_selected_package "springboard" "$root_dir/packages/springboard"
@@ -161,6 +162,7 @@ publish_selected_package "jamtools-core" "$root_dir/packages/jamtools/core"
 
 # Publish CLI and tooling last (likely depend on core packages)
 publish_selected_package "create-springboard-app" "$root_dir/packages/springboard/create-springboard-app"
+publish_selected_package "@springboardjs/template-react-native" "$root_dir/packages/springboard/platform-templates/react-native-caz"
 
 # Core packages
 reset_package_version "springboard" "$root_dir/packages/springboard"
@@ -175,3 +177,4 @@ reset_package_version "springboard-vite-plugin" "$root_dir/packages/springboard/
 # External integrations
 reset_package_version "springboard-mantine" "$root_dir/packages/springboard/external/mantine"
 reset_package_version "springboard-shoelace" "$root_dir/packages/springboard/external/shoelace"
+reset_package_version "@springboardjs/template-react-native" "$root_dir/packages/springboard/platform-templates/react-native-caz"
