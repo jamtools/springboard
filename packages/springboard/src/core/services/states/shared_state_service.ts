@@ -64,6 +64,8 @@ export class SharedStateService {
         }
     };
 
+    refreshAll = this.refreshFromKV;
+
     subscribe = <Value>(key: string, cb: SubscribeCallback<Value>) => {
         this.subscriptions[key] = this.subscriptions[key] || [];
         this.subscriptions[key].push(cb);

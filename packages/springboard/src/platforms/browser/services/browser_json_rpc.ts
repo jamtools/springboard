@@ -27,7 +27,6 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
     private clientId = '';
     private ws?: ReconnectingWebSocket;
     private latestQueryParams?: Record<string, string>;
-    private hasConnected = false;
     private reconnectCallbacks: Array<() => void | Promise<void>> = [];
 
     getClientId = () => {
@@ -123,9 +122,10 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
         return new Promise<boolean>((resolve, _reject) => {
             let connected = false;
 
-            ws.onopen = () => {
+            ws.onopen = async () => {
+                const isReconnection = connected;
                 connected = true;
-                console.log('websocket connected');
+                console.log(isReconnection ? 'websocket reconnected' : 'websocket connected');
 
                 // conditionally use websockets if the rpc protocol is set to websocket
                 if (this.rpcProtocol === 'websocket') {
@@ -140,10 +140,9 @@ export class BrowserJsonRpcClientAndServer implements Rpc {
                     });
                 }
 
-                if (this.hasConnected) {
+                if (isReconnection) {
                     this.notifyReconnect();
                 }
-                this.hasConnected = true;
 
                 resolve(true);
             };

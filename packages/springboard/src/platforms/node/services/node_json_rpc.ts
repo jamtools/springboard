@@ -15,7 +15,6 @@ export class NodeJsonRpcClientAndServer implements Rpc {
     constructor (private url: string, private sessionStore: KVStore) {}
 
     private clientId = '';
-    private hasConnected = false;
     private reconnectCallbacks: Array<() => void | Promise<void>> = [];
 
     public role = 'client' as const;
@@ -112,9 +111,10 @@ export class NodeJsonRpcClientAndServer implements Rpc {
         return new Promise<boolean>((resolve, _reject) => {
             let connected = false;
 
-            ws.onopen = () => {
+            ws.onopen = async () => {
+                const isReconnection = connected;
                 connected = true;
-                console.log('websocket connected');
+                console.log(isReconnection ? 'websocket reconnected' : 'websocket connected');
                 this.rpcClient = new JSONRPCClient(async (request) => {
                     request.clientId = this.clientId;
                     if (ws.readyState === WebSocket.OPEN) {
@@ -126,10 +126,9 @@ export class NodeJsonRpcClientAndServer implements Rpc {
                     }
                 });
 
-                if (this.hasConnected) {
+                if (isReconnection) {
                     this.notifyReconnect();
                 }
-                this.hasConnected = true;
 
                 resolve(true);
             };
