@@ -28,7 +28,7 @@ jobs:
             - name: Install modules
               run: pnpm i
             - name: Build app
-              run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run build
     types:
         runs-on: ubuntu-latest
         steps:
@@ -45,9 +45,9 @@ jobs:
             - name: Install modules
               run: pnpm i
             - name: Build app
-              run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run build
             - name: Check Types
-              run: npx turbo run check-types --filter=springboard --filter=@springboard/vite-plugin
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run check-types
     lint:
         runs-on: ubuntu-latest
         steps:
@@ -64,9 +64,9 @@ jobs:
             - name: Install modules
               run: pnpm i
             - name: Build app
-              run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run build
             - name: Run eslint
-              run: npx turbo run lint --filter=springboard
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run lint
     test:
         runs-on: ubuntu-latest
         steps:
@@ -83,6 +83,6 @@ jobs:
             - name: Install modules
               run: pnpm i
             - name: Build app
-              run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run build
             - name: Run tests
-              run: npx turbo run test --filter=springboard
+              run: pnpm --recursive --if-present --filter '!...@jamtools/core' run test

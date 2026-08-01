@@ -194,19 +194,6 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
     let getEnvValueFn: ((name: string) => string | undefined) | undefined;
 
     if (enableStaticRoutes) {
-        app.use('/', async (c) => {
-            if (!serveStaticFileFn) {
-                return c.text('Server not fully initialized', 500);
-            }
-            const headers = {
-                'Cache-Control': 'no-store, no-cache, must-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0',
-                'Content-Type': 'text/html'
-            };
-            return serveStaticFileFn(c, 'index.html', headers);
-        });
-
         app.use('/assets/:file', async (c, next) => {
             if (!serveStaticFileFn || !getEnvValueFn) {
                 return c.text('Server not fully initialized', 500);
@@ -296,8 +283,12 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
     //     },
     // }));
 
-    if (enableStaticRoutes) {
-        app.use('*', async (c) => {
+    const registerSpaFallback = () => {
+        if (!enableStaticRoutes) {
+            return;
+        }
+
+        app.notFound(async (c) => {
             if (!serveStaticFileFn) {
                 return c.text('Server not fully initialized', 500);
             }
@@ -310,7 +301,7 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
 
             return serveStaticFileFn(c, 'index.html', headers);
         });
-    }
+    };
 
     const injectResources = (args: InjectResourcesArgs) => {
         if (storedEngine) {
@@ -331,6 +322,8 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
         for (const call of registeredServerModuleCallbacks) {
             call(makeServerModuleAPI());
         }
+
+        registerSpaFallback();
     };
 
     const createWebSocketHooks = (enableRpc?: boolean) => {
