@@ -26,7 +26,7 @@ console.error = function (message, ...args) {
 };
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
 
@@ -62,7 +62,7 @@ export const startAndRenderBrowserApp = async (args: {remoteUrl: string}): Promi
     // rootElem.style.overflowY = 'scroll';
     document.body.appendChild(rootElem);
 
-    const root = ReactDOM.createRoot(rootElem);
+    const root = createRoot(rootElem);
     root.render(<Main engine={engine} />);
 
     await engine.waitForInitialize();
