@@ -6,6 +6,11 @@
 // Export the main springboard registry
 export { springboard } from './core/engine/register.js';
 export { default } from './core/engine/register.js';
+export {
+    getApplicationDescriptorFromExports,
+    isDefinedModuleDescriptor,
+    isEntrypointDescriptor,
+} from './core/engine/register.js';
 
 // Export the Springboard engine and providers
 export {
@@ -25,6 +30,10 @@ export type {
 } from './core/types/module_types.js';
 
 export type {
+    DefinedModuleDescriptor,
+    SpringboardDescriptor,
+    SpringboardEntrypointComposer,
+    SpringboardEntrypointDescriptor,
     SpringboardRegistry,
 } from './core/engine/register.js';
 

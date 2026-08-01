@@ -1,5 +1,6 @@
 import {CoreDependencies, KVStore, Rpc, RpcArgs} from '../types/module_types.js';
-import {ExtraModuleDependencies} from '../module_registry/module_registry.js';
+import {Springboard} from '../engine/engine.js';
+import springboard, {SpringboardDescriptor} from '../engine/register.js';
 
 class MockKVStore implements KVStore {
     constructor(private store: Record<string, string> = {}) {}
@@ -61,11 +62,11 @@ export class MockRpcService implements Rpc {
     };
 }
 
-type MakeMockCoreDependenciesOptions = {
-    store: Record<string, string>;
+export type MakeMockCoreDependenciesOptions = {
+    store?: Record<string, string>;
 }
 
-export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOptions): CoreDependencies => {
+export const makeMockCoreDependencies = ({store = {}}: MakeMockCoreDependenciesOptions = {}): CoreDependencies => {
     return {
         isMaestro: () => true,
         showError: console.error,
@@ -81,8 +82,47 @@ export const makeMockCoreDependencies = ({store}: MakeMockCoreDependenciesOption
     };
 };
 
-export const makeMockExtraDependences = (): ExtraModuleDependencies => {
-    return {
+export type MakeMockSpringboardEngineOptions = {
+    /**
+     * The serialized KV store used by both mock remote and user-agent storage.
+     * Omit it for an isolated empty store.
+     */
+    store?: Record<string, string>;
+    /**
+     * Override the generated mock core dependencies when a test or Storybook
+     * story needs to replace a specific service.
+     */
+    coreDeps?: CoreDependencies;
+    /**
+     * Descriptor exports from a Springboard app/module. Passing descriptors
+     * mirrors platform bootstrapping without importing a module only for its
+     * registerModule side effects.
+     */
+    descriptors?: SpringboardDescriptor | SpringboardDescriptor[];
+    /**
+     * Set to false when the caller wants to register additional descriptors
+     * before starting the engine.
+     */
+    initialize?: boolean;
+};
 
-    };
+export const makeMockSpringboardEngine = async ({
+    store,
+    coreDeps,
+    descriptors = [],
+    initialize = true,
+}: MakeMockSpringboardEngineOptions = {}): Promise<Springboard> => {
+    springboard.reset();
+
+    const engine = new Springboard(coreDeps ?? makeMockCoreDependencies({store}));
+
+    for (const descriptor of Array.isArray(descriptors) ? descriptors : [descriptors]) {
+        await engine.registerDescriptor(descriptor);
+    }
+
+    if (initialize) {
+        await engine.initialize();
+    }
+
+    return engine;
 };

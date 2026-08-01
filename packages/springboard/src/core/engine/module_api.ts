@@ -1,5 +1,5 @@
 import {SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from '../services/states/shared_state_service.js';
-import {ExtraModuleDependencies, Module, ModuleRegistry, NavigationItemConfig, RegisteredRoute} from '../module_registry/module_registry.js';
+import {Module, ModuleRegistry, NavigationItemConfig, RegisteredRoute} from '../module_registry/module_registry.js';
 import {CoreDependencies, ModuleDependencies} from '../types/module_types.js';
 import {RegisterRouteOptions} from './register.js';
 
@@ -67,10 +67,10 @@ export class ModuleAPI {
         this.statesAPI.destroy();
     };
 
-    public readonly deps: {core: CoreDependencies; module: ModuleDependencies, extra: ExtraModuleDependencies};
+    public readonly deps: {core: CoreDependencies; module: ModuleDependencies};
 
-    constructor(private module: Module, private prefix: string, private coreDeps: CoreDependencies, private modDeps: ModuleDependencies, extraDeps: ExtraModuleDependencies, private options: ModuleOptions) {
-        this.deps = {core: coreDeps, module: modDeps, extra: extraDeps};
+    constructor(private module: Module, private prefix: string, private coreDeps: CoreDependencies, private modDeps: ModuleDependencies, private options: ModuleOptions) {
+        this.deps = {core: coreDeps, module: modDeps};
         this.moduleId = this.module.moduleId;
         this.fullPrefix = `${this.prefix}|module|${this.module.moduleId}`;
         this.statesAPI = new StatesAPI(this.fullPrefix, this.coreDeps, this.modDeps);

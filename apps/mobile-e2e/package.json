@@ -1,0 +1,39 @@
+{
+  "private": true,
+  "name": "@springboard/mobile-e2e-fixture",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start --clear",
+    "prebuild": "expo prebuild",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.29.7",
+    "@react-native/assets-registry": "0.79.5",
+    "expo": "~53.0.25",
+    "expo-asset": "~11.1.7",
+    "expo-constants": "~17.1.8",
+    "expo-file-system": "~18.1.11",
+    "expo-modules-core": "2.5.0",
+    "expo-splash-screen": "^31.0.13",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-webview": "^13.16.0",
+    "springboard": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.6",
+    "@expo/config-plugins": "^10.1.2",
+    "@react-native-community/cli": "18.0.0",
+    "@types/node": "20.17.48",
+    "@types/react": "19.2.6",
+    "babel-preset-expo": "~13.0.0",
+    "metro": "0.82.5",
+    "metro-cache": "0.82.5",
+    "metro-config": "0.82.5",
+    "typescript": "5.9.3"
+  }
+}

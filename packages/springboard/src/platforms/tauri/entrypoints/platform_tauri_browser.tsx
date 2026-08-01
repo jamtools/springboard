@@ -14,7 +14,6 @@ import {BrowserKVStoreService} from '../../browser/services/browser_kvstore_serv
 import {BrowserSessionKVStoreService} from '../../browser/services/browser_session_kvstore_service.js';
 import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
 import {Springboard} from '../../../core/engine/engine.js';
-import {ExtraModuleDependencies} from '../../../core/module_registry/module_registry.js';
 
 const RUN_SIDECAR_FROM_WEBVIEW = Boolean(process.env.RUN_SIDECAR_FROM_WEBVIEW);
 
@@ -59,10 +58,8 @@ export const startAndRenderBrowserApp = async (): Promise<Springboard> => {
         isMaestro: () => isLocal,
     };
 
-    const extraDeps: ExtraModuleDependencies = {
-    };
 
-    const engine = new Springboard(coreDeps, extraDeps);
+    const engine = new Springboard(coreDeps);
 
     // await waitForPageLoad();
 

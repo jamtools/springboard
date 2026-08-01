@@ -1,16 +1,20 @@
 import {useEffect, useState} from 'react';
 
-import springboard from '../../../core/engine/register.js';
+import {SpringboardDescriptor} from '../../../core/engine/register.js';
 import {Springboard} from '../../../core/engine/engine.js';
 
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
+import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
+import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
 
 import {ReactNativeToWebviewKVService} from '../services/kv/kv_rn_and_webview.js';
 import {RpcRNToWebview} from '../services/rpc/rpc_rn_to_webview.js';
+import {SpringboardExpoWebViewHost} from '../components/expo_springboard_webview_host.js';
+import type {BundledWebAssetModules} from '../services/expo_bundled_web_asset_loader.js';
 
 type UseAndInitializeSpringboardEngineProps = {
     onMessageFromRN: (message: string) => void;
-    applicationEntrypoint: ApplicationEntrypoint;
+    applicationEntrypoint: SpringboardDescriptor;
     asyncStorageDependency: AsyncStorageDependency;
     remoteRpc: Rpc; // new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
     remoteKv: KVStore;
@@ -27,10 +31,7 @@ const storedOnMessageFromRN = (message: string) => {
 
 // }
 
-import {SpringboardRegistry} from '../../../core/engine/register.js';
 import {AsyncStorageDependency} from '../services/kv/kv_rn_and_webview.js';
-
-type ApplicationEntrypoint = (registry: SpringboardRegistry) => void;
 
 export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringboardEngineProps) => {
     const [engineAndMessageCallback, setEngineAndMessageCallback] = useState<{engine: Springboard; handleMessageFromWebview: (message: string) => void} | null>(null);
@@ -45,34 +46,34 @@ export const useAndInitializeSpringboardEngine = (props: UseAndInitializeSpringb
             // const remoteKv = new ReactNativeToWebviewKVService({rpc: localRpc, prefix: 'remote'}, props.asyncStorageDependency);
             const remoteKv = props.remoteKv;
 
-            springboard.reset();
             try {
-                props.applicationEntrypoint(springboard);
+                const localEngine = createRNMainEngine({remoteRpc, remoteKv, onMessageFromRN: props.onMessageFromRN, asyncStorageDependency: props.asyncStorageDependency});
+                await localEngine.engine.registerDescriptor(props.applicationEntrypoint);
+                await localEngine.engine.initialize();
+                setEngineAndMessageCallback(localEngine);
+                return;
             } catch (e) {
                 console.error(e);
                 throw e;
             }
-
-            const localEngine = createRNMainEngine({remoteRpc, remoteKv, onMessageFromRN: props.onMessageFromRN, asyncStorageDependency: props.asyncStorageDependency});
-
-            try {
-                await localEngine.engine.initialize();
-                setEngineAndMessageCallback(localEngine);
-            } catch (e) {
-                alert(e);
-                throw e;
-            }
-
-            await new Promise<void>(r => setTimeout(() => {
-                r();
-            }, 20));
-
-            console.log('initialized engine');
         })();
     }, []);
 
     return engineAndMessageCallback;
 };
+
+export const createReactNativeRemoteServices = (remoteUrl: string) => {
+    const wsHost = remoteUrl.replace('http', 'ws');
+    const wsFullUrl = `${wsHost}/ws`;
+
+    return {
+        remoteRpc: new BrowserJsonRpcClientAndServer(wsFullUrl),
+        remoteKv: new HttpKVStoreService(remoteUrl),
+    };
+};
+
+export {SpringboardExpoWebViewHost};
+export type {BundledWebAssetModules};
 
 export const createRNMainEngine = (props: {
     remoteRpc: Rpc,
@@ -118,7 +119,7 @@ export const createRNMainEngine = (props: {
 
     // springboard.reset();
 
-    const engine = new Springboard(coreDeps, {});
+    const engine = new Springboard(coreDeps);
     return {
         engine,
         handleMessageFromWebview: (message: string) => storedOnReceiveMessageFromWebview(message),

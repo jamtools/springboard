@@ -3,10 +3,9 @@ import {act} from 'react';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
-import '../../../../modules/index.js';
 import springboard, {Springboard} from 'springboard';
 
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
+import {makeMockCoreDependencies} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
 import {QwertyCallbackPayload} from '../../../../types/io_types.js';
 import {MidiEventFull} from '../../macro_module_types.js';
@@ -17,17 +16,18 @@ import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 import {getMacroInputTestHelpers} from './macro_input_test_helpers.js';
 
-import '../../macro_handlers/index.js';
-
 describe('MusicalKeyboardInputMacroHandler', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
         springboard.reset();
         macroTypeRegistry.reset();
+
+        const cacheBust = `?t=${Date.now()}-${Math.random()}`;
+        await import(`../../../../modules/index.ts${cacheBust}`);
+        await import(`../../macro_handlers/index.ts${cacheBust}`);
     });
 
     it('should handle qwerty events', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
         const qwertySubject = new Subject<QwertyCallbackPayload>();
 
@@ -42,7 +42,7 @@ describe('MusicalKeyboardInputMacroHandler', () => {
 
         // coreDeps.inputs.qwerty.onInputEvent = qwertySubject;
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         await engine.initialize();
 
         const calls: MidiEventFull[] = [];

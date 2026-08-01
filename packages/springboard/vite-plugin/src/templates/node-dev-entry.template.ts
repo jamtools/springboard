@@ -1,6 +1,9 @@
 import process from 'node:process';
 
-import crosswsNode from 'crossws/adapters/node';
+import crosswsNodeImport from 'crossws/adapters/node';
+
+type CrosswsNodeAdapter = typeof crosswsNodeImport;
+const crosswsNode = ((crosswsNodeImport as unknown as {default?: CrosswsNodeAdapter}).default ?? crosswsNodeImport) as CrosswsNodeAdapter;
 
 import { initApp } from 'springboard/server/hono_app';
 import { makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/platforms/node/services/ws_server_core_dependencies';
@@ -62,7 +65,7 @@ export async function createDevServer(): Promise<DevServerHandle> {
 
   Object.assign(coreDeps, serverAppDependencies);
 
-  const engine = new Springboard(coreDeps, {});
+  const engine = new Springboard(coreDeps);
 
   injectResources({
     engine,

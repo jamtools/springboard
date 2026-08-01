@@ -1,0 +1,2 @@
+window.receiveMessageFromRN = window.receiveMessageFromRN || function receiveMessageFromRN() {};
+window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'springboard-mobile-e2e-local-assets-ready' }));

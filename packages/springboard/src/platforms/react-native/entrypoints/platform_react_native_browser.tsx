@@ -142,7 +142,7 @@ export const createRNWebviewEngine = (props: {remoteRpc: Rpc, remoteKv: KVStore,
         isMaestro: () => isLocal,
     };
 
-    const engine = new Springboard(coreDeps, {});
+    const engine = new Springboard(coreDeps);
     return engine;
 };
 

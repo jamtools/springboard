@@ -85,9 +85,8 @@ export async function start() {
 
     Object.assign(coreDeps, serverAppDependencies);
 
-    const extraDeps = {}; // TODO: remove this extraDeps thing from the framework
 
-    engine = new Springboard(coreDeps, extraDeps);
+    engine = new Springboard(coreDeps);
 
     injectResources({
       engine,

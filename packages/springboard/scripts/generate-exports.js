@@ -41,6 +41,8 @@ const AUTO_EXPORT_PATTERNS = [
   /^core\/types\/.+$/,
   /^core\/utils\/.+$/,
   /^platforms\/.+\/entrypoints\/.+$/,
+  /^platforms\/.+\/components\/.+$/,
+  /^platforms\/.+\/hooks\/.+$/,
   /^platforms\/.+\/services\/.+$/,
   /^legacy-cli\/esbuild-plugins\/.+$/,
 ];
