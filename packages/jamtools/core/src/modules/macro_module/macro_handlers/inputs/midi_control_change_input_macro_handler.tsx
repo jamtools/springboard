@@ -1,9 +1,9 @@
 import React from 'react';
 import {Subject} from 'rxjs';
 
-import {MidiEventFull} from '../../macro_module_types';
-import {getKeyForMacro, InputMacroStateHolders, useInputMacroWaiterAndSaver, savedMidiEventsAreEqual, getKeyForMidiEvent, MidiInputMacroPayload} from './input_macro_handler_utils';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {MidiEventFull} from '../../macro_module_types.js';
+import {getKeyForMacro, InputMacroStateHolders, useInputMacroWaiterAndSaver, savedMidiEventsAreEqual, getKeyForMidiEvent, MidiInputMacroPayload} from './input_macro_handler_utils.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 type MacroConfigItemMidiControlChangeInput = {
     onTrigger?(midiEvent: MidiEventFull): void;

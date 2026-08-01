@@ -6,7 +6,7 @@ const midiFileContent = fs.readFileSync(midiFilePath);
 
 import type midi from 'midi-file';
 
-import {MidiFileParser} from './midi_file_parser';
+import {MidiFileParser} from './midi_file_parser.js';
 
 describe('midi_file_parser', () => {
     const expected = {

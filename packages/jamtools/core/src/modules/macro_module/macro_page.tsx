@@ -1,5 +1,5 @@
 import React from 'react';
-import {MacroConfigState} from './macro_module';
+import {MacroConfigState} from './macro_module.js';
 
 type Props = {
     state: MacroConfigState;

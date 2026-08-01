@@ -4,6 +4,13 @@ import springboard from 'springboard';
 
 // @platform "node"
 console.log('only in node');
+
+import {serverRegistry} from 'springboard/server/register'
+serverRegistry.registerServerModule(api => {
+    api.hono.get('/yeah', async (req) => {
+        return new Response('Oh yeah');
+    });
+});
 // @platform end
 
 // @platform "browser"

@@ -3,12 +3,12 @@ import React, {useEffect, useState} from 'react';
 import {produce} from 'immer';
 import {Subject} from 'rxjs';
 
-import {getKeyForMacro} from './input_macro_handler_utils';
-import {savedMidiInputsAreEqual} from './musical_keyboard_input_macro_handler';
+import {getKeyForMacro} from './input_macro_handler_utils.js';
+import {savedMidiInputsAreEqual} from './musical_keyboard_input_macro_handler.js';
 
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
-import {MidiEventFull} from '../../macro_module_types';
+import {MidiEventFull} from '../../macro_module_types.js';
 
 type MusicalKeyboardPagedOctaveInputResult = {
     subject: Subject<MidiEventFull>;

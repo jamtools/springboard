@@ -86,77 +86,187 @@ Workflow:
 
             const context = `# Springboard Development Context
 
-You are working on a Springboard application. Springboard is a full-stack JavaScript framework built on React, Hono, JSON-RPC, and WebSockets for building real-time, multi-device applications.
+Springboard apps are isomorphic React applications with server-capable actions, Hono-backed HTTP/WebSocket routes, JSON-RPC, and synced state supervisors. Treat code as shared between browser and node unless a platform guard says otherwise.
+
+After changing application code, run the project's type check, usually:
+
+\`\`\`bash
+npm run check-types
+\`\`\`
+
+## Practical Module Pattern
+
+\`\`\`tsx
+import springboard, {generateId} from 'springboard';
+import type {StateSupervisor} from 'springboard/services/states/shared_state_service';
+
+type ItemsState = {
+  version: 1;
+  items: Array<{id: string; name: string}>;
+};
+
+type LocalUiState = {
+  selectedId: string | null;
+};
+
+springboard.registerModule('ItemsModule', {}, async (moduleAPI) => {
+  const shared = await moduleAPI.statesAPI.createSharedState<ItemsState>('items', {
+    version: 1,
+    items: [],
+  });
+
+  const persistent = await moduleAPI.createStates({
+    settings: {
+      version: 1,
+      sortBy: 'name' as 'name' | 'createdAt',
+    },
+  });
+
+  const localUi = await moduleAPI.statesAPI.createUserAgentState<LocalUiState>('ui', {
+    selectedId: null,
+  });
+
+  const actions = moduleAPI.createActions({
+    addItem: async (args: {name: string}) => {
+      const item = {id: generateId(), name: args.name};
+
+      shared.setStateImmer(state => {
+        state.items.push(item);
+      });
+
+      return {data: item};
+    },
+
+    selectItem: async (args: {id: string | null}) => {
+      localUi.setState({selectedId: args.id});
+      return null;
+    },
+  });
+
+  moduleAPI.registerRoute('/', {}, () => {
+    const liveShared = shared.useState();
+    const liveUi = localUi.useState();
+
+    return (
+      <main>
+        {liveShared.items.map(item => (
+          <button
+            key={item.id}
+            data-selected={item.id === liveUi.selectedId}
+            onClick={() => actions.selectItem({id: item.id})}
+          >
+            {item.name}
+          </button>
+        ))}
+      </main>
+    );
+  });
+
+  moduleAPI.onDestroy(() => {
+    // Unsubscribe timers, subjects, DOM listeners, or external resources here.
+  });
+
+  return {shared, persistent, localUi, actions};
+});
+
+declare module 'springboard/module_registry/module_registry' {
+  interface AllModules {
+    ItemsModule: {
+      shared: StateSupervisor<ItemsState>;
+      persistent: {
+        settings: StateSupervisor<{
+          version: 1;
+          sortBy: 'name' | 'createdAt';
+        }>;
+      };
+      localUi: StateSupervisor<LocalUiState>;
+      actions: {
+        addItem: (args: {name: string}) => Promise<{data: {id: string; name: string}}>;
+        selectItem: (args: {id: string | null}) => Promise<null>;
+      };
+    };
+  }
+}
+\`\`\`
+
+## Accessing Modules From Components
+
+\`\`\`tsx
+import {useModule} from 'springboard/engine/engine';
+
+export const ItemCount = () => {
+  const itemsModule = useModule('ItemsModule');
+  const state = itemsModule.shared.useState();
+
+  return <span>{state.items.length}</span>;
+};
+\`\`\`
+
+Use \`moduleAPI.getModule('OtherModule')\` inside module setup, actions, and route callbacks. Use \`useModule('OtherModule')\` inside React components. If a module may be absent in a platform build, model that in \`AllModules\` and use optional chaining.
+
+## State Choices
+
+- \`statesAPI.createSharedState\`: ephemeral synced state for live collaboration and current runtime state.
+- \`statesAPI.createPersistentState\`: synced state backed by remote storage.
+- \`moduleAPI.createStates\`: shorthand for multiple persistent states.
+- \`statesAPI.createUserAgentState\`: localStorage-backed state for one browser/device.
+- \`statesAPI.createLocalSessionState\`: sessionStorage-backed state for one browser tab/session.
+
+State supervisors expose:
+
+\`\`\`typescript
+state.getState();
+state.setState(nextValue);
+state.setState(prev => nextValue);
+state.setStateImmer(draft => {
+  // mutate draft
+});
+state.useState();
+\`\`\`
+
+## Actions And Platform Code
+
+\`moduleAPI.createActions\` creates functions that can be called locally or over RPC. In server-driven apps, action bodies normally run on node, but the source file is still parsed for browser builds. Guard node-only imports and code:
+
+\`\`\`tsx
+const actions = moduleAPI.createActions({
+  readConfig: async () => {
+    // @platform "node"
+    const fs = await import('node:fs/promises');
+    const text = await fs.readFile('config.json', 'utf-8');
+    return {text};
+    // @platform end
+
+    return {text: ''};
+  },
+});
+
+// @platform "node"
+import './modules/ServerOnlyModule';
+// @platform end
+
+// @platform "browser"
+window.addEventListener('load', () => {
+  // browser-only setup
+});
+// @platform end
+\`\`\`
+
+## Working Rules
+
+- Prefer Springboard state supervisors over ad hoc global state.
+- Do not mutate state returned by \`getState()\` or \`useState()\`; use \`setState\` or \`setStateImmer\`.
+- Keep derived values out of state; compute them in render or memoized selectors.
+- Register cleanup with \`moduleAPI.onDestroy\` for subscriptions, timers, and listeners.
+- Fetch focused docs only when needed: \`sb docs get springboard/module-api springboard/state-management\`.
 
 ## Available Documentation Sections
 
 ${sectionsList}
 
-## Key Concepts
-
-### Module Structure
-\`\`\`typescript
-import springboard from 'springboard';
-
-springboard.registerModule('ModuleName', {}, async (moduleAPI) => {
-  // Create state (pick the right type!)
-  const state = await moduleAPI.statesAPI.createSharedState('name', initialValue);
-
-  // Create actions (automatically RPC-enabled)
-  const actions = moduleAPI.createActions({
-    actionName: async (args) => { /* ... */ }
-  });
-
-  // Register routes
-  moduleAPI.registerRoute('/', {}, MyComponent);
-
-  // Cleanup
-  moduleAPI.onDestroy(() => { /* cleanup */ });
-
-  // Return public API
-  return { state, actions };
-});
-\`\`\`
-
-### State Types
-- **createSharedState**: Real-time sync across devices (ephemeral)
-- **createPersistentState**: Database-backed, survives restarts
-- **createUserAgentState**: Local only (localStorage)
-
-### StateSupervisor Methods
-\`\`\`typescript
-state.getState()                 // Get current value
-state.setState(newValue)         // Immutable update
-state.setStateImmer(draft => {}) // Mutable update with Immer
-state.useState()                 // React hook
-\`\`\`
-
-## Workflow
-
-1. **Use this context** + your React/TypeScript knowledge to write code
-2. **Fetch specific docs** with \`sb docs get <section>\` only when needed
-3. **See examples** with \`sb docs examples list\` and \`sb docs examples show <name>\`
-
 ## Available Examples
 
 ${examples.map(e => `- ${e.name}: ${e.description}`).join('\n')}
-
-## Common Mistakes to Avoid
-
-1. **Don't call getModule at module level** - call inside routes/actions
-2. **Use optional chaining** for module access: \`maybeModule?.actions?.doSomething()\`
-3. **Don't mutate state directly** - use setState or setStateImmer
-4. **Clean up subscriptions** in onDestroy
-5. **Don't store computed values** in state - use useMemo
-
-## Getting Specific Documentation
-
-If you need detailed documentation on a topic, run:
-\`\`\`bash
-sb docs get springboard/module-api
-sb docs get springboard/state-management
-sb docs get springboard/patterns
-\`\`\`
 `;
 
             console.log(context);
@@ -179,8 +289,12 @@ interface ModuleAPI {
     createSharedState<T>(name: string, initial: T): Promise<StateSupervisor<T>>;
     createPersistentState<T>(name: string, initial: T): Promise<StateSupervisor<T>>;
     createUserAgentState<T>(name: string, initial: T): Promise<StateSupervisor<T>>;
+    createLocalSessionState<T>(name: string, initial: T): Promise<StateSupervisor<T>>;
   };
 
+  createStates<T extends Record<string, any>>(states: T): Promise<{
+    [K in keyof T]: StateSupervisor<T[K]>;
+  }>;
   createActions<T extends Record<string, ActionFn>>(actions: T): T;
   createAction<Args, Return>(name: string, opts: {}, cb: ActionCallback<Args, Return>): ActionFn;
 
@@ -223,6 +337,7 @@ interface CoreDependencies {
   storage: {
     remote: KVStore;
     userAgent: KVStore;
+    session?: KVStore;
   };
   rpc: {
     remote: Rpc;
@@ -275,6 +390,14 @@ declare module 'springboard/module_registry/module_registry' {
     };
   }
 }
+\`\`\`
+
+## React Module Access
+
+\`\`\`typescript
+import {useModule} from 'springboard/engine/engine';
+
+const moduleApi = useModule('myModule');
 \`\`\`
 `;
 

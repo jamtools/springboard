@@ -27,11 +27,14 @@ import { PluginOption, ViteDevServer } from 'vite';
 import * as path from 'path';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import { Readable, type Duplex } from 'node:stream';
+import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 import { applyPlatformTransform } from './plugins/platform-inject.js';
 
 // Vite 6+ types (ModuleRunner not exported from vite types but available at runtime)
 type ModuleRunner = {
-  import: (url: string) => Promise<any>;
+  import: <TModule>(url: string) => Promise<TModule>;
   close: () => void;
 };
 
@@ -43,7 +46,92 @@ type ViteDevServerWithEnvironments = ViteDevServer & {
   environments: ViteEnvironments;
 };
 
+type WsAdapter = {
+  handleUpgrade: (req: IncomingMessage, socket: Duplex, head: Buffer) => Promise<void>;
+  closeAll: (code?: number, data?: string | Buffer, force?: boolean) => void;
+};
+
+type DevServerHandle = {
+  fetch: (request: Request) => Promise<Response>;
+  ws?: WsAdapter;
+  dispose?: () => Promise<void> | void;
+};
+
+type DevServerModule = {
+  createDevServer: () => Promise<DevServerHandle> | DevServerHandle;
+};
+
+type RequestInitWithDuplex = RequestInit & {
+  duplex?: 'half';
+};
+
 type PlatformKey = 'node' | 'browser' | 'web';
+
+const FALLBACK_HEADER = 'x-springboard-fallback';
+const SPRINGBOARD_GENERATED_DIR = path.join('node_modules', '.springboard');
+
+const createRequestFromNode = (req: IncomingMessage): Request => {
+  const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+  const headers = new Headers();
+
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (typeof value === 'string') {
+      headers.set(key, value);
+    } else if (Array.isArray(value)) {
+      for (const entry of value) {
+        headers.append(key, entry);
+      }
+    }
+  }
+
+  const method = req.method ?? 'GET';
+  if (method !== 'GET' && method !== 'HEAD') {
+    const requestBody = Readable.toWeb(req) as unknown as BodyInit;
+    const requestInit: RequestInitWithDuplex = {
+      method,
+      headers,
+      body: requestBody,
+      duplex: 'half',
+    };
+    return new Request(url, requestInit);
+  }
+
+  return new Request(url, { method, headers });
+};
+
+const applyResponseToNode = async (res: ServerResponse, response: Response, method: string): Promise<void> => {
+  res.statusCode = response.status;
+  if (response.statusText) {
+    res.statusMessage = response.statusText;
+  }
+
+  const headers = response.headers;
+  for (const [key, value] of headers.entries()) {
+    if (key.toLowerCase() === 'set-cookie') {
+      continue;
+    }
+    res.setHeader(key, value);
+  }
+
+  const setCookie = 'getSetCookie' in headers
+    ? (headers as unknown as { getSetCookie: () => string[] }).getSetCookie()
+    : [];
+  if (setCookie.length > 0) {
+    res.setHeader('set-cookie', setCookie);
+  }
+
+  if (method === 'HEAD' || response.body === null) {
+    res.end();
+    return;
+  }
+
+  const webStream = response.body as unknown as NodeReadableStream<Uint8Array>;
+  const body = Readable.fromWeb(webStream);
+  body.on('error', (err) => {
+    res.destroy(err);
+  });
+  body.pipe(res);
+};
 
 export type SpringboardOptions = {
   entry: string | Record<PlatformKey, string>;
@@ -83,7 +171,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
   // When running from dist/, we need to go up one level and into src/templates/
   const templatesDir = path.resolve(currentDir, '../src/templates');
 
-  // Helper to get project root (where .springboard/ will be created)
+  // Helper to get project root (where node_modules/.springboard/ will be created)
   const getProjectRoot = () => {
     // __dirname would be the test app directory in dev, or node_modules in production
     // We need to find the actual project root
@@ -100,10 +188,11 @@ export function springboard(options: SpringboardOptions): PluginOption {
     const platformKey = platform === 'browser' ? 'browser' : 'node';
     return options.entry[platformKey] ?? options.entry.web ?? options.entry.browser ?? options.entry.node;
   };
-  const SPRINGBOARD_DIR = path.resolve(projectRoot, '.springboard');
+  const SPRINGBOARD_DIR = path.resolve(projectRoot, SPRINGBOARD_GENERATED_DIR);
   const WEB_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'web-entry.js');
   const WEB_HTML_FILE = path.join(projectRoot, 'index.html'); // At project root for Vite
   const NODE_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-entry.ts');
+  const NODE_DEV_ENTRY_FILE = path.join(SPRINGBOARD_DIR, 'node-dev-entry.ts');
 
   // Load HTML template
   const htmlTemplate = readFileSync(
@@ -112,14 +201,15 @@ export function springboard(options: SpringboardOptions): PluginOption {
   );
 
   // Generate HTML for dev and build modes
-  const generateHtml = (): string => {
+  const generateHtml = (entryScriptSrc: string): string => {
     const meta = options.documentMeta || {};
     const title = meta.title || 'Springboard App';
     const description = meta.description || '';
 
     return htmlTemplate
       .replace('{{TITLE}}', title)
-      .replace('{{DESCRIPTION_META}}', description ? `<meta name="description" content="${description}">` : '');
+      .replace('{{DESCRIPTION_META}}', description ? `<meta name="description" content="${description}">` : '')
+      .replace('{{ENTRY_SCRIPT_SRC}}', entryScriptSrc);
   };
 
   // Load entry templates
@@ -129,6 +219,10 @@ export function springboard(options: SpringboardOptions): PluginOption {
   );
   const nodeEntryTemplate = readFileSync(
     path.join(templatesDir, 'node-entry.template.ts'),
+    'utf-8'
+  );
+  const nodeDevEntryTemplate = readFileSync(
+    path.join(templatesDir, 'node-dev-entry.template.ts'),
     'utf-8'
   );
 
@@ -144,7 +238,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
     },
 
     buildStart() {
-      // Create .springboard directory if it doesn't exist
+      // Create node_modules/.springboard directory if it doesn't exist
       if (!existsSync(SPRINGBOARD_DIR)) {
         mkdirSync(SPRINGBOARD_DIR, { recursive: true });
       }
@@ -152,13 +246,13 @@ export function springboard(options: SpringboardOptions): PluginOption {
       // Generate physical entry files based on platform
       const buildPlatform = hasWeb ? 'browser' : hasNode ? 'node' : null;
 
-      // Calculate the correct import path from .springboard/ to the user's entry file
+      // Calculate the correct import path from node_modules/.springboard/ to the user's entry file
       const platformEntry = resolveEntry(buildPlatform ?? 'browser');
       const absoluteEntryPath = path.isAbsolute(platformEntry)
         ? platformEntry
         : path.resolve(projectRoot, platformEntry);
 
-      // Then calculate the relative path from .springboard/ to the entry file
+      // Then calculate the relative path from node_modules/.springboard/ to the entry file
       const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
 
       if (buildPlatform === 'browser') {
@@ -167,10 +261,10 @@ export function springboard(options: SpringboardOptions): PluginOption {
         writeFileSync(WEB_ENTRY_FILE, webEntryCode, 'utf-8');
 
         // Generate HTML file at project root that references the web entry (relative path for Vite processing)
-        const buildHtml = generateHtml().replace('/.springboard/dev-entry.js', './.springboard/web-entry.js');
+        const buildHtml = generateHtml(`./${SPRINGBOARD_GENERATED_DIR}/web-entry.js`);
         writeFileSync(WEB_HTML_FILE, buildHtml, 'utf-8');
 
-        console.log('[springboard] Generated web entry file in .springboard/');
+        console.log('[springboard] Generated web entry file in node_modules/.springboard/');
       } else if (buildPlatform === 'node') {
         // Generate node entry file with user entry injected and port configured
         const port = options.nodeServerPort ?? 1337;
@@ -179,7 +273,7 @@ export function springboard(options: SpringboardOptions): PluginOption {
           .replace('__PORT__', String(port));
         writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
 
-        console.log('[springboard] Generated node entry file in .springboard/');
+        console.log('[springboard] Generated node entry file in node_modules/.springboard/');
       }
     },
 
@@ -187,32 +281,11 @@ export function springboard(options: SpringboardOptions): PluginOption {
       // Set dev mode flag based on Vite's command
       isDevMode = env.command === 'serve';
 
-      // Dev mode with both platforms - configure Vite proxy and SSR
-      if (isDevMode && hasNode && hasWeb) {
-        const nodePort = options.nodeServerPort ?? 1337;
-
+      if (isDevMode && hasNode) {
         return {
           server: {
-            proxy: {
-              '/rpc': {
-                target: `http://localhost:${nodePort}`,
-                changeOrigin: true,
-              },
-              '/kv': {
-                target: `http://localhost:${nodePort}`,
-                changeOrigin: true,
-              },
-              '/ws': {
-                target: `ws://localhost:${nodePort}`,
-                ws: true,
-                changeOrigin: true,
-              },
-            },
-          },
-          build: {
-            rollupOptions: {
-              input: WEB_ENTRY_FILE,  // Browser entry
-            }
+            perEnvironmentStartEndDuringDev: true,
+            perEnvironmentWatchChangeDuringDev: true,
           },
           ssr: {
             // External dependencies for SSR (node modules that shouldn't be bundled)
@@ -262,15 +335,119 @@ export function springboard(options: SpringboardOptions): PluginOption {
     },
 
     configureServer(server: ViteDevServer) {
-      // First, add HTML serving middleware
-      return () => {
+      let runner: ModuleRunner | null = null;
+      let currentFetch: ((request: Request) => Promise<Response>) | null = null;
+      let currentWs: WsAdapter | null = null;
+      let currentDispose: (() => Promise<void> | void) | null = null;
+      let reloadInFlight: Promise<void> | null = null;
+
+      const stopDevServer = async () => {
+        if (currentDispose) {
+          await currentDispose();
+        }
+        if (currentWs) {
+          currentWs.closeAll();
+        }
+        currentFetch = null;
+        currentWs = null;
+        currentDispose = null;
+        if (runner) {
+          runner.close();
+          runner = null;
+        }
+      };
+
+      const startDevServer = async () => {
+        try {
+          const viteModule = await import('vite') as unknown as {
+            createServerModuleRunner: (env: ViteDevServerWithEnvironments['environments']['ssr']) => ModuleRunner;
+          };
+
+          const serverWithEnv = server as ViteDevServerWithEnvironments;
+          runner = viteModule.createServerModuleRunner(serverWithEnv.environments.ssr);
+
+          const mod = await runner.import<DevServerModule>(NODE_DEV_ENTRY_FILE);
+          if (!mod || typeof mod.createDevServer !== 'function') {
+            console.error('[springboard] Node dev entry does not export createDevServer()');
+            return;
+          }
+
+          const handle = await mod.createDevServer();
+          currentFetch = handle.fetch;
+          currentWs = handle.ws ?? null;
+          currentDispose = handle.dispose ?? null;
+        } catch (err) {
+          console.error('[springboard] Failed to start node dev server:', err);
+        }
+      };
+
+      const reloadDevServer = async () => {
+        if (reloadInFlight) {
+          return reloadInFlight;
+        }
+
+        reloadInFlight = (async () => {
+          await stopDevServer();
+          await startDevServer();
+        })();
+
+        try {
+          await reloadInFlight;
+        } finally {
+          reloadInFlight = null;
+        }
+
+        return undefined;
+      };
+
+      server.middlewares.use(async (req, res, next) => {
+        if (!currentFetch) {
+          next();
+          return;
+        }
+
+        try {
+          const request = createRequestFromNode(req);
+          const response = await currentFetch(request);
+
+          if (response.headers.get(FALLBACK_HEADER) === '1') {
+            next();
+            return;
+          }
+
+          await applyResponseToNode(res, response, request.method);
+        } catch (err) {
+          next(err as Error);
+        }
+      });
+
+      server.httpServer?.on('upgrade', (req, socket, head) => {
+        if (!currentWs) {
+          return;
+        }
+
+        const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+        if (url.pathname !== '/ws') {
+          return;
+        }
+
+        void currentWs.handleUpgrade(req, socket, head);
+      });
+
+      // Clean up when Vite dev server closes
+      server.httpServer?.on('close', () => {
+        void stopDevServer();
+      });
+
+      return async () => {
         // Serve HTML for / and /index.html
         server.middlewares.use((req, res, next) => {
           if (req.url === '/' || req.url === '/index.html') {
+            const devEntrySrc = `/@fs/${WEB_ENTRY_FILE.split(path.sep).join('/')}`;
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/html');
             // Let Vite transform the HTML (for HMR injection)
-            server.transformIndexHtml(req.url, generateHtml()).then(transformed => {
+            server.transformIndexHtml(req.url, generateHtml(devEntrySrc)).then(transformed => {
               res.end(transformed);
             }).catch(next);
             return;
@@ -278,100 +455,40 @@ export function springboard(options: SpringboardOptions): PluginOption {
           next();
         });
 
-        // Only spawn node server if hasNode is true
         if (!hasNode) {
           console.log('[springboard] Browser-only mode - not starting node server');
           return;
         }
 
-      // Generate node entry file for dev mode
-      if (!existsSync(SPRINGBOARD_DIR)) {
-        mkdirSync(SPRINGBOARD_DIR, { recursive: true });
-      }
-
-      // Calculate the correct import path from .springboard/ to the user's entry file
-      const platformEntry = resolveEntry('node');
-      const absoluteEntryPath = path.isAbsolute(platformEntry)
-        ? platformEntry
-        : path.resolve(projectRoot, platformEntry);
-      const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
-
-      const port = options.nodeServerPort ?? 1337;
-      const nodeEntryCode = nodeEntryTemplate
-        .replace('__USER_ENTRY__', relativeEntryPath)
-        .replace('__PORT__', String(port));
-      writeFileSync(NODE_ENTRY_FILE, nodeEntryCode, 'utf-8');
-      console.log('[springboard] Generated node entry file for dev mode');
-
-      let runner: ModuleRunner | null = null;
-      let nodeEntryModule: { start?: () => Promise<void>; stop?: () => Promise<void> } | null = null;
-
-      // Start the node server using Vite 6+ ModuleRunner API
-      const startNodeServer = async () => {
-        try {
-          // Dynamically import createServerModuleRunner (Vite 6+ API)
-          // Type assertion needed because we're building with Vite 5 types but running with Vite 6+
-          const viteModule = await import('vite') as unknown as {
-            createServerModuleRunner: (env: unknown) => ModuleRunner;
-          };
-
-          // Create module runner with HMR support
-          const serverWithEnv = server as ViteDevServerWithEnvironments;
-          runner = viteModule.createServerModuleRunner(serverWithEnv.environments.ssr);
-
-          // Load and execute the node entry module
-          nodeEntryModule = await runner.import(NODE_ENTRY_FILE);
-
-          // Call the exported start() function
-          if (nodeEntryModule && typeof nodeEntryModule.start === 'function') {
-            await nodeEntryModule.start();
-            console.log('[springboard] Node server started via ModuleRunner');
-          } else {
-            console.error('[springboard] Node entry does not export a start() function');
-          }
-        } catch (err) {
-          console.error('[springboard] Failed to start node server:', err);
+        if (!existsSync(SPRINGBOARD_DIR)) {
+          mkdirSync(SPRINGBOARD_DIR, { recursive: true });
         }
-      };
 
-      const stopNodeServer = async () => {
-        if (runner) {
-          try {
-            // First, manually call stop() on the node entry module to close the HTTP server
-            // This is necessary because when Vite restarts (e.g., config change),
-            // the HMR dispose handler doesn't get called
-            if (nodeEntryModule?.stop && typeof nodeEntryModule.stop === 'function') {
-              await nodeEntryModule.stop();
-              console.log('[springboard] Node server stopped manually');
-            }
+        // Calculate the correct import path from node_modules/.springboard/ to the user's entry file
+        const platformEntry = resolveEntry('node');
+        const absoluteEntryPath = path.isAbsolute(platformEntry)
+          ? platformEntry
+          : path.resolve(projectRoot, platformEntry);
+        const relativeEntryPath = path.relative(SPRINGBOARD_DIR, absoluteEntryPath);
 
-            // Then close the runner (renamed from destroy() in Vite 6+)
-            runner.close();
-            runner = null;
-            nodeEntryModule = null;
-            console.log('[springboard] Node server runner closed');
-          } catch (err) {
-            console.error('[springboard] Failed to stop node server:', err);
+        const nodeDevEntryCode = nodeDevEntryTemplate.replace('__USER_ENTRY__', relativeEntryPath);
+        writeFileSync(NODE_DEV_ENTRY_FILE, nodeDevEntryCode, 'utf-8');
+        console.log('[springboard] Generated node dev entry file for single-port mode');
+
+        await startDevServer();
+
+        server.watcher.on('change', (file) => {
+          const ssrModuleGraph = server.environments.ssr.moduleGraph;
+          const changedModules = ssrModuleGraph.getModulesByFile(file);
+          if (!changedModules || changedModules.size === 0) {
+            return;
           }
-        }
-      };
 
-      // Start the node server when Vite dev server starts
-      startNodeServer();
-
-      console.log('[springboard] Vite proxy configured via server.proxy:');
-      console.log(`[springboard]   /rpc/* -> http://localhost:${port}/rpc/*`);
-      console.log(`[springboard]   /kv/*  -> http://localhost:${port}/kv/*`);
-      console.log(`[springboard]   /ws    -> ws://localhost:${port}/ws (WebSocket)`);
-
-      // Clean up when Vite dev server closes
-      server.httpServer?.on('close', () => {
-        stopNodeServer();
-      });
-
-      // Note: We DON'T add our own SIGINT/SIGTERM handlers here
-      // because Vite already handles those and will trigger the 'close' event
-      // Adding our own handlers would interfere with Vite's shutdown process
+          for (const moduleNode of changedModules) {
+            ssrModuleGraph.invalidateModule(moduleNode);
+          }
+          void reloadDevServer();
+        });
       };
     },
 
@@ -390,12 +507,6 @@ export function springboard(options: SpringboardOptions): PluginOption {
     },
 
     transformIndexHtml(html, ctx) {
-      // Only transform HTML in dev mode - in build mode, use the generated file
-      if (ctx.server) {
-        // Dev mode: generate HTML dynamically
-        return generateHtml();
-      }
-      // Build mode: return the HTML as-is (already generated in buildStart)
       return html;
     },
   };

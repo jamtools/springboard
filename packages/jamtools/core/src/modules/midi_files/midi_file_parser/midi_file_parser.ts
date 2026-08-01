@@ -1,6 +1,8 @@
 import midi from 'midi-file';
 
-import {Midi} from '@tonejs/midi';
+import tonejs from '@tonejs/midi';
+import type {Midi} from '@tonejs/midi';
+const {Midi: MidiClass} = tonejs;
 
 type SustainedNote = {
     midiNumber: number;
@@ -19,7 +21,7 @@ export type ParsedMidiFile = {
 
 export class MidiFileParser {
     parseWithTonejsMidiBuffer = (input: Buffer) => {
-        const parsed = new Midi(input);
+        const parsed = new MidiClass(input);
         return this.parseWithTonejsMidiData(parsed);
     };
 

@@ -50,6 +50,22 @@
       "types": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.d.ts",
       "import": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.js"
     },
+    "./modules/midi_files/midi_files_module": {
+      "types": "./dist/modules/midi_files/midi_files_module.d.ts",
+      "import": "./dist/modules/midi_files/midi_files_module.js"
+    },
+    "./modules/io/io_dependencies": {
+      "types": "./dist/modules/io/io_dependencies_types.d.ts",
+      "node": {
+        "import": "./dist/modules/io/io_dependencies.node.js"
+      },
+      "browser": {
+        "import": "./dist/modules/io/io_dependencies.browser.js"
+      },
+      "default": {
+        "import": "./dist/modules/io/io_dependencies.js"
+      }
+    },
     "./modules/macro_module/registered_macro_types": {
       "types": "./dist/modules/macro_module/registered_macro_types.d.ts",
       "import": "./dist/modules/macro_module/registered_macro_types.js"

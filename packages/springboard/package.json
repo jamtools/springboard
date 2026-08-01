@@ -132,6 +132,10 @@
       "types": "./dist/platforms/browser/services/browser_kvstore_service.d.ts",
       "import": "./dist/platforms/browser/services/browser_kvstore_service.js"
     },
+    "./platforms/browser/services/browser_session_kvstore_service": {
+      "types": "./dist/platforms/browser/services/browser_session_kvstore_service.d.ts",
+      "import": "./dist/platforms/browser/services/browser_session_kvstore_service.js"
+    },
     "./platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint": {
       "types": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.d.ts",
       "import": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.js"

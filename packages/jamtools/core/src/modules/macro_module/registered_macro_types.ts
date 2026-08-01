@@ -1,8 +1,8 @@
 import {ModuleAPI, StatesAPI} from 'springboard/engine/module_api';
 
-import type {MacroTypeConfigs} from './macro_module_types';
-import {IoModule} from '../io/io_module';
-import type {MacroModule} from './macro_module';
+import type {MacroTypeConfigs} from './macro_module_types.js';
+import {IoModule} from '../io/io_module.js';
+import type {MacroModule} from './macro_module.js';
 
 export type RegisterMacroTypeOptions = {
 

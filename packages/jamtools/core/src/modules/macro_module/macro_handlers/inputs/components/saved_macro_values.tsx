@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {getKeyForMidiEvent} from '../input_macro_handler_utils';
+import {getKeyForMidiEvent} from '../input_macro_handler_utils.js';
 
 export type SavedMacroValues = {
     saved: MidiEventFull[];

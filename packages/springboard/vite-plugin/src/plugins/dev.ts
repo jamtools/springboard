@@ -4,107 +4,152 @@
  * Handles development server setup with HMR and ModuleRunner for node platform.
  */
 
-import type { Plugin, ViteDevServer, ResolvedConfig } from 'vite';
-import type { NormalizedOptions, NodeEntryModule, Platform } from '../types.js';
+import type { Plugin, ViteDevServer } from 'vite';
+import type { NormalizedOptions } from '../types.js';
 import { createLogger } from './shared.js';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import { Readable, type Duplex } from 'node:stream';
+import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 
-// Vite 6+ types (not available in Vite 5 types but available at runtime with Vite 6+)
+const FALLBACK_HEADER = 'x-springboard-fallback';
+
 type ModuleRunner = {
-    import: (url: string) => Promise<NodeEntryModule>;
+    import: <TModule>(url: string) => Promise<TModule>;
     close: () => void;
 };
 
-type ViteEnvironments = {
-    ssr: unknown;
+type WsAdapter = {
+    handleUpgrade: (req: IncomingMessage, socket: Duplex, head: Buffer) => Promise<void>;
+    closeAll: (code?: number, data?: string | Buffer, force?: boolean) => void;
 };
 
-type ViteDevServerWithEnvironments = ViteDevServer & {
-    environments: ViteEnvironments;
+type DevServerHandle = {
+    fetch: (request: Request) => Promise<Response>;
+    ws?: WsAdapter;
+    dispose?: () => Promise<void> | void;
+};
+
+type DevServerModule = {
+    createDevServer: () => Promise<DevServerHandle> | DevServerHandle;
+};
+
+type RequestInitWithDuplex = RequestInit & {
+    duplex?: 'half';
 };
 
 /**
- * Load the node entry template from the templates directory
+ * Load the node dev entry template from the templates directory
  */
-function loadNodeEntryTemplate(): string {
-    // Get the directory of this file (will be in dist/plugins/ when built)
+function loadNodeDevEntryTemplate(): string {
     const currentDir = path.dirname(fileURLToPath(import.meta.url));
-    // Templates are in src/templates/, so from dist/plugins/ we go up to package root, then into src/templates/
-    const templatePath = path.resolve(currentDir, '../../src/templates/node-entry.template.ts');
+    const templatePath = path.resolve(currentDir, '../../src/templates/node-dev-entry.template.ts');
     return readFileSync(templatePath, 'utf-8');
 }
 
 /**
- * Generate node entry code with user entry path and port injected
+ * Generate node dev entry code with user entry path injected
  */
-function generateNodeEntryCode(userEntryPath: string, port: number = 3000): string {
-    const template = loadNodeEntryTemplate();
-    return template
-        .replace('__USER_ENTRY__', userEntryPath)
-        .replace('__PORT__', String(port));
+function generateNodeDevEntryCode(userEntryPath: string): string {
+    const template = loadNodeDevEntryTemplate();
+    return template.replace('__USER_ENTRY__', userEntryPath);
 }
+
+const createRequestFromNode = (req: IncomingMessage): Request => {
+    const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+    const headers = new Headers();
+
+    for (const [key, value] of Object.entries(req.headers)) {
+        if (typeof value === 'string') {
+            headers.set(key, value);
+        } else if (Array.isArray(value)) {
+            for (const entry of value) {
+                headers.append(key, entry);
+            }
+        }
+    }
+
+    const method = req.method ?? 'GET';
+    const hasBody = method !== 'GET' && method !== 'HEAD';
+    if (hasBody) {
+        const requestBody = Readable.toWeb(req) as unknown as BodyInit;
+        const requestInit: RequestInitWithDuplex = {
+            method,
+            headers,
+            body: requestBody,
+            duplex: 'half',
+        };
+        return new Request(url, requestInit);
+    }
+
+    return new Request(url, { method, headers });
+};
+
+const applyResponseToNode = async (res: ServerResponse, response: Response, method: string): Promise<void> => {
+    res.statusCode = response.status;
+    if (response.statusText) {
+        res.statusMessage = response.statusText;
+    }
+
+    const headers = response.headers;
+    for (const [key, value] of headers.entries()) {
+        if (key.toLowerCase() === 'set-cookie') {
+            continue;
+        }
+        res.setHeader(key, value);
+    }
+
+    const setCookie = 'getSetCookie' in headers
+        ? (headers as unknown as { getSetCookie: () => string[] }).getSetCookie()
+        : [];
+    if (setCookie.length > 0) {
+        res.setHeader('set-cookie', setCookie);
+    }
+
+    if (method === 'HEAD' || response.body === null) {
+        res.end();
+        return;
+    }
+
+    const webStream = response.body as unknown as NodeReadableStream<Uint8Array>;
+    const body = Readable.fromWeb(webStream);
+    body.on('error', (err) => {
+        res.destroy(err);
+    });
+    body.pipe(res);
+};
 
 /**
  * Create the springboard dev plugin.
- *
- * Responsibilities:
- * - Configure HMR for browser platforms
- * - Start node server via ModuleRunner for server platforms
- * - Handle hot module replacement
- *
- * @param options - Normalized plugin options
- * @returns Vite plugin
  */
 export function springboardDev(options: NormalizedOptions): Plugin {
     const logger = createLogger('dev', options.debug);
-    let resolvedConfig: ResolvedConfig;
     let server: ViteDevServer | null = null;
     let runner: ModuleRunner | null = null;
-    let nodeEntryModule: NodeEntryModule | null = null;
+    let currentFetch: ((request: Request) => Promise<Response>) | null = null;
+    let currentWs: WsAdapter | null = null;
+    let currentDispose: (() => Promise<void> | void) | null = null;
+    let reloadInFlight: Promise<void> | null = null;
 
     // Check if node platform is active
     const hasNode = options.platforms.includes('node');
     const hasBrowser = options.platforms.includes('browser');
-    const nodePort = options.nodeServerPort;
 
     return {
         name: 'springboard:dev',
         apply: 'serve',
 
         /**
-         * Store resolved config
+         * Configure dev server with SSR support for multi-platform setup
          */
-        configResolved(config) {
-            resolvedConfig = config;
-        },
-
-        /**
-         * Configure dev server with proxy and SSR for multi-platform setup
-         */
-        config(config, env) {
-            // Only configure proxy and SSR when both node and browser platforms are active
-            if (hasNode && hasBrowser) {
-                logger.info('Configuring Vite proxy and SSR for multi-platform dev mode');
-
+        config() {
+            if (hasNode || hasBrowser) {
                 return {
                     server: {
-                        proxy: {
-                            '/rpc': {
-                                target: `http://localhost:${nodePort}`,
-                                changeOrigin: true,
-                            },
-                            '/kv': {
-                                target: `http://localhost:${nodePort}`,
-                                changeOrigin: true,
-                            },
-                            '/ws': {
-                                target: `ws://localhost:${nodePort}`,
-                                ws: true,
-                                changeOrigin: true,
-                            },
-                        },
+                        perEnvironmentStartEndDuringDev: true,
+                        perEnvironmentWatchChangeDuringDev: true,
                     },
                     ssr: {
                         // noExternal fixes missing .js extensions in springboard imports
@@ -121,160 +166,151 @@ export function springboardDev(options: NormalizedOptions): Plugin {
         /**
          * Configure the dev server
          */
-        configureServer(devServer: ViteDevServer) {
+        async configureServer(devServer: ViteDevServer) {
             server = devServer;
 
             logger.info(`Dev server starting for platform: ${options.platform}`);
 
-            // Return middleware setup function
-            return () => {
-                // Custom middleware for Springboard-specific routes
-                devServer.middlewares.use((req, res, next) => {
-                    // Handle /__springboard/ routes for debugging
-                    if (req.url?.startsWith('/__springboard/')) {
-                        handleSpringboardRoute(req, res, options);
-                        return;
-                    }
-                    next();
-                });
+            // Custom middleware for Springboard-specific routes
+            devServer.middlewares.use((req, res, next) => {
+                if (req.url?.startsWith('/__springboard/')) {
+                    handleSpringboardRoute(req, res, options);
+                    return;
+                }
+                next();
+            });
 
-                // Only start node server if 'node' is one of the target platforms
-                if (!hasNode) {
-                    logger.debug('Node platform not active - skipping node server startup');
+            if (!hasNode) {
+                logger.debug('Node platform not active - skipping node server setup');
+                return;
+            }
+
+            const springboardDir = path.resolve(options.root, 'node_modules', '.springboard');
+            const nodeDevEntryFile = path.join(springboardDir, 'node-dev-entry.ts');
+
+            if (!existsSync(springboardDir)) {
+                mkdirSync(springboardDir, { recursive: true });
+            }
+
+            const absoluteEntryPath = path.isAbsolute(options.entry)
+                ? options.entry
+                : path.resolve(options.root, options.entry);
+            const relativeEntryPath = path.relative(springboardDir, absoluteEntryPath);
+
+            const nodeDevEntryCode = generateNodeDevEntryCode(relativeEntryPath);
+            writeFileSync(nodeDevEntryFile, nodeDevEntryCode, 'utf-8');
+            logger.info('Generated node dev entry file for single-port mode');
+
+            const stopServer = async () => {
+                if (currentDispose) {
+                    await currentDispose();
+                }
+                if (currentWs) {
+                    currentWs.closeAll();
+                }
+                currentFetch = null;
+                currentWs = null;
+                currentDispose = null;
+                if (runner) {
+                    runner.close();
+                    runner = null;
+                }
+            };
+
+            const startServer = async () => {
+                const viteModule = await import('vite') as unknown as {
+                    createServerModuleRunner: (env: ViteDevServer['environments']['ssr']) => ModuleRunner;
+                };
+
+                runner = viteModule.createServerModuleRunner(server!.environments.ssr);
+
+                const mod = await runner.import<DevServerModule>(nodeDevEntryFile);
+                if (!mod || typeof mod.createDevServer !== 'function') {
+                    logger.error('Dev entry does not export createDevServer()');
                     return;
                 }
 
-                // Generate and start node server
-                const springboardDir = path.resolve(options.root, '.springboard');
-                const nodeEntryFile = path.join(springboardDir, 'node-entry.ts');
+                const handle = await mod.createDevServer();
+                currentFetch = handle.fetch;
+                currentWs = handle.ws ?? null;
+                currentDispose = handle.dispose ?? null;
+            };
 
-                // Ensure .springboard directory exists
-                if (!existsSync(springboardDir)) {
-                    mkdirSync(springboardDir, { recursive: true });
+            const reloadServer = async () => {
+                if (reloadInFlight) {
+                    return reloadInFlight;
                 }
 
-                // Calculate relative path from .springboard/ to user entry
-                const absoluteEntryPath = path.isAbsolute(options.entry)
-                    ? options.entry
-                    : path.resolve(options.root, options.entry);
-                const relativeEntryPath = path.relative(springboardDir, absoluteEntryPath);
+                reloadInFlight = (async () => {
+                    await stopServer();
+                    await startServer();
+                })();
 
-                // Generate node entry file
-                const nodeEntryCode = generateNodeEntryCode(relativeEntryPath, nodePort);
-                writeFileSync(nodeEntryFile, nodeEntryCode, 'utf-8');
-                logger.info('Generated node entry file for dev mode');
+                try {
+                    await reloadInFlight;
+                } finally {
+                    reloadInFlight = null;
+                }
 
-                // Start the node server using ModuleRunner
-                const startNodeServer = async () => {
-                    try {
-                        // Dynamically import createServerModuleRunner (Vite 6+ API)
-                        // Type assertion needed because we're building with Vite 5 types but running with Vite 6+
-                        const viteModule = await import('vite') as unknown as {
-                            createServerModuleRunner: (env: unknown) => ModuleRunner;
-                        };
-
-                        // Create module runner with HMR support
-                        const serverWithEnv = server as ViteDevServerWithEnvironments;
-                        runner = viteModule.createServerModuleRunner(serverWithEnv.environments.ssr);
-
-                        // Load and execute the node entry module
-                        nodeEntryModule = await runner.import(nodeEntryFile);
-
-                        // Call the exported start() function
-                        if (nodeEntryModule && typeof nodeEntryModule.start === 'function') {
-                            await nodeEntryModule.start();
-                            logger.info('Node server started via ModuleRunner');
-                        } else {
-                            logger.error('Node entry does not export a start() function');
-                        }
-                    } catch (err) {
-                        logger.error(`Failed to start node server: ${err}`);
-                    }
-                };
-
-                const stopNodeServer = async () => {
-                    if (runner) {
-                        try {
-                            // First, manually call stop() on the node entry module to close the HTTP server
-                            // This is necessary because when Vite restarts (e.g., config change),
-                            // the HMR dispose handler doesn't get called
-                            if (nodeEntryModule?.stop && typeof nodeEntryModule.stop === 'function') {
-                                await nodeEntryModule.stop();
-                                logger.info('Node server stopped manually');
-                            }
-
-                            // Then close the runner (renamed from destroy() in Vite 6+)
-                            runner.close();
-                            runner = null;
-                            nodeEntryModule = null;
-                            logger.info('Node server runner closed');
-                        } catch (err) {
-                            logger.error(`Failed to stop node server: ${err}`);
-                        }
-                    }
-                };
-
-                // Start the node server when Vite dev server starts
-                startNodeServer();
-
-                logger.info('Vite proxy configured via server.proxy:');
-                logger.info(`  /rpc/* -> http://localhost:${nodePort}/rpc/*`);
-                logger.info(`  /kv/*  -> http://localhost:${nodePort}/kv/*`);
-                logger.info(`  /ws    -> ws://localhost:${nodePort}/ws (WebSocket)`);
-
-                // Clean up when Vite dev server closes
-                server!.httpServer?.on('close', () => {
-                    stopNodeServer();
-                });
+                return undefined;
             };
-        },
 
-        /**
-         * Handle HMR updates
-         */
-        handleHotUpdate({ file, server, modules }) {
-            // Log file changes in debug mode
-            if (options.debug) {
-                logger.debug(`HMR update: ${file}`);
-            }
+            await startServer();
 
-            // If user code changed, re-initialize the engine after module reload
-            // The ModuleRunner will automatically re-import the module, but we need
-            // to call start() again to re-initialize the Springboard engine
+            devServer.middlewares.use(async (req, res, next) => {
+                if (!currentFetch) {
+                    next();
+                    return;
+                }
 
-            // Check if the changed file is within the project root (excludes node_modules, etc.)
-            // and is not a generated file (excludes .springboard/, dist/, etc.)
-            const isUserCode = isNodePlatformActive &&
-                file.startsWith(options.root) &&
-                !file.includes(path.sep + 'node_modules' + path.sep) &&
-                !file.includes(path.sep + '.springboard' + path.sep) &&
-                !file.includes(path.sep + 'dist' + path.sep);
+                try {
+                    const request = createRequestFromNode(req);
+                    const response = await currentFetch(request);
 
-            if (isUserCode) {
-                // Schedule start() to be called after the module reloads
-                // Use setImmediate to allow the module reload to complete first
-                setImmediate(async () => {
-                    try {
-                        if (nodeEntryModule && typeof nodeEntryModule.start === 'function') {
-                            logger.info('[HMR] Re-initializing Springboard engine...');
-                            await nodeEntryModule.start();
-                            logger.info('[HMR] Engine re-initialized successfully');
-                        }
-                    } catch (err) {
-                        logger.error(`[HMR] Failed to re-initialize engine: ${err}`);
+                    if (response.headers.get(FALLBACK_HEADER) === '1') {
+                        next();
+                        return;
                     }
-                });
-            }
 
-            // Let Vite handle HMR normally
-            return undefined;
-        },
+                    await applyResponseToNode(res, response, request.method);
+                } catch (err) {
+                    next(err as Error);
+                }
+            });
 
-        /**
-         * Cleanup on server close
-         */
-        async buildEnd() {
-            // Cleanup handled in configureServer hook
+            devServer.httpServer?.on('upgrade', (req, socket, head) => {
+                if (!currentWs) {
+                    return;
+                }
+
+                const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+                if (url.pathname !== '/ws') {
+                    return;
+                }
+
+                void currentWs.handleUpgrade(req, socket, head);
+            });
+
+            devServer.httpServer?.on('close', () => {
+                void stopServer();
+            });
+
+            devServer.watcher.on('change', (file) => {
+                const ssrModuleGraph = server?.environments.ssr.moduleGraph;
+                if (!ssrModuleGraph) {
+                    return;
+                }
+
+                const changedModules = ssrModuleGraph.getModulesByFile(file);
+                if (!changedModules || changedModules.size === 0) {
+                    return;
+                }
+
+                for (const moduleNode of changedModules) {
+                    ssrModuleGraph.invalidateModule(moduleNode);
+                }
+                void reloadServer();
+            });
         },
     };
 }
