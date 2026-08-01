@@ -76,7 +76,6 @@ program
     let packageManager = 'npm';
     try {
         execSync('pnpm --version', {cwd: process.cwd(), stdio: 'ignore'});
-        console.log('Using pnpm as the package manager\n');
         packageManager = 'pnpm';
     } catch (error) {
     }
@@ -107,6 +106,7 @@ program
         'dist',
         'data/kv_data.json',
         'data/kv.db',
+        'data/kv_data.db',
         '.springboard',
         'index.html',
     ];
@@ -340,6 +340,10 @@ This project is indexed by GitNexus as **vibe-kanban-vscode-web** (940 symbols, 
 
     // Set up GitHub workflows and actions
     setupGithubWorkflows(process.cwd());
+
+    execSync('git init', {cwd: process.cwd()});
+    execSync('git add .', {cwd: process.cwd()});
+    execSync('git commit -m "Initial commit"', {cwd: process.cwd()});
 
     console.log('Project created successfully! Run the following to start the development server:\n');
     console.log('npm run dev\n');
