@@ -49,28 +49,6 @@ function setupGithubWorkflows(targetDir: string) {
     }
 }
 
-function hasGitConfigValue(name: string, targetDir: string): boolean {
-    try {
-        const value = execSync(`git config --get ${name}`, {cwd: targetDir, stdio: ['ignore', 'pipe', 'ignore']});
-        return value.toString().trim().length > 0;
-    } catch (error) {
-        return false;
-    }
-}
-
-function createInitialGitCommit(targetDir: string) {
-    execSync('git init', {cwd: targetDir});
-    execSync('git add .', {cwd: targetDir});
-
-    const hasUserName = hasGitConfigValue('user.name', targetDir);
-    const hasUserEmail = hasGitConfigValue('user.email', targetDir);
-    const commitCommand = hasUserName && hasUserEmail
-        ? 'git commit -m "Initial commit"'
-        : 'git -c user.name="create-springboard-app" -c user.email="create-springboard-app@example.invalid" commit -m "Initial commit"';
-
-    execSync(commitCommand, {cwd: targetDir});
-}
-
 program
     .name('create-springboard-app')
     .description('Generate a new Springboard application')
@@ -363,7 +341,9 @@ This project is indexed by GitNexus as **vibe-kanban-vscode-web** (940 symbols, 
     // Set up GitHub workflows and actions
     setupGithubWorkflows(process.cwd());
 
-    createInitialGitCommit(process.cwd());
+    execSync('git init', {cwd: process.cwd()});
+    execSync('git add .', {cwd: process.cwd()});
+    execSync('git commit -m "Initial commit"', {cwd: process.cwd()});
 
     console.log('Project created successfully! Run the following to start the development server:\n');
     console.log('npm run dev\n');
