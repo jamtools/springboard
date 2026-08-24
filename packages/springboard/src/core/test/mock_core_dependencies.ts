@@ -67,12 +67,15 @@ export type MakeMockCoreDependenciesOptions = {
 }
 
 export const makeMockCoreDependencies = ({store = {}}: MakeMockCoreDependenciesOptions = {}): CoreDependencies => {
+    const sharedStore = new MockKVStore(store);
+
     return {
         isMaestro: () => true,
         showError: console.error,
         log: () => {},
         storage: {
-            shared: new MockKVStore(store),
+            shared: sharedStore,
+            remote: sharedStore,
             server: new MockKVStore(store),
             userAgent: new MockKVStore(store),
         },

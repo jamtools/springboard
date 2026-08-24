@@ -105,6 +105,8 @@ describe('ModuleAPI', () => {
 
         expect(initialized).toEqual(['AsyncFirst']);
         expect(engine.moduleRegistry.getModule('AsyncFirst' as never)).toBeTruthy();
+    });
+
     it('should register React providers with ranks', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
         const extraDeps = {};
