@@ -12,6 +12,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./core/engine/client_api": {
+      "types": "./dist/core/engine/client_api.d.ts",
+      "import": "./dist/core/engine/client_api.js"
+    },
     "./core/engine/engine": {
       "types": "./dist/core/engine/engine.d.ts",
       "import": "./dist/core/engine/engine.js"
@@ -23,6 +27,22 @@
     "./core/engine/register": {
       "types": "./dist/core/engine/register.d.ts",
       "import": "./dist/core/engine/register.js"
+    },
+    "./core/engine/server_api": {
+      "types": "./dist/core/engine/server_api.d.ts",
+      "import": "./dist/core/engine/server_api.js"
+    },
+    "./core/engine/shared_api": {
+      "types": "./dist/core/engine/shared_api.d.ts",
+      "import": "./dist/core/engine/shared_api.js"
+    },
+    "./core/engine/ui_api": {
+      "types": "./dist/core/engine/ui_api.d.ts",
+      "import": "./dist/core/engine/ui_api.js"
+    },
+    "./core/engine/user_agent_api": {
+      "types": "./dist/core/engine/user_agent_api.d.ts",
+      "import": "./dist/core/engine/user_agent_api.js"
     },
     "./core": {
       "types": "./dist/core/index.d.ts",
@@ -47,6 +67,10 @@
     "./core/services/http_kv_store_client": {
       "types": "./dist/core/services/http_kv_store_client.d.ts",
       "import": "./dist/core/services/http_kv_store_client.js"
+    },
+    "./core/services/namespaced_kv_store": {
+      "types": "./dist/core/services/namespaced_kv_store.d.ts",
+      "import": "./dist/core/services/namespaced_kv_store.js"
     },
     "./core/services/states/shared_state_service": {
       "types": "./dist/core/services/states/shared_state_service.d.ts",
@@ -100,9 +124,9 @@
       "types": "./dist/legacy-cli/index.d.ts",
       "import": "./dist/legacy-cli/index.js"
     },
-    "./platforms/browser/entrypoints/esbuild_watch_for_changes": {
-      "types": "./dist/platforms/browser/entrypoints/esbuild_watch_for_changes.d.ts",
-      "import": "./dist/platforms/browser/entrypoints/esbuild_watch_for_changes.js"
+    "./platforms/browser/components/run_local_button": {
+      "types": "./dist/platforms/browser/components/run_local_button.d.ts",
+      "import": "./dist/platforms/browser/components/run_local_button.js"
     },
     "./platforms/browser/entrypoints/main": {
       "types": "./dist/platforms/browser/entrypoints/main.d.ts",
@@ -140,22 +164,6 @@
       "types": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.d.ts",
       "import": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.js"
     },
-    "./platforms/node/entrypoints/main": {
-      "types": "./dist/platforms/node/entrypoints/main.d.ts",
-      "import": "./dist/platforms/node/entrypoints/main.js"
-    },
-    "./platforms/node/entrypoints/node_flexible_entrypoint": {
-      "types": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.d.ts",
-      "import": "./dist/platforms/node/entrypoints/node_flexible_entrypoint.js"
-    },
-    "./platforms/node/entrypoints/node_server_entrypoint": {
-      "types": "./dist/platforms/node/entrypoints/node_server_entrypoint.d.ts",
-      "import": "./dist/platforms/node/entrypoints/node_server_entrypoint.js"
-    },
-    "./platforms/node/index": {
-      "types": "./dist/platforms/node/index.d.ts",
-      "import": "./dist/platforms/node/index.js"
-    },
     "./platforms/node/entrypoints/node_entrypoint": {
       "types": "./dist/platforms/node/entrypoints/node_entrypoint.d.ts",
       "import": "./dist/platforms/node/entrypoints/node_entrypoint.js"
@@ -172,17 +180,13 @@
       "types": "./dist/platforms/node/services/node_kvstore_service.d.ts",
       "import": "./dist/platforms/node/services/node_kvstore_service.js"
     },
-    "./platforms/node/services/node_local_json_rpc": {
-      "types": "./dist/platforms/node/services/node_local_json_rpc.d.ts",
-      "import": "./dist/platforms/node/services/node_local_json_rpc.js"
-    },
-    "./platforms/node/services/node_rpc_async_local_storage": {
-      "types": "./dist/platforms/node/services/node_rpc_async_local_storage.d.ts",
-      "import": "./dist/platforms/node/services/node_rpc_async_local_storage.js"
-    },
     "./platforms/node/services/ws_server_core_dependencies": {
       "types": "./dist/platforms/node/services/ws_server_core_dependencies.d.ts",
       "import": "./dist/platforms/node/services/ws_server_core_dependencies.js"
+    },
+    "./platforms/react-native/components/expo_springboard_webview_host": {
+      "types": "./dist/platforms/react-native/components/expo_springboard_webview_host.d.ts",
+      "import": "./dist/platforms/react-native/components/expo_springboard_webview_host.js"
     },
     "./platforms/react-native/entrypoints/platform_react_native_browser": {
       "types": "./dist/platforms/react-native/entrypoints/platform_react_native_browser.d.ts",
@@ -196,9 +200,21 @@
       "types": "./dist/platforms/react-native/entrypoints/rn_app_springboard_entrypoint.d.ts",
       "import": "./dist/platforms/react-native/entrypoints/rn_app_springboard_entrypoint.js"
     },
+    "./platforms/react-native/hooks/use_expo_push_notifications": {
+      "types": "./dist/platforms/react-native/hooks/use_expo_push_notifications.d.ts",
+      "import": "./dist/platforms/react-native/hooks/use_expo_push_notifications.js"
+    },
     "./platforms/react-native/index": {
       "types": "./dist/platforms/react-native/index.d.ts",
       "import": "./dist/platforms/react-native/index.js"
+    },
+    "./platforms/react-native/services/expo_auth_session_helper": {
+      "types": "./dist/platforms/react-native/services/expo_auth_session_helper.d.ts",
+      "import": "./dist/platforms/react-native/services/expo_auth_session_helper.js"
+    },
+    "./platforms/react-native/services/expo_bundled_web_asset_loader": {
+      "types": "./dist/platforms/react-native/services/expo_bundled_web_asset_loader.d.ts",
+      "import": "./dist/platforms/react-native/services/expo_bundled_web_asset_loader.js"
     },
     "./platforms/react-native/services/kv/kv_rn_and_webview": {
       "types": "./dist/platforms/react-native/services/kv/kv_rn_and_webview.d.ts",
@@ -220,10 +236,6 @@
       "types": "./dist/platforms/tauri/entrypoints/platform_tauri_browser.d.ts",
       "import": "./dist/platforms/tauri/entrypoints/platform_tauri_browser.js"
     },
-    "./platforms/tauri/entrypoints/platform_tauri_maestro": {
-      "types": "./dist/platforms/tauri/entrypoints/platform_tauri_maestro.d.ts",
-      "import": "./dist/platforms/tauri/entrypoints/platform_tauri_maestro.js"
-    },
     "./platforms/tauri/index": {
       "types": "./dist/platforms/tauri/index.d.ts",
       "import": "./dist/platforms/tauri/index.js"
@@ -239,6 +251,14 @@
     "./server/services/crossws_json_rpc": {
       "types": "./dist/server/services/crossws_json_rpc.d.ts",
       "import": "./dist/server/services/crossws_json_rpc.js"
+    },
+    "./server/services/server_json_rpc": {
+      "types": "./dist/server/services/server_json_rpc.d.ts",
+      "import": "./dist/server/services/server_json_rpc.js"
+    },
+    "./server/types/server_app_dependencies": {
+      "types": "./dist/server/types/server_app_dependencies.d.ts",
+      "import": "./dist/server/types/server_app_dependencies.js"
     },
     "./services/http_kv_store_client": {
       "types": "./dist/core/services/http_kv_store_client.d.ts",
@@ -293,39 +313,7 @@
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
     },
-    "./package.json": "./package.json",
-    "./platforms/react-native": {
-      "types": "./dist/platforms/react-native/index.d.ts",
-      "import": "./dist/platforms/react-native/index.js"
-    },
-    "./platforms/react-native/components/expo_springboard_webview_host": {
-      "types": "./dist/platforms/react-native/components/expo_springboard_webview_host.d.ts",
-      "import": "./dist/platforms/react-native/components/expo_springboard_webview_host.js"
-    },
-    "./core/engine/client_api": {
-      "types": "./dist/core/engine/client_api.d.ts",
-      "import": "./dist/core/engine/client_api.js"
-    },
-    "./core/engine/server_api": {
-      "types": "./dist/core/engine/server_api.d.ts",
-      "import": "./dist/core/engine/server_api.js"
-    },
-    "./core/engine/shared_api": {
-      "types": "./dist/core/engine/shared_api.d.ts",
-      "import": "./dist/core/engine/shared_api.js"
-    },
-    "./core/engine/ui_api": {
-      "types": "./dist/core/engine/ui_api.d.ts",
-      "import": "./dist/core/engine/ui_api.js"
-    },
-    "./core/engine/user_agent_api": {
-      "types": "./dist/core/engine/user_agent_api.d.ts",
-      "import": "./dist/core/engine/user_agent_api.js"
-    },
-    "./core/services/namespaced_kv_store": {
-      "types": "./dist/core/services/namespaced_kv_store.d.ts",
-      "import": "./dist/core/services/namespaced_kv_store.js"
-    }
+    "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
@@ -379,6 +367,8 @@
     "build:watch": "npm run build -- --watch",
     "build:all": "./scripts/build-all.sh",
     "build:vite-plugin": "cd vite-plugin && npm run build",
+    "generate-exports": "node scripts/generate-exports.js",
+    "check-exports": "node scripts/generate-exports.js --check",
     "prepublishOnly": "npm run build:all",
     "publish:local": "./scripts/publish-local.sh"
   },

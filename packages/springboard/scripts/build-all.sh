@@ -27,6 +27,11 @@ cd "$PACKAGE_DIR/vite-plugin"
 pnpm build
 
 echo ""
+echo "4. Generating package exports..."
+cd "$PACKAGE_DIR"
+pnpm generate-exports
+
+echo ""
 echo "================================"
 echo "✓ Build complete!"
 echo ""

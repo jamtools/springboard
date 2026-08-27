@@ -32,13 +32,16 @@ jobs:
         run: pnpm i
 
       - name: Build
-        run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app
+        run: npx turbo run build --filter=springboard --filter=@springboard/vite-plugin --filter=create-springboard-app --filter=@jamtools/core
+
+      - name: Check generated package exports
+        run: npm run check:package-exports
 
       - name: Check types
-        run: npx turbo run check-types --filter=springboard --filter=@springboard/vite-plugin
+        run: npx turbo run check-types --filter=springboard --filter=@springboard/vite-plugin --filter=@jamtools/core
 
       - name: Test
-        run: npx turbo run test --filter=springboard
+        run: npx turbo run test --filter=springboard --filter=@jamtools/core
 
       - name: Run publish script with tag
-        run: ./scripts/run-all-folders.sh ${{ github.ref_name }} --mode npm --packages springboard,create-springboard-app
+        run: ./scripts/run-all-folders.sh ${{ github.ref_name }} --mode npm --packages springboard,jamtools-core,create-springboard-app

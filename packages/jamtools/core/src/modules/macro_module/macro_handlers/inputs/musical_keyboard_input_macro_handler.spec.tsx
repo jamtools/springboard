@@ -3,7 +3,8 @@ import {act} from 'react';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
-import springboard, {Springboard} from 'springboard';
+import springboard from 'springboard/core/engine/register';
+import {Springboard} from 'springboard/engine/engine';
 
 import {makeMockCoreDependencies} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
@@ -11,19 +12,20 @@ import {QwertyCallbackPayload} from '../../../../types/io_types.js';
 import {MidiEventFull} from '../../macro_module_types.js';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
 import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
-import {setIoDependencyCreator} from '../../../io/io_module.js';
+import {IoModule, setIoDependencyCreator} from '../../../io/io_module.js';
+import {MacroModule} from '../../macro_module.js';
 import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 import {getMacroInputTestHelpers} from './macro_input_test_helpers.js';
+import '../../macro_handlers/index.js';
 
 describe('MusicalKeyboardInputMacroHandler', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
         springboard.reset();
         macroTypeRegistry.reset();
 
-        const cacheBust = `?t=${Date.now()}-${Math.random()}`;
-        await import(`../../../../modules/index.ts${cacheBust}`);
-        await import(`../../macro_handlers/index.ts${cacheBust}`);
+        springboard.registerClassModule((coreDeps, modDependencies) => new IoModule(coreDeps, modDependencies));
+        springboard.registerClassModule((coreDeps, modDependencies) => new MacroModule(coreDeps, modDependencies));
     });
 
     it('should handle qwerty events', async () => {

@@ -13,6 +13,24 @@ import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
 
 export const getMacroInputTestHelpers = () => {
+    let engineForRender: Springboard | undefined;
+    let MacroRouteComponentForRender: React.ElementType | undefined;
+    let rerenderMacroPage: ReturnType<typeof render>['rerender'] | undefined;
+
+    const makeMacroPage = () => {
+        if (!engineForRender || !MacroRouteComponentForRender) {
+            throw new Error('Macro input test helpers must be set up before rendering the macro page.');
+        }
+
+        const MacroRouteComponent = MacroRouteComponentForRender;
+
+        return (
+            <SpringboardProviderPure engine={engineForRender}>
+                <MacroRouteComponent />
+            </SpringboardProviderPure>
+        );
+    };
+
     const setupTest = async (midiSubject: Subject<MidiEventFull>): Promise<Springboard> => {
         const coreDeps = makeMockCoreDependencies({store: {}});
 
@@ -30,14 +48,12 @@ export const getMacroInputTestHelpers = () => {
         await engine.initialize();
         const macroModule = engine.moduleRegistry.getModule('macro');
         const MacroRouteComponent = macroModule.routes!['']!.component;
+        engineForRender = engine;
+        MacroRouteComponentForRender = MacroRouteComponent;
 
-        render(
-            <SpringboardProviderPure engine={engine}>
-                <MacroRouteComponent />
-            </SpringboardProviderPure>
-        );
+        rerenderMacroPage = render(makeMacroPage()).rerender;
         await waitFor(() => {
-            expect(screen.getByRole('list')).toBeInTheDocument();
+            expect(screen.getAllByRole('list').length).toBeGreaterThan(0);
         });
 
         return engine;
@@ -45,7 +61,14 @@ export const getMacroInputTestHelpers = () => {
     };
 
     const gotoMacroPage = async () => {
-        return;
+        if (!rerenderMacroPage) {
+            throw new Error('Macro input test helpers must be set up before navigating to the macro page.');
+        }
+
+        rerenderMacroPage(makeMacroPage());
+        await waitFor(() => {
+            expect(screen.getAllByRole('list').length).toBeGreaterThan(0);
+        });
     };
 
     const clickCapture = async (moduleId: string) => {

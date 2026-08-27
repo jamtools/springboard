@@ -40,6 +40,7 @@ const AUTO_EXPORT_PATTERNS = [
   /^core\/test\/.+$/,
   /^core\/types\/.+$/,
   /^core\/utils\/.+$/,
+  /^server\/.+$/,
   /^platforms\/.+\/entrypoints\/.+$/,
   /^platforms\/.+\/components\/.+$/,
   /^platforms\/.+\/hooks\/.+$/,
@@ -83,6 +84,14 @@ function shouldExport(path) {
   return AUTO_EXPORT_PATTERNS.some(pattern => pattern.test(path));
 }
 
+function getExportPath(path) {
+  if (path === 'core/index') {
+    return './core';
+  }
+
+  return `./${path}`;
+}
+
 function generateExports() {
   const allPaths = getAllJsFiles(DIST_DIR);
   const exportsToGenerate = allPaths.filter(shouldExport);
@@ -101,7 +110,7 @@ function generateExports() {
   exportsToGenerate.sort().forEach(path => {
     if (path === 'index') return; // Already added as "."
 
-    const exportPath = `./${path}`;
+    const exportPath = getExportPath(path);
     const distPath = `./dist/${path}`;
 
     exports[exportPath] = {
@@ -146,20 +155,47 @@ function generateExports() {
   return exports;
 }
 
-function updatePackageJson() {
+function packageJsonWithGeneratedExports() {
   const packageJson = JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8'));
   const newExports = generateExports();
 
-  packageJson.exports = newExports;
+  return {
+    ...packageJson,
+    exports: newExports,
+  };
+}
+
+function stringifyPackageJson(packageJson) {
+  return JSON.stringify(packageJson, null, 2) + '\n';
+}
+
+function updatePackageJson() {
+  const packageJson = packageJsonWithGeneratedExports();
 
   writeFileSync(
     PACKAGE_JSON_PATH,
-    JSON.stringify(packageJson, null, 2) + '\n',
+    stringifyPackageJson(packageJson),
     'utf8'
   );
 
-  console.log(`Updated package.json with ${Object.keys(newExports).length} exports`);
+  console.log(`Updated package.json with ${Object.keys(packageJson.exports).length} exports`);
+}
+
+function checkPackageJson() {
+  const currentPackageJson = readFileSync(PACKAGE_JSON_PATH, 'utf8');
+  const nextPackageJson = stringifyPackageJson(packageJsonWithGeneratedExports());
+
+  if (currentPackageJson !== nextPackageJson) {
+    console.error('package.json exports are stale. Run `npm run generate-exports --prefix packages/springboard` and commit the result before tagging.');
+    process.exit(1);
+  }
+
+  console.log('package.json exports are up to date');
 }
 
 // Run the script
-updatePackageJson();
+if (process.argv.includes('--check')) {
+  checkPackageJson();
+} else {
+  updatePackageJson();
+}
