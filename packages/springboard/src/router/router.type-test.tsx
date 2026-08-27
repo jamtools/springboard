@@ -3,6 +3,7 @@ import React from 'react';
 import {
     asyncRouteComponent,
     defineRoute,
+    defineRouteComponent,
     defineRoutes,
     getRouteApi,
     useNavigate,
@@ -13,6 +14,21 @@ import * as Router from './index';
 import type {ModuleAPI} from '../core/engine/module_api';
 
 const Screen = () => React.createElement('div');
+const TypedSongScreen = defineRouteComponent<'/typed-component/$songId', {tab: 'lyrics' | 'overview'}>((props) => {
+    props.params.songId satisfies string;
+    props.search.tab satisfies 'lyrics' | 'overview';
+    props.navigate({to: '/settings'});
+
+    // @ts-expect-error route component params are scoped by the declared route path.
+    props.params.albumId satisfies string;
+
+    // @ts-expect-error route component search is scoped by the declared search type.
+    props.search.tab satisfies 'invalid';
+
+    return React.createElement('div');
+});
+const MismatchedSongScreen = defineRouteComponent<'/typed-component/$otherId'>(() => React.createElement('div'));
+const MismatchedSearchScreen = defineRouteComponent<'/typed-component/$songId', {tab: 'lyrics'}>(() => React.createElement('div'));
 
 const routes = defineRoutes([
     defineRoute({path: '/', component: Screen}),
@@ -45,7 +61,29 @@ const routes = defineRoutes([
         }),
     }),
     defineRoute({path: '/unvalidated', component: Screen}),
+    defineRoute({
+        path: '/typed-component/$songId',
+        component: TypedSongScreen,
+        validateSearch: (search) => ({
+            tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
+        }),
+    }),
 ]);
+
+defineRoute({
+    // @ts-expect-error defineRouteComponent path must match the descriptor path it is assigned to.
+    path: '/typed-component/$songId',
+    component: MismatchedSongScreen,
+});
+
+defineRoute({
+    path: '/typed-component/$songId',
+    component: MismatchedSearchScreen,
+    // @ts-expect-error defineRouteComponent search props must match the descriptor search type.
+    validateSearch: (search) => ({
+        tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
+    }),
+});
 
 const makeTypedRoutesModule = async () => ({
     routes,

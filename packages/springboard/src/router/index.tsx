@@ -5,9 +5,12 @@ import type {AllModules} from '../core/module_registry/module_registry.js';
 type UnknownSearch = Record<string, unknown>;
 type StringParams = Record<string, string>;
 
+const EMPTY_PATH_PARAMS: StringParams = Object.freeze({});
+const EMPTY_SEARCH: UnknownSearch = Object.freeze({});
+
 type SearchValidator<TSearch> = (search: UnknownSearch) => TSearch;
 export type SpringboardRoutePlatform = 'browser' | 'reactNative';
-export type SpringboardRouteComponentLoader = () => React.ComponentType | Promise<React.ComponentType | undefined> | undefined;
+export type SpringboardRouteComponentLoader = () => React.ComponentType<any> | Promise<React.ComponentType<any> | undefined> | undefined;
 export type SpringboardAsyncRouteComponent = {
     readonly __springboardAsyncRouteComponent: true;
     readonly loaders: {
@@ -15,11 +18,28 @@ export type SpringboardAsyncRouteComponent = {
         reactNative?: SpringboardRouteComponentLoader;
     };
 };
-export type SpringboardRouteComponent = React.ComponentType | SpringboardAsyncRouteComponent;
+export type SpringboardRouteProps<TPath extends string, TSearch = UnknownSearch> = {
+    params: PathParams<TPath>;
+    search: TSearch;
+    navigate: SpringboardNavigate;
+};
+export type SpringboardDefinedRouteComponent<TPath extends string, TSearch = UnknownSearch> =
+    React.ComponentType<SpringboardRouteProps<TPath, TSearch>> & {
+        readonly __springboardRouteComponent: true;
+        readonly __springboardRouteComponentPath: TPath;
+        readonly __springboardRouteComponentSearch?: TSearch;
+    };
+export type SpringboardPlainRouteComponent = React.ComponentType<Record<string, never>> & {
+    readonly __springboardRouteComponent?: never;
+};
+export type SpringboardRouteComponent<TPath extends string = string, TSearch = UnknownSearch> =
+    | SpringboardPlainRouteComponent
+    | SpringboardDefinedRouteComponent<TPath, TSearch>
+    | SpringboardAsyncRouteComponent;
 
 export type SpringboardRouteConfig<TPath extends string, TSearch> = {
     path: TPath;
-    component: SpringboardRouteComponent;
+    component: SpringboardRouteComponent<TPath, TSearch>;
     validateSearch?: SearchValidator<TSearch>;
     params?: {
         parse?: (params: StringParams) => unknown;
@@ -50,7 +70,10 @@ export type CollectedSpringboardRouteDescriptor<TPath extends string = string, T
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Register {}
 
-type AnyRoute = SpringboardRouteDescriptor<string, unknown>;
+type AnyRoute = {
+    path: string;
+    readonly __springboardRoute: true;
+};
 type RouteTuple = readonly AnyRoute[];
 type ExtractModuleRoutes<TModule> = TModule extends {routes?: infer TRoutes}
     ? NonNullable<TRoutes>
@@ -94,7 +117,7 @@ type ParamsArg<TPath extends string> = [keyof PathParams<TPath>] extends [never]
 type SearchArg<TPath extends string> = {search?: SearchFor<TPath>};
 
 export type SpringboardRouteComponentResolution =
-    | {status: 'component'; component: React.ComponentType}
+    | {status: 'component'; component: React.ComponentType<any>}
     | {status: 'absent'; reason: 'missing-platform-component'};
 
 export type SpringboardNavigateOptions<TPath extends RegisteredPath = RegisteredPath> = {
@@ -137,8 +160,36 @@ export const SpringboardRouterProvider = (props: React.PropsWithChildren<RouterC
     );
 };
 
-export const defineRoute = <const TPath extends string, TSearch = UnknownSearch>(
-    config: SpringboardRouteConfig<TPath, TSearch>,
+export const useSpringboardRouteProps = <TPath extends string, TSearch = SearchFor<TPath>>(): SpringboardRouteProps<TPath, TSearch> => {
+    const context = useSpringboardRouterContext();
+    const navigate = useNavigate();
+
+    const params = (context.pathParams || EMPTY_PATH_PARAMS) as PathParams<TPath>;
+    const search = (context.search || EMPTY_SEARCH) as TSearch;
+
+    return React.useMemo(() => ({
+        params,
+        search,
+        navigate,
+    }), [navigate, params, search]);
+};
+
+export const defineRouteComponent = <const TPath extends string, TSearch = UnknownSearch>(
+    component: React.ComponentType<SpringboardRouteProps<TPath, TSearch>>,
+): SpringboardDefinedRouteComponent<TPath, TSearch> => {
+    return Object.assign(component, {
+        __springboardRouteComponent: true as const,
+        __springboardRouteComponentPath: undefined as unknown as TPath,
+    });
+};
+
+export const defineRoute = <
+    const TPath extends string,
+    TSearch = UnknownSearch
+>(
+    config: Omit<SpringboardRouteConfig<TPath, TSearch>, 'component'> & {
+        component: SpringboardRouteComponent<TPath, TSearch>;
+    },
 ): SpringboardRouteDescriptor<TPath, TSearch> => {
     return {
         ...config,
@@ -432,7 +483,7 @@ export const resolveRegisteredRoute = (
 export const useNavigate = (): SpringboardNavigate => {
     const context = useSpringboardRouterContext();
 
-    return ((options: {to: string; params?: StringParams; search?: UnknownSearch}) => {
+    return React.useCallback(((options: {to: string; params?: StringParams; search?: UnknownSearch}) => {
         const route = resolveRegisteredRoute(context.routes, options.to);
         interpolatePath(route.path, options.params);
 
@@ -441,21 +492,21 @@ export const useNavigate = (): SpringboardNavigate => {
             params: options.params,
             search: options.search,
         });
-    }) as SpringboardNavigate;
+    }) as SpringboardNavigate, [context.navigate, context.routes]);
 };
 
 export const useParams = <TPath extends RegisteredPath,>(options: {from: TPath}): PathParams<TPath> => {
     const context = useSpringboardRouterContext();
     resolveRegisteredRoute(context.routes, options.from);
 
-    return (context.pathParams || {}) as PathParams<TPath>;
+    return (context.pathParams || EMPTY_PATH_PARAMS) as PathParams<TPath>;
 };
 
 export const useSearch = <TPath extends RegisteredPath,>(options: {from: TPath}): SearchFor<TPath> => {
     const context = useSpringboardRouterContext();
     resolveRegisteredRoute(context.routes, options.from);
 
-    return (context.search || {}) as SearchFor<TPath>;
+    return (context.search || EMPTY_SEARCH) as SearchFor<TPath>;
 };
 
 export const getRouteApi = <TPath extends RegisteredPath,>(path: TPath) => {

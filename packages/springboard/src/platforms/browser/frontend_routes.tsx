@@ -18,6 +18,7 @@ import {
     loadSpringboardRouteComponent,
     matchRoute,
     preloadSpringboardRouteComponents,
+    useSpringboardRouteProps,
 } from '../../router/index.js';
 import {rootRoute} from '../../core/ui/root_route.js';
 import {Layout} from './layout.js';
@@ -40,6 +41,7 @@ function createAppRouter(routes: AllRoutesFlat) {
 type AppRouter = ReturnType<typeof createAppRouter>;
 
 const BrowserRouteContent = (props: {descriptor: CollectedSpringboardRouteDescriptor}) => {
+    const routeProps = useSpringboardRouteProps();
     const routeComponent = useQuery({
         queryKey: ['springboard-route-component', 'browser', props.descriptor.internalId],
         queryFn: () => loadSpringboardRouteComponent(props.descriptor, 'browser'),
@@ -49,7 +51,7 @@ const BrowserRouteContent = (props: {descriptor: CollectedSpringboardRouteDescri
     });
 
     if (!isSpringboardAsyncRouteComponent(props.descriptor.component)) {
-        return React.createElement(props.descriptor.component);
+        return React.createElement(props.descriptor.component as React.ComponentType<any>, routeProps);
     }
 
     if (routeComponent.isPending) {
@@ -64,7 +66,7 @@ const BrowserRouteContent = (props: {descriptor: CollectedSpringboardRouteDescri
         return <div role="alert">Route "{props.descriptor.path}" has no browser component.</div>;
     }
 
-    return React.createElement(routeComponent.data.component);
+    return React.createElement(routeComponent.data.component as React.ComponentType<any>, routeProps);
 };
 
 const SpringboardTanStackRoutes = (props: {queryClient: QueryClient}) => {

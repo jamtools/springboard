@@ -15,6 +15,7 @@ import {
     loadSpringboardRouteComponent,
     normalizeSearch,
     preloadSpringboardRouteComponents,
+    useSpringboardRouteProps,
     useSpringboardRouterContext,
 } from '../../../router/index.js';
 
@@ -197,6 +198,7 @@ const SpringboardRouteContent = (props: {
     search: Record<string, unknown>;
 }) => {
     const {renderWebViewTarget, resolveWebViewTarget} = useContext(ReactNativeRoutingOptionsContext);
+    const routeProps = useSpringboardRouteProps();
     const webViewResolverContext = useMemo(() => getWebViewResolverContext(
         props.descriptor,
         props.pathParams,
@@ -224,7 +226,7 @@ const SpringboardRouteContent = (props: {
     });
 
     if (!isSpringboardAsyncRouteComponent(props.descriptor.component)) {
-        return React.createElement(props.descriptor.component);
+        return React.createElement(props.descriptor.component as React.ComponentType<any>, routeProps);
     }
 
     if (routeComponent.isPending) {
@@ -236,7 +238,7 @@ const SpringboardRouteContent = (props: {
     }
 
     if (routeComponent.data.status === 'component') {
-        return React.createElement(routeComponent.data.component);
+        return React.createElement(routeComponent.data.component as React.ComponentType<any>, routeProps);
     }
 
     if (webViewTarget.isPending) {

@@ -15,6 +15,8 @@ import {
     normalizeSearch,
     preloadSpringboardRouteComponents,
     resolveRegisteredRoute,
+    useParams,
+    useSpringboardRouteProps,
     useSearch,
 } from './index';
 
@@ -126,6 +128,62 @@ describe('springboard/router runtime utilities', () => {
         });
 
         expect(observedSearch).toEqual({hasDiscount: true});
+
+        act(() => {
+            root.unmount();
+        });
+        actEnvironment.IS_REACT_ACT_ENVIRONMENT = previousActEnvironment;
+    });
+
+    it('uses stable empty params and search objects when route context has none', () => {
+        const actEnvironment = globalThis as typeof globalThis & {IS_REACT_ACT_ENVIRONMENT?: boolean};
+        const previousActEnvironment = actEnvironment.IS_REACT_ACT_ENVIRONMENT;
+        actEnvironment.IS_REACT_ACT_ENVIRONMENT = true;
+        const route = defineRoute({path: '/', component: Screen});
+        const routes = collectRouteDescriptors([{moduleId: 'Root', routes: [route]}]);
+        const container = document.createElement('div');
+        const root = createRoot(container);
+        const observedParams: unknown[] = [];
+        const observedSearch: unknown[] = [];
+        const observedRouteProps: unknown[] = [];
+        const observedRoutePropParams: unknown[] = [];
+        const observedRoutePropSearch: unknown[] = [];
+
+        const Probe = () => {
+            const params = useParams({from: '/'});
+            const search = useSearch({from: '/'});
+            const routeProps = useSpringboardRouteProps();
+            observedParams.push(params);
+            observedSearch.push(search);
+            observedRouteProps.push(routeProps);
+            observedRoutePropParams.push(routeProps.params);
+            observedRoutePropSearch.push(routeProps.search);
+            return null;
+        };
+
+        act(() => {
+            root.render(
+                <SpringboardRouterProvider routes={routes}>
+                    <Probe />
+                </SpringboardRouterProvider>,
+            );
+        });
+
+        act(() => {
+            root.render(
+                <SpringboardRouterProvider routes={routes}>
+                    <Probe />
+                </SpringboardRouterProvider>,
+            );
+        });
+
+        expect(observedParams).toHaveLength(2);
+        expect(observedSearch).toHaveLength(2);
+        expect(observedParams[1]).toBe(observedParams[0]);
+        expect(observedSearch[1]).toBe(observedSearch[0]);
+        expect(observedRouteProps[1]).toBe(observedRouteProps[0]);
+        expect(observedRoutePropParams[1]).toBe(observedRoutePropParams[0]);
+        expect(observedRoutePropSearch[1]).toBe(observedRoutePropSearch[0]);
 
         act(() => {
             root.unmount();

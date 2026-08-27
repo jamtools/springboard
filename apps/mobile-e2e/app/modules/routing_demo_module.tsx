@@ -5,10 +5,9 @@ import {springboard} from 'springboard';
 import {
   asyncRouteComponent,
   defineRoute,
+  defineRouteComponent,
   defineRoutes,
   useNavigate,
-  useParams,
-  useSearch,
 } from 'springboard/router';
 
 const MobileE2ERootRoute = () => {
@@ -44,17 +43,16 @@ const MobileE2EStaticRoute = () => (
   </View>
 );
 
-const MobileE2EDynamicRoute = () => {
-  const params = useParams({from: '/songs/$songId'});
-  const search = useSearch({from: '/songs/$songId'});
+type MobileE2ESongSearch = {
+  tab: 'lyrics' | 'overview';
+};
 
-  return (
+const MobileE2EDynamicRoute = defineRouteComponent<'/songs/$songId', MobileE2ESongSearch>(({params, search}) => (
     <View testID="springboard-routing-dynamic">
       <Text testID="springboard-routing-song-id">{params.songId}</Text>
       <Text testID="springboard-routing-song-tab">{search.tab}</Text>
     </View>
-  );
-};
+));
 
 const BrowserWebViewOnlyRoute = () => (
   <View>
