@@ -1,5 +1,6 @@
 import React from 'react';
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 // Test @platform directive comment removal and line preservation
 
@@ -41,12 +42,18 @@ springboard.registerModule('platform_directives_test', {}, async (moduleAPI) => 
     // @platform end
     // Line 42 - After server context block
 
-    moduleAPI.ui.registerRoute('/', {}, () => {
+    const PlatformDirectivesTestRoute = () => {
         return (
             <div>
                 <h1>Platform Directives Test</h1>
                 <p>Shared: {sharedCode}</p>
             </div>
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: PlatformDirectivesTestRoute}),
+        ]),
+    };
 });

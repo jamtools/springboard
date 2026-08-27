@@ -2,6 +2,7 @@ import {MidiControlChangeInputResult} from '@jamtools/core/modules/macro_module/
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import './hand_raiser.css';
 
@@ -46,7 +47,7 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
         },
     });
 
-    m.ui.registerRoute('/', {}, () => {
+    const HandRaiserRoute = () => {
         const positions = states.handPositions.useState();
 
         return (
@@ -65,7 +66,16 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
                 </div>
             </div>
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/',
+                component: HandRaiserRoute,
+            }),
+        ]),
+    };
 });
 
 type HandRaiserModuleProps = {

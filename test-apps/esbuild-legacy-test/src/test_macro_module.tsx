@@ -1,4 +1,5 @@
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 import '@jamtools/core/modules/macro_module/macro_module';
 
 springboard.registerModule('TestMacro', {}, async (moduleAPI) => {
@@ -15,7 +16,13 @@ springboard.registerModule('TestMacro', {}, async (moduleAPI) => {
         console.log('MIDI event received:', evt.event.number);
     });
 
-    moduleAPI.ui.registerRoute('', {}, () => {
+    const TestMacroRoute = () => {
         return <div>Test Macro Module</div>;
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/modules/TestMacro', component: TestMacroRoute}),
+        ]),
+    };
 });

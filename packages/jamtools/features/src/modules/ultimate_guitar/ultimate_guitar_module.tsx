@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 import {isErrorResponse} from 'springboard/types/response_types';
 
 import {parseUltimateGuitarHTMLContent} from './ultimate_guitar_utils';
@@ -36,15 +37,15 @@ springboard.registerModule('Ultimate_Guitar', {}, async (moduleAPI): Promise<Ult
 
     const actions = new Actions(moduleAPI, states);
 
-    moduleAPI.ui.registerRoute('', {hideApplicationShell: true}, () => (
+    const UltimateGuitarRoute = () => (
         <UltimateGuitarMainView
             currentSetlistStatus={states.currentSetlistStatus.useState()}
             savedSetlists={states.savedSetlists.useState()}
             savedTabs={states.savedTabs.useState()}
         />
-    ));
+    );
 
-    moduleAPI.ui.registerRoute('manage', {}, () => (
+    const UltimateGuitarManageRoute = () => (
         <UltimateGuitarManageView
             currentSetlistStatus={states.currentSetlistStatus.useState()}
             savedSetlists={states.savedSetlists.useState()}
@@ -60,13 +61,29 @@ springboard.registerModule('Ultimate_Guitar', {}, async (moduleAPI): Promise<Ult
             transposeSong={(setlistId: string, url: string, transpose: number) => actions.transposeSong({setlistId, url, transpose})}
             gotoSong={(setlistId: string, songIndex: number) => actions.gotoSong({setlistId, songIndex})}
         />
-    ));
+    );
 
-    moduleAPI.ui.registerRoute('qrcode', {}, () => (
+    const UltimateGuitarQRCodeViewRoute = () => (
         <UltimateGuitarQRCode/>
-    ));
+    );
 
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/ultimate_guitar',
+                component: UltimateGuitarRoute,
+                options: {hideApplicationShell: true},
+            }),
+            defineRoute({
+                path: '/modules/ultimate_guitar/manage',
+                component: UltimateGuitarManageRoute,
+            }),
+            defineRoute({
+                path: '/modules/ultimate_guitar/qrcode',
+                component: UltimateGuitarQRCodeViewRoute,
+            }),
+        ]),
+    };
 });
 
 class States {

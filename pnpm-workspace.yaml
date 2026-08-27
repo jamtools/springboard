@@ -20,6 +20,8 @@ catalog:
   "@types/react": "19.2.6"
   "@types/react-dom": "19.2.3"
   "react-router": "7.9.6"
+  "@tanstack/react-query": "^5"
+  "@tanstack/react-router": "^1.130.12"
 
   # State Management & Reactive Programming
   rxjs: "7.8.1"

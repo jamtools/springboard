@@ -20,20 +20,9 @@ const useApplicationShell = (modules: Module[]) => {
             continue;
         }
 
-        for (const route of Object.keys(mod.routes)) {
-            if (route.startsWith('/')) {
-                if (matchPath(route, loc.pathname)) {
-                    const options = mod.routes[route]!.options;
-                    if (options?.hideApplicationShell) {
-                        return null;
-                    }
-                }
-
-                continue;
-            }
-
-            if (matchPath(`/modules/${mod.moduleId}/${route}`, loc.pathname)) {
-                const options = mod.routes[route]!.options;
+        for (const route of mod.routes) {
+            if (matchPath(route.path, loc.pathname)) {
+                const options = route.options;
                 if (options?.hideApplicationShell) {
                     return null;
                 }

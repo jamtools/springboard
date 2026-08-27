@@ -98,6 +98,7 @@ npm run check-types
 
 \`\`\`tsx
 import springboard, {generateId} from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 import type {StateSupervisor} from 'springboard/services/states/shared_state_service';
 
 type ItemsState = {
@@ -143,7 +144,7 @@ springboard.registerModule('ItemsModule', {}, async (moduleAPI) => {
     },
   });
 
-  moduleAPI.registerRoute('/', {}, () => {
+  const ExampleRoute = () => {
     const liveShared = shared.useState();
     const liveUi = localUi.useState();
 
@@ -160,7 +161,9 @@ springboard.registerModule('ItemsModule', {}, async (moduleAPI) => {
         ))}
       </main>
     );
-  });
+  };
+
+  return {routes: defineRoutes([defineRoute({path: '/', component: ExampleRoute})])};
 
   moduleAPI.onDestroy(() => {
     // Unsubscribe timers, subjects, DOM listeners, or external resources here.
@@ -298,7 +301,7 @@ interface ModuleAPI {
   createActions<T extends Record<string, ActionFn>>(actions: T): T;
   createAction<Args, Return>(name: string, opts: {}, cb: ActionCallback<Args, Return>): ActionFn;
 
-  registerRoute(path: string, options: RegisterRouteOptions, component: React.ComponentType): void;
+  routes?: readonly SpringboardRouteDescriptor[];
   registerApplicationShell(component: React.ComponentType): void;
 
   getModule<K extends keyof AllModules>(id: K): AllModules[K];

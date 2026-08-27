@@ -22,14 +22,14 @@ const DEFAULT_CSS_PATTERN = /<link rel="stylesheet" href="\/dist\/index-([A-Za-z
 const DEFAULT_JS_PATTERN = /<script src="\/dist\/index-([A-Za-z0-9]+)\.js"><\/script>/;
 
 export const loadBundledWebAppAssets = async (options: LoadBundledWebAppAssetsOptions) => {
-    const destinationDirectory = options.destinationDirectory || FileSystem.documentDirectory;
+    const destinationDirectory = options.destinationDirectory || (FileSystem as {documentDirectory?: string | null}).documentDirectory;
     if (!destinationDirectory) {
         throw new Error('No document directory available for Expo bundled web assets');
     }
 
-    const htmlAsset = Asset.fromModule(options.assetModules.html);
-    const cssAsset = Asset.fromModule(options.assetModules.css);
-    const jsAsset = Asset.fromModule(options.assetModules.js);
+    const htmlAsset = Asset.fromModule(options.assetModules.html as Parameters<typeof Asset.fromModule>[0]);
+    const cssAsset = Asset.fromModule(options.assetModules.css as Parameters<typeof Asset.fromModule>[0]);
+    const jsAsset = Asset.fromModule(options.assetModules.js as Parameters<typeof Asset.fromModule>[0]);
 
     await Promise.all([
         htmlAsset.downloadAsync(),

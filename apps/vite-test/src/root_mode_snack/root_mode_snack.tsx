@@ -4,6 +4,7 @@ import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote} from './root_mod
 
 import {RootModeComponent} from './root_mode_component';
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import '@jamtools/core/modules/macro_module/macro_module';
 
@@ -28,7 +29,7 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
         });
     };
 
-    moduleAPI.ui.registerRoute('', {}, () => {
+    const MainRoute = () => {
         const state = rootModeState.useState();
 
         const onClick = () => {
@@ -41,7 +42,7 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
                 onClick={onClick}
             />
         );
-    });
+    };
 
     const {input, output} = await (moduleAPI.getModule as any)('macro').createMacros(moduleAPI, {
         input: {type: 'musical_keyboard_input', config: {}},
@@ -85,6 +86,12 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
             });
         }
     });
+
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/modules/Main', component: MainRoute}),
+        ]),
+    };
 });
 
 const getChordFromRootNote = (scale: number, rootNote: number): number[] => {

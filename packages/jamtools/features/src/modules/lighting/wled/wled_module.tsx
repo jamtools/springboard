@@ -10,6 +10,7 @@ import {BaseModule, ModuleHookValue} from 'springboard/modules/base_module/base_
 import {Module} from 'springboard/module_registry/module_registry';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 type WledClientStatus = {
     url: string;
@@ -47,8 +48,9 @@ export class WledModule implements Module<WledState> {
 
     cleanup: (() => void)[] = [];
 
-    routes = {
-        '': {
+    routes = defineRoutes([
+        defineRoute({
+            path: '/modules/wled',
             component: () => {
                 const mod = WledModule.use();
 
@@ -58,8 +60,8 @@ export class WledModule implements Module<WledState> {
                     </pre>
                 );
             },
-        },
-    };
+        }),
+    ]);
 
     // wled controllers need to be stored as hostnames,
     // so they are readable and stay consistent for that controller

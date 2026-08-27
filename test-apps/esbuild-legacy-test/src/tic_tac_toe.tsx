@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 console.log('hi mom 8')
 
@@ -100,10 +101,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.ui.registerRoute('/', {documentMeta: async () => ({
-        title: 'Tic Tac Toe! Yeah!',
-        description: 'A simple tic-tac-toe game',
-    })}, () => {
+    const TicTacToeRoute = () => {
         return (
             <TicTacToeBoard
                 board={boardState.useState()}
@@ -113,7 +111,22 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
                 score={scoreState.useState()}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/',
+                component: TicTacToeRoute,
+                options: {
+                    documentMeta: async () => ({
+                        title: 'Tic Tac Toe! Yeah!',
+                        description: 'A simple tic-tac-toe game',
+                    }),
+                },
+            }),
+        ]),
+    };
 });
 
 type TicTacToeBoardProps = {

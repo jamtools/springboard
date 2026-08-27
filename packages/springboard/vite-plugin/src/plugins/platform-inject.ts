@@ -169,6 +169,68 @@ function transformRunOnCalls(source: string, buildPlatform: SpringboardTransform
     }
 }
 
+function getAsyncRouteComponentActiveKey(buildPlatformRaw: SpringboardTransformPlatform): 'browser' | 'reactNative' | null {
+    const buildPlatform = normalizePlatform(buildPlatformRaw);
+
+    if (buildPlatform === 'web' || buildPlatform === 'browser_offline' || buildPlatform === 'tauri' || buildPlatform === 'react-native-webview') {
+        return 'browser';
+    }
+
+    if (buildPlatform === 'react-native') {
+        return 'reactNative';
+    }
+
+    return null;
+}
+
+export function transformAsyncRouteComponentBranches(source: string, buildPlatform: SpringboardTransformPlatform): string {
+    if (!/asyncRouteComponent\s*\(/.test(source)) {
+        return source;
+    }
+
+    const activeKey = getAsyncRouteComponentActiveKey(buildPlatform);
+    if (!activeKey) {
+        return source;
+    }
+
+    try {
+        const ast = parseSource(source);
+
+        traverse(ast, {
+            CallExpression(path) {
+                if (path.node.callee.type !== 'Identifier' || path.node.callee.name !== 'asyncRouteComponent') {
+                    return;
+                }
+
+                const firstArg = path.node.arguments[0];
+                if (!firstArg || firstArg.type !== 'ObjectExpression') {
+                    return;
+                }
+
+                firstArg.properties = firstArg.properties.filter((property) => {
+                    if (property.type !== 'ObjectProperty') {
+                        return true;
+                    }
+
+                    const key = property.key;
+                    const propertyName = key.type === 'Identifier'
+                        ? key.name
+                        : key.type === 'StringLiteral'
+                            ? key.value
+                            : undefined;
+
+                    return propertyName !== 'browser' && propertyName !== 'reactNative' || propertyName === activeKey;
+                });
+            },
+        });
+
+        return generate(ast, {}, source).code;
+    } catch (err) {
+        console.warn('[springboard] Failed to transform asyncRouteComponent platform branches:', err);
+        return source;
+    }
+}
+
 function getMemberExpressionPropertyName(member: t.MemberExpression): string | undefined {
     return member.property.type === 'Identifier' ? member.property.name : undefined;
 }
@@ -287,6 +349,7 @@ export function applyPlatformTransform(
     }
 
     transformedCode = transformRunOnCalls(transformedCode, targetPlatform);
+    transformedCode = transformAsyncRouteComponentBranches(transformedCode, targetPlatform);
 
     if (isClientPlatform(targetPlatform) && !options.preserveServerStatesAndActions) {
         transformedCode = stripServerStatesAndActions(transformedCode);

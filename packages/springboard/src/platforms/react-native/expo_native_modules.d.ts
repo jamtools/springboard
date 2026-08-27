@@ -1,3 +1,5 @@
+import type React from 'react';
+
 declare module 'react-native' {
     export const StyleSheet: {
         create<T extends Record<string, unknown>>(styles: T): T;
@@ -140,5 +142,7 @@ declare module 'expo-notifications' {
     export function getExpoPushTokenAsync(args: {projectId: string}): Promise<{data: string}>;
     export function addNotificationReceivedListener(listener: (notification: Notification) => void): EventSubscription;
     export function addNotificationResponseReceivedListener(listener: (response: NotificationResponse) => void): EventSubscription;
-    export function removeNotificationSubscription(subscription: EventSubscription): void;
+export function removeNotificationSubscription(subscription: EventSubscription): void;
 }
+
+export {};

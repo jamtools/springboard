@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import {ParsedMidiFile} from '@jamtools/core/modules/midi_files/midi_file_parser/midi_file_parser';
 
@@ -13,7 +14,7 @@ declare module 'springboard/module_registry/module_registry' {
 }
 
 type MidiPlaybackModuleReturnValue = {
-
+    routes: ReturnType<typeof defineRoutes>;
 };
 
 springboard.registerModule('MidiPlayback', {}, async (moduleAPI): Promise<MidiPlaybackModuleReturnValue> => {
@@ -65,7 +66,7 @@ springboard.registerModule('MidiPlayback', {}, async (moduleAPI): Promise<MidiPl
         savedMidiFileData.setState(args.data);
     });
 
-    moduleAPI.ui.registerRoute('', {hideApplicationShell: false}, () => {
+    const MidiPlaybackRoute = () => {
         const savedState = savedMidiFileData.useState();
 
         return (
@@ -95,7 +96,15 @@ springboard.registerModule('MidiPlayback', {}, async (moduleAPI): Promise<MidiPl
                 </pre> */}
             </div>
         );
-    });
+    };
 
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/MidiPlayback',
+                component: MidiPlaybackRoute,
+                options: {hideApplicationShell: false},
+            }),
+        ]),
+    };
 });

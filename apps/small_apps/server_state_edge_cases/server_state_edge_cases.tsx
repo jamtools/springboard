@@ -1,5 +1,6 @@
 import React from 'react';
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 // Test various edge cases for server state and action compilation
 
@@ -116,5 +117,9 @@ springboard.registerModule('server_state_edge_cases', {}, async (moduleAPI) => {
         );
     };
 
-    moduleAPI.ui.registerRoute('/', {}, () => <EdgeCasesUI />);
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: EdgeCasesUI}),
+        ]),
+    };
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {ModuleAPI} from 'springboard/engine/module_api';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import {MultiOctaveSupervisor} from './multi_octave_supervisor';
 import {SingleOctaveRootModeSupervisor} from './single_octave_root_mode_supervisor';
@@ -21,11 +22,11 @@ const KeytarAndFootDashboard = async (moduleAPI: ModuleAPI, dashboardName: strin
         singleOctaveSupervisor.initialize(),
     ]);
 
-    moduleAPI.ui.registerRoute('kiosk', {hideApplicationShell: true}, () => (
+    const KeytarKioskRoute = () => (
         <singleOctaveSupervisor.renderKiosk/>
-    ));
+    );
 
-    moduleAPI.ui.registerRoute(dashboardName, {}, () => (
+    const KeytarDashboardRoute = () => (
         <div>
             <h1>
                 Keytar and Foot Dashboard
@@ -47,7 +48,19 @@ const KeytarAndFootDashboard = async (moduleAPI: ModuleAPI, dashboardName: strin
                 <singleOctaveSupervisor.render/>
             </div>
         </div>
-    ));
+    );
+
+    return defineRoutes([
+        defineRoute({
+            path: '/modules/Dashboards/kiosk',
+            component: KeytarKioskRoute,
+            options: {hideApplicationShell: true},
+        }),
+        defineRoute({
+            path: `/modules/Dashboards/${dashboardName}`,
+            component: KeytarDashboardRoute,
+        }),
+    ]);
 };
 
 export default KeytarAndFootDashboard;

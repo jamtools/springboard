@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {Link} from 'react-router';
-
 import springboard from 'springboard';
+import {defineRoute, defineRoutes, useNavigate} from 'springboard/router';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
 
 import {GuitarChordRootsDisplay, GuitarTabView} from '../song_structures/components/guitar_tab_view';
@@ -15,7 +14,7 @@ declare module 'springboard/module_registry/module_registry' {
 }
 
 type SongStructuresDashboardsModuleReturnValue = {
-
+    routes: ReturnType<typeof defineRoutes>;
 };
 
 type GuitarDisplaySettings = {
@@ -143,19 +142,19 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
         }
     });
 
-    moduleAPI.ui.registerRoute('', {}, () => {
+    const SongStructuresDashboardsRoute = () => {
+        const navigate = useNavigate();
+
         return (
             <div>
-                <Link to='/modules/song_structures_dashboards/bass_guitar'>
-                    <button>
-                        Go to Bass Guitar
-                    </button>
-                </Link>
+                <button onClick={() => navigate({to: '/modules/song_structures_dashboards/bass_guitar'})}>
+                    Go to Bass Guitar
+                </button>
             </div>
         );
-    });
+    };
 
-    moduleAPI.ui.registerRoute('bass_guitar', {}, () => {
+    const SongStructuresDashboardsBassGuitarRoute = () => {
         const props: React.ComponentProps<typeof GuitarTabView> = {
             numberOfStrings: 4,
             chosenFrets: [
@@ -245,7 +244,18 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
             </>
 
         );
-    });
+    };
 
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/song_structures_dashboards',
+                component: SongStructuresDashboardsRoute,
+            }),
+            defineRoute({
+                path: '/modules/song_structures_dashboards/bass_guitar',
+                component: SongStructuresDashboardsBassGuitarRoute,
+            }),
+        ]),
+    };
 });

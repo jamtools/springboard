@@ -2,6 +2,7 @@ import {Springboard} from './engine.js';
 import {makeMockCoreDependencies, MockRpcService} from '../test/mock_core_dependencies.js';
 import springboard from './register.js';
 import React from 'react';
+import {defineRoute, defineRoutes} from '../../router/index.js';
 
 describe('ModuleAPI', () => {
     beforeEach(() => {
@@ -54,11 +55,12 @@ describe('ModuleAPI', () => {
         const engine = new Springboard(coreDeps);
         engine.registerDescriptor(springboard.defineModule('DefinedModule', {}, async () => {
             return {
-                routes: {
-                    '': {
+                routes: defineRoutes([
+                    defineRoute({
+                        path: '/defined-module',
                         component: () => null,
-                    },
-                },
+                    }),
+                ]),
             };
         }));
 

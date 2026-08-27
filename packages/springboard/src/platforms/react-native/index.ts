@@ -24,3 +24,16 @@ export { useExpoPushNotifications } from './hooks/use_expo_push_notifications.js
 export type { ExpoPushNotification, UseExpoPushNotificationsProps } from './hooks/use_expo_push_notifications.js';
 export { loadBundledWebAppAssets } from './services/expo_bundled_web_asset_loader.js';
 export type { BundledWebAssetModules } from './services/expo_bundled_web_asset_loader.js';
+export {
+    SpringboardReactNavigationHost,
+    SpringboardNavigationStack,
+    StableSpringboardScreen,
+    createSpringboardLinkingConfig,
+    springboardPathToReactNavigationPath,
+} from './components/routing.js';
+export type {
+    SpringboardRNRouteParams,
+    SpringboardWebViewTarget,
+    SpringboardWebViewTargetResolver,
+    SpringboardWebViewTargetResolverContext,
+} from './components/routing.js';

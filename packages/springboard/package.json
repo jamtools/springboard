@@ -28,6 +28,10 @@
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js"
     },
+    "./router": {
+      "types": "./dist/router/index.d.ts",
+      "import": "./dist/router/index.js"
+    },
     "./core/module_registry/module_registry": {
       "types": "./dist/core/module_registry/module_registry.d.ts",
       "import": "./dist/core/module_registry/module_registry.js"
@@ -302,6 +306,10 @@
       "types": "./dist/platforms/react-native/components/expo_springboard_webview_host.d.ts",
       "import": "./dist/platforms/react-native/components/expo_springboard_webview_host.js"
     },
+    "./platforms/react-native/components/routing": {
+      "types": "./dist/platforms/react-native/components/routing.d.ts",
+      "import": "./dist/platforms/react-native/components/routing.js"
+    },
     "./core/engine/client_api": {
       "types": "./dist/core/engine/client_api.d.ts",
       "import": "./dist/core/engine/client_api.js"
@@ -346,6 +354,12 @@
       ],
       "platforms/react-native": [
         "./dist/platforms/react-native/index.d.ts"
+      ],
+      "platforms/react-native/components/routing": [
+        "./dist/platforms/react-native/components/routing.d.ts"
+      ],
+      "router": [
+        "./dist/router/index.d.ts"
       ],
       "data-storage": [
         "./dist/data-storage/index.d.ts"
@@ -426,6 +440,10 @@
     "@hono/node-ws": "^1.2.0",
     "@tauri-apps/api": "^2.9.0",
     "@tauri-apps/plugin-shell": "^2.3.3",
+    "@react-navigation/native": "^7.3.17",
+    "@react-navigation/native-stack": "^7.18.9",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
     "better-sqlite3": "^12.4.1",
     "crossws": "^0.4.4",
     "expo-asset": "*",
@@ -462,6 +480,18 @@
       "optional": true
     },
     "@tauri-apps/plugin-shell": {
+      "optional": true
+    },
+    "@react-navigation/native": {
+      "optional": true
+    },
+    "@react-navigation/native-stack": {
+      "optional": true
+    },
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "@tanstack/react-router": {
       "optional": true
     },
     "better-sqlite3": {
@@ -528,6 +558,10 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/ws": "^8.18.1",
+    "@react-navigation/native": "^7.3.17",
+    "@react-navigation/native-stack": "^7.18.9",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
     "esbuild": "catalog:",
     "partykit": "^0.0.115",
     "react": "catalog:",

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 const CustomSplashScreen = () => {
     return (
@@ -63,14 +64,20 @@ springboard.registerModule('AppWithSplashScreen', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.ui.registerRoute('/', {}, () => {
+    const AppWithSplashScreenRoute = () => {
         return (
             <AppWithSplashScreenComponent
                 message={messageState.useState()}
                 updateMessage={actions.updateMessage}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: AppWithSplashScreenRoute}),
+        ]),
+    };
 });
 
 type AppWithSplashScreenComponentProps = {

@@ -11,6 +11,7 @@ import {MacroPage} from './macro_page.js';
 import springboard from 'springboard/core/engine/register';
 import {CapturedRegisterMacroTypeCall, MacroAPI, MacroCallback} from '@jamtools/core/modules/macro_module/registered_macro_types';
 import {ModuleAPI} from 'springboard/engine/module_api';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import './macro_handlers/index.js';
 import {macroTypeRegistry} from './registered_macro_types.js';
@@ -52,14 +53,15 @@ export class MacroModule implements Module<MacroConfigState> {
 
     constructor(private coreDeps: CoreDependencies, private moduleDeps: ModuleDependencies) { }
 
-    routes = {
-        '': {
+    routes = defineRoutes([
+        defineRoute({
+            path: '/modules/macro',
             component: () => {
                 const mod = MacroModule.use();
                 return <MacroPage state={mod.state || this.state} />;
             },
-        },
-    };
+        }),
+    ]);
 
     state: MacroConfigState = {
         configs: {},

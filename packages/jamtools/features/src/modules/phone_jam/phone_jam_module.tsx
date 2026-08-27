@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 springboard.registerModule('phone_jam', {}, async (moduleAPI) => {
     const outputMacro = await moduleAPI.getModule('macro').createMacro(moduleAPI, 'local_output', 'musical_keyboard_output', {allowLocal: true});
@@ -13,13 +14,22 @@ springboard.registerModule('phone_jam', {}, async (moduleAPI) => {
         }, 1000);
     };
 
-    moduleAPI.ui.registerRoute('', {}, () => {
+    const PhoneJamRoute = () => {
         return (
             <PhoneJamView
                 onClickPlaySound={playSound}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/phone_jam',
+                component: PhoneJamRoute,
+            }),
+        ]),
+    };
 });
 
 type PhoneJamViewProps = {

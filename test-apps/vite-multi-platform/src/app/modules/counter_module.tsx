@@ -1,4 +1,5 @@
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 import {App} from '../App';
 
 springboard.registerModule('Counter', {}, async (moduleAPI) => {
@@ -15,11 +16,17 @@ springboard.registerModule('Counter', {}, async (moduleAPI) => {
     },
   })
 
-  moduleAPI.ui.registerRoute('/', {}, () => (
-    <App
-      decrement={() => actions.decrement({})}
-      increment={() => actions.increment({})}
-      count={states.count.useState()}
-    />
-  ));
+  const CounterRoute = () => (
+      <App
+        decrement={() => actions.decrement({})}
+        increment={() => actions.increment({})}
+        count={states.count.useState()}
+      />
+  );
+
+  return {
+    routes: defineRoutes([
+      defineRoute({path: '/', component: CounterRoute}),
+    ]),
+  };
 });

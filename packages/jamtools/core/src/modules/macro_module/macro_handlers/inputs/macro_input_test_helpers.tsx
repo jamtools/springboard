@@ -29,7 +29,7 @@ export const getMacroInputTestHelpers = () => {
         const engine = new Springboard(coreDeps);
         await engine.initialize();
         const macroModule = engine.moduleRegistry.getModule('macro');
-        const MacroRouteComponent = macroModule.routes!['']!.component;
+        const MacroRouteComponent = macroModule.routes!.find(route => route.path === '/modules/macro')!.component as React.ComponentType;
 
         render(
             <SpringboardProviderPure engine={engine}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 // Test springboard.runOn() transformation
 
@@ -59,7 +60,9 @@ springboard.registerModule('run_on_test', {}, async (moduleAPI) => {
         );
     };
 
-    moduleAPI.ui.registerRoute('/', {}, () => <RunOnTestUI />);
-
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: RunOnTestUI}),
+        ]),
+    };
 });

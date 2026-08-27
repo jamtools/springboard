@@ -1,5 +1,6 @@
 import springboard from '../engine/register.js';
 import {makeMockCoreDependencies, makeMockSpringboardEngine} from './mock_core_dependencies.js';
+import {defineRoute, defineRoutes} from '../../router/index.js';
 
 beforeEach(() => {
     springboard.reset();
@@ -17,11 +18,12 @@ describe('mock_core_dependencies', () => {
     it('initializes defineModule descriptors with a mock Springboard engine', async () => {
         const engine = await makeMockSpringboardEngine({
             descriptors: springboard.defineModule('StorybookFixture', {}, async () => ({
-                routes: {
-                    '': {
+                routes: defineRoutes([
+                    defineRoute({
+                        path: '/storybook-fixture',
                         component: () => null,
-                    },
-                },
+                    }),
+                ]),
             })),
         });
 

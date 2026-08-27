@@ -179,6 +179,7 @@ Example module:
 
 \`\`\`tsx
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 type ExampleSharedState = {
   version: 1;
@@ -216,8 +217,8 @@ springboard.registerModule('ModuleName', {}, async (moduleAPI) => {
     },
   })
 
-  // Register UI routes
-  moduleAPI.registerRoute('/', {}, (navigate) => {
+  // Declare UI routes
+  const ExampleRoute = () => {
     const liveState = sharedState.useState();
 
     return (
@@ -229,10 +230,14 @@ springboard.registerModule('ModuleName', {}, async (moduleAPI) => {
         </button>
       </div>
     );
-  });
+  };
 
   // Return public API
-  return { sharedState, actions };
+  return {
+    sharedState,
+    actions,
+    routes: defineRoutes([defineRoute({path: '/', component: ExampleRoute})]),
+  };
 });
 
 // Declare module return value for other files

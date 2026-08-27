@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 // import {GuitarComponent} from './song_structures/components/guitar';
 
@@ -43,7 +44,7 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
         state.setState(args.value);
     });
 
-    moduleAPI.ui.registerRoute('', {}, () => {
+    const DawInteractionRoute = () => {
         const sliderPosition1 = sliderPositionState1.useState();
         const sliderPosition2 = sliderPositionState2.useState();
 
@@ -54,7 +55,16 @@ springboard.registerModule('daw_interaction', {}, async (moduleAPI) => {
                 handleSliderDrag={(index, value) => handleSliderDrag({index, value})}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/daw_interaction',
+                component: DawInteractionRoute,
+            }),
+        ]),
+    };
 });
 
 type DawInteractionPageProps = {

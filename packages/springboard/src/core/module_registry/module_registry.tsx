@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Subject} from 'rxjs';
 
 import type {ModuleAPI} from '../engine/module_api.js';
-import {RegisterRouteOptions} from '../engine/register.js';
+import type {SpringboardRouteDescriptor} from '../../router/index.js';
 
 export type DocumentMeta = {
     title?: string;
@@ -17,15 +17,6 @@ export type DocumentMeta = {
     'og:image'?: string;
     'og:url'?: string;
 } & Record<string, string>;
-
-type RouteComponentProps = {
-    navigate: (routeName: string) => void;
-};
-
-export type RegisteredRoute = {
-    options?: RegisterRouteOptions;
-    component: React.ElementType<RouteComponentProps>;
-}
 
 export type NavigationItemConfig = {
     title: string;
@@ -45,7 +36,7 @@ export type Module<State extends object = any> = {
     providers?: ProviderWithRank[];
     state?: State;
     subject?: Subject<State>;
-    routes?: Record<string, RegisteredRoute>;
+    routes?: readonly SpringboardRouteDescriptor<string, any>[];
     applicationShell?: React.ElementType<React.PropsWithChildren<{modules: Module[]}>>;
 };
 

@@ -4,6 +4,7 @@ import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegre
 
 import {RootModeComponent} from './root_mode_snack/root_mode_component.js';
 import springboard from 'springboard/core/engine/register';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 type State = {
     chord: ScaleDegreeInfo | null;
@@ -116,11 +117,6 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
         return new ChordFamilyHandler(data);
     };
 
-    const moduleReturnValue = {
-        getChordFamilyHandler,
-    };
-
-
     // C major on page load
     let scale = 0;
 
@@ -132,7 +128,7 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
         });
     };
 
-    moduleAPI.ui.registerRoute('', {}, () => {
+    const ChordFamiliesRoute = () => {
         const state = states.state.useState();
 
         const onClick = () => {
@@ -145,7 +141,17 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
                 onClick={onClick}
             />
         );
-    });
+    };
+
+    const moduleReturnValue = {
+        getChordFamilyHandler,
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/chord_families',
+                component: ChordFamiliesRoute,
+            }),
+        ]),
+    };
 
     const macroModule = moduleAPI.getModule('macro');
 

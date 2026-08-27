@@ -2,12 +2,17 @@ export default `
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 export default springboard.defineModule('example', {}, async (app) => {
-    app.registerRoute('/', {}, () => {
+    const ExampleRoute = () => {
         return <h1>Example</h1>;
-    });
+    };
 
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: ExampleRoute}),
+        ]),
+    };
 });
 `;

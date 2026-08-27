@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 
 import springbord from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 import '@jamtools/core/modules/macro_module/macro_module';
 
 import './index.css';
@@ -73,7 +74,7 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
     };
 
     // hideNavbar should really be "hideApplicationShell", and also be a global option
-    moduleAPI.ui.registerRoute('', {hideApplicationShell: false}, () => {
+    const EventideRoute = () => {
         const currentPreset = currentPresetState.useState();
         const favoritedPresets = favoritedPresetsState.useState();
 
@@ -186,5 +187,15 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
                 </details>
             </div>
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/Eventide',
+                component: EventideRoute,
+                options: {hideApplicationShell: false},
+            }),
+        ]),
+    };
 });
