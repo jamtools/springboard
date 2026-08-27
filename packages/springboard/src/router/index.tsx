@@ -1,5 +1,7 @@
 import React, {createContext, useContext} from 'react';
 
+import type {AllModules} from '../core/module_registry/module_registry.js';
+
 type UnknownSearch = Record<string, unknown>;
 type StringParams = Record<string, string>;
 
@@ -50,12 +52,24 @@ export interface Register {}
 
 type AnyRoute = SpringboardRouteDescriptor<string, unknown>;
 type RouteTuple = readonly AnyRoute[];
-type RegisteredRoutes = Register extends {routes: infer TRoutes}
+type ExtractModuleRoutes<TModule> = TModule extends {routes?: infer TRoutes}
+    ? NonNullable<TRoutes>
+    : never;
+type FlattenRoutes<TRoutes> = TRoutes extends readonly (infer TRoute)[]
+    ? TRoute
+    : never;
+type ExplicitRegisteredRoutes = Register extends {routes: infer TRoutes}
     ? TRoutes extends RouteTuple
         ? TRoutes
-        : RouteTuple
-    : RouteTuple;
-type RouteUnion = RegisteredRoutes[number];
+        : never
+    : never;
+type ModuleRegisteredRouteUnion = FlattenRoutes<{
+    [K in keyof AllModules]: ExtractModuleRoutes<AllModules[K]>;
+}[keyof AllModules]>;
+type ExplicitRegisteredRouteUnion = FlattenRoutes<ExplicitRegisteredRoutes>;
+type RouteUnion = [ModuleRegisteredRouteUnion | ExplicitRegisteredRouteUnion] extends [never]
+    ? AnyRoute
+    : ModuleRegisteredRouteUnion | ExplicitRegisteredRouteUnion;
 type RegisteredPath = RouteUnion['path'] & string;
 type RouteByPath<TPath extends string> = Extract<RouteUnion, {path: TPath}>;
 

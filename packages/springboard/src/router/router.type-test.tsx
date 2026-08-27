@@ -47,9 +47,14 @@ const routes = defineRoutes([
     defineRoute({path: '/unvalidated', component: Screen}),
 ]);
 
-declare module './index' {
-    interface Register {
-        routes: typeof routes;
+const makeTypedRoutesModule = async () => ({
+    routes,
+});
+type TypedRoutesModule = Awaited<ReturnType<typeof makeTypedRoutesModule>>;
+
+declare module '../core/module_registry/module_registry' {
+    interface AllModules {
+        TypedRoutesModule: TypedRoutesModule;
     }
 }
 
