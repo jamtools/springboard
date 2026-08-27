@@ -212,6 +212,23 @@ describe('springboard/router runtime utilities', () => {
         });
     });
 
+    it('passes a route helper into async component loaders', async () => {
+        const InnerScreen = () => React.createElement('div');
+        const WrappedScreen = () => React.createElement(InnerScreen);
+        const route = defineRoute({
+            path: '/async-wrapper',
+            component: asyncRouteComponent({
+                browser: async (routeApi) => routeApi.component(WrappedScreen),
+            }),
+        });
+        const [descriptor] = collectRouteDescriptors([{moduleId: 'AsyncModule', routes: [route]}]);
+
+        await expect(loadSpringboardRouteComponent(descriptor, 'browser')).resolves.toEqual({
+            status: 'component',
+            component: WrappedScreen,
+        });
+    });
+
     it('treats missing platform keys as absent and selected undefined loaders as hard errors', async () => {
         const BrowserScreen = () => React.createElement('div');
         const missingNative = defineRoute({

@@ -2,8 +2,9 @@ import React from 'react';
 import {Button, Text, View} from 'react-native';
 
 import {defineRouteComponent} from 'springboard/router';
+import type {MobileE2ERootRouteProps} from '../routing_demo_module';
 
-export const RootReactNativeRoute = defineRouteComponent<'/'>(({navigate}) => (
+export const RootReactNativeRoute = defineRouteComponent(({navigate}: MobileE2ERootRouteProps) => (
   <View testID="springboard-routing-root">
     <Text>Springboard routing root</Text>
     <Button title="Open static route" onPress={() => navigate({to: '/native-static'})} />

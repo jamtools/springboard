@@ -15,6 +15,13 @@ import type {ModuleAPI} from '../core/engine/module_api';
 
 const Screen = () => React.createElement('div');
 const MismatchedSongScreen = defineRouteComponent<'/typed-component/$otherId'>(() => React.createElement('div'));
+type AsyncRouteWrapperProps = Router.SpringboardRouteProps<'/async-wrapper/$id', {filter: 'active'}>;
+const AsyncRouteWrapperScreen = defineRouteComponent(({params, search}: AsyncRouteWrapperProps) => {
+    params.id satisfies string;
+    search.filter satisfies 'active';
+
+    return React.createElement('div');
+});
 
 const routes = defineRoutes([
     defineRoute({path: '/', component: Screen}),
@@ -68,9 +75,9 @@ const routes = defineRoutes([
     }),
 ]);
 
+// @ts-expect-error defineRouteComponent path must match the descriptor path it is assigned to.
 defineRoute({
     path: '/typed-component/$songId',
-    // @ts-expect-error defineRouteComponent path must match the descriptor path it is assigned to.
     component: MismatchedSongScreen,
 });
 
@@ -123,6 +130,19 @@ useSearch({from: '/unvalidated'}).tab satisfies 'lyrics';
 
 asyncRouteComponent({browser: async () => Screen});
 asyncRouteComponent({reactNative: async () => Screen});
+asyncRouteComponent({
+    browser: async (route) => route.component((
+        props: AsyncRouteWrapperProps,
+    ) => {
+        props.params.id satisfies string;
+        props.search.filter satisfies 'active';
+
+        // @ts-expect-error wrapper props are still checked against the imported route component.
+        props.search.filter satisfies 'archived';
+
+        return React.createElement(AsyncRouteWrapperScreen, props);
+    }),
+});
 
 // @ts-expect-error rn is not the MVP platform key; use reactNative
 asyncRouteComponent({rn: async () => Screen});
