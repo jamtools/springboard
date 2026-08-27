@@ -93,8 +93,8 @@ springboard.registerModule('notifications', {}, async (moduleAPI) => {
 });
 
 // Type declaration for getModule
-declare module 'springboard/module_registry/module_registry' {
-  interface AllModules {
+declare module 'springboard/register' {
+  interface RegisteredModules {
     notifications: {
       state: StateSupervisor<Notification[]>;
       actions: {

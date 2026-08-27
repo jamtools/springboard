@@ -1,6 +1,7 @@
 import React, {createContext, useContext} from 'react';
 
-import type {AllModules, ResolvedModuleValue} from '../core/module_registry/module_registry.js';
+import type {ResolvedModuleValue} from '../core/module_registry/module_registry.js';
+import type {RegisteredModules} from '../register.js';
 
 type UnknownSearch = Record<string, unknown>;
 type StringParams = Record<string, string>;
@@ -110,8 +111,8 @@ type ExplicitRegisteredRoutes = Register extends {routes: infer TRoutes}
         : never
     : never;
 type ModuleRegisteredRouteUnion = FlattenRoutes<{
-    [K in keyof AllModules]: ExtractModuleRoutes<AllModules[K]>;
-}[keyof AllModules]>;
+    [K in keyof RegisteredModules]: ExtractModuleRoutes<RegisteredModules[K]>;
+}[keyof RegisteredModules]>;
 type ExplicitRegisteredRouteUnion = FlattenRoutes<ExplicitRegisteredRoutes>;
 type RouteUnion = [ModuleRegisteredRouteUnion | ExplicitRegisteredRouteUnion] extends [never]
     ? AnyRoute

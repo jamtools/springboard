@@ -13,8 +13,8 @@ export type RegisteredDashboard = {
     label: string;
 }
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         Dashboards: DashboardsModuleReturnValue;
     }
 }

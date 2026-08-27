@@ -28,8 +28,8 @@ springboard.registerModule('auth', {}, async (moduleAPI) => {
 });
 
 // Type declaration (usually at bottom of file or in types.ts)
-declare module 'springboard/module_registry/module_registry' {
-  interface AllModules {
+declare module 'springboard/register' {
+  interface RegisteredModules {
     auth: {
       userState: StateSupervisor<User | null>;
       actions: {

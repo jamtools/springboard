@@ -241,8 +241,8 @@ springboard.registerModule('ModuleName', {}, async (moduleAPI) => {
 });
 
 // Declare module return value for other files
-declare module 'springboard/module_registry/module_registry' {
-  interface AllModules {
+declare module 'springboard/register' {
+  interface RegisteredModules {
     ModuleName: {
       sharedState: {
         exampleSharedState: StateSupervisor<ExampleSharedState>;

@@ -172,8 +172,8 @@ springboard.registerModule('ItemsModule', {}, async (moduleAPI) => {
   return {shared, persistent, localUi, actions};
 });
 
-declare module 'springboard/module_registry/module_registry' {
-  interface AllModules {
+declare module 'springboard/register' {
+  interface RegisteredModules {
     ItemsModule: {
       shared: StateSupervisor<ItemsState>;
       persistent: {
@@ -205,7 +205,7 @@ export const ItemCount = () => {
 };
 \`\`\`
 
-Use \`moduleAPI.getModule('OtherModule')\` inside module setup, actions, and route callbacks. Use \`useModule('OtherModule')\` inside React components. If a module may be absent in a platform build, model that in \`AllModules\` and use optional chaining.
+Use \`moduleAPI.getModule('OtherModule')\` inside module setup, actions, and route callbacks. Use \`useModule('OtherModule')\` inside React components. If a module may be absent in a platform build, model that in \`RegisteredModules\` and use optional chaining.
 
 ## State Choices
 
@@ -304,7 +304,7 @@ interface ModuleAPI {
   routes?: readonly SpringboardRouteDescriptor[];
   registerApplicationShell(component: React.ComponentType): void;
 
-  getModule<K extends keyof AllModules>(id: K): AllModules[K];
+  getModule<K extends keyof RegisteredModules>(id: K): RegisteredModules[K];
 
   onDestroy(callback: () => void): void;
   setRpcMode(mode: 'local' | 'remote'): void;
@@ -383,8 +383,8 @@ interface DocumentMeta {
 
 \`\`\`typescript
 // Declare your module's exports for type-safe getModule()
-declare module 'springboard/module_registry/module_registry' {
-  interface AllModules {
+declare module 'springboard/register' {
+  interface RegisteredModules {
     myModule: {
       state: StateSupervisor<MyState>;
       actions: {

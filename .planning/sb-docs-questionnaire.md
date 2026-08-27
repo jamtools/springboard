@@ -193,7 +193,7 @@ What should `sb docs validate` check for?
 **From songdrive analysis, common patterns/issues:**
 
 **Module Structure:**
-- [ ] Module has return type matching AllModules interface declaration
+- [ ] Module has return type matching RegisteredModules interface declaration
 - [ ] Module uses proper state creation methods
 - [ ] Module registers cleanup via onDestroy when needed
 
@@ -279,7 +279,7 @@ What TypeScript definitions should `sb docs types` output?
 - [ ] ActionCallOptions type
 - [ ] KVStore interface
 - [ ] Rpc interface
-- [ ] AllModules declaration pattern
+- [ ] RegisteredModules declaration pattern
 - [ ] ServerModuleAPI interface
 
 **Your Answer:**

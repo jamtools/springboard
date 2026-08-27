@@ -48,11 +48,11 @@ https://github.com/jamtools/springboard/blob/cea35258c6d7e495a68148c4a9e61ac06dc
 
 
 ```ts
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         macro: MacroModule;
     }
 }
 ```
 
-This makes it so any other module that interacts with this module knows what is available from that module, and typescript can provide the relevant autocompletions and type checking for consuming this module. When the module is registered with the framework, the type checker will ensure that the return value matches what is defined in the `AllModules` interface.
+This makes it so any other module that interacts with this module knows what is available from that module, and typescript can provide the relevant autocompletions and type checking for consuming this module. When the module is registered with the framework, the type checker will ensure that the return value matches what is defined in the `RegisteredModules` interface.

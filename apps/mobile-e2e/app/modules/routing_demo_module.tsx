@@ -70,8 +70,8 @@ export const mobileE2ERoutingDemoModule = springboard.defineModule(
   }),
 );
 
-declare module 'springboard/core/module_registry/module_registry' {
-  interface AllModules {
+declare module 'springboard/register' {
+  interface RegisteredModules {
     MobileE2ERoutingDemo: typeof mobileE2ERoutingDemoModule;
   }
 }

@@ -94,8 +94,8 @@ type ChordFamiliesModuleReturnValue = {
     getChordFamilyHandler(key: string): ChordFamilyHandler;
 }
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         chord_families: ChordFamiliesModuleReturnValue;
     }
 }
@@ -148,7 +148,9 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
         routes: defineRoutes([
             defineRoute({
                 path: '/modules/chord_families',
-                component: ChordFamiliesRoute,
+                component: {
+                    browser: async (route) => route.component(ChordFamiliesRoute),
+                },
             }),
         ]),
     };

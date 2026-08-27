@@ -139,7 +139,7 @@ $ sb docs validate src/module.ts --quiet
 | Pattern | Detection | Message |
 |---------|-----------|---------|
 | Direct state mutation | `state.value = x` | Use `state.setState()` or `state.setStateImmer()` |
-| Missing module interface | registerModule without AllModules merge | Add interface merge for type-safe `getModule()` |
+| Missing module interface | registerModule without RegisteredModules merge | Add interface merge for type-safe `getModule()` |
 | Wrong state type | userAgent state for cross-device data | Use `createSharedState` or `createPersistentState` |
 | Missing cleanup | Subscriptions without `onDestroy` | Add `moduleAPI.onDestroy()` callback |
 | Route conflicts | Duplicate route paths | Make route paths unique |
@@ -271,7 +271,7 @@ interface ModuleAPI {
   registerRoute(path: string, options: RouteOptions, component: Component): void
 
   // Module Interaction
-  getModule<K extends keyof AllModules>(id: K): AllModules[K]
+  getModule<K extends keyof RegisteredModules>(id: K): RegisteredModules[K]
 
   // Core Dependencies
   coreDependencies: CoreDependencies

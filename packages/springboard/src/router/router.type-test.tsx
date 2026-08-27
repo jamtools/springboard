@@ -147,8 +147,8 @@ const typedRoutesModuleDescriptor = springboard.defineModule('TypedRoutesModule'
     routes,
 }));
 
-declare module '../core/module_registry/module_registry' {
-    interface AllModules {
+declare module '../register' {
+    interface RegisteredModules {
         TypedRoutesModule: typeof typedRoutesModuleDescriptor;
     }
 }

@@ -33,7 +33,7 @@
     {
       "slug": "springboard/module-communication",
       "title": "Module Communication",
-      "use_cases": "getModule, module dependencies, AllModules interface, type-safe module access, interface merging, cross-module calls"
+      "use_cases": "getModule, module dependencies, RegisteredModules interface, type-safe module access, interface merging, cross-module calls"
     },
     {
       "slug": "springboard/core-dependencies",

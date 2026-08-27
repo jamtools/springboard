@@ -1,7 +1,7 @@
 import {Subject} from 'rxjs';
 
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
-import {Module} from 'springboard/module_registry/module_registry';
+import {Module} from 'springboard';
 import {MidiInputEventPayload, QwertyCallbackPayload} from '@jamtools/core/types/io_types';
 import springboard from 'springboard/core/engine/register';
 import {StateSupervisor} from 'springboard/services/states/shared_state_service';
@@ -30,8 +30,8 @@ springboard.registerClassModule((coreDeps: CoreDependencies, modDependencies: Mo
     return new IoModule(coreDeps, modDependencies);
 });
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         io: IoModule;
     }
 }

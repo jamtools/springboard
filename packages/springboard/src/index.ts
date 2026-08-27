@@ -47,6 +47,10 @@ export type {
     DocumentMeta,
 } from './core/module_registry/module_registry.js';
 
+export type {
+    RegisteredModules,
+} from './register.js';
+
 // Export ModuleAPI
 export {ModuleAPI, ModuleAPIInternal, setRpcMiddlewareResultsGetter} from './core/engine/module_api.js';
 export type {ActionCallback, ActionCallOptions, RpcMiddlewareResults} from './core/engine/module_api.js';

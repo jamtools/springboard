@@ -8,6 +8,7 @@ import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macr
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 
 import {Springboard, SpringboardProviderPure} from 'springboard/engine/engine';
+import {loadSpringboardRouteComponent} from 'springboard/router';
 import {setIoDependencyCreator} from '../../../../modules/io/io_module.js';
 import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
@@ -29,7 +30,12 @@ export const getMacroInputTestHelpers = () => {
         const engine = new Springboard(coreDeps);
         await engine.initialize();
         const macroModule = engine.moduleRegistry.getModule('macro');
-        const MacroRouteComponent = macroModule.routes!.find(route => route.path === '/modules/macro')!.component as React.ComponentType;
+        const macroRoute = macroModule.routes!.find(route => route.path === '/modules/macro')!;
+        const macroRouteComponent = await loadSpringboardRouteComponent(macroRoute, 'browser');
+        if (macroRouteComponent.status !== 'component') {
+            throw new Error('Macro route component failed to load for tests');
+        }
+        const MacroRouteComponent = macroRouteComponent.component as React.ComponentType;
 
         render(
             <SpringboardProviderPure engine={engine}>

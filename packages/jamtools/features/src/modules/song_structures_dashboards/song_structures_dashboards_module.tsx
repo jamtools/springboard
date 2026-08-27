@@ -7,8 +7,8 @@ import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types'
 import {GuitarChordRootsDisplay, GuitarTabView} from '../song_structures/components/guitar_tab_view';
 import {ChordChoice, ChordDisplay} from '../song_structures/components/chord_display';
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         song_structures_dashboards: SongStructuresDashboardsModuleReturnValue;
     }
 }

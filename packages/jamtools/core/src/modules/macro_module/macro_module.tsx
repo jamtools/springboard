@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../io/io_module.js';
 
-import type {Module} from 'springboard/module_registry/module_registry';
+import type {Module} from 'springboard';
 
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
 import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types.js';
@@ -31,8 +31,8 @@ springboard.registerClassModule((coreDeps: CoreDependencies, modDependencies: Mo
     return new MacroModule(coreDeps, modDependencies);
 });
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         macro: MacroModule;
     }
 }
@@ -56,9 +56,11 @@ export class MacroModule implements Module<MacroConfigState> {
     routes = defineRoutes([
         defineRoute({
             path: '/modules/macro',
-            component: () => {
-                const mod = MacroModule.use();
-                return <MacroPage state={mod.state || this.state} />;
+            component: {
+                browser: async (route) => route.component(() => {
+                    const mod = MacroModule.use();
+                    return <MacroPage state={mod.state || this.state} />;
+                }),
             },
         }),
     ]);
