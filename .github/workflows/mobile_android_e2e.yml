@@ -1,8 +1,9 @@
 name: mobile_android_e2e
 
 on:
-  # push:
-  # pull_request:
+  pull_request:
+    branches:
+      - '**'
   workflow_dispatch:
 
 jobs:
@@ -146,7 +147,7 @@ jobs:
           cat "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/server.log" >&2 || true
           exit 1
 
-      - name: Run Android WebView E2E test
+      - name: Run Android routing and WebView E2E test
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35

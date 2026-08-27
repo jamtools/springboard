@@ -59,6 +59,24 @@ try {
 
   await driver.activateApp(APP_PACKAGE);
 
+  const rootRoute = await driver.$('~springboard-routing-root-content');
+  await rootRoute.waitForDisplayed({ timeout: 120000 });
+  const rootRouteText = await rootRoute.getText();
+  if (!/Springboard routing root/i.test(rootRouteText)) {
+    throw new Error(`Unexpected root route content: ${rootRouteText}`);
+  }
+
+  const staticRouteButton = await driver.$('~springboard-routing-open-static');
+  await staticRouteButton.waitForDisplayed({ timeout: 30000 });
+  await staticRouteButton.click();
+
+  const staticRoute = await driver.$('~springboard-routing-static-content');
+  await staticRoute.waitForDisplayed({ timeout: 30000 });
+  const staticRouteText = await staticRoute.getText();
+  if (!/Springboard static native route/i.test(staticRouteText)) {
+    throw new Error(`Unexpected static route content after navigation: ${staticRouteText}`);
+  }
+
   const loadedStatus = await driver.$(`~${EXPECTED_TEST_ID}`);
   await loadedStatus.waitForDisplayed({ timeout: 120000 });
   const loadedText = await loadedStatus.getText();
