@@ -18,12 +18,12 @@ export type SpringboardAsyncRouteComponent = {
         reactNative?: SpringboardRouteComponentLoader;
     };
 };
-export type SpringboardRouteProps<TPath extends string, TSearch = UnknownSearch> = {
+export type SpringboardRouteProps<TPath extends string, TSearch = SearchFor<TPath>> = {
     params: PathParams<TPath>;
     search: TSearch;
     navigate: SpringboardNavigate;
 };
-export type SpringboardDefinedRouteComponent<TPath extends string, TSearch = UnknownSearch> =
+export type SpringboardDefinedRouteComponent<TPath extends string, TSearch = SearchFor<TPath>> =
     React.ComponentType<SpringboardRouteProps<TPath, TSearch>> & {
         readonly __springboardRouteComponent: true;
         readonly __springboardRouteComponentPath: TPath;
@@ -33,8 +33,7 @@ export type SpringboardPlainRouteComponent = React.ComponentType<Record<string, 
     readonly __springboardRouteComponent?: never;
 };
 export type SpringboardRouteComponent<TPath extends string = string, TSearch = UnknownSearch> =
-    | SpringboardPlainRouteComponent
-    | SpringboardDefinedRouteComponent<TPath, TSearch>
+    | React.ComponentType<SpringboardRouteProps<TPath, TSearch>>
     | SpringboardAsyncRouteComponent;
 
 export type SpringboardRouteConfig<TPath extends string, TSearch> = {
@@ -174,7 +173,7 @@ export const useSpringboardRouteProps = <TPath extends string, TSearch = SearchF
     }), [navigate, params, search]);
 };
 
-export const defineRouteComponent = <const TPath extends string, TSearch = UnknownSearch>(
+export const defineRouteComponent = <const TPath extends string, TSearch = SearchFor<TPath>>(
     component: React.ComponentType<SpringboardRouteProps<TPath, TSearch>>,
 ): SpringboardDefinedRouteComponent<TPath, TSearch> => {
     return Object.assign(component, {
@@ -183,20 +182,27 @@ export const defineRouteComponent = <const TPath extends string, TSearch = Unkno
     });
 };
 
-export const defineRoute = <
-    const TPath extends string,
-    TSearch = UnknownSearch
->(
-    config: Omit<SpringboardRouteConfig<TPath, TSearch>, 'component'> & {
+export function defineRoute<const TPath extends string, TSearch>(
+    config: Omit<SpringboardRouteConfig<TPath, TSearch>, 'component' | 'validateSearch'> & {
         component: SpringboardRouteComponent<TPath, TSearch>;
+        validateSearch: SearchValidator<TSearch>;
     },
-): SpringboardRouteDescriptor<TPath, TSearch> => {
+): SpringboardRouteDescriptor<TPath, TSearch>;
+export function defineRoute<const TPath extends string>(
+    config: Omit<SpringboardRouteConfig<TPath, UnknownSearch>, 'component' | 'validateSearch'> & {
+        component: SpringboardRouteComponent<TPath, UnknownSearch>;
+        validateSearch?: undefined;
+    },
+): SpringboardRouteDescriptor<TPath, UnknownSearch>;
+export function defineRoute<const TPath extends string, TSearch>(
+    config: SpringboardRouteConfig<TPath, TSearch>,
+): SpringboardRouteDescriptor<TPath, TSearch> {
     return {
         ...config,
         path: normalizeRoutePath(config.path) as TPath,
         __springboardRoute: true,
     };
-};
+}
 
 export const defineRoutes = <const TRoutes extends RouteTuple>(routes: TRoutes): TRoutes => {
     return routes;

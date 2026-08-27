@@ -1,88 +1,67 @@
-import React from 'react';
-import {Button, Text, View} from 'react-native';
-
 import {springboard} from 'springboard';
 import {
   asyncRouteComponent,
   defineRoute,
-  defineRouteComponent,
   defineRoutes,
-  useNavigate,
 } from 'springboard/router';
-
-const MobileE2ERootRoute = () => {
-  const navigate = useNavigate();
-
-  return (
-    <View testID="springboard-routing-root">
-      <Text>Springboard routing root</Text>
-      <Button title="Open static route" onPress={() => navigate({to: '/native-static'})} />
-      <Button
-        title="Open dynamic route"
-        onPress={() => navigate({
-          to: '/songs/$songId',
-          params: {songId: 'expo-song'},
-          search: {tab: 'lyrics'},
-        })}
-      />
-      <Button
-        title="Open WebView route"
-        onPress={() => navigate({
-          to: '/webview/$itemId',
-          params: {itemId: 'webview-demo'},
-          search: {source: 'mobile-e2e'},
-        })}
-      />
-    </View>
-  );
-};
-
-const MobileE2EStaticRoute = () => (
-  <View testID="springboard-routing-static">
-    <Text>Springboard static native route</Text>
-  </View>
-);
-
-type MobileE2ESongSearch = {
-  tab: 'lyrics' | 'overview';
-};
-
-const MobileE2EDynamicRoute = defineRouteComponent<'/songs/$songId', MobileE2ESongSearch>(({params, search}) => (
-    <View testID="springboard-routing-dynamic">
-      <Text testID="springboard-routing-song-id">{params.songId}</Text>
-      <Text testID="springboard-routing-song-tab">{search.tab}</Text>
-    </View>
-));
-
-const BrowserWebViewOnlyRoute = () => (
-  <View>
-    <Text>Browser WebView route</Text>
-  </View>
-);
 
 export const routingDemoRoutes = defineRoutes([
   defineRoute({
     path: '/',
-    component: MobileE2ERootRoute,
+    component: asyncRouteComponent({
+      browser: async () => {
+        const {RootBrowserRoute} = await import('./route-components/root.browser');
+        return (props) => <RootBrowserRoute {...props} />;
+      },
+      reactNative: async () => {
+        const {RootReactNativeRoute} = await import('./route-components/root.reactNative');
+        return (props) => <RootReactNativeRoute {...props} />;
+      },
+    }),
   }),
   defineRoute({
     path: '/native-static',
-    component: MobileE2EStaticRoute,
+    component: asyncRouteComponent({
+      browser: async () => {
+        const {NativeStaticBrowserRoute} = await import('./route-components/native-static.browser');
+        return (props) => <NativeStaticBrowserRoute {...props} />;
+      },
+      reactNative: async () => {
+        const {NativeStaticReactNativeRoute} = await import('./route-components/native-static.reactNative');
+        return (props) => <NativeStaticReactNativeRoute {...props} />;
+      },
+    }),
   }),
   defineRoute({
     path: '/songs/$songId',
-    component: MobileE2EDynamicRoute,
     validateSearch: (search) => ({
       tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
+    }),
+    component: asyncRouteComponent({
+      browser: async () => {
+        const {SongDetailBrowserRoute} = await import('./route-components/song-detail.browser');
+        return (props) => <SongDetailBrowserRoute {...props} />;
+      },
+      reactNative: async () => {
+        const {SongDetailReactNativeRoute} = await import('./route-components/song-detail.reactNative');
+        return (props) => <SongDetailReactNativeRoute {...props} />;
+      },
     }),
   }),
   defineRoute({
     path: '/webview/$itemId',
-    component: asyncRouteComponent({
-      browser: async () => BrowserWebViewOnlyRoute,
-    }),
     validateSearch: (search) => ({
       source: typeof search.source === 'string' ? search.source : 'unknown',
+    }),
+    component: asyncRouteComponent({
+      browser: async () => {
+        const {WebViewItemBrowserRoute} = await import('./route-components/webview-item.browser');
+        return (props) => <WebViewItemBrowserRoute {...props} />;
+      },
+      reactNative: async () => {
+        const {WebViewItemReactNativeRoute} = await import('./route-components/webview-item.reactNative');
+        return (props) => <WebViewItemReactNativeRoute {...props} />;
+      },
     }),
   }),
 ]);
