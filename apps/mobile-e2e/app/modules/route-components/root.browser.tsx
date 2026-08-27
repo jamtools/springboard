@@ -1,27 +1,23 @@
 import React from 'react';
 import {Button, Text, View} from 'react-native';
 
-import {defineRouteComponent} from 'springboard/router';
+type RootBrowserRouteProps = {
+  onOpenStaticRoute: () => void;
+  onOpenDynamicRoute: () => void;
+  onOpenWebViewRoute: () => void;
+};
 
-export const RootBrowserRoute = defineRouteComponent('/', ({navigate}) => (
+export const RootBrowserRoute = (props: RootBrowserRouteProps) => (
   <View testID="springboard-routing-root-browser">
     <Text>Springboard routing root browser</Text>
-    <Button title="Open static route" onPress={() => navigate({to: '/native-static'})} />
+    <Button title="Open static route" onPress={props.onOpenStaticRoute} />
     <Button
       title="Open dynamic route"
-      onPress={() => navigate({
-        to: '/songs/$songId',
-        params: {songId: 'expo-song'},
-        search: {tab: 'lyrics'},
-      })}
+      onPress={props.onOpenDynamicRoute}
     />
     <Button
       title="Open WebView route"
-      onPress={() => navigate({
-        to: '/webview/$itemId',
-        params: {itemId: 'webview-demo'},
-        search: {source: 'mobile-e2e'},
-      })}
+      onPress={props.onOpenWebViewRoute}
     />
   </View>
-));
+);

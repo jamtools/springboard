@@ -1,31 +1,27 @@
 import React from 'react';
 import {Button, Text, View} from 'react-native';
 
-import {defineRouteComponent} from 'springboard/router';
+type RootReactNativeRouteProps = {
+  onOpenStaticRoute: () => void;
+  onOpenDynamicRoute: () => void;
+  onOpenWebViewRoute: () => void;
+};
 
-export const RootReactNativeRoute = defineRouteComponent('/', ({navigate}) => (
+export const RootReactNativeRoute = (props: RootReactNativeRouteProps) => (
   <View accessibilityLabel="springboard-routing-root" testID="springboard-routing-root">
     <Text accessibilityLabel="springboard-routing-root-content">Springboard routing root</Text>
     <Button
       accessibilityLabel="springboard-routing-open-static"
       title="Open static route"
-      onPress={() => navigate({to: '/native-static'})}
+      onPress={props.onOpenStaticRoute}
     />
     <Button
       title="Open dynamic route"
-      onPress={() => navigate({
-        to: '/songs/$songId',
-        params: {songId: 'expo-song'},
-        search: {tab: 'lyrics'},
-      })}
+      onPress={props.onOpenDynamicRoute}
     />
     <Button
       title="Open WebView route"
-      onPress={() => navigate({
-        to: '/webview/$itemId',
-        params: {itemId: 'webview-demo'},
-        search: {source: 'mobile-e2e'},
-      })}
+      onPress={props.onOpenWebViewRoute}
     />
   </View>
-));
+);

@@ -1,11 +1,14 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-import {defineRouteComponent} from 'springboard/router';
+type WebViewItemReactNativeRouteProps = {
+  itemId: string;
+  source: string;
+};
 
-export const WebViewItemReactNativeRoute = defineRouteComponent('/webview/$itemId', ({params, search}) => (
+export const WebViewItemReactNativeRoute = (props: WebViewItemReactNativeRouteProps) => (
   <View testID="springboard-routing-webview-native">
-    <Text>{params.itemId}</Text>
-    <Text>{search.source}</Text>
+    <Text>{props.itemId}</Text>
+    <Text>{props.source}</Text>
   </View>
-));
+);

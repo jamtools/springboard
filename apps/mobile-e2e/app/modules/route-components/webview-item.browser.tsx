@@ -1,11 +1,14 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-import {defineRouteComponent} from 'springboard/router';
+type WebViewItemBrowserRouteProps = {
+  itemId: string;
+  source: string;
+};
 
-export const WebViewItemBrowserRoute = defineRouteComponent('/webview/$itemId', ({params, search}) => (
+export const WebViewItemBrowserRoute = (props: WebViewItemBrowserRouteProps) => (
   <View testID="springboard-routing-webview-browser">
-    <Text>{params.itemId}</Text>
-    <Text>{search.source}</Text>
+    <Text>{props.itemId}</Text>
+    <Text>{props.source}</Text>
   </View>
-));
+);
