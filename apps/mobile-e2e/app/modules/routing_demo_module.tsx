@@ -1,0 +1,104 @@
+import React from 'react';
+import {Button, Text, View} from 'react-native';
+
+import {springboard} from 'springboard';
+import {
+  asyncRouteComponent,
+  defineRoute,
+  defineRoutes,
+  useNavigate,
+  useParams,
+  useSearch,
+} from 'springboard/router';
+
+const MobileE2ERootRoute = () => {
+  const navigate = useNavigate();
+
+  return (
+    <View testID="springboard-routing-root">
+      <Text>Springboard routing root</Text>
+      <Button title="Open static route" onPress={() => navigate({to: '/native-static'})} />
+      <Button
+        title="Open dynamic route"
+        onPress={() => navigate({
+          to: '/songs/$songId',
+          params: {songId: 'expo-song'},
+          search: {tab: 'lyrics'},
+        })}
+      />
+      <Button
+        title="Open WebView route"
+        onPress={() => navigate({
+          to: '/webview/$itemId',
+          params: {itemId: 'webview-demo'},
+          search: {source: 'mobile-e2e'},
+        })}
+      />
+    </View>
+  );
+};
+
+const MobileE2EStaticRoute = () => (
+  <View testID="springboard-routing-static">
+    <Text>Springboard static native route</Text>
+  </View>
+);
+
+const MobileE2EDynamicRoute = () => {
+  const params = useParams({from: '/songs/$songId'});
+  const search = useSearch({from: '/songs/$songId'});
+
+  return (
+    <View testID="springboard-routing-dynamic">
+      <Text testID="springboard-routing-song-id">{params.songId}</Text>
+      <Text testID="springboard-routing-song-tab">{search.tab}</Text>
+    </View>
+  );
+};
+
+const BrowserWebViewOnlyRoute = () => (
+  <View>
+    <Text>Browser WebView route</Text>
+  </View>
+);
+
+export const routingDemoRoutes = defineRoutes([
+  defineRoute({
+    path: '/',
+    component: MobileE2ERootRoute,
+  }),
+  defineRoute({
+    path: '/native-static',
+    component: MobileE2EStaticRoute,
+  }),
+  defineRoute({
+    path: '/songs/$songId',
+    component: MobileE2EDynamicRoute,
+    validateSearch: (search) => ({
+      tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
+    }),
+  }),
+  defineRoute({
+    path: '/webview/$itemId',
+    component: asyncRouteComponent({
+      browser: async () => BrowserWebViewOnlyRoute,
+    }),
+    validateSearch: (search) => ({
+      source: typeof search.source === 'string' ? search.source : 'unknown',
+    }),
+  }),
+]);
+
+declare module 'springboard/router' {
+  interface Register {
+    routes: typeof routingDemoRoutes;
+  }
+}
+
+export const mobileE2ERoutingDemoModule = springboard.defineModule(
+  'MobileE2ERoutingDemo',
+  {},
+  async () => ({
+    routes: routingDemoRoutes,
+  }),
+);
