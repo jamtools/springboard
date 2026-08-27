@@ -2,7 +2,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 
-import {asyncRouteComponent, collectRouteDescriptors, defineRoute, defineRoutes, useNavigate, useParams, useSearch} from '../../../router/index';
+import {collectRouteDescriptors, defineRoute, defineRoutes, useNavigate, useParams, useSearch} from '../../../router/index';
 
 vi.mock('react-native', () => ({
     Button: (props: {title: string; onPress: () => void}) => React.createElement('button', {onClick: props.onPress}, props.title),
@@ -51,13 +51,22 @@ const SongScreen = () => {
 };
 
 const testRoutes = defineRoutes([
-    defineRoute({path: '/', component: RootScreen}),
+    defineRoute({
+        path: '/',
+        component: {
+            browser: async (route) => route.component(RootScreen),
+            reactNative: async (route) => route.component(RootScreen),
+        },
+    }),
     defineRoute({
         path: '/songs/$songId',
-        component: SongScreen,
         validateSearch: (search) => ({
             tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
         }),
+        component: {
+            browser: async (route) => route.component(SongScreen),
+            reactNative: async (route) => route.component(SongScreen),
+        },
     }),
 ]);
 
@@ -67,32 +76,32 @@ const NativeAsyncScreen = () => <div>Native async screen</div>;
 const webViewFallbackRoutes = defineRoutes([
     defineRoute({
         path: '/web-only/$itemId',
-        component: asyncRouteComponent({
-            browser: async () => BrowserFallbackScreen,
-        }),
         validateSearch: (search) => ({
             mode: search.mode === 'local' ? 'local' as const : 'remote' as const,
         }),
+        component: {
+            browser: async (route) => route.component(BrowserFallbackScreen),
+        },
     }),
 ]);
 
 const brokenNativeRoutes = defineRoutes([
     defineRoute({
         path: '/broken-native',
-        component: asyncRouteComponent({
-            browser: async () => BrowserFallbackScreen,
+        component: {
+            browser: async (route) => route.component(BrowserFallbackScreen),
             reactNative: async () => undefined,
-        }),
+        },
     }),
 ]);
 
 const nativeAsyncRoutes = defineRoutes([
     defineRoute({
         path: '/native-async',
-        component: asyncRouteComponent({
-            browser: async () => BrowserFallbackScreen,
-            reactNative: async () => NativeAsyncScreen,
-        }),
+        component: {
+            browser: async (route) => route.component(BrowserFallbackScreen),
+            reactNative: async (route) => route.component(NativeAsyncScreen),
+        },
     }),
 ]);
 
@@ -192,7 +201,7 @@ describe('Springboard React Navigation routing host', () => {
         expect(screen.getByTestId('native-stack')).toBeTruthy();
         expect(screen.getByTestId('screen-springboard_route_root')).toBeTruthy();
         expect(screen.getByTestId('screen-springboard_route_songs_songId')).toBeTruthy();
-        expect(screen.getAllByText('Root screen').length).toBeGreaterThan(0);
+        expect((await screen.findAllByText('Root screen')).length).toBeGreaterThan(0);
         expect(new Set(screenComponents).size).toBe(1);
     });
 
@@ -213,7 +222,7 @@ describe('Springboard React Navigation routing host', () => {
 
         render(<SpringboardReactNavigationHost />);
 
-        fireEvent.click(screen.getAllByText('Open song')[0]);
+        fireEvent.click((await screen.findAllByText('Open song'))[0]);
 
         expect(routingMocks.navigate).toHaveBeenCalledWith('springboard_route_songs_songId', {
             __springboardRouteId: 'springboard_route_songs_songId',
@@ -234,8 +243,8 @@ describe('Springboard React Navigation routing host', () => {
 
         render(<SpringboardReactNavigationHost />);
 
-        expect(screen.getAllByTestId('song-id')[0].textContent).toBe('deep-link-song');
-        expect(screen.getAllByTestId('song-tab')[0].textContent).toBe('lyrics');
+        expect((await screen.findAllByTestId('song-id'))[0].textContent).toBe('deep-link-song');
+        expect((await screen.findAllByTestId('song-tab'))[0].textContent).toBe('lyrics');
     });
 
     it('loads async reactNative route components with React Query', async () => {

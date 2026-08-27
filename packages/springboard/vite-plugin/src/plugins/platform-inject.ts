@@ -183,8 +183,32 @@ function getAsyncRouteComponentActiveKey(buildPlatformRaw: SpringboardTransformP
     return null;
 }
 
+const getObjectPropertyName = (property: t.ObjectProperty): string | undefined => {
+    const key = property.key;
+    return key.type === 'Identifier'
+        ? key.name
+        : key.type === 'StringLiteral'
+            ? key.value
+            : undefined;
+};
+
+const prunePlatformRouteLoaderProperties = (
+    objectExpression: t.ObjectExpression,
+    activeKey: 'browser' | 'reactNative',
+) => {
+    objectExpression.properties = objectExpression.properties.filter((property) => {
+        if (property.type !== 'ObjectProperty') {
+            return true;
+        }
+
+        const propertyName = getObjectPropertyName(property);
+
+        return propertyName !== 'browser' && propertyName !== 'reactNative' || propertyName === activeKey;
+    });
+};
+
 export function transformAsyncRouteComponentBranches(source: string, buildPlatform: SpringboardTransformPlatform): string {
-    if (!/asyncRouteComponent\s*\(/.test(source)) {
+    if (!/(asyncRouteComponent\s*\(|defineRoute\s*\()/.test(source)) {
         return source;
     }
 
@@ -198,29 +222,29 @@ export function transformAsyncRouteComponentBranches(source: string, buildPlatfo
 
         traverse(ast, {
             CallExpression(path) {
-                if (path.node.callee.type !== 'Identifier' || path.node.callee.name !== 'asyncRouteComponent') {
-                    return;
+                if (path.node.callee.type === 'Identifier' && path.node.callee.name === 'asyncRouteComponent') {
+                    const firstArg = path.node.arguments[0];
+                    if (firstArg?.type === 'ObjectExpression') {
+                        prunePlatformRouteLoaderProperties(firstArg, activeKey);
+                    }
                 }
 
-                const firstArg = path.node.arguments[0];
-                if (!firstArg || firstArg.type !== 'ObjectExpression') {
-                    return;
-                }
-
-                firstArg.properties = firstArg.properties.filter((property) => {
-                    if (property.type !== 'ObjectProperty') {
-                        return true;
+                if (path.node.callee.type === 'Identifier' && path.node.callee.name === 'defineRoute') {
+                    const firstArg = path.node.arguments[0];
+                    if (firstArg?.type !== 'ObjectExpression') {
+                        return;
                     }
 
-                    const key = property.key;
-                    const propertyName = key.type === 'Identifier'
-                        ? key.name
-                        : key.type === 'StringLiteral'
-                            ? key.value
-                            : undefined;
+                    for (const property of firstArg.properties) {
+                        if (property.type !== 'ObjectProperty') {
+                            continue;
+                        }
 
-                    return propertyName !== 'browser' && propertyName !== 'reactNative' || propertyName === activeKey;
-                });
+                        if (getObjectPropertyName(property) === 'component' && property.value.type === 'ObjectExpression') {
+                            prunePlatformRouteLoaderProperties(property.value, activeKey);
+                        }
+                    }
+                }
             },
         });
 

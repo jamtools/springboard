@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-    asyncRouteComponent,
     defineRoute,
     defineRouteComponent,
     defineRoutes,
@@ -15,70 +14,113 @@ import type {ModuleAPI} from '../core/engine/module_api';
 
 const Screen = () => React.createElement('div');
 const MismatchedSongScreen = defineRouteComponent<'/typed-component/$otherId'>(() => React.createElement('div'));
-type AsyncRouteWrapperProps = Router.SpringboardRouteProps<'/async-wrapper/$id', {filter: 'active'}>;
-const AsyncRouteWrapperScreen = defineRouteComponent(({params, search}: AsyncRouteWrapperProps) => {
-    params.id satisfies string;
-    search.filter satisfies 'active';
-
-    return React.createElement('div');
-});
+const AsyncRouteWrapperScreen = defineRouteComponent<'/async-wrapper/$id', {filter: 'active'}>(() => React.createElement('div'));
+const MismatchedAsyncRouteWrapperScreen = defineRouteComponent<'/async-wrapper/$otherId', {filter: 'active'}>(() => React.createElement('div'));
 
 const routes = defineRoutes([
-    defineRoute({path: '/', component: Screen}),
-    defineRoute({path: '/settings', component: Screen}),
+    defineRoute({
+        path: '/',
+        component: {
+            browser: async (route) => route.component(Screen),
+            reactNative: async (route) => route.component(Screen),
+        },
+    }),
+    defineRoute({
+        path: '/settings',
+        component: {
+            browser: async (route) => route.component(Screen),
+            reactNative: async (route) => route.component(Screen),
+        },
+    }),
     defineRoute({
         path: '/discounts',
-        component: Screen,
         validateSearch: (search) => ({
             hasDiscount: search.hasDiscount === 'true',
         }),
+        component: {
+            browser: async (route) => route.component(Screen),
+            reactNative: async (route) => route.component(Screen),
+        },
     }),
     defineRoute({
         path: '/songs/$songId',
-        component: Screen,
         validateSearch: (search) => ({
             tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
         }),
+        component: {
+            browser: async (route) => route.component(Screen),
+            reactNative: async (route) => route.component(Screen),
+        },
     }),
     defineRoute({
         path: '/async/$id',
-        component: asyncRouteComponent({
+        component: {
             browser: async () => Screen,
             reactNative: async () => Screen,
-        }),
+        },
     }),
     defineRoute({
         path: '/browser-only',
-        component: asyncRouteComponent({
+        component: {
             browser: async () => Screen,
-        }),
+        },
     }),
-    defineRoute({path: '/unvalidated', component: Screen}),
+    defineRoute({
+        path: '/unvalidated',
+        component: {
+            browser: async (route) => route.component(Screen),
+            reactNative: async (route) => route.component(Screen),
+        },
+    }),
     defineRoute({
         path: '/typed-component/$songId',
         validateSearch: (search) => ({
             tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
         }),
-        component: (props) => {
-            props.params.songId satisfies string;
-            props.search.tab satisfies 'lyrics' | 'overview';
-            props.navigate({to: '/settings'});
+        component: {
+            browser: async (route) => route.component((props) => {
+                props.params.songId satisfies string;
+                props.search.tab satisfies 'lyrics' | 'overview';
+                props.navigate({to: '/settings'});
 
-            // @ts-expect-error route component params are scoped by the declared route path.
-            props.params.albumId satisfies string;
+                // @ts-expect-error route component params are scoped by the declared route path.
+                props.params.albumId satisfies string;
 
-            // @ts-expect-error route component search is scoped by validateSearch.
-            props.search.tab satisfies 'invalid';
+                // @ts-expect-error route component search is scoped by validateSearch.
+                props.search.tab satisfies 'invalid';
 
-            return React.createElement('div');
+                return React.createElement('div');
+            }),
+        },
+    }),
+    defineRoute({
+        path: '/async-wrapper/$id',
+        validateSearch: (search) => ({
+            filter: search.filter === 'active' ? 'active' as const : 'active' as const,
+        }),
+        component: {
+            browser: async (route) => route.component(AsyncRouteWrapperScreen),
         },
     }),
 ]);
 
-// @ts-expect-error defineRouteComponent path must match the descriptor path it is assigned to.
 defineRoute({
     path: '/typed-component/$songId',
-    component: MismatchedSongScreen,
+    component: {
+        // @ts-expect-error defineRouteComponent path must match the descriptor path it is assigned to.
+        browser: async (route) => route.component(MismatchedSongScreen),
+    },
+});
+
+defineRoute({
+    path: '/async-wrapper/$id',
+    validateSearch: (search) => ({
+        filter: search.filter === 'active' ? 'active' as const : 'active' as const,
+    }),
+    component: {
+        // @ts-expect-error route.component rejects components whose typed path does not match the containing route.
+        browser: async (route) => route.component(MismatchedAsyncRouteWrapperScreen),
+    },
 });
 
 const makeTypedRoutesModule = async () => ({
@@ -128,30 +170,38 @@ getRouteApi('/missing');
 // @ts-expect-error unvalidated search should not pretend to be precise
 useSearch({from: '/unvalidated'}).tab satisfies 'lyrics';
 
-asyncRouteComponent({browser: async () => Screen});
-asyncRouteComponent({reactNative: async () => Screen});
-asyncRouteComponent({
-    browser: async (route) => route.component((
-        props: AsyncRouteWrapperProps,
-    ) => {
-        props.params.id satisfies string;
-        props.search.filter satisfies 'active';
-
-        // @ts-expect-error wrapper props are still checked against the imported route component.
-        props.search.filter satisfies 'archived';
-
-        return React.createElement(AsyncRouteWrapperScreen, props);
+defineRoute({
+    path: '/direct-platform-record/$id',
+    validateSearch: (search) => ({
+        filter: search.filter === 'active' ? 'active' as const : 'active' as const,
     }),
+    component: {
+        browser: async (route) => route.component((props) => {
+            props.params.id satisfies string;
+            props.search.filter satisfies 'active';
+
+            // @ts-expect-error route.component props are framework-inferred from defineRoute.
+            props.search.filter satisfies 'archived';
+
+            return React.createElement('div');
+        }),
+    },
 });
 
 // @ts-expect-error rn is not the MVP platform key; use reactNative
-asyncRouteComponent({rn: async () => Screen});
+defineRoute({path: '/bad-rn-key', component: {rn: async () => Screen}});
 
 // @ts-expect-error mobile is not the MVP platform key; use reactNative
-asyncRouteComponent({mobile: async () => Screen});
+defineRoute({path: '/bad-mobile-key', component: {mobile: async () => Screen}});
 
 // @ts-expect-error react-native string key is intentionally not the MVP platform key
-asyncRouteComponent({'react-native': async () => Screen});
+defineRoute({path: '/bad-react-native-key', component: {'react-native': async () => Screen}});
+
+// @ts-expect-error direct sync components are intentionally not part of the isomorphic route API.
+defineRoute({path: '/sync-component', component: Screen});
+
+// @ts-expect-error asyncRouteComponent is intentionally absent; use a direct defineRoute component platform record.
+Router.asyncRouteComponent;
 
 // @ts-expect-error raw Promise components are not the explicit async route component API
 defineRoute({path: '/raw-promise', component: Promise.resolve(Screen)});

@@ -1,101 +1,55 @@
 import {springboard} from 'springboard';
-import type {ComponentProps} from 'react';
 import {
-  asyncRouteComponent,
   defineRoute,
   defineRoutes,
 } from 'springboard/router';
-import type {SpringboardRouteProps} from 'springboard/router';
 
-const validateSongSearch = (search: Record<string, unknown>) => ({
+export const validateSongSearch = (search: Record<string, unknown>) => ({
   tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
 });
 
-const validateWebViewItemSearch = (search: Record<string, unknown>) => ({
+export const validateWebViewItemSearch = (search: Record<string, unknown>) => ({
   source: typeof search.source === 'string' ? search.source : 'unknown',
 });
-
-export type MobileE2ERootRouteProps = SpringboardRouteProps<'/'>;
-export type MobileE2ENativeStaticRouteProps = SpringboardRouteProps<'/native-static'>;
-export type MobileE2ESongDetailRouteProps = SpringboardRouteProps<
-  '/songs/$songId',
-  ReturnType<typeof validateSongSearch>
->;
-export type MobileE2EWebViewItemRouteProps = SpringboardRouteProps<
-  '/webview/$itemId',
-  ReturnType<typeof validateWebViewItemSearch>
->;
 
 export const routingDemoRoutes = defineRoutes([
   defineRoute({
     path: '/',
-    component: asyncRouteComponent({
-      browser: async (route) => {
-        const {RootBrowserRoute} = await import('./route-components/root.browser');
-        return route.component((props: ComponentProps<typeof RootBrowserRoute>) => (
-          <RootBrowserRoute {...props} />
-        ));
-      },
-      reactNative: async (route) => {
-        const {RootReactNativeRoute} = await import('./route-components/root.reactNative');
-        return route.component((props: ComponentProps<typeof RootReactNativeRoute>) => (
-          <RootReactNativeRoute {...props} />
-        ));
-      },
-    }),
+    component: {
+      browser: async (route) =>
+        route.component((await import('./route-components/root.browser')).RootBrowserRoute),
+      reactNative: async (route) =>
+        route.component((await import('./route-components/root.reactNative')).RootReactNativeRoute),
+    },
   }),
   defineRoute({
     path: '/native-static',
-    component: asyncRouteComponent({
-      browser: async (route) => {
-        const {NativeStaticBrowserRoute} = await import('./route-components/native-static.browser');
-        return route.component((props: ComponentProps<typeof NativeStaticBrowserRoute>) => (
-          <NativeStaticBrowserRoute {...props} />
-        ));
-      },
-      reactNative: async (route) => {
-        const {NativeStaticReactNativeRoute} = await import('./route-components/native-static.reactNative');
-        return route.component((props: ComponentProps<typeof NativeStaticReactNativeRoute>) => (
-          <NativeStaticReactNativeRoute {...props} />
-        ));
-      },
-    }),
+    component: {
+      browser: async (route) =>
+        route.component((await import('./route-components/native-static.browser')).NativeStaticBrowserRoute),
+      reactNative: async (route) =>
+        route.component((await import('./route-components/native-static.reactNative')).NativeStaticReactNativeRoute),
+    },
   }),
   defineRoute({
     path: '/songs/$songId',
     validateSearch: validateSongSearch,
-    component: asyncRouteComponent({
-      browser: async (route) => {
-        const {SongDetailBrowserRoute} = await import('./route-components/song-detail.browser');
-        return route.component((props: ComponentProps<typeof SongDetailBrowserRoute>) => (
-          <SongDetailBrowserRoute {...props} />
-        ));
-      },
-      reactNative: async (route) => {
-        const {SongDetailReactNativeRoute} = await import('./route-components/song-detail.reactNative');
-        return route.component((props: ComponentProps<typeof SongDetailReactNativeRoute>) => (
-          <SongDetailReactNativeRoute {...props} />
-        ));
-      },
-    }),
+    component: {
+      browser: async (route) =>
+        route.component((await import('./route-components/song-detail.browser')).SongDetailBrowserRoute),
+      reactNative: async (route) =>
+        route.component((await import('./route-components/song-detail.reactNative')).SongDetailReactNativeRoute),
+    },
   }),
   defineRoute({
     path: '/webview/$itemId',
     validateSearch: validateWebViewItemSearch,
-    component: asyncRouteComponent({
-      browser: async (route) => {
-        const {WebViewItemBrowserRoute} = await import('./route-components/webview-item.browser');
-        return route.component((props: ComponentProps<typeof WebViewItemBrowserRoute>) => (
-          <WebViewItemBrowserRoute {...props} />
-        ));
-      },
-      reactNative: async (route) => {
-        const {WebViewItemReactNativeRoute} = await import('./route-components/webview-item.reactNative');
-        return route.component((props: ComponentProps<typeof WebViewItemReactNativeRoute>) => (
-          <WebViewItemReactNativeRoute {...props} />
-        ));
-      },
-    }),
+    component: {
+      browser: async (route) =>
+        route.component((await import('./route-components/webview-item.browser')).WebViewItemBrowserRoute),
+      reactNative: async (route) =>
+        route.component((await import('./route-components/webview-item.reactNative')).WebViewItemReactNativeRoute),
+    },
   }),
 ]);
 

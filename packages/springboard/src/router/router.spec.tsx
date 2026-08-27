@@ -5,7 +5,6 @@ import {describe, expect, it} from 'vitest';
 
 import {
     SpringboardRouterProvider,
-    asyncRouteComponent,
     collectRouteDescriptors,
     defineRoute,
     defineRoutes,
@@ -19,14 +18,21 @@ import {
     useSpringboardRouteProps,
     useSearch,
 } from './index';
+import type {SpringboardRouteComponentLoaders, SpringboardRouteProps} from './index';
 
 const Screen = () => React.createElement('div');
+const platformComponent = <TPath extends string, TSearch = Record<string, unknown>>(
+    component: React.ComponentType<SpringboardRouteProps<TPath, TSearch>>,
+): SpringboardRouteComponentLoaders<TPath, TSearch> => ({
+    browser: async (route) => route.component(component),
+    reactNative: async (route) => route.component(component),
+});
 
 describe('springboard/router runtime utilities', () => {
     it('defines routes and derives stable internal IDs from normalized paths', () => {
         const routes = defineRoutes([
-            defineRoute({path: '/', component: Screen}),
-            defineRoute({path: '/songs/$songId', component: Screen}),
+            defineRoute({path: '/', component: platformComponent(Screen)}),
+            defineRoute({path: '/songs/$songId', component: platformComponent(Screen)}),
         ]);
 
         const descriptors = collectRouteDescriptors([
@@ -41,8 +47,8 @@ describe('springboard/router runtime utilities', () => {
     });
 
     it('throws during collection for duplicate paths with module context', () => {
-        const first = defineRoute({path: '/settings', component: Screen});
-        const second = defineRoute({path: '/settings/', component: Screen});
+        const first = defineRoute({path: '/settings', component: platformComponent(Screen)});
+        const second = defineRoute({path: '/settings/', component: platformComponent(Screen)});
 
         expect(() => collectRouteDescriptors([
             {moduleId: 'SettingsA', routes: [first]},
@@ -51,8 +57,8 @@ describe('springboard/router runtime utilities', () => {
     });
 
     it('throws during collection for derived internal ID collisions', () => {
-        const first = defineRoute({path: '/songs-new', component: Screen});
-        const second = defineRoute({path: '/songs_new', component: Screen});
+        const first = defineRoute({path: '/songs-new', component: platformComponent(Screen)});
+        const second = defineRoute({path: '/songs_new', component: platformComponent(Screen)});
 
         expect(() => collectRouteDescriptors([
             {moduleId: 'SongsA', routes: [first]},
@@ -65,8 +71,8 @@ describe('springboard/router runtime utilities', () => {
             {
                 moduleId: 'Music',
                 routes: defineRoutes([
-                    defineRoute({path: '/songs/$songId', component: Screen}),
-                    defineRoute({path: '/songs/new', component: Screen}),
+                    defineRoute({path: '/songs/$songId', component: platformComponent(Screen)}),
+                    defineRoute({path: '/songs/new', component: platformComponent(Screen)}),
                 ]),
             },
         ]);
@@ -83,7 +89,7 @@ describe('springboard/router runtime utilities', () => {
     it('normalizes search with validateSearch and rejects missing runtime descriptors during resolution', () => {
         const route = defineRoute({
             path: '/songs/$songId',
-            component: Screen,
+            component: platformComponent(Screen),
             validateSearch: (search) => ({
                 tab: search.tab === 'lyrics' ? 'lyrics' as const : 'overview' as const,
             }),
@@ -104,7 +110,7 @@ describe('springboard/router runtime utilities', () => {
         actEnvironment.IS_REACT_ACT_ENVIRONMENT = true;
         const route = defineRoute({
             path: '/discounts',
-            component: Screen,
+            component: platformComponent(Screen),
             validateSearch: (search) => ({
                 hasDiscount: search.hasDiscount === 'true',
             }),
@@ -139,7 +145,7 @@ describe('springboard/router runtime utilities', () => {
         const actEnvironment = globalThis as typeof globalThis & {IS_REACT_ACT_ENVIRONMENT?: boolean};
         const previousActEnvironment = actEnvironment.IS_REACT_ACT_ENVIRONMENT;
         actEnvironment.IS_REACT_ACT_ENVIRONMENT = true;
-        const route = defineRoute({path: '/', component: Screen});
+        const route = defineRoute({path: '/', component: platformComponent(Screen)});
         const routes = collectRouteDescriptors([{moduleId: 'Root', routes: [route]}]);
         const container = document.createElement('div');
         const root = createRoot(container);
@@ -194,11 +200,13 @@ describe('springboard/router runtime utilities', () => {
     it('supports explicit async route component maps without async route collection', async () => {
         const BrowserScreen = () => React.createElement('div');
         const NativeScreen = () => React.createElement('div');
-        const asyncComponent = asyncRouteComponent({
-            browser: async () => BrowserScreen,
-            reactNative: async () => NativeScreen,
+        const route = defineRoute({
+            path: '/async/$id',
+            component: {
+                browser: async (routeApi) => routeApi.component(BrowserScreen),
+                reactNative: async (routeApi) => routeApi.component(NativeScreen),
+            },
         });
-        const route = defineRoute({path: '/async/$id', component: asyncComponent});
         const descriptors = collectRouteDescriptors([{moduleId: 'AsyncModule', routes: [route]}]);
 
         expect(descriptors[0].path).toBe('/async/$id');
@@ -217,9 +225,9 @@ describe('springboard/router runtime utilities', () => {
         const WrappedScreen = () => React.createElement(InnerScreen);
         const route = defineRoute({
             path: '/async-wrapper',
-            component: asyncRouteComponent({
+            component: {
                 browser: async (routeApi) => routeApi.component(WrappedScreen),
-            }),
+            },
         });
         const [descriptor] = collectRouteDescriptors([{moduleId: 'AsyncModule', routes: [route]}]);
 
@@ -233,16 +241,16 @@ describe('springboard/router runtime utilities', () => {
         const BrowserScreen = () => React.createElement('div');
         const missingNative = defineRoute({
             path: '/browser-only',
-            component: asyncRouteComponent({
-                browser: async () => BrowserScreen,
-            }),
+            component: {
+                browser: async (routeApi) => routeApi.component(BrowserScreen),
+            },
         });
         const undefinedNative = defineRoute({
             path: '/broken-native',
-            component: asyncRouteComponent({
-                browser: async () => BrowserScreen,
+            component: {
+                browser: async (routeApi) => routeApi.component(BrowserScreen),
                 reactNative: async () => undefined,
-            }),
+            },
         });
         const [missingNativeDescriptor, undefinedNativeDescriptor] = collectRouteDescriptors([
             {moduleId: 'AsyncModule', routes: [missingNative, undefinedNative]},
@@ -263,21 +271,21 @@ describe('springboard/router runtime utilities', () => {
         const BackgroundScreen = () => React.createElement('div');
         const current = defineRoute({
             path: '/current',
-            component: asyncRouteComponent({
+            component: {
                 browser: async () => {
                     loadOrder.push('current');
                     return CurrentScreen;
                 },
-            }),
+            },
         });
         const background = defineRoute({
             path: '/background',
-            component: asyncRouteComponent({
+            component: {
                 browser: async () => {
                     loadOrder.push('background');
                     return BackgroundScreen;
                 },
-            }),
+            },
         });
         const descriptors = collectRouteDescriptors([{moduleId: 'AsyncModule', routes: [current, background]}]);
 

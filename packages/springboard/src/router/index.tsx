@@ -15,20 +15,21 @@ export type SpringboardRouteProps<TPath extends string, TSearch = UnknownSearch>
     search: TSearch;
     navigate: SpringboardNavigate;
 };
-export type SpringboardRouteLoaderApi = {
-    component: <TComponent extends React.ComponentType<any>>(
-        component: TComponent,
-    ) => TComponent;
+export type SpringboardRouteLoaderApi<TPath extends string, TSearch> = {
+    component: (
+        component: React.ComponentType<SpringboardRouteProps<TPath, TSearch>>,
+    ) => React.ComponentType<SpringboardRouteProps<TPath, TSearch>>;
 };
-export type SpringboardRouteComponentLoader = (
-    route: SpringboardRouteLoaderApi
-) => React.ComponentType<any> | Promise<React.ComponentType<any> | undefined> | undefined;
-export type SpringboardAsyncRouteComponent = {
+export type SpringboardRouteComponentLoader<TPath extends string = string, TSearch = UnknownSearch> = (
+    route: SpringboardRouteLoaderApi<TPath, TSearch>
+) => Promise<React.ComponentType<SpringboardRouteProps<TPath, TSearch>> | undefined>;
+export type SpringboardRouteComponentLoaders<TPath extends string = string, TSearch = UnknownSearch> = {
+    browser?: SpringboardRouteComponentLoader<TPath, TSearch>;
+    reactNative?: SpringboardRouteComponentLoader<TPath, TSearch>;
+};
+export type SpringboardAsyncRouteComponent<TPath extends string = string, TSearch = UnknownSearch> = {
     readonly __springboardAsyncRouteComponent: true;
-    readonly loaders: {
-        browser?: SpringboardRouteComponentLoader;
-        reactNative?: SpringboardRouteComponentLoader;
-    };
+    readonly loaders: SpringboardRouteComponentLoaders<TPath, TSearch>;
 };
 export type SpringboardDefinedRouteComponent<TPath extends string, TSearch = UnknownSearch> =
     React.ComponentType<SpringboardRouteProps<TPath, TSearch>> & {
@@ -40,8 +41,7 @@ export type SpringboardPlainRouteComponent = React.ComponentType<Record<string, 
     readonly __springboardRouteComponent?: never;
 };
 export type SpringboardRouteComponent<TPath extends string = string, TSearch = UnknownSearch> =
-    | React.ComponentType<SpringboardRouteProps<TPath, TSearch>>
-    | SpringboardAsyncRouteComponent;
+    SpringboardRouteComponentLoaders<TPath, TSearch>;
 
 export type SpringboardRouteConfig<TPath extends string, TSearch> = {
     path: TPath;
@@ -60,7 +60,8 @@ export type SpringboardRouteConfig<TPath extends string, TSearch> = {
 };
 
 export type SpringboardRouteDescriptor<TPath extends string = string, TSearch = UnknownSearch> =
-    SpringboardRouteConfig<TPath, TSearch> & {
+    Omit<SpringboardRouteConfig<TPath, TSearch>, 'component'> & {
+        component: SpringboardAsyncRouteComponent<TPath, TSearch>;
         readonly __springboardRoute: true;
         readonly __searchType?: TSearch;
     };
@@ -228,6 +229,10 @@ export function defineRoute<const TPath extends string, TSearch>(
     return {
         ...config,
         path: normalizeRoutePath(config.path) as TPath,
+        component: {
+            __springboardAsyncRouteComponent: true,
+            loaders: {...config.component},
+        },
         __springboardRoute: true,
     };
 }
@@ -236,17 +241,8 @@ export const defineRoutes = <const TRoutes extends RouteTuple>(routes: TRoutes):
     return routes;
 };
 
-export const asyncRouteComponent = (
-    loaders: SpringboardAsyncRouteComponent['loaders'],
-): SpringboardAsyncRouteComponent => {
-    return {
-        __springboardAsyncRouteComponent: true,
-        loaders: {...loaders},
-    };
-};
-
 export const isSpringboardAsyncRouteComponent = (
-    component: SpringboardRouteComponent,
+    component: SpringboardRouteComponent | SpringboardAsyncRouteComponent,
 ): component is SpringboardAsyncRouteComponent => {
     return typeof component === 'object'
         && component !== null
@@ -422,32 +418,25 @@ export const normalizeSearch = <TSearch,>(
     return route.validateSearch ? route.validateSearch(search) : search;
 };
 
-const routeComponentCache = new WeakMap<SpringboardAsyncRouteComponent, Map<SpringboardRoutePlatform, Promise<SpringboardRouteComponentResolution>>>();
+const routeComponentCache = new WeakMap<SpringboardAsyncRouteComponent<any, any>, Map<SpringboardRoutePlatform, Promise<SpringboardRouteComponentResolution>>>();
 
-const getLoaderForPlatform = (
-    asyncComponent: SpringboardAsyncRouteComponent,
+const getLoaderForPlatform = <TPath extends string, TSearch>(
+    asyncComponent: SpringboardAsyncRouteComponent<TPath, TSearch>,
     platform: SpringboardRoutePlatform,
-): SpringboardRouteComponentLoader | undefined => {
+): SpringboardRouteComponentLoader<TPath, TSearch> | undefined => {
     return asyncComponent.loaders[platform];
 };
 
-const createRouteLoaderApi = (): SpringboardRouteLoaderApi => {
+const createRouteLoaderApi = <TPath extends string, TSearch>(): SpringboardRouteLoaderApi<TPath, TSearch> => {
     return {
         component: (component) => component,
     };
 };
 
-export const loadSpringboardRouteComponent = async (
-    route: SpringboardRouteDescriptor,
+export const loadSpringboardRouteComponent = async <TPath extends string, TSearch>(
+    route: SpringboardRouteDescriptor<TPath, TSearch>,
     platform: SpringboardRoutePlatform,
 ): Promise<SpringboardRouteComponentResolution> => {
-    if (!isSpringboardAsyncRouteComponent(route.component)) {
-        return {
-            status: 'component',
-            component: route.component as React.ComponentType<any>,
-        };
-    }
-
     const loader = getLoaderForPlatform(route.component, platform);
     if (!loader) {
         return {
@@ -468,7 +457,7 @@ export const loadSpringboardRouteComponent = async (
     }
 
     const promise = Promise.resolve()
-        .then(() => loader(createRouteLoaderApi()))
+        .then(() => loader(createRouteLoaderApi<TPath, TSearch>()))
         .then((component): SpringboardRouteComponentResolution => {
             if (component === undefined) {
                 throw new Error(`Async route component for "${route.path}" on "${platform}" resolved to undefined. Omit the platform key to mark the component absent.`);
