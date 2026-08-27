@@ -13,9 +13,28 @@ import * as Router from './index';
 import type {ModuleAPI} from '../core/engine/module_api';
 
 const Screen = () => React.createElement('div');
-const MismatchedSongScreen = defineRouteComponent<'/typed-component/$otherId'>(() => React.createElement('div'));
-const AsyncRouteWrapperScreen = defineRouteComponent<'/async-wrapper/$id', {filter: 'active'}>(() => React.createElement('div'));
-const MismatchedAsyncRouteWrapperScreen = defineRouteComponent<'/async-wrapper/$otherId', {filter: 'active'}>(() => React.createElement('div'));
+
+declare module './index' {
+    interface RouteSearchRegistry {
+        '/': Record<string, unknown>;
+        '/settings': Record<string, unknown>;
+        '/discounts': {hasDiscount: boolean};
+        '/songs/$songId': {tab: 'lyrics' | 'overview'};
+        '/async/$id': Record<string, unknown>;
+        '/browser-only': Record<string, unknown>;
+        '/unvalidated': Record<string, unknown>;
+        '/typed-component/$songId': {tab: 'lyrics' | 'overview'};
+        '/async-wrapper/$id': {filter: 'active'};
+        '/direct-platform-record/$id': {filter: 'active'};
+    }
+}
+
+const MismatchedSongScreen = defineRouteComponent('/settings', () => React.createElement('div'));
+const AsyncRouteWrapperScreen = defineRouteComponent('/async-wrapper/$id', () => React.createElement('div'));
+const MismatchedAsyncRouteWrapperScreen = defineRouteComponent('/settings', () => React.createElement('div'));
+
+// @ts-expect-error route components use the path-first canonical API, not generic-only calls.
+defineRouteComponent<'/settings'>(() => React.createElement('div'));
 
 const routes = defineRoutes([
     defineRoute({
@@ -164,8 +183,22 @@ const routeApi = getRouteApi('/songs/$songId');
 routeApi.useParams().songId satisfies string;
 routeApi.useSearch().tab satisfies 'lyrics' | 'overview';
 
+const pathFirstRouteComponent = defineRouteComponent('/songs/$songId', ({params, search}) => {
+    params.songId satisfies string;
+    search.tab satisfies 'lyrics' | 'overview';
+
+    // @ts-expect-error defineRouteComponent infers search from the path argument and registered route.
+    search.tab satisfies 'invalid';
+
+    return React.createElement('div');
+});
+void pathFirstRouteComponent;
+
 // @ts-expect-error unknown route API path
 getRouteApi('/missing');
+
+// @ts-expect-error unknown route component paths are rejected once routes are registered.
+defineRouteComponent('/missing', () => React.createElement('div'));
 
 // @ts-expect-error unvalidated search should not pretend to be precise
 useSearch({from: '/unvalidated'}).tab satisfies 'lyrics';

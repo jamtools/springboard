@@ -61,7 +61,7 @@ export type SpringboardRouteConfig<TPath extends string, TSearch> = {
 
 export type SpringboardRouteDescriptor<TPath extends string = string, TSearch = UnknownSearch> =
     Omit<SpringboardRouteConfig<TPath, TSearch>, 'component'> & {
-        component: SpringboardAsyncRouteComponent<TPath, TSearch>;
+        component: SpringboardAsyncRouteComponent<any, any>;
         readonly __springboardRoute: true;
         readonly __searchType?: TSearch;
     };
@@ -76,17 +76,33 @@ export type CollectedSpringboardRouteDescriptor<TPath extends string = string, T
 // Intentionally empty so applications can declaration-merge their route registry.
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Register {}
+// Applications may declaration-merge this interface when route component files
+// need path-first route prop inference without importing route validators.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RouteSearchRegistry {}
 
 type AnyRoute = {
     path: string;
     readonly __springboardRoute: true;
+    readonly __searchType?: unknown;
 };
 type RouteTuple = readonly AnyRoute[];
+type RouteTypeInfo<TRoute> = TRoute extends {
+    path: infer TPath extends string;
+    readonly __springboardRoute: true;
+    readonly __searchType?: infer TSearch;
+}
+    ? {
+        path: TPath;
+        readonly __springboardRoute: true;
+        readonly __searchType?: TSearch;
+    }
+    : never;
 type ExtractModuleRoutes<TModule> = TModule extends {routes?: infer TRoutes}
     ? NonNullable<TRoutes>
     : never;
 type FlattenRoutes<TRoutes> = TRoutes extends readonly (infer TRoute)[]
-    ? TRoute
+    ? RouteTypeInfo<TRoute>
     : never;
 type ExplicitRegisteredRoutes = Register extends {routes: infer TRoutes}
     ? TRoutes extends RouteTuple
@@ -100,7 +116,8 @@ type ExplicitRegisteredRouteUnion = FlattenRoutes<ExplicitRegisteredRoutes>;
 type RouteUnion = [ModuleRegisteredRouteUnion | ExplicitRegisteredRouteUnion] extends [never]
     ? AnyRoute
     : ModuleRegisteredRouteUnion | ExplicitRegisteredRouteUnion;
-type RegisteredPath = RouteUnion['path'] & string;
+type ExplicitSearchRegisteredPath = keyof RouteSearchRegistry & string;
+type RegisteredPath = ExplicitSearchRegisteredPath | RouteUnion['path'] & string;
 type RouteByPath<TPath extends string> = Extract<RouteUnion, {path: TPath}>;
 
 type SegmentParam<TSegment extends string> = TSegment extends `$${infer TParam}`
@@ -115,8 +132,13 @@ type PathParamNames<TPath extends string> =
 type PathParams<TPath extends string> = [PathParamNames<TPath>] extends [never]
     ? Record<never, never>
     : {[K in PathParamNames<TPath>]: string};
-type SearchFor<TPath extends string> = RouteByPath<TPath> extends SpringboardRouteDescriptor<TPath, infer TSearch>
-    ? TSearch
+type SearchFor<TPath extends string> = TPath extends keyof RouteSearchRegistry
+    ? RouteSearchRegistry[TPath]
+    : RouteByPath<TPath> extends {readonly __searchType?: infer TSearch}
+        ? TSearch
+        : UnknownSearch;
+type RouteComponentSearchFor<TPath extends string> = TPath extends keyof RouteSearchRegistry
+    ? RouteSearchRegistry[TPath]
     : UnknownSearch;
 type ParamsArg<TPath extends string> = [keyof PathParams<TPath>] extends [never]
     ? {params?: never}
@@ -181,33 +203,17 @@ export const useSpringboardRouteProps = <TPath extends string, TSearch = SearchF
     }), [navigate, params, search]);
 };
 
-type PropsFromComponent<TComponent> =
-    TComponent extends (props: infer TProps, ...args: any[]) => any
-        ? TProps
-        : TComponent extends React.ComponentType<infer TProps>
-            ? TProps
-            : never;
-type RoutePathFromProps<TProps> =
-    TProps extends SpringboardRouteProps<infer TPath, any>
-        ? TPath
-        : never;
-type RouteSearchFromProps<TProps> =
-    TProps extends SpringboardRouteProps<any, infer TSearch>
-        ? TSearch
-        : never;
-
-export function defineRouteComponent<TComponent extends React.ComponentType<any>>(
-    component: TComponent,
-): SpringboardDefinedRouteComponent<RoutePathFromProps<PropsFromComponent<TComponent>>, RouteSearchFromProps<PropsFromComponent<TComponent>>>;
-export function defineRouteComponent<const TPath extends string, TSearch = UnknownSearch>(
-    component: React.ComponentType<SpringboardRouteProps<TPath, TSearch>>,
-): SpringboardDefinedRouteComponent<TPath, TSearch>;
+export function defineRouteComponent<const TPath extends keyof RouteSearchRegistry & string>(
+    path: TPath,
+    component: React.ComponentType<SpringboardRouteProps<TPath, RouteComponentSearchFor<TPath>>>,
+): SpringboardDefinedRouteComponent<TPath, RouteComponentSearchFor<TPath>>;
 export function defineRouteComponent(
+    path: string,
     component: React.ComponentType<any>,
 ): any {
     return Object.assign(component, {
         __springboardRouteComponent: true as const,
-        __springboardRouteComponentPath: undefined,
+        __springboardRouteComponentPath: path,
     });
 }
 

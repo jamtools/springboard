@@ -3,7 +3,7 @@ import {Button, Text, View} from 'react-native';
 
 import {defineRouteComponent} from 'springboard/router';
 
-export const RootBrowserRoute = defineRouteComponent<'/'>(({navigate}) => (
+export const RootBrowserRoute = defineRouteComponent('/', ({navigate}) => (
   <View testID="springboard-routing-root-browser">
     <Text>Springboard routing root browser</Text>
     <Button title="Open static route" onPress={() => navigate({to: '/native-static'})} />

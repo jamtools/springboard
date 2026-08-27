@@ -12,6 +12,15 @@ export const validateWebViewItemSearch = (search: Record<string, unknown>) => ({
   source: typeof search.source === 'string' ? search.source : 'unknown',
 });
 
+declare module 'springboard/router' {
+  interface RouteSearchRegistry {
+    '/': Record<string, unknown>;
+    '/native-static': Record<string, unknown>;
+    '/songs/$songId': ReturnType<typeof validateSongSearch>;
+    '/webview/$itemId': ReturnType<typeof validateWebViewItemSearch>;
+  }
+}
+
 export const routingDemoRoutes = defineRoutes([
   defineRoute({
     path: '/',

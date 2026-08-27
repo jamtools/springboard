@@ -9,7 +9,7 @@ import {makeMockSpringboardEngine} from '../../core/test/mock_core_dependencies.
 import {defineRoute, defineRouteComponent, defineRoutes} from '../../router/index.js';
 import {FrontendRoutes} from './frontend_routes.js';
 
-const RootBrowserRoute = defineRouteComponent<'/'>(({navigate}) => (
+const RootBrowserRoute = defineRouteComponent('/', ({navigate}) => (
     <main>
         <h1>Springboard web routing root</h1>
         <button onClick={() => navigate({to: '/web-static'})}>
@@ -18,7 +18,7 @@ const RootBrowserRoute = defineRouteComponent<'/'>(({navigate}) => (
     </main>
 ));
 
-const StaticBrowserRoute = defineRouteComponent<'/web-static'>(() => (
+const StaticBrowserRoute = defineRouteComponent('/web-static', () => (
     <main>
         <h1>Springboard web static route</h1>
     </main>

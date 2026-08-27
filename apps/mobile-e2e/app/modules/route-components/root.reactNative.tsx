@@ -3,7 +3,7 @@ import {Button, Text, View} from 'react-native';
 
 import {defineRouteComponent} from 'springboard/router';
 
-export const RootReactNativeRoute = defineRouteComponent<'/'>(({navigate}) => (
+export const RootReactNativeRoute = defineRouteComponent('/', ({navigate}) => (
   <View accessibilityLabel="springboard-routing-root" testID="springboard-routing-root">
     <Text accessibilityLabel="springboard-routing-root-content">Springboard routing root</Text>
     <Button
