@@ -10,6 +10,7 @@ import {
     useSearch,
 } from './index';
 import * as Router from './index';
+import springboard from '../core/engine/register';
 import type {ModuleAPI} from '../core/engine/module_api';
 
 const Screen = () => React.createElement('div');
@@ -142,14 +143,13 @@ defineRoute({
     },
 });
 
-const makeTypedRoutesModule = async () => ({
+const typedRoutesModuleDescriptor = springboard.defineModule('TypedRoutesModule', {}, async () => ({
     routes,
-});
-type TypedRoutesModule = Awaited<ReturnType<typeof makeTypedRoutesModule>>;
+}));
 
 declare module '../core/module_registry/module_registry' {
     interface AllModules {
-        TypedRoutesModule: TypedRoutesModule;
+        TypedRoutesModule: typeof typedRoutesModuleDescriptor;
     }
 }
 

@@ -1,6 +1,6 @@
 import React, {createContext, useContext} from 'react';
 
-import type {AllModules} from '../core/module_registry/module_registry.js';
+import type {AllModules, ResolvedModuleValue} from '../core/module_registry/module_registry.js';
 
 type UnknownSearch = Record<string, unknown>;
 type StringParams = Record<string, string>;
@@ -98,7 +98,7 @@ type RouteTypeInfo<TRoute> = TRoute extends {
         readonly __searchType?: TSearch;
     }
     : never;
-type ExtractModuleRoutes<TModule> = TModule extends {routes?: infer TRoutes}
+type ExtractModuleRoutes<TModule> = ResolvedModuleValue<TModule> extends {routes?: infer TRoutes}
     ? NonNullable<TRoutes>
     : never;
 type FlattenRoutes<TRoutes> = TRoutes extends readonly (infer TRoute)[]

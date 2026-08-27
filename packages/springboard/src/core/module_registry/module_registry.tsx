@@ -44,6 +44,13 @@ export type Module<State extends object = any> = {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AllModules {}
 
+export type ResolvedModuleValue<TModule> = TModule extends {
+    kind: 'defineModule';
+    initialize: (...args: any[]) => infer TReturn;
+}
+    ? Awaited<TReturn>
+    : TModule;
+
 // this interface is meant to be extended by applications/plugins through interface merging
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ExtraModuleDependencies {}
@@ -62,8 +69,8 @@ export class ModuleRegistry {
         this.refreshModules();
     }
 
-    getModule<ModuleId extends keyof AllModules>(moduleId: ModuleId): AllModules[ModuleId] {
-        return this.modulesByKey[moduleId] as unknown as AllModules[ModuleId];
+    getModule<ModuleId extends keyof AllModules>(moduleId: ModuleId): ResolvedModuleValue<AllModules[ModuleId]> {
+        return this.modulesByKey[moduleId] as unknown as ResolvedModuleValue<AllModules[ModuleId]>;
     }
 
     getCustomModule(moduleId: string): Module | undefined {

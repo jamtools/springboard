@@ -62,19 +62,16 @@ export const routingDemoRoutes = defineRoutes([
   }),
 ]);
 
-const makeMobileE2ERoutingDemoModule = async () => ({
-  routes: routingDemoRoutes,
-});
-type MobileE2ERoutingDemoModule = Awaited<ReturnType<typeof makeMobileE2ERoutingDemoModule>>;
-
-declare module 'springboard/core/module_registry/module_registry' {
-  interface AllModules {
-    MobileE2ERoutingDemo: MobileE2ERoutingDemoModule;
-  }
-}
-
 export const mobileE2ERoutingDemoModule = springboard.defineModule(
   'MobileE2ERoutingDemo',
   {},
-  makeMobileE2ERoutingDemoModule,
+  async () => ({
+    routes: routingDemoRoutes,
+  }),
 );
+
+declare module 'springboard/core/module_registry/module_registry' {
+  interface AllModules {
+    MobileE2ERoutingDemo: typeof mobileE2ERoutingDemoModule;
+  }
+}
