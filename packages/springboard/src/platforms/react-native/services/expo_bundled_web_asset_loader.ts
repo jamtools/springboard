@@ -7,14 +7,15 @@ type ExpoAsset = {
 };
 
 type MetroAssetMetadata = {
-    __packager_asset: true;
-    hash: string;
+    __packager_asset?: boolean;
+    hash?: string;
+    fileHashes?: string[];
     name: string;
     type: string;
     width?: number | null;
     height?: number | null;
     scales: number[];
-    httpServerLocation: string;
+    httpServerLocation?: string;
 };
 
 export type BundledWebAssetModules = {
@@ -106,24 +107,61 @@ const normalizeDirectoryUri = (uri: string | null | undefined) => {
 };
 
 const createAsset = (assetModule: unknown): ExpoAsset => {
-    if (isMetroAssetMetadata(assetModule)) {
-        return Asset.fromMetadata(assetModule);
+    const resolvedAssetModule = unwrapDefaultAssetModule(assetModule);
+    const metroAssetMetadata = normalizeMetroAssetMetadata(resolvedAssetModule);
+
+    if (metroAssetMetadata) {
+        return Asset.fromMetadata(metroAssetMetadata);
     }
 
-    return Asset.fromModule(assetModule);
+    return Asset.fromModule(resolvedAssetModule);
+};
+
+const normalizeMetroAssetMetadata = (value: unknown): (MetroAssetMetadata & {hash: string}) | null => {
+    if (!isMetroAssetMetadata(value)) {
+        return null;
+    }
+
+    const hash = typeof value.hash === 'string' ? value.hash : value.fileHashes?.[0];
+    if (!hash) {
+        return null;
+    }
+
+    return {
+        ...value,
+        hash,
+    };
 };
 
 const isMetroAssetMetadata = (value: unknown): value is MetroAssetMetadata => {
     return (
         typeof value === 'object'
         && value !== null
-        && (value as {__packager_asset?: unknown}).__packager_asset === true
-        && typeof (value as {hash?: unknown}).hash === 'string'
+        && (
+            typeof (value as {hash?: unknown}).hash === 'string'
+            || isNonEmptyStringArray((value as {fileHashes?: unknown}).fileHashes)
+        )
         && typeof (value as {name?: unknown}).name === 'string'
         && typeof (value as {type?: unknown}).type === 'string'
         && Array.isArray((value as {scales?: unknown}).scales)
-        && typeof (value as {httpServerLocation?: unknown}).httpServerLocation === 'string'
     );
+};
+
+const isNonEmptyStringArray = (value: unknown): value is string[] => {
+    return Array.isArray(value) && value.length > 0 && value.every((item) => typeof item === 'string');
+};
+
+const unwrapDefaultAssetModule = (assetModule: unknown): unknown => {
+    if (
+        typeof assetModule === 'object'
+        && assetModule !== null
+        && 'default' in assetModule
+        && !isMetroAssetMetadata(assetModule)
+    ) {
+        return (assetModule as {default: unknown}).default;
+    }
+
+    return assetModule;
 };
 
 const requireAssetLocalUri = (uri: string | null | undefined, assetName: string) => {

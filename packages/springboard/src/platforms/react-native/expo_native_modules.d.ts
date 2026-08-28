@@ -61,14 +61,15 @@ declare module 'expo-asset' {
             downloadAsync(): Promise<void>;
         };
         fromMetadata(metadata: {
-            __packager_asset: true;
+            __packager_asset?: boolean;
             hash: string;
+            fileHashes?: string[];
             name: string;
             type: string;
             width?: number | null;
             height?: number | null;
             scales: number[];
-            httpServerLocation: string;
+            httpServerLocation?: string;
         }): {
             localUri?: string | null;
             downloadAsync(): Promise<void>;

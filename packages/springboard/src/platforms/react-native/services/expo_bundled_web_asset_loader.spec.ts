@@ -138,6 +138,41 @@ describe('loadBundledWebAppAssets', () => {
 
         expect(assetMock.fromModule).not.toHaveBeenCalled();
         expect(assetMock.fromMetadata).toHaveBeenCalledTimes(3);
+        expect(assetMock.fromMetadata).toHaveBeenNthCalledWith(1, expect.objectContaining({hash: 'mock-html-file-hash'}));
+        expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.css');
+        expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.js');
+    });
+
+    it('accepts Expo Metro asset metadata that provides file hashes without a top-level hash', async () => {
+        const {loadBundledWebAppAssets} = await import('./expo_bundled_web_asset_loader');
+
+        await loadBundledWebAppAssets({
+            assetModules: {
+                html: createMetroAssetMetadataWithFileHashesOnly('html', 'html'),
+                css: createMetroAssetMetadataWithFileHashesOnly('css', 'css'),
+                js: createMetroAssetMetadataWithFileHashesOnly('js', 'asset'),
+            },
+        });
+
+        expect(assetMock.fromModule).not.toHaveBeenCalled();
+        expect(assetMock.fromMetadata).toHaveBeenCalledTimes(3);
+        expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.css');
+        expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.js');
+    });
+
+    it('unwraps default-exported Metro asset metadata before creating Expo assets', async () => {
+        const {loadBundledWebAppAssets} = await import('./expo_bundled_web_asset_loader');
+
+        await loadBundledWebAppAssets({
+            assetModules: {
+                html: {default: createMetroAssetMetadata('html', 'html')},
+                css: {default: createMetroAssetMetadata('css', 'css')},
+                js: {default: createMetroAssetMetadata('js', 'asset')},
+            },
+        });
+
+        expect(assetMock.fromModule).not.toHaveBeenCalled();
+        expect(assetMock.fromMetadata).toHaveBeenCalledTimes(3);
         expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.css');
         expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.js');
     });
@@ -153,3 +188,12 @@ const createMetroAssetMetadata = (name: 'html' | 'css' | 'js', type: string) => 
     scales: [1],
     httpServerLocation: '/assets/assets/web',
 });
+
+const createMetroAssetMetadataWithFileHashesOnly = (name: 'html' | 'css' | 'js', type: string) => {
+    const {hash: _hash, ...metadata} = createMetroAssetMetadata(name, type);
+
+    return {
+        ...metadata,
+        fileHashes: [`mock-${name}-file-hash`],
+    };
+};
