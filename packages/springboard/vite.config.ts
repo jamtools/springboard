@@ -8,6 +8,9 @@ export default defineConfig({
     ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+        alias: {
+            'react-native': path.resolve(__dirname, './src/platforms/react-native/test/react-native-test-mock.tsx'),
+        },
     },
     ssr: {
         noExternal: ['@testing-library/jest-dom', 'redent'],

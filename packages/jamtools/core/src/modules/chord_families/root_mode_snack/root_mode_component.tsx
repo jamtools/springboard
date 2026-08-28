@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {MIDI_NUMBER_TO_NOTE_NAME_MAPPINGS} from '@jamtools/core/constants/midi_number_to_note_name_mappings';
-import {ScaleDegreeInfo} from './root_mode_types';
+import {ScaleDegreeInfo} from './root_mode_types.js';
 
 type Props = {
     chord: ScaleDegreeInfo | null;

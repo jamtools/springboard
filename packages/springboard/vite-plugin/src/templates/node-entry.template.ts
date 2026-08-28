@@ -2,14 +2,18 @@ import process from 'node:process';
 import path from 'node:path';
 
 import { serve } from '@hono/node-server';
-import crosswsNode from 'crossws/adapters/node';
+import crosswsNodeImport from 'crossws/adapters/node';
 import type { Server } from 'node:http';
+
+type CrosswsNodeAdapter = typeof crosswsNodeImport;
+const crosswsNode = ((crosswsNodeImport as unknown as {default?: CrosswsNodeAdapter}).default ?? crosswsNodeImport) as CrosswsNodeAdapter;
 
 import { initApp } from 'springboard/server/hono_app';
 import { makeWebsocketServerCoreDependenciesWithSqlite } from 'springboard/platforms/node/services/ws_server_core_dependencies';
 import { LocalJsonNodeKVStoreService } from 'springboard/platforms/node/services/node_kvstore_service';
 import { CoreDependencies, Springboard } from 'springboard/core';
-import '__USER_ENTRY__';
+import { getApplicationDescriptorFromExports } from 'springboard';
+import * as applicationEntrypointModule from '__USER_ENTRY__';
 
 /**
  * Node.js server entrypoint with HMR support
@@ -55,8 +59,8 @@ export async function start() {
       hooks: createWebSocketHooks(useWebSocketsForRpc),
     });
 
-    // Use configured port (ignores process.env.PORT to avoid conflicts)
-    const port = __PORT__;
+    // Use PORT environment variable if defined, otherwise use configured port
+    const port = process.env.PORT ? parseInt(process.env.PORT, 10) : __PORT__;
 
     // Start the HTTP server
     server = serve({
@@ -85,9 +89,9 @@ export async function start() {
 
     Object.assign(coreDeps, serverAppDependencies);
 
-    const extraDeps = {}; // TODO: remove this extraDeps thing from the framework
 
-    engine = new Springboard(coreDeps, extraDeps);
+    engine = new Springboard(coreDeps);
+    await engine.registerDescriptor(getApplicationDescriptorFromExports(applicationEntrypointModule, '__USER_ENTRY__'));
 
     injectResources({
       engine,

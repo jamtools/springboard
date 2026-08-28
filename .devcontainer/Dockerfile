@@ -5,6 +5,8 @@ RUN git lfs install
 
 ENV PNPM_HOME=/workspaces/pnpm
 
+WORKDIR /workspaces/songdrive
+
 RUN corepack enable pnpm
 
 COPY pnpm-lock.yaml ./

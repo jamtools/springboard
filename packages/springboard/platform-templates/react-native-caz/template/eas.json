@@ -1,0 +1,66 @@
+{
+  "cli": {
+    "promptToConfigurePushNotifications": false,
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "base": {
+      "node": "20.17.0",
+      "env": {
+        "EXPO_USE_FAST_RESOLVER": "true"
+      },
+      "autoIncrement": true
+    },
+    "development": {
+      "channel": "development",
+      "distribution": "internal",
+      "extends": "base",
+      "developmentClient": true,
+      "env": {
+        "EXPO_APP_PROFILE": "development",
+        "EXPO_PUBLIC_SITE_URL": "<%= siteUrl %>",
+        "PUBLIC_SITE_URL": "<%= siteUrl %>"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
+    "preview": {
+      "channel": "preview",
+      "distribution": "internal",
+      "extends": "base",
+      "developmentClient": false,
+      "env": {
+        "EXPO_APP_PROFILE": "preview",
+        "EXPO_PUBLIC_SITE_URL": "<%= siteUrl %>",
+        "PUBLIC_SITE_URL": "<%= siteUrl %>"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "distribution": "store",
+      "extends": "base",
+      "developmentClient": false,
+      "env": {
+        "EXPO_APP_PROFILE": "production",
+        "EXPO_PUBLIC_SITE_URL": "<%= siteUrl %>",
+        "PUBLIC_SITE_URL": "<%= siteUrl %>"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    }
+  }
+}

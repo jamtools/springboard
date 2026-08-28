@@ -1,8 +1,10 @@
+import { getApplicationDescriptorFromExports } from 'springboard';
 import { startAndRenderBrowserApp } from 'springboard/platforms/browser/entrypoints/react_entrypoint';
 import { BrowserJsonRpcClientAndServer } from 'springboard/platforms/browser/services/browser_json_rpc';
 import { HttpKvStoreClient } from 'springboard/core/services/http_kv_store_client';
 import { BrowserKVStoreService } from 'springboard/platforms/browser/services/browser_kvstore_service';
-import '__USER_ENTRY__';
+import { BrowserSessionKVStoreService } from 'springboard/platforms/browser/services/browser_session_kvstore_service';
+import * as applicationEntrypointModule from '__USER_ENTRY__';
 
 // Determine protocol based on current page
 const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
@@ -16,9 +18,11 @@ const DATA_HOST = import.meta.env.VITE_DATA_HOST || `${httpProtocol}://${locatio
 const rpc = new BrowserJsonRpcClientAndServer(`${WS_HOST}/ws`);
 const remoteKvStore = new HttpKvStoreClient(DATA_HOST);
 const userAgentKvStore = new BrowserKVStoreService(localStorage);
+const sessionKvStore = new BrowserSessionKVStoreService(sessionStorage);
+const applicationDescriptor = getApplicationDescriptorFromExports(applicationEntrypointModule, '__USER_ENTRY__');
 
 startAndRenderBrowserApp({
   rpc: { remote: rpc, local: undefined },
-  storage: { userAgent: userAgentKvStore, remote: remoteKvStore },
+  storage: { shared: remoteKvStore, remote: remoteKvStore, server: remoteKvStore, userAgent: userAgentKvStore, session: sessionKvStore },
   dev: { reloadCss: false, reloadJs: false },
-});
+}, applicationDescriptor);

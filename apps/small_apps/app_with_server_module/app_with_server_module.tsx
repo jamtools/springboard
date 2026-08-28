@@ -1,5 +1,5 @@
 // @platform "node"
-import {serverRegistry} from 'springboard-server/src/register';
+import {serverRegistry} from 'springboard/server/register';
 
 serverRegistry.registerServerModule(async (api) => {
     api.hono.get('/hello', (c) => {
@@ -11,9 +11,10 @@ serverRegistry.registerServerModule(async (api) => {
 import React, { useEffect } from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 springboard.registerModule('Main', {}, async (moduleAPI) => {
-    moduleAPI.registerRoute('/', {}, () => {
+    const MainRoute = () => {
         useEffect(() => {
             fetch('/hello')
                 .then(res => res.json())
@@ -27,7 +28,11 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
                 Yo
             </div>
         )
-    });
+    };
 
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: MainRoute}),
+        ]),
+    };
 });

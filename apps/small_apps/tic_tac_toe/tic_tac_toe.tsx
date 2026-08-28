@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import './tic_tac_toe.css';
 
@@ -53,11 +54,16 @@ const checkForWinner = (board: Board): Winner => {
 springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
     // TODO: springboard docs. if you need to wipe the initial state, you need to rename the state name
     // or "re-set" it right below for one run of the program
-    const boardState = await moduleAPI.statesAPI.createPersistentState<Board>('board_v5', initialBoard);
-    const winnerState = await moduleAPI.statesAPI.createPersistentState<Winner>('winner', null);
-    const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});
+    const states = await moduleAPI.shared.createSharedStates({
+        board_v5: initialBoard as Board,
+        winner: null as Winner,
+        score: {X: 0, O: 0, stalemate: 0} as Score,
+    });
+    const boardState = states.board_v5;
+    const winnerState = states.winner;
+    const scoreState = states.score;
 
-    const actions = moduleAPI.createActions({
+    const actions = moduleAPI.shared.createSharedActions({
         clickedCell: async (args: {row: number, column: number}) => {
             if (winnerState.getState()) {
                 return;
@@ -91,10 +97,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.registerRoute('/', {documentMeta: async () => ({
-        title: 'Tic Tac Toe! Yeah!',
-        description: 'A simple tic-tac-toe game',
-    })}, () => {
+    const TicTacToeRoute = () => {
         return (
             <TicTacToeBoard
                 board={boardState.useState()}
@@ -104,7 +107,22 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
                 score={scoreState.useState()}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/',
+                component: TicTacToeRoute,
+                options: {
+                    documentMeta: async () => ({
+                        title: 'Tic Tac Toe! Yeah!',
+                        description: 'A simple tic-tac-toe game',
+                    }),
+                },
+            }),
+        ]),
+    };
 });
 
 type TicTacToeBoardProps = {

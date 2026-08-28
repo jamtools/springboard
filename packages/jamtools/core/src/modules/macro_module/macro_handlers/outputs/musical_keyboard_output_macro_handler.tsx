@@ -1,7 +1,7 @@
-import {getKeyForMacro} from '../inputs/input_macro_handler_utils';
-import {AddingOutputDeviceState, SavedOutputDeviceState} from './components/output_macro_edit';
-import {MidiOutputMacroPayload, OutputMacroStateHolders, checkSavedMidiOutputsAreEqual, useOutputMacroWaiterAndSaver} from './output_macro_handler_utils';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {getKeyForMacro} from '../inputs/input_macro_handler_utils.js';
+import {AddingOutputDeviceState, SavedOutputDeviceState} from './components/output_macro_edit.js';
+import {MidiOutputMacroPayload, OutputMacroStateHolders, checkSavedMidiOutputsAreEqual, useOutputMacroWaiterAndSaver} from './output_macro_handler_utils.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 export type OutputMidiDevice = MidiOutputMacroPayload;
 
@@ -24,7 +24,7 @@ macroTypeRegistry.registerMacroType(
     (async (macroAPI, inputConf, fieldName) => {
         const editingState = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
         const addingOutputDevice = await macroAPI.statesAPI.createSharedState<AddingOutputDeviceState>(getKeyForMacro('adding_output_device', fieldName), {device: null, channel: null});
-        const savedOutputDevices = await macroAPI.statesAPI.createPersistentState<SavedOutputDeviceState[]>(getKeyForMacro('saved_output_devices', fieldName), []);
+        const savedOutputDevices = await macroAPI.statesAPI.createSharedState<SavedOutputDeviceState[]>(getKeyForMacro('saved_output_devices', fieldName), []);
 
         const states: OutputMacroStateHolders = {
             editing: editingState,

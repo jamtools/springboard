@@ -4,7 +4,7 @@ import easymidi, {Channel} from 'easymidi';
 
 import {MidiInputEventPayload, MidiService} from '@jamtools/core/types/io_types';
 import {DeviceInfo, MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {NodeMidiDevicePollerService} from './node_midi/midi_poller';
+import {NodeMidiDevicePollerService} from './node_midi/midi_poller.js';
 
 export class NodeMidiService implements MidiService {
     private inputs: easymidi.Input[] = [];

@@ -1,0 +1,13 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "allowJs": false,
+    "baseUrl": ".",
+    "paths": {
+      "springboard": ["../../packages/springboard/src/index.ts"],
+      "springboard/*": ["../../packages/springboard/src/*"]
+    },
+    "strict": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}

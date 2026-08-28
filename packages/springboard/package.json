@@ -28,6 +28,14 @@
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js"
     },
+    "./router": {
+      "types": "./dist/router/index.d.ts",
+      "import": "./dist/router/index.js"
+    },
+    "./register": {
+      "types": "./dist/register.d.ts",
+      "import": "./dist/register.js"
+    },
     "./core/module_registry/module_registry": {
       "types": "./dist/core/module_registry/module_registry.d.ts",
       "import": "./dist/core/module_registry/module_registry.js"
@@ -131,6 +139,10 @@
     "./platforms/browser/services/browser_kvstore_service": {
       "types": "./dist/platforms/browser/services/browser_kvstore_service.d.ts",
       "import": "./dist/platforms/browser/services/browser_kvstore_service.js"
+    },
+    "./platforms/browser/services/browser_session_kvstore_service": {
+      "types": "./dist/platforms/browser/services/browser_session_kvstore_service.d.ts",
+      "import": "./dist/platforms/browser/services/browser_session_kvstore_service.js"
     },
     "./platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint": {
       "types": "./dist/platforms/cloudflare-workers/entrypoints/cloudflare_entrypoint.d.ts",
@@ -289,7 +301,43 @@
       "types": "./vite-plugin/dist/index.d.ts",
       "import": "./vite-plugin/dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./platforms/react-native": {
+      "types": "./dist/platforms/react-native/index.d.ts",
+      "import": "./dist/platforms/react-native/index.js"
+    },
+    "./platforms/react-native/components/expo_springboard_webview_host": {
+      "types": "./dist/platforms/react-native/components/expo_springboard_webview_host.d.ts",
+      "import": "./dist/platforms/react-native/components/expo_springboard_webview_host.js"
+    },
+    "./platforms/react-native/components/routing": {
+      "types": "./dist/platforms/react-native/components/routing.d.ts",
+      "import": "./dist/platforms/react-native/components/routing.js"
+    },
+    "./core/engine/client_api": {
+      "types": "./dist/core/engine/client_api.d.ts",
+      "import": "./dist/core/engine/client_api.js"
+    },
+    "./core/engine/server_api": {
+      "types": "./dist/core/engine/server_api.d.ts",
+      "import": "./dist/core/engine/server_api.js"
+    },
+    "./core/engine/shared_api": {
+      "types": "./dist/core/engine/shared_api.d.ts",
+      "import": "./dist/core/engine/shared_api.js"
+    },
+    "./core/engine/ui_api": {
+      "types": "./dist/core/engine/ui_api.d.ts",
+      "import": "./dist/core/engine/ui_api.js"
+    },
+    "./core/engine/user_agent_api": {
+      "types": "./dist/core/engine/user_agent_api.d.ts",
+      "import": "./dist/core/engine/user_agent_api.js"
+    },
+    "./core/services/namespaced_kv_store": {
+      "types": "./dist/core/services/namespaced_kv_store.d.ts",
+      "import": "./dist/core/services/namespaced_kv_store.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -311,6 +359,12 @@
       "platforms/react-native": [
         "./dist/platforms/react-native/index.d.ts"
       ],
+      "platforms/react-native/components/routing": [
+        "./dist/platforms/react-native/components/routing.d.ts"
+      ],
+      "router": [
+        "./dist/router/index.d.ts"
+      ],
       "data-storage": [
         "./dist/data-storage/index.d.ts"
       ],
@@ -322,10 +376,16 @@
       ]
     }
   },
+  "bin": {
+    "sb": "./cli/dist/cli.js"
+  },
   "files": [
     "src",
     "dist",
-    "vite-plugin"
+    "vite-plugin",
+    "cli/dist",
+    "tsconfig.json",
+    "tsconfig.build.json"
   ],
   "scripts": {
     "test": "vitest --run",
@@ -337,7 +397,7 @@
     "build:watch": "npm run build -- --watch",
     "build:all": "./scripts/build-all.sh",
     "build:vite-plugin": "cd vite-plugin && npm run build",
-    "prepublishOnly": "npm run build && npm run build:vite-plugin",
+    "prepublishOnly": "npm run build:all",
     "publish:local": "./scripts/publish-local.sh"
   },
   "repository": {
@@ -362,6 +422,10 @@
   },
   "homepage": "https://springboard.js.org",
   "dependencies": {
+    "commander": "^14.0.3",
+    "@babel/generator": "^7.28.5",
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
     "dexie": "^4.2.1",
     "json-rpc-2.0": "^1.7.1",
     "reconnecting-websocket": "^4.4.0"
@@ -380,8 +444,16 @@
     "@hono/node-ws": "^1.2.0",
     "@tauri-apps/api": "^2.9.0",
     "@tauri-apps/plugin-shell": "^2.3.3",
+    "@expo/dom-webview": "catalog:",
+    "@react-navigation/native": "catalog:",
+    "@react-navigation/native-stack": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
     "better-sqlite3": "^12.4.1",
     "crossws": "^0.4.4",
+    "expo-asset": "catalog:",
+    "expo-file-system": "catalog:",
+    "expo-splash-screen": "catalog:",
     "hono": "^4.6.17",
     "immer": ">= 10",
     "isomorphic-ws": "^4.0.1",
@@ -389,11 +461,20 @@
     "partysocket": "^1.1.6",
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-native": "catalog:",
+    "react-native-safe-area-context": "catalog:",
+    "react-native-screens": "catalog:",
+    "react-native-webview": "catalog:",
     "react-router": "^7.9.6",
     "rxjs": "^7.8.1",
     "vite": "^7.0.0",
     "ws": "^8.18.3",
-    "zod": "^3.25.7"
+    "zod": "^3.25.7",
+    "expo-auth-session": "catalog:",
+    "expo-web-browser": "catalog:",
+    "expo-notifications": "catalog:",
+    "expo-device": "catalog:",
+    "expo-constants": "catalog:"
   },
   "peerDependenciesMeta": {
     "@hono/node-server": {
@@ -406,6 +487,21 @@
       "optional": true
     },
     "@tauri-apps/plugin-shell": {
+      "optional": true
+    },
+    "@expo/dom-webview": {
+      "optional": true
+    },
+    "@react-navigation/native": {
+      "optional": true
+    },
+    "@react-navigation/native-stack": {
+      "optional": true
+    },
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "@tanstack/react-router": {
       "optional": true
     },
     "better-sqlite3": {
@@ -449,6 +545,21 @@
     },
     "zod": {
       "optional": true
+    },
+    "expo-auth-session": {
+      "optional": true
+    },
+    "expo-web-browser": {
+      "optional": true
+    },
+    "expo-notifications": {
+      "optional": true
+    },
+    "expo-device": {
+      "optional": true
+    },
+    "expo-constants": {
+      "optional": true
     }
   },
   "devDependencies": {
@@ -457,6 +568,24 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/ws": "^8.18.1",
+    "@expo/dom-webview": "catalog:",
+    "@react-navigation/native": "catalog:",
+    "@react-navigation/native-stack": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "expo": "catalog:",
+    "expo-asset": "catalog:",
+    "expo-auth-session": "catalog:",
+    "expo-constants": "catalog:",
+    "expo-device": "catalog:",
+    "expo-file-system": "catalog:",
+    "expo-notifications": "catalog:",
+    "expo-splash-screen": "catalog:",
+    "expo-web-browser": "catalog:",
+    "react-native": "catalog:",
+    "react-native-safe-area-context": "catalog:",
+    "react-native-screens": "catalog:",
+    "react-native-webview": "catalog:",
     "esbuild": "catalog:",
     "partykit": "^0.0.115",
     "react": "catalog:",

@@ -14,5 +14,26 @@ export { RpcWebviewToRN } from './services/rpc/rpc_webview_to_rn.js';
 export {
     useAndInitializeSpringboardEngine,
     createRNMainEngine,
+    createReactNativeRemoteServices,
+    SpringboardExpoWebViewHost,
 } from './entrypoints/rn_app_springboard_entrypoint.js';
 export { startAndRenderBrowserApp as startReactNativeBrowserApp } from './entrypoints/platform_react_native_browser.js';
+export { handleExpoAuthSessionRequest } from './services/expo_auth_session_helper.js';
+export type { HandleExpoAuthSessionRequestOptions } from './services/expo_auth_session_helper.js';
+export { useExpoPushNotifications } from './hooks/use_expo_push_notifications.js';
+export type { ExpoPushNotification, UseExpoPushNotificationsProps } from './hooks/use_expo_push_notifications.js';
+export { loadBundledWebAppAssets } from './services/expo_bundled_web_asset_loader.js';
+export type { BundledWebAssetModules } from './services/expo_bundled_web_asset_loader.js';
+export {
+    SpringboardReactNavigationHost,
+    SpringboardNavigationStack,
+    StableSpringboardScreen,
+    createSpringboardLinkingConfig,
+    springboardPathToReactNavigationPath,
+} from './components/routing.js';
+export type {
+    SpringboardRNRouteParams,
+    SpringboardWebViewTarget,
+    SpringboardWebViewTargetResolver,
+    SpringboardWebViewTargetResolverContext,
+} from './components/routing.js';

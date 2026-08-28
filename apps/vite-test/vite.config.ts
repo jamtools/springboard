@@ -6,7 +6,7 @@ export default defineConfig({
     springboard({
       entry: './src/tic_tac_toe.tsx',
       // platforms: ['browser', 'node'],
-      nodeServerPort: 3001,
+      nodeServerPort: (process.env.PORT && parseInt(process.env.PORT)) || 3001,
     })
   ],
   define: {

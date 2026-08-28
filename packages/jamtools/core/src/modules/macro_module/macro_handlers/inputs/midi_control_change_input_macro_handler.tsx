@@ -1,9 +1,9 @@
 import React from 'react';
 import {Subject} from 'rxjs';
 
-import {MidiEventFull} from '../../macro_module_types';
-import {getKeyForMacro, InputMacroStateHolders, useInputMacroWaiterAndSaver, savedMidiEventsAreEqual, getKeyForMidiEvent, MidiInputMacroPayload} from './input_macro_handler_utils';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {MidiEventFull} from '../../macro_module_types.js';
+import {getKeyForMacro, InputMacroStateHolders, useInputMacroWaiterAndSaver, savedMidiEventsAreEqual, getKeyForMidiEvent, MidiInputMacroPayload} from './input_macro_handler_utils.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 type MacroConfigItemMidiControlChangeInput = {
     onTrigger?(midiEvent: MidiEventFull): void;
@@ -25,7 +25,7 @@ macroTypeRegistry.registerMacroType('midi_control_change_input', {}, async (macr
     const editing = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
     const waitingForConfiguration = await macroAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
     const capturedMidiEvent = await macroAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);
-    const savedMidiEvents = await macroAPI.statesAPI.createPersistentState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
+    const savedMidiEvents = await macroAPI.statesAPI.createSharedState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
     const states: InputMacroStateHolders = {
         editing,
         waiting: waitingForConfiguration,

@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegreeQualities} from './root_mode_snack/root_mode_types';
+import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegreeQualities} from './root_mode_snack/root_mode_types.js';
 
-import {RootModeComponent} from './root_mode_snack/root_mode_component';
-import springboard from 'springboard';
+import {RootModeComponent} from './root_mode_snack/root_mode_component.js';
+import springboard from 'springboard/core/engine/register';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 type State = {
     chord: ScaleDegreeInfo | null;
@@ -93,8 +94,8 @@ type ChordFamiliesModuleReturnValue = {
     getChordFamilyHandler(key: string): ChordFamilyHandler;
 }
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         chord_families: ChordFamiliesModuleReturnValue;
     }
 }
@@ -106,33 +107,29 @@ declare module 'springboard/module_registry/module_registry' {
 // });
 
 springboard.registerModule('chord_families', {}, async (moduleAPI) => {
-    const savedData = await moduleAPI.statesAPI.createPersistentState<ChordFamilyData[]>('all_chord_families', []);
+    const states = await moduleAPI.shared.createSharedStates({
+        all_chord_families: [] as ChordFamilyData[],
+        state: {chord: null, scale: 0} as State,
+    });
 
     const getChordFamilyHandler = (key: string): ChordFamilyHandler => {
-        const data = savedData.getState()[0]!;
+        const data = states.all_chord_families.getState()[0]!;
         return new ChordFamilyHandler(data);
     };
-
-    const moduleReturnValue = {
-        getChordFamilyHandler,
-    };
-
 
     // C major on page load
     let scale = 0;
 
-    const rootModeState = await moduleAPI.statesAPI.createSharedState<State>('state', {chord: null, scale});
-
     const setScale = (newScale: number) => {
         scale = newScale;
-        rootModeState.setState({
+        states.state.setState({
             chord: null,
             scale,
         });
     };
 
-    moduleAPI.registerRoute('', {}, () => {
-        const state = rootModeState.useState();
+    const ChordFamiliesRoute = () => {
+        const state = states.state.useState();
 
         const onClick = () => {
             setScale(cycle(state.scale + 1));
@@ -144,9 +141,21 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
                 onClick={onClick}
             />
         );
-    });
+    };
 
-    const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+    const moduleReturnValue = {
+        getChordFamilyHandler,
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/chord_families',
+                component: {
+                    browser: async (route) => route.component(ChordFamiliesRoute),
+                },
+            }),
+        ]),
+    };
+
+    const macroModule = moduleAPI.getModule('macro');
 
     const [input, output] = await Promise.all([
         macroModule.createMacro(moduleAPI, 'MIDI Input', 'musical_keyboard_input', {}),
@@ -171,13 +180,13 @@ springboard.registerModule('chord_families', {}, async (moduleAPI) => {
         }
 
         if (evt.event.type === 'noteon') {
-            rootModeState.setState({
+            states.state.setState({
                 chord: scaleDegreeInfo,
                 scale,
             });
         } else if (evt.event.type === 'noteoff') {
             // this naive logic is currently causing the second chord to disappear if the first one is released after pressing the second one
-            rootModeState.setState({
+            states.state.setState({
                 chord: null,
                 scale,
             });

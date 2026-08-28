@@ -1,0 +1,40 @@
+name: e2e_tests
+
+on:
+  # push:
+  #   branches:
+  #   - '*'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref to use in application repo'
+        required: false
+        default: 'main'
+  repository_dispatch:
+    types: [ build-remote, new-commit-on-main ]
+
+env:
+  TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref != '' && github.event.inputs.ref || github.event_name == 'repository_dispatch' && github.event.client_payload.sha != '' && github.event.client_payload.sha || 'main' }}
+
+jobs:
+  wdio_chrome:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ env.TARGET_BRANCH }}
+
+    - name: Checkout releases repo into `.github/composite-actions`
+      uses: actions/checkout@v3
+      with:
+        repository: jamtools/releases
+        path: .github/composite-actions
+        ref: ${{ github.sha }}
+
+    - name: Run WDIO tests
+      uses: ./.github/composite-actions/.github/actions/wdio_e2e
+      with:
+        browser: chrome

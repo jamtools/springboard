@@ -1,0 +1,32 @@
+{
+  "cli": {
+    "promptToConfigurePushNotifications": false,
+    "appVersionSource": "local"
+  },
+  "build": {
+    "base": {
+      "pnpm": "9.13.2",
+      "node": "22.20.0",
+      "distribution": "internal",
+      "developmentClient": false,
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "local-assets": {
+      "extends": "base",
+      "channel": "local-assets",
+      "env": {
+        "EXPO_MOBILE_E2E_MODE": "local-assets"
+      }
+    },
+    "remote-server": {
+      "extends": "base",
+      "channel": "remote-server",
+      "env": {
+        "EXPO_MOBILE_E2E_MODE": "remote-server",
+        "EXPO_PUBLIC_SITE_URL": "http://10.0.2.2:1337"
+      }
+    }
+  }
+}

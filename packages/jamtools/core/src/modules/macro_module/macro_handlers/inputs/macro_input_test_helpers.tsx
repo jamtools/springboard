@@ -1,22 +1,21 @@
 import React, {act} from 'react';
 
-import {fireEvent, render, within} from '@testing-library/react';
+import {fireEvent, render, within, waitFor} from '@testing-library/react';
 import {Subject} from 'rxjs';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';
+import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 
-import {Main} from 'springboard/platforms/browser/entrypoints/main';
-import {Springboard} from 'springboard/engine/engine';
-import {setIoDependencyCreator} from '../../../../modules/io/io_module';
-import {MockMidiService} from '../../../../test/services/mock_midi_service';
-import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
+import {Springboard, SpringboardProviderPure} from 'springboard/engine/engine';
+import {loadSpringboardRouteComponent} from 'springboard/router';
+import {setIoDependencyCreator} from '../../../../modules/io/io_module.js';
+import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
+import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
 
 export const getMacroInputTestHelpers = () => {
     const setupTest = async (midiSubject: Subject<MidiEventFull>): Promise<Springboard> => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
         setIoDependencyCreator(async () => {
             const midi = new MockMidiService();
@@ -28,38 +27,31 @@ export const getMacroInputTestHelpers = () => {
             };
         });
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
+        await engine.initialize();
+        const macroModule = engine.moduleRegistry.getModule('macro');
+        const macroRoute = macroModule.routes!.find(route => route.path === '/modules/macro')!;
+        const macroRouteComponent = await loadSpringboardRouteComponent(macroRoute, 'browser');
+        if (macroRouteComponent.status !== 'component') {
+            throw new Error('Macro route component failed to load for tests');
+        }
+        const MacroRouteComponent = macroRouteComponent.component as React.ComponentType;
 
-        const { container } = render(
-            <Main
-                engine={engine}
-            />
-            // <div id='yup'/>
+        render(
+            <SpringboardProviderPure engine={engine}>
+                <MacroRouteComponent />
+            </SpringboardProviderPure>
         );
-
-        // screen.debug();
-
-        // const { container } = render(<MyComponent />);
-
-
-        // await engine.initialize();
-        await act(async () => {
-            await new Promise(r => setTimeout(r, 10));
+        await waitFor(() => {
+            expect(screen.getByRole('list')).toBeInTheDocument();
         });
-        await new Promise(r => setTimeout(r, 10));
 
         return engine;
 
     };
 
     const gotoMacroPage = async () => {
-        const macroPageLink = screen.getByTestId('link-to-/modules/macro');
-        // const macroPageLink = container.querySelector('a[href="/modules/macro/"]');
-        expect(macroPageLink).toBeInTheDocument();
-
-        await act(async () => {
-            fireEvent.click(macroPageLink!);
-        });
+        return;
     };
 
     const clickCapture = async (moduleId: string) => {

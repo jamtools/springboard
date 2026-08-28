@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
-import springboard from 'springboard';
-import {MidiFileParser, ParsedMidiFile} from './midi_file_parser/midi_file_parser';
+import springboard from 'springboard/core/engine/register';
+import {MidiFileParser, ParsedMidiFile} from './midi_file_parser/midi_file_parser.js';
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         MidiFile: MidiFileModuleReturnValue;
     }
 }

@@ -8,6 +8,7 @@ import {ServerAppDependencies} from './types/server_app_dependencies.js';
 import {createCommonWebSocketHooks} from './services/crossws_json_rpc.js';
 import {RpcMiddleware, ServerModuleAPI, serverRegistry} from './register.js';
 import {KVStore, Springboard} from '../core/index.js';
+import {NamespacedKVStore} from '../core/services/namespaced_kv_store.js';
 import {Adapter, AdapterInstance, Hooks} from 'crossws';
 import {ServerJsonRpcClientAndServer} from './services/server_json_rpc.js';
 import type {Peer} from 'crossws';
@@ -23,6 +24,7 @@ type InitServerAppArgs = {
     remoteKV: KVStore;
     userAgentKV: KVStore;
     broadcastMessage: (message: string) => void;
+    enableStaticRoutes?: boolean;
 };
 
 type InjectResourcesArgs = {
@@ -40,8 +42,12 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
 
     app.use('*', cors());
 
+    const enableStaticRoutes = initArgs.enableStaticRoutes ?? true;
+
 
     const remoteKV = initArgs.remoteKV;
+    const sharedKV = new NamespacedKVStore(remoteKV, 'shared:');
+    const serverKV = new NamespacedKVStore(remoteKV, 'server:');
     const userAgentKV = initArgs.userAgentKV;
 
     const rpc = new ServerJsonRpcClientAndServer({
@@ -187,38 +193,27 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
     let serveStaticFileFn: ((c: Context, fileName: string, headers: Record<string, string>) => Promise<Response>) | undefined;
     let getEnvValueFn: ((name: string) => string | undefined) | undefined;
 
-    app.use('/', async (c) => {
-        if (!serveStaticFileFn) {
-            return c.text('Server not fully initialized', 500);
-        }
-        const headers = {
-            'Cache-Control': 'no-store, no-cache, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Content-Type': 'text/html'
-        };
-        return serveStaticFileFn(c, 'index.html', headers);
-    });
+    if (enableStaticRoutes) {
+        app.use('/assets/:file', async (c, next) => {
+            if (!serveStaticFileFn || !getEnvValueFn) {
+                return c.text('Server not fully initialized', 500);
+            }
 
-    app.use('/assets/:file', async (c, next) => {
-        if (!serveStaticFileFn || !getEnvValueFn) {
-            return c.text('Server not fully initialized', 500);
-        }
+            const requestedFile = c.req.param('file');
 
-        const requestedFile = c.req.param('file');
+            if (requestedFile.endsWith('.map') && getEnvValueFn('NODE_ENV') === 'production') {
+                return c.text('Source map disabled', 404);
+            }
 
-        if (requestedFile.endsWith('.map') && getEnvValueFn('NODE_ENV') === 'production') {
-            return c.text('Source map disabled', 404);
-        }
+            const contentType = requestedFile.endsWith('.js') ? 'text/javascript' : 'text/css';
+            const headers = {
+                'Content-Type': contentType,
+                'Cache-Control': 'public, max-age=31536000, immutable'
+            };
 
-        const contentType = requestedFile.endsWith('.js') ? 'text/javascript' : 'text/css';
-        const headers = {
-            'Content-Type': contentType,
-            'Cache-Control': 'public, max-age=31536000, immutable'
-        };
-
-        return serveStaticFileFn(c, `assets/${requestedFile}`, headers);
-    });
+            return serveStaticFileFn(c, `assets/${requestedFile}`, headers);
+        });
+    }
 
     // app.use('/dist/manifest.json', serveStatic({
     //     root: webappDistFolder,
@@ -254,7 +249,8 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
             local: undefined,
         },
         storage: {
-            remote: remoteKV,
+            shared: sharedKV,
+            server: serverKV,
             userAgent: userAgentKV,
         },
     };
@@ -287,19 +283,25 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
     //     },
     // }));
 
-    app.use('*', async (c) => {
-        if (!serveStaticFileFn) {
-            return c.text('Server not fully initialized', 500);
+    const registerSpaFallback = () => {
+        if (!enableStaticRoutes) {
+            return;
         }
-        const headers = {
-            'Cache-Control': 'no-store, no-cache, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Content-Type': 'text/html'
-        };
 
-        return serveStaticFileFn(c, 'index.html', headers);
-    });
+        app.notFound(async (c) => {
+            if (!serveStaticFileFn) {
+                return c.text('Server not fully initialized', 500);
+            }
+            const headers = {
+                'Cache-Control': 'no-store, no-cache, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+                'Content-Type': 'text/html'
+            };
+
+            return serveStaticFileFn(c, 'index.html', headers);
+        });
+    };
 
     const injectResources = (args: InjectResourcesArgs) => {
         if (storedEngine) {
@@ -320,6 +322,8 @@ export const initApp = (initArgs: InitServerAppArgs): InitAppReturnValue => {
         for (const call of registeredServerModuleCallbacks) {
             call(makeServerModuleAPI());
         }
+
+        registerSpaFallback();
     };
 
     const createWebSocketHooks = (enableRpc?: boolean) => {

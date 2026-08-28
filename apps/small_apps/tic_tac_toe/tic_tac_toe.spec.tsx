@@ -88,7 +88,7 @@ describe('TicTacToe', () => {
 const setupTest = async (): Promise<Springboard> => {
     const coreDeps = makeMockCoreDependencies({store: {}});
 
-    const engine = new Springboard(coreDeps, {});
+    const engine = new Springboard(coreDeps);
 
     render(
         <Main

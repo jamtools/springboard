@@ -1,110 +1,192 @@
-import React from 'react';
-
+import React, {useEffect, useMemo, useState} from 'react';
+import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
 import {
-    createBrowserRouter,
-    createHashRouter,
+    AnyRoute,
     Link,
-    RouteObject,
     RouterProvider,
-    useNavigate,
-} from 'react-router';
+    createRoute,
+    createRouter,
+} from '@tanstack/react-router';
 
 import {useSpringboardEngine} from '../../core/engine/engine.js';
-import {Module, RegisteredRoute} from '../../core/module_registry/module_registry.js';
-
+import {Module} from '../../core/module_registry/module_registry.js';
+import {
+    CollectedSpringboardRouteDescriptor,
+    SpringboardRouterProvider,
+    collectRouteDescriptors,
+    isSpringboardAsyncRouteComponent,
+    loadSpringboardRouteComponent,
+    matchRoute,
+    preloadSpringboardRouteComponents,
+    useSpringboardRouteProps,
+} from '../../router/index.js';
+import {rootRoute} from '../../core/ui/root_route.js';
 import {Layout} from './layout.js';
 
-const CustomRoute = (props: {component: RegisteredRoute['component']}) => {
-    const navigate = useNavigate();
+type AllRoutesFlat = readonly AnyRoute[];
+
+function createAppRouter(routes: AllRoutesFlat) {
+    const routeTree = rootRoute.addChildren(routes);
+
+    return createRouter({
+        routeTree,
+        context: {},
+        defaultPreload: 'intent',
+        scrollRestoration: true,
+        defaultStructuralSharing: true,
+        defaultPreloadStaleTime: 0,
+    });
+}
+
+type AppRouter = ReturnType<typeof createAppRouter>;
+
+const BrowserRouteContent = (props: {descriptor: CollectedSpringboardRouteDescriptor}) => {
+    const routeProps = useSpringboardRouteProps();
+    const routeComponent = useQuery({
+        queryKey: ['springboard-route-component', 'browser', props.descriptor.internalId],
+        queryFn: () => loadSpringboardRouteComponent(props.descriptor, 'browser'),
+        enabled: isSpringboardAsyncRouteComponent(props.descriptor.component),
+        staleTime: Infinity,
+        gcTime: Infinity,
+    });
+
+    if (!isSpringboardAsyncRouteComponent(props.descriptor.component)) {
+        return React.createElement(props.descriptor.component as React.ComponentType<any>, routeProps);
+    }
+
+    if (routeComponent.isPending) {
+        return <div>Loading route…</div>;
+    }
+
+    if (routeComponent.isError) {
+        return <div role="alert">{routeComponent.error.message}</div>;
+    }
+
+    if (routeComponent.data.status === 'absent') {
+        return <div role="alert">Route {props.descriptor.path} has no browser component.</div>;
+    }
+
+    return React.createElement(routeComponent.data.component as React.ComponentType<any>, routeProps);
+};
+
+const SpringboardTanStackRoutes = (props: {queryClient: QueryClient}) => {
+    const engine = useSpringboardEngine();
+    const mods = engine.moduleRegistry.useModules();
+
+    const {descriptors, router} = useMemo(() => {
+        const descriptors = collectRouteDescriptors(mods);
+        const compiledRoutes = descriptors.map(descriptor => {
+            const route = createRoute({
+                path: descriptor.path,
+                getParentRoute: () => rootRoute,
+                params: descriptor.params as never,
+                validateSearch: descriptor.validateSearch,
+                component: () => {
+                    const pathParams = route.useParams() as Record<string, string>;
+                    const search = route.useSearch() as Record<string, unknown>;
+
+                    return (
+                        <SpringboardRouterProvider
+                            routes={descriptors}
+                            currentRouteId={descriptor.internalId}
+                            pathParams={pathParams}
+                            search={search}
+                        >
+                            <Layout modules={mods}>
+                                <BrowserRouteContent descriptor={descriptor} />
+                            </Layout>
+                        </SpringboardRouterProvider>
+                    );
+                },
+            });
+
+            return route;
+        });
+        const routesIndexRoute = createRoute({
+            path: '/routes',
+            getParentRoute: () => rootRoute,
+            component: () => (
+                <Layout modules={mods}>
+                    <RootPath modules={mods} />
+                </Layout>
+            ),
+        });
+
+        if (!descriptors.some(route => route.path === '/')) {
+            compiledRoutes.push(createRoute({
+                path: '/',
+                getParentRoute: () => rootRoute,
+                component: () => (
+                    <Layout modules={mods}>
+                        <RootPath modules={mods} />
+                    </Layout>
+                ),
+            }));
+        }
+
+        return {
+            descriptors,
+            router: createAppRouter([...compiledRoutes, routesIndexRoute] as unknown as AllRoutesFlat),
+        };
+    }, [mods]);
+
+    useEffect(() => {
+        const currentRouteId = typeof window === 'undefined'
+            ? descriptors[0]?.internalId
+            : matchRoute(descriptors, window.location.pathname)?.route.internalId || descriptors[0]?.internalId;
+
+        void props.queryClient.prefetchQuery({
+            queryKey: ['springboard-route-preload', 'browser', descriptors.map(route => route.internalId).join('|')],
+            queryFn: async () => {
+                await preloadSpringboardRouteComponents(descriptors, 'browser', currentRouteId);
+                return true;
+            },
+            staleTime: Infinity,
+            gcTime: Infinity,
+        }).catch(() => undefined);
+    }, [descriptors, props.queryClient]);
+
+    if (typeof window !== 'undefined') {
+        (window as any).tsRouter = router;
+    }
 
     return (
-        <props.component
-            navigate={navigate}
-        />
+        <SpringboardRouterProvider
+            routes={descriptors}
+            navigate={(options) => {
+                router.navigate({
+                    to: options.to,
+                    params: options.params,
+                    search: options.search,
+                } as never);
+            }}
+        >
+            <RouterProvider router={router} />
+        </SpringboardRouterProvider>
     );
 };
 
 export const FrontendRoutes = () => {
-    const engine = useSpringboardEngine();
-
-    const mods = engine.moduleRegistry.useModules();
-
-    const moduleRoutes: RouteObject[] = [];
-
-    const rootRouteObjects: RouteObject[] = [];
-
-    for (const mod of mods) {
-        if (!mod.routes) {
-            continue;
-        }
-
-        const routes = mod.routes;
-
-        const thisModRoutes: RouteObject[] = [];
-
-        Object.keys(routes).forEach(path => {
-            const Component = routes[path]!.component;
-            const routeObject: RouteObject = {
-                path,
-                element: (
-                    <Layout modules={mods}>
-                        <CustomRoute component={Component}/>
-                    </Layout>
-                ),
-            };
-
-            if (path.startsWith('/')) {
-                rootRouteObjects.push(routeObject);
-            } else {
-                thisModRoutes.push(routeObject);
-            }
-        });
-
-        if (thisModRoutes.length) {
-            moduleRoutes.push({
-                path: mod.moduleId,
-                children: thisModRoutes,
-            });
-        }
-    }
-
-    moduleRoutes.push({
-        path: '*',
-        element: <span/>,
-    });
-
-    const routerContructor = (globalThis as {useHashRouter?: boolean}).useHashRouter ? createHashRouter : createBrowserRouter;
-
-    const allRoutes: RouteObject[] = [
-        ...rootRouteObjects,
-        {
-            path: '/modules',
-            children: moduleRoutes,
+    const [queryClient] = useState(() => new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
         },
-        {
-            path: '/routes',
-            element: <Layout modules={mods}><RootPath modules={mods}/></Layout>
-        },
-    ];
-
-    if (!rootRouteObjects.find(r => r.path === '/')) {
-        allRoutes.push({
-            path: '/',
-            element: <Layout modules={mods}><RootPath modules={mods}/></Layout>
-        });
-    }
-
-    const router = routerContructor(allRoutes, {
-        future: {
-            v7_relativeSplatPath: true,
-            // v7_startTransition: true,
-        },
-    });
+    }));
 
     return (
-        <RouterProvider router={router}/>
+        <QueryClientProvider client={queryClient}>
+            <SpringboardTanStackRoutes queryClient={queryClient} />
+        </QueryClientProvider>
     );
 };
+
+declare module '@tanstack/react-router' {
+    interface Register {
+        router: AppRouter;
+    }
+}
 
 const RootPath = (props: {modules: Module[]}) => {
     return (
@@ -124,33 +206,16 @@ const RenderModuleRoutes = ({mod}: {mod: Module}) => {
         <li>
             {mod.moduleId}
             <ul>
-                {mod.routes && Object.keys(mod.routes).map(path => {
-                    let suffix = '';
-                    if (path && path !== '/') {
-                        if (!path.startsWith('/')) {
-                            suffix += '/';
-                        }
-
-                        if (path.endsWith('/')) {
-                            suffix += path.substring(0, path.length - 1);
-                        } else {
-                            suffix += path;
-                        }
-                    }
-
-                    const href = path.startsWith('/') ? path : `/modules/${mod.moduleId}${suffix}`;
-
-                    return (
-                        <li key={path}>
-                            <Link
-                                data-testid={`link-to-${href}`}
-                                to={href}
-                            >
-                                {path || '/'}
-                            </Link>
-                        </li>
-                    );
-                })}
+                {mod.routes?.map(route => (
+                    <li key={route.path}>
+                        <Link
+                            data-testid={`link-to-${route.path}`}
+                            to={route.path}
+                        >
+                            {route.path || '/'}
+                        </Link>
+                    </li>
+                ))}
             </ul>
         </li>
     );

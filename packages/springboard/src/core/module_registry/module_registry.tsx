@@ -3,7 +3,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Subject} from 'rxjs';
 
 import type {ModuleAPI} from '../engine/module_api.js';
-import {RegisterRouteOptions} from '../engine/register.js';
+import type {SpringboardRouteDescriptor} from '../../router/index.js';
+import type {RegisteredModules} from '../../register.js';
 
 export type DocumentMeta = {
     title?: string;
@@ -18,37 +19,39 @@ export type DocumentMeta = {
     'og:url'?: string;
 } & Record<string, string>;
 
-type RouteComponentProps = {
-    navigate: (routeName: string) => void;
-};
-
-export type RegisteredRoute = {
-    options?: RegisterRouteOptions;
-    component: React.ElementType<RouteComponentProps>;
-}
-
 export type NavigationItemConfig = {
     title: string;
     icon: string;
     route: string;
 };
 
+export type ProviderWithRank = {
+    provider: React.ElementType;
+    rank: number;
+};
+
 export type Module<State extends object = any> = {
     moduleId: string;
     initialize?: (moduleAPI: ModuleAPI) => void | Promise<void>;
-    Provider?: React.ElementType;
+    Provider?: React.ElementType; // Deprecated: use providers array instead
+    providers?: ProviderWithRank[];
     state?: State;
     subject?: Subject<State>;
-    routes?: Record<string, RegisteredRoute>;
+    routes?: readonly SpringboardRouteDescriptor<string, any>[];
     applicationShell?: React.ElementType<React.PropsWithChildren<{modules: Module[]}>>;
 };
 
-// this interface is meant to be extended by each individual module file through interface merging
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AllModules {}
+export type ResolvedModuleValue<TModule> = TModule extends {
+    kind: 'defineModule';
+    initialize: (...args: any[]) => infer TReturn;
+}
+    ? Awaited<TReturn>
+    : TModule;
 
+// this interface is meant to be extended by applications/plugins through interface merging
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ExtraModuleDependencies {}
+
 
 type ModuleMap = {[moduleId: string]: Module};
 
@@ -63,8 +66,8 @@ export class ModuleRegistry {
         this.refreshModules();
     }
 
-    getModule<ModuleId extends keyof AllModules>(moduleId: ModuleId): AllModules[ModuleId] {
-        return this.modulesByKey[moduleId] as unknown as AllModules[ModuleId];
+    getModule<ModuleId extends keyof RegisteredModules>(moduleId: ModuleId): ResolvedModuleValue<RegisteredModules[ModuleId]> {
+        return this.modulesByKey[moduleId] as unknown as ResolvedModuleValue<RegisteredModules[ModuleId]>;
     }
 
     getCustomModule(moduleId: string): Module | undefined {

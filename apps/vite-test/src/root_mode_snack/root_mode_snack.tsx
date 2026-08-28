@@ -4,6 +4,7 @@ import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote} from './root_mod
 
 import {RootModeComponent} from './root_mode_component';
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import '@jamtools/core/modules/macro_module/macro_module';
 
@@ -14,7 +15,7 @@ type ChordState = {
 }
 
 springboard.registerModule('Main', {}, async (moduleAPI) => {
-    const states = await moduleAPI.createStates({
+    const states = await moduleAPI.shared.createSharedStates({
         chords: {chord: null, note: null, scale: 0} as ChordState,
     });
 
@@ -28,7 +29,7 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
         });
     };
 
-    moduleAPI.registerRoute('', {}, () => {
+    const MainRoute = () => {
         const state = rootModeState.useState();
 
         const onClick = () => {
@@ -41,14 +42,14 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
                 onClick={onClick}
             />
         );
-    });
+    };
 
-    const {input, output} = await moduleAPI.getModule('macro').createMacros(moduleAPI, {
+    const {input, output} = await (moduleAPI.getModule as any)('macro').createMacros(moduleAPI, {
         input: {type: 'musical_keyboard_input', config: {}},
         output: {type: 'musical_keyboard_output', config: {}},
     });
 
-    input.subject.subscribe(evt => {
+    input.subject.subscribe((evt: any) => {
         const midiNumber = evt.event.number;
         const scale = rootModeState.getState().scale;
 
@@ -85,6 +86,12 @@ springboard.registerModule('Main', {}, async (moduleAPI) => {
             });
         }
     });
+
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/modules/Main', component: MainRoute}),
+        ]),
+    };
 });
 
 const getChordFromRootNote = (scale: number, rootNote: number): number[] => {

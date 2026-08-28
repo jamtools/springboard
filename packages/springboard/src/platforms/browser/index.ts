@@ -6,6 +6,7 @@
 // Export browser services
 export { BrowserJsonRpcClientAndServer } from './services/browser_json_rpc.js';
 export { BrowserKVStoreService } from './services/browser_kvstore_service.js';
+export { BrowserSessionKVStoreService } from './services/browser_session_kvstore_service.js';
 
 // Export browser entrypoints
 export { startAndRenderBrowserApp } from './entrypoints/react_entrypoint.js';

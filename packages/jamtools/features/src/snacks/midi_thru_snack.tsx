@@ -1,5 +1,6 @@
 import React from 'react';
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import '@jamtools/core/modules/macro_module/macro_module';
 
@@ -15,12 +16,21 @@ springboard.registerModule('midi_thru', {}, async (moduleAPI) => {
         myOutput.send(evt.event);
     });
 
-    moduleAPI.registerRoute('', {}, () => {
+    const MidiThruRoute = () => {
         return (
             <div>
                 <myInput.components.edit/>
                 <myOutput.components.edit/>
             </div>
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/midi_thru',
+                component: MidiThruRoute,
+            }),
+        ]),
+    };
 });

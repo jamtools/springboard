@@ -4,11 +4,21 @@
  */
 
 // Export the main springboard registry
-export { springboard, getRegisteredSplashScreen } from './engine/register.js';
+export {
+    springboard,
+    getApplicationDescriptorFromExports,
+    getRegisteredSplashScreen,
+    isDefinedModuleDescriptor,
+    isEntrypointDescriptor,
+} from './engine/register.js';
 export { default } from './engine/register.js';
 
 // Export types from register
 export type {
+    DefinedModuleDescriptor,
+    SpringboardDescriptor,
+    SpringboardEntrypointComposer,
+    SpringboardEntrypointDescriptor,
     SpringboardRegistry,
     RegisterModuleOptions,
     ModuleCallback,
@@ -26,7 +36,13 @@ export {
 } from './engine/engine.js';
 
 // Export ModuleAPI
-export { ModuleAPI } from './engine/module_api.js';
+export {ModuleAPI, ModuleAPIInternal, setRpcMiddlewareResultsGetter} from './engine/module_api.js';
+export type {ActionCallback, ActionCallOptions, RpcMiddlewareResults} from './engine/module_api.js';
+export {ServerAPI} from './engine/server_api.js';
+export {SharedAPI} from './engine/shared_api.js';
+export {UserAgentAPI} from './engine/user_agent_api.js';
+export {ClientAPI} from './engine/client_api.js';
+export {UIAPI} from './engine/ui_api.js';
 
 // Export types from core
 export type {
@@ -44,7 +60,6 @@ export {
 
 export type {
     Module,
-    ExtraModuleDependencies,
     DocumentMeta,
 } from './module_registry/module_registry.js';
 
@@ -55,8 +70,9 @@ export { useMount } from './hooks/useMount.js';
 export { generateId } from './utils/generate_id.js';
 
 // Export services
-export { SharedStateService, StateSupervisor } from './services/states/shared_state_service.js';
+export {ServerStateService, ServerStateSupervisor, SharedStateService, SharedStateSupervisor, StateSupervisor, UserAgentStateSupervisor} from './services/states/shared_state_service.js';
 export { HttpKvStoreClient } from './services/http_kv_store_client.js';
+export {NamespacedKVStore, NullKVStore} from './services/namespaced_kv_store.js';
 
 // Export response types
 export type {
@@ -67,4 +83,12 @@ export type {
 export { BaseModule } from './modules/base_module/base_module.js';
 
 // Export test utilities
-export { makeMockCoreDependencies } from './test/mock_core_dependencies.js';
+export {
+    makeMockCoreDependencies,
+    makeMockSpringboardEngine,
+} from './test/mock_core_dependencies.js';
+
+export type {
+    MakeMockCoreDependenciesOptions,
+    MakeMockSpringboardEngineOptions,
+} from './test/mock_core_dependencies.js';

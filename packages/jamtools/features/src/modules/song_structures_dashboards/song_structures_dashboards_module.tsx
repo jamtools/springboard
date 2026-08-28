@@ -1,21 +1,20 @@
 import React from 'react';
 
-import {Link} from 'react-router';
-
 import springboard from 'springboard';
+import {defineRoute, defineRoutes, useNavigate} from 'springboard/router';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
 
-import {GuitarChordRootsDisplay, GuitarTabView} from '@jamtools/features/modules/song_structures/components/guitar_tab_view';
-import {ChordChoice, ChordDisplay} from '@jamtools/features/modules/song_structures/components/chord_display';
+import {GuitarChordRootsDisplay, GuitarTabView} from '../song_structures/components/guitar_tab_view';
+import {ChordChoice, ChordDisplay} from '../song_structures/components/chord_display';
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         song_structures_dashboards: SongStructuresDashboardsModuleReturnValue;
     }
 }
 
 type SongStructuresDashboardsModuleReturnValue = {
-
+    routes: ReturnType<typeof defineRoutes>;
 };
 
 type GuitarDisplaySettings = {
@@ -29,13 +28,19 @@ const initialGuitarDisplaySettings: GuitarDisplaySettings = {
 };
 
 springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): Promise<SongStructuresDashboardsModuleReturnValue> => {
-    const states = moduleAPI.statesAPI;
-    const macros = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+    const macros = moduleAPI.getModule('macro');
 
-    const state = await states.createUserAgentState('guitar_display_settings', initialGuitarDisplaySettings);
+    const userAgentStates = await moduleAPI.userAgent.createUserAgentStates({
+        guitar_display_settings: initialGuitarDisplaySettings,
+    });
+    const state = userAgentStates.guitar_display_settings;
 
-    const draftChordsState = await states.createSharedState<ChordChoice[] | null>('draft_chord_choices', null);
-    const confirmedChordsState = await states.createSharedState<ChordChoice[] | null>('confirmed_chord_choices', null);
+    const sharedStates = await moduleAPI.shared.createSharedStates({
+        draft_chord_choices: null as ChordChoice[] | null,
+        confirmed_chord_choices: null as ChordChoice[] | null,
+    });
+    const draftChordsState = sharedStates.draft_chord_choices;
+    const confirmedChordsState = sharedStates.confirmed_chord_choices;
 
     // const draftScaleChoice = moduleAPI.statesAPI.createSharedState('', true);
     // const confirmedScaleChoise = moduleAPI.statesAPI.createSharedState('', true);
@@ -44,8 +49,8 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
     const musicalKeyboardOutputMacro = await macros.createMacro(moduleAPI, 'keyboard_out', 'musical_keyboard_output', {});
 
     const toggleChordChooseMode = await macros.createMacro(moduleAPI, 'toggle_chord_choose_mode', 'midi_button_input', {enableQwerty: false});
-    // const toggleChordChooseMode = moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro();
-    // const toggleScaleChooseMode = moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro();
+    // const toggleChordChooseMode = moduleAPI.getModule('macro').createMacro();
+    // const toggleScaleChooseMode = moduleAPI.getModule('macro').createMacro();
 
     // const messageState = await states.createSharedState('message', '');
 
@@ -137,19 +142,19 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
         }
     });
 
-    moduleAPI.registerRoute('', {}, () => {
+    const SongStructuresDashboardsRoute = () => {
+        const navigate = useNavigate();
+
         return (
             <div>
-                <Link to='/modules/song_structures_dashboards/bass_guitar'>
-                    <button>
-                        Go to Bass Guitar
-                    </button>
-                </Link>
+                <button onClick={() => navigate({to: '/modules/song_structures_dashboards/bass_guitar'})}>
+                    Go to Bass Guitar
+                </button>
             </div>
         );
-    });
+    };
 
-    moduleAPI.registerRoute('bass_guitar', {}, () => {
+    const SongStructuresDashboardsBassGuitarRoute = () => {
         const props: React.ComponentProps<typeof GuitarTabView> = {
             numberOfStrings: 4,
             chosenFrets: [
@@ -239,7 +244,18 @@ springboard.registerModule('song_structures_dashboards', {}, async (moduleAPI): 
             </>
 
         );
-    });
+    };
 
-    return {};
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/song_structures_dashboards',
+                component: SongStructuresDashboardsRoute,
+            }),
+            defineRoute({
+                path: '/modules/song_structures_dashboards/bass_guitar',
+                component: SongStructuresDashboardsBassGuitarRoute,
+            }),
+        ]),
+    };
 });

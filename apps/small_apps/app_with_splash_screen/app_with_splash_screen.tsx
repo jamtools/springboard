@@ -1,6 +1,7 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 const CustomSplashScreen = () => {
     return (
@@ -50,24 +51,33 @@ const CustomSplashScreen = () => {
 springboard.registerSplashScreen(CustomSplashScreen);
 
 springboard.registerModule('AppWithSplashScreen', {}, async (moduleAPI) => {
-    const messageState = await moduleAPI.statesAPI.createPersistentState<string>('message', 'Hello from the app with custom splash screen!');
+    const states = await moduleAPI.shared.createSharedStates({
+        message: 'Hello from the app with custom splash screen!',
+    });
+    const messageState = states.message;
 
     await new Promise(r => setTimeout(r, 5000)); // fake waiting time
 
-    const actions = moduleAPI.createActions({
+    const actions = moduleAPI.shared.createSharedActions({
         updateMessage: async (args: {newMessage: string}) => {
             messageState.setState(args.newMessage);
         },
     });
 
-    moduleAPI.registerRoute('/', {}, () => {
+    const AppWithSplashScreenRoute = () => {
         return (
             <AppWithSplashScreenComponent
                 message={messageState.useState()}
                 updateMessage={actions.updateMessage}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({path: '/', component: AppWithSplashScreenRoute}),
+        ]),
+    };
 });
 
 type AppWithSplashScreenComponentProps = {

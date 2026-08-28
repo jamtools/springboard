@@ -21,7 +21,9 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build-cli",
-    "build-cli": "tsc && npm run add-header",
+    "build-cli": "tsc && npm run copy-examples && npm run copy-docs && npm run add-header",
+    "copy-examples": "mkdir -p dist/examples && cp src/examples/*.txt dist/examples/",
+    "copy-docs": "mkdir -p dist/docs/content && cp src/docs/sections.json dist/docs/ && cp src/docs/content/*.md dist/docs/content/",
     "prepublishOnly": "npm run build",
     "dev:setup": "[ -f ./dist/cli.js ] || npm run build",
     "build-saas": "DISABLE_IO=true npx tsx src/cli.ts build ../../../apps/jamtools/modules/index.ts",
@@ -38,9 +40,14 @@
     "clean": "rm -rf dist",
     "add-header": "./scripts/add-node-executable-header.sh",
     "cli-docs": "npx tsx scripts/make_cli_docs.ts",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@babel/generator": "^7.28.5",
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
     "commander": "catalog:",
     "concurrently": "^9.2.1",
     "springboard": "workspace:*",
@@ -51,6 +58,9 @@
     "vite": "^7.0.0"
   },
   "devDependencies": {
+    "@babel/types": "^7.28.5",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__traverse": "^7.28.0",
     "@types/node": "catalog:",
     "vite": "catalog:"
   },

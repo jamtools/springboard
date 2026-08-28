@@ -1,4 +1,31 @@
 {
+  "enabledMcpjsonServers": [
+    "batchit"
+  ],
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "command": "bd prime",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bd prime",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "WebFetch(domain:github.com)",
@@ -23,8 +50,5 @@
       "mcp__batchit__batch_execute"
     ],
     "deny": []
-  },
-  "enabledMcpjsonServers": [
-    "batchit"
-  ]
+  }
 }

@@ -1,19 +1,20 @@
 import React from 'react';
 
-import '../io/io_module';
+import '../io/io_module.js';
 
-import type {Module} from 'springboard/module_registry/module_registry';
+import type {Module} from 'springboard';
 
 import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
-import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types';
+import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types.js';
 import {BaseModule, ModuleHookValue} from 'springboard/modules/base_module/base_module';
-import {MacroPage} from './macro_page';
-import springboard from 'springboard';
+import {MacroPage} from './macro_page.js';
+import springboard from 'springboard/core/engine/register';
 import {CapturedRegisterMacroTypeCall, MacroAPI, MacroCallback} from '@jamtools/core/modules/macro_module/registered_macro_types';
 import {ModuleAPI} from 'springboard/engine/module_api';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
-import './macro_handlers';
-import {macroTypeRegistry} from './registered_macro_types';
+import './macro_handlers/index.js';
+import {macroTypeRegistry} from './registered_macro_types.js';
 
 type ModuleId = string;
 
@@ -30,8 +31,8 @@ springboard.registerClassModule((coreDeps: CoreDependencies, modDependencies: Mo
     return new MacroModule(coreDeps, modDependencies);
 });
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         macro: MacroModule;
     }
 }
@@ -52,14 +53,17 @@ export class MacroModule implements Module<MacroConfigState> {
 
     constructor(private coreDeps: CoreDependencies, private moduleDeps: ModuleDependencies) { }
 
-    routes = {
-        '': {
-            component: () => {
-                const mod = MacroModule.use();
-                return <MacroPage state={mod.state || this.state} />;
+    routes = defineRoutes([
+        defineRoute({
+            path: '/modules/macro',
+            component: {
+                browser: async (route) => route.component(() => {
+                    const mod = MacroModule.use();
+                    return <MacroPage state={mod.state || this.state} />;
+                }),
             },
-        },
-    };
+        }),
+    ]);
 
     state: MacroConfigState = {
         configs: {},
@@ -67,7 +71,7 @@ export class MacroModule implements Module<MacroConfigState> {
     };
 
     public createMacro = async <MacroType extends keyof MacroTypeConfigs, T extends MacroConfigItem<MacroType>>(moduleAPI: ModuleAPI, name: string, macroType: MacroType, config: T): Promise<MacroTypeConfigs[MacroType]['output']> => {
-        const moduleId = moduleAPI.moduleId;
+        const moduleId = moduleAPI.internal.moduleId;
 
         const tempConfig = {[name]: {...config, type: macroType}};
         this.state.configs = {...this.state.configs, [moduleId]: {...this.state.configs[moduleId], ...tempConfig}};
@@ -144,24 +148,25 @@ export class MacroModule implements Module<MacroConfigState> {
         const macroAPI: MacroAPI = {
             midiIO: moduleAPI.getModule('io'),
             createAction: (...args) => {
-                const action = moduleAPI.createAction(...args);
+                const action = moduleAPI.internal.createAction(...args);
                 return (args: any) => action(args, this.localMode ? {mode: 'local'} : undefined);
             },
             statesAPI: {
-                createSharedState: (key: string, defaultValue: any) => {
-                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createSharedState;
-                    return func(key, defaultValue);
-                },
-                createPersistentState: (key: string, defaultValue: any) => {
-                    const func = this.localMode ? moduleAPI.statesAPI.createUserAgentState : moduleAPI.statesAPI.createPersistentState;
-                    return func(key, defaultValue);
+                createSharedState: async <State,>(key: string, defaultValue: State) => {
+                    if (this.localMode) {
+                        const states = await moduleAPI.userAgent.createUserAgentStates({[key]: defaultValue});
+                        return states[key]!;
+                    } else {
+                        const states = await moduleAPI.shared.createSharedStates({[key]: defaultValue});
+                        return states[key]!;
+                    }
                 },
             },
             createMacro: this.createMacro,
             isMidiMaestro: () => this.coreDeps.isMaestro() || this.localMode,
             moduleAPI,
             onDestroy: (cb: () => void) => {
-                moduleAPI.onDestroy(cb);
+                moduleAPI.internal.onDestroy(cb);
             },
         };
 

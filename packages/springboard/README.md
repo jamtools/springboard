@@ -180,7 +180,6 @@ import type {
 
   // Module types
   Module,
-  ExtraModuleDependencies,
   DocumentMeta,
 
   // File types

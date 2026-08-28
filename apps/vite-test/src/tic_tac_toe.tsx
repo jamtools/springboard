@@ -1,9 +1,17 @@
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 // @platform "node"
 console.log('only in node');
+
+import {serverRegistry} from 'springboard/server/register'
+serverRegistry.registerServerModule(api => {
+    api.hono.get('/yeah', async (req) => {
+        return new Response('Oh yeah');
+    });
+});
 // @platform end
 
 // @platform "browser"
@@ -60,11 +68,11 @@ const checkForWinner = (board: Board): Winner => {
 };
 
 springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
-    const boardState = await moduleAPI.statesAPI.createPersistentState<Board>('board_v5', initialBoard);
-    const winnerState = await moduleAPI.statesAPI.createPersistentState<Winner>('winner', null);
-    const scoreState = await moduleAPI.statesAPI.createPersistentState<Score>('score', {X: 0, O: 0, stalemate: 0});
+    const boardState = await moduleAPI.shared.createSharedState<Board>('board_v5', initialBoard);
+    const winnerState = await moduleAPI.shared.createSharedState<Winner>('winner', null);
+    const scoreState = await moduleAPI.shared.createSharedState<Score>('score', {X: 0, O: 0, stalemate: 0});
 
-    const actions = moduleAPI.createActions({
+    const actions = moduleAPI.shared.createSharedActions({
         clickedCell: async (args: {row: number, column: number}) => {
             if (winnerState.getState()) {
                 return;
@@ -98,10 +106,7 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
         },
     });
 
-    moduleAPI.registerRoute('/', {documentMeta: async () => ({
-        title: 'Tic Tac Toe! Yeah!',
-        description: 'A simple tic-tac-toe game',
-    })}, () => {
+    const TicTacToeRoute = () => {
         return (
             <TicTacToeBoard
                 board={boardState.useState()}
@@ -111,7 +116,22 @@ springboard.registerModule('TicTacToe', {}, async (moduleAPI) => {
                 score={scoreState.useState()}
             />
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/',
+                component: TicTacToeRoute,
+                options: {
+                    documentMeta: async () => ({
+                        title: 'Tic Tac Toe! Yeah!',
+                        description: 'A simple tic-tac-toe game',
+                    }),
+                },
+            }),
+        ]),
+    };
 });
 
 type TicTacToeBoardProps = {

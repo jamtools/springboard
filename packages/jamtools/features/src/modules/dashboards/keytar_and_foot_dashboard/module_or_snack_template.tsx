@@ -2,6 +2,7 @@ import React from 'react';
 
 import springboard from 'springboard';
 import {ModuleAPI} from 'springboard/engine/module_api';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 type AwaitedRecord<Obj extends Record<string, Promise<any>>> = {
     [Key in keyof Obj]: Awaited<Obj[Key]>;
@@ -17,14 +18,17 @@ async function promiseAllObject<Obj extends Record<string, Promise<any>>>(
 }
 
 const createStates = async (moduleAPI: ModuleAPI) => {
-    return promiseAllObject({
-        myState: moduleAPI.statesAPI.createSharedState('myState', 'initial state'),
+    const states = await moduleAPI.shared.createSharedStates({
+        myState: 'initial state',
     });
+    return {
+        myState: states.myState,
+    };
 };
 
 const createMacros = async (moduleAPI: ModuleAPI) => {
     return promiseAllObject({
-        myMacro: moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(moduleAPI, '', 'midi_button_input', {}),
+        myMacro: moduleAPI.getModule('macro').createMacro(moduleAPI, '', 'midi_button_input', {}),
     });
 };
 
@@ -37,26 +41,26 @@ springboard.registerModule('ModuleOrSnackTemplate', {}, async (moduleAPI): Promi
     const macros = await createMacros(moduleAPI);
 
     const actions: Actions = {
-        changeTheThing: moduleAPI.createAction('changeTheThing', {}, async ({newValue}) => {
+        changeTheThing: moduleAPI.internal.createAction('changeTheThing', {}, async ({newValue}) => {
             states.myState.setState(newValue);
         }),
     };
-
-    registerRoutes(moduleAPI, states, macros, actions);
 
     const sub = macros.myMacro.subject.subscribe(() => {
 
     });
     // moduleAPI.onDestroy(sub.unsubscribe);
 
-    return {};
+    return {
+        routes: buildRoutes(states, macros, actions),
+    };
 });
 
 type States = Awaited<ReturnType<typeof createStates>>;
 type Macros = Awaited<ReturnType<typeof createMacros>>;
 
-const registerRoutes = (moduleAPI: ModuleAPI, states: States, macros: Macros, actions: Actions) => {
-    moduleAPI.registerRoute('', {}, () => {
+const buildRoutes = (states: States, macros: Macros, actions: Actions) => {
+    const ModuleOrSnackTemplateRoute = () => {
         const myState = states.myState.useState();
 
         return (
@@ -71,15 +75,22 @@ const registerRoutes = (moduleAPI: ModuleAPI, states: States, macros: Macros, ac
                 </button>
             </div>
         );
-    });
+    };
+
+    return defineRoutes([
+        defineRoute({
+            path: '/modules/ModuleOrSnackTemplate',
+            component: ModuleOrSnackTemplateRoute,
+        }),
+    ]);
 };
 
-declare module 'springboard/module_registry/module_registry' {
-    interface AllModules {
+declare module 'springboard/register' {
+    interface RegisteredModules {
         ModuleOrSnackTemplate: ModuleOrSnackTemplateModuleReturnValue;
     }
 }
 
 type ModuleOrSnackTemplateModuleReturnValue = {
-
+    routes: ReturnType<typeof defineRoutes>;
 };

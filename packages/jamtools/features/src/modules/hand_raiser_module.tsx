@@ -2,6 +2,7 @@ import {MidiControlChangeInputResult} from '@jamtools/core/modules/macro_module/
 import React from 'react';
 
 import springboard from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 
 import './hand_raiser.css';
 
@@ -9,11 +10,11 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
     const macroModule = m.getModule('macro');
     macroModule.setLocalMode(true);
 
-    const states = await m.createStates({
+    const states = await m.shared.createSharedStates({
         handPositions: [0, 0],
     });
 
-    const actions = m.createActions({
+    const actions = m.shared.createSharedActions({
         changeHandPosition: async (args: {index: number, value: number}) => {
             states.handPositions.setStateImmer((positions) => {
                 positions[args.index] = args.value;
@@ -46,7 +47,7 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
         },
     });
 
-    m.registerRoute('/', {}, () => {
+    const HandRaiserRoute = () => {
         const positions = states.handPositions.useState();
 
         return (
@@ -65,7 +66,16 @@ springboard.registerModule('HandRaiser', {}, async (m) => {
                 </div>
             </div>
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/',
+                component: HandRaiserRoute,
+            }),
+        ]),
+    };
 });
 
 type HandRaiserModuleProps = {

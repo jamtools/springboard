@@ -1,43 +1,26 @@
 import React from 'react';
 
-import {useLocation, matchPath} from 'react-router';
-
 import {Module} from '../../core/module_registry/module_registry.js';
+import {collectRouteDescriptors, matchRoute} from '../../router/index.js';
 
 type Props = React.PropsWithChildren<{
     modules: Module[];
 }>;
 
 const useApplicationShell = (modules: Module[]) => {
-    const loc = useLocation();
-    let pathname = loc.pathname;
-    if (!pathname.endsWith('/')) {
-        pathname += '/';
-    }
+    const pathname = typeof window === 'undefined' ? '/' : window.location.pathname;
 
     for (const mod of modules) {
         if (!mod.routes) {
             continue;
         }
 
-        for (const route of Object.keys(mod.routes)) {
-            if (route.startsWith('/')) {
-                if (matchPath(route, loc.pathname)) {
-                    const options = mod.routes[route]!.options;
-                    if (options?.hideApplicationShell) {
-                        return null;
-                    }
-                }
-
-                continue;
-            }
-
-            if (matchPath(`/modules/${mod.moduleId}/${route}`, loc.pathname)) {
-                const options = mod.routes[route]!.options;
-                if (options?.hideApplicationShell) {
-                    return null;
-                }
-            }
+        const matchedRoute = matchRoute(collectRouteDescriptors([{
+            moduleId: mod.moduleId,
+            routes: mod.routes,
+        }]), pathname);
+        if (matchedRoute?.route.options?.hideApplicationShell) {
+            return null;
         }
     }
 

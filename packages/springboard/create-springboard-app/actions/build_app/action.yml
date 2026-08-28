@@ -1,0 +1,39 @@
+name: Build Springboard app
+description: A composite action to build a Springboard app.
+
+inputs:
+  entrypoint:
+    description: 'Entry point'
+    required: true
+  # output_directory:
+  #   description: 'Output'
+  #   required: true
+
+runs:
+  using: 'composite'
+  steps:
+  - name: Log Action Inputs
+    run: |
+      echo "entrypoint: ${{ inputs.entrypoint }}"
+      # echo "output_directory: ${{ inputs.output_directory }}"
+    shell: bash
+  - name: Install pnpm
+    uses: pnpm/action-setup@v4
+    with:
+      version: 10.15.0
+
+  - name: Install Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: 20
+      cache: 'pnpm'
+
+  - name: Install modules
+    shell: bash
+    run: pnpm i
+
+  - name: Build app
+    shell: bash
+    run: npx sb build ${{ inputs.entrypoint }}
+    env:
+      SPRINGBOARD_PLATFORM_VARIANT: main

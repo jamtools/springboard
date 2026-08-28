@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "expo/tsconfig.base",
+    // "../../build/tsconfigs/tsconfig.dev.json",
+  ],
+
+  "compilerOptions": {
+    "strict": true
+  }
+}

@@ -1,0 +1,171 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - '*'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref to use in application repo'
+        required: false
+        default: 'main'
+  repository_dispatch:
+    types: [ build-remote, new-commit-on-main ]
+env:
+  TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref != '' && github.event.inputs.ref || github.event_name == 'repository_dispatch' && github.event.client_payload.sha != '' && github.event.client_payload.sha || 'main' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ env.TARGET_BRANCH }}
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.15.0
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+    # - name: Set npm mirror
+    #   run: npm config set registry https://npmjs.cf/
+
+    - name: Install modules
+      run: pnpm i
+
+    - name: Build app
+      run: SPRINGBOARD_PLATFORM_VARIANT=all pnpm run build
+
+    - name: Find and upload npm logs
+      if: failure()
+      run: |
+        mkdir -p artifacts/npm-logs
+        find ~/.npm/_logs -type f -name "*.log" -exec cp {} artifacts/npm-logs/ \;
+      shell: bash
+    - name: Upload npm logs artifact
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: npm-logs
+        path: artifacts/npm-logs/
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ env.TARGET_BRANCH }}
+
+    - name: Build Docker image
+      run: docker compose build
+      env:
+        PORT: 1337
+  types:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ env.TARGET_BRANCH }}
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.15.0
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+    # - name: Set npm mirror
+    #   run: npm config set registry https://npmjs.cf/
+
+    - name: Install modules
+      run: pnpm i
+
+    - name: Install modules for e2e tests
+      run: cd tests-e2e && npm i
+
+    - name: Check Types
+      run: pnpm run check-types
+
+    - name: Check Types for Tests
+      run: cd tests-e2e && npm run check-types
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ env.TARGET_BRANCH }}
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.15.0
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+    # - name: Set npm mirror
+    #   run: npm config set registry https://npmjs.cf/
+
+    - name: Install modules
+      run: pnpm i
+
+    - name: Run Tests
+      run: pnpm run test
+  db-migrations:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ env.TARGET_BRANCH }}
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.15.0
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+
+    - name: Install modules
+      run: pnpm i
+
+    - name: Install db dependencies
+      run: cd db && pnpm i
+
+    - name: Generate kysely types and migrations
+      run: cd db && pnpm run ci
+
+    - name: Enterprise - Generate kysely types and migrations
+      run: cd packages/enterprise/db && pnpm run ci
+
+    - name: Check for uncommitted changes
+      run: |
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "Uncommitted changes for kysely client or migrations"
+          git diff | cat
+          exit 1
+        fi

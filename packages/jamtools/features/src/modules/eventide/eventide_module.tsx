@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 
 import springbord from 'springboard';
+import {defineRoute, defineRoutes} from 'springboard/router';
 import '@jamtools/core/modules/macro_module/macro_module';
 
 import './index.css';
@@ -14,13 +15,17 @@ type EventidePresetState = {
 }
 
 springbord.registerModule('Eventide', {}, async (moduleAPI) => {
-    const currentPresetState = await moduleAPI.statesAPI.createPersistentState<EventidePresetState | null>('currentPresetState', null);
-    const favoritedPresetsState = await moduleAPI.statesAPI.createPersistentState<string[]>('favoritedPresets', []);
+    const states = await moduleAPI.shared.createSharedStates({
+        currentPresetState: null as EventidePresetState | null,
+        favoritedPresets: [] as string[],
+    });
+    const currentPresetState = states.currentPresetState;
+    const favoritedPresetsState = states.favoritedPresets;
 
-    const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+    const macroModule = moduleAPI.getModule('macro');
     const eventideMacro = await macroModule.createMacro(moduleAPI, 'eventide_pedal', 'musical_keyboard_output', {});
 
-    const changePreset = moduleAPI.createAction('changePreset', {}, async (args: EventidePresetState) => {
+    const changePreset = moduleAPI.internal.createAction('changePreset', {}, async (args: EventidePresetState) => {
         currentPresetState.setState(args);
         const programNumber = ((args.bankNumber - 1) * 2) + (args.subBankNumber - 1);
 
@@ -30,7 +35,7 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
         });
     });
 
-    const changePresetByName = moduleAPI.createAction('changePresetByName', {}, async (args: {presetName: string}) => {
+    const changePresetByName = moduleAPI.internal.createAction('changePresetByName', {}, async (args: {presetName: string}) => {
         const words = args.presetName.split(' ');
         const bankParts = words[0]!.split(':');
 
@@ -41,7 +46,7 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
         });
     });
 
-    const togglePresetFavorited = moduleAPI.createAction('togglePresetFavorited', {}, async (args: {presetName: string}) => {
+    const togglePresetFavorited = moduleAPI.internal.createAction('togglePresetFavorited', {}, async (args: {presetName: string}) => {
         favoritedPresetsState.setState(currentState => {
             const index = currentState.indexOf(args.presetName);
             if (index !== -1) {
@@ -69,7 +74,7 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
     };
 
     // hideNavbar should really be "hideApplicationShell", and also be a global option
-    moduleAPI.registerRoute('', {hideApplicationShell: false}, () => {
+    const EventideRoute = () => {
         const currentPreset = currentPresetState.useState();
         const favoritedPresets = favoritedPresetsState.useState();
 
@@ -182,5 +187,15 @@ springbord.registerModule('Eventide', {}, async (moduleAPI) => {
                 </details>
             </div>
         );
-    });
+    };
+
+    return {
+        routes: defineRoutes([
+            defineRoute({
+                path: '/modules/Eventide',
+                component: EventideRoute,
+                options: {hideApplicationShell: false},
+            }),
+        ]),
+    };
 });

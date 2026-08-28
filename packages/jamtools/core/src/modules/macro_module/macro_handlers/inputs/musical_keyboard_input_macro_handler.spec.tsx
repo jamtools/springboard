@@ -3,31 +3,31 @@ import {act} from 'react';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 
-import '../../../../modules';
 import springboard, {Springboard} from 'springboard';
 
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/core/test/mock_core_dependencies';
+import {makeMockCoreDependencies} from 'springboard/core/test/mock_core_dependencies';
 import {Subject} from 'rxjs';
-import {QwertyCallbackPayload} from '../../../../types/io_types';
-import {MidiEventFull} from '../../macro_module_types';
-import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
-import {MockMidiService} from '../../../../test/services/mock_midi_service';
-import {setIoDependencyCreator} from '../../../io/io_module';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {QwertyCallbackPayload} from '../../../../types/io_types.js';
+import {MidiEventFull} from '../../macro_module_types.js';
+import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
+import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
+import {setIoDependencyCreator} from '../../../io/io_module.js';
+import {macroTypeRegistry} from '../../registered_macro_types.js';
 
-import {getMacroInputTestHelpers} from './macro_input_test_helpers';
-
-import '../../macro_handlers';
+import {getMacroInputTestHelpers} from './macro_input_test_helpers.js';
 
 describe('MusicalKeyboardInputMacroHandler', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
         springboard.reset();
         macroTypeRegistry.reset();
+
+        const cacheBust = `?t=${Date.now()}-${Math.random()}`;
+        await import(`../../../../modules/index.ts${cacheBust}`);
+        await import(`../../macro_handlers/index.ts${cacheBust}`);
     });
 
     it('should handle qwerty events', async () => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
         const qwertySubject = new Subject<QwertyCallbackPayload>();
 
@@ -42,13 +42,13 @@ describe('MusicalKeyboardInputMacroHandler', () => {
 
         // coreDeps.inputs.qwerty.onInputEvent = qwertySubject;
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
         await engine.initialize();
 
         const calls: MidiEventFull[] = [];
 
         await engine.registerModule('Test_MusicalKeyboardInputMacro', {}, async (moduleAPI) => {
-            const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+            const macroModule = moduleAPI.getModule('macro');
             const midiInput = await macroModule.createMacro(moduleAPI, 'myinput', 'musical_keyboard_input', {enableQwerty: true});
             midiInput.subject.subscribe(event => {
                 calls.push(event);
@@ -75,8 +75,8 @@ describe('MusicalKeyboardInputMacroHandler', () => {
         const calls: MidiEventFull[] = [];
 
         await act(async () => {
-            await (engine as Springboard).registerModule(moduleId, {}, async (moduleAPI) => {
-                const macroModule = moduleAPI.deps.module.moduleRegistry.getModule('macro');
+            await engine.registerModule(moduleId, {}, async (moduleAPI) => {
+                const macroModule = moduleAPI.getModule('macro');
                 const midiInput = await macroModule.createMacro(moduleAPI, 'myinput', 'musical_keyboard_input', {});
                 midiInput.subject.subscribe(event => {
                     calls.push(event);
