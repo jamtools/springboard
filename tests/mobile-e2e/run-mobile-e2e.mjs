@@ -107,7 +107,7 @@ function startAppium() {
       '--address', APPIUM_HOST,
       '--port', String(APPIUM_PORT),
       '--base-path', '/',
-      '--allow-insecure', 'uiautomator2:chromedriver_autodownload,adb_shell',
+      '--allow-insecure', 'uiautomator2:chromedriver_autodownload,uiautomator2:adb_shell',
     ],
     { cwd: import.meta.dirname, stdio: ['ignore', out, out] },
   );
