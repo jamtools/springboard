@@ -15,6 +15,10 @@ stats.html
 games
 platform-examples
 
+# Generated Expo native projects for the mobile E2E fixture
+apps/mobile-e2e/android
+apps/mobile-e2e/ios
+
 # Vitest
 coverage
 .vitest
