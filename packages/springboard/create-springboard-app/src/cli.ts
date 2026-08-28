@@ -145,6 +145,8 @@ program
         'react',
         'react-dom',
         'react-router',
+        '@tanstack/react-query',
+        '@tanstack/react-router',
         '@hono/node-server',
         'better-sqlite3',
         'crossws',

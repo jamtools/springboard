@@ -63,7 +63,7 @@ const BrowserRouteContent = (props: {descriptor: CollectedSpringboardRouteDescri
     }
 
     if (routeComponent.data.status === 'absent') {
-        return <div role="alert">Route "{props.descriptor.path}" has no browser component.</div>;
+        return <div role="alert">Route {props.descriptor.path} has no browser component.</div>;
     }
 
     return React.createElement(routeComponent.data.component as React.ComponentType<any>, routeProps);

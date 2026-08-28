@@ -24,6 +24,10 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if ((moduleName.startsWith('./') || moduleName.startsWith('../')) && moduleName.endsWith('.js')) {
+    return resolveWithDefault(context, moduleName.slice(0, -3), platform);
+  }
+
   for (const [alias, targetRoot] of aliases) {
     if (moduleName === alias || moduleName.startsWith(`${alias}/`)) {
       const target = moduleName === alias
