@@ -178,10 +178,14 @@ jobs:
           disable-animations: true
           script: |
             adb devices
+            artifact_dir="$GITHUB_WORKSPACE/artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}"
+            mkdir -p "$artifact_dir"
             set +e
-            npm --prefix tests/mobile-e2e test
+            npm --prefix "$GITHUB_WORKSPACE/tests/mobile-e2e" test
             status=$?
-            adb logcat -d > "artifacts/mobile-e2e/${SPRINGBOARD_MOBILE_E2E_MODE}/logcat.txt" || true
+            adb shell dumpsys window > "$artifact_dir/window.txt" || true
+            adb shell dumpsys activity activities > "$artifact_dir/activity.txt" || true
+            adb logcat -d > "$artifact_dir/logcat.txt" || true
             exit $status
 
       - name: Stop remote fixture server

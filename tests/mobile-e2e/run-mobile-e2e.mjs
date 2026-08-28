@@ -47,7 +47,7 @@ try {
       'appium:autoWebview': false,
       'appium:appPackage': APP_PACKAGE,
       'appium:appActivity': `${APP_PACKAGE}.MainActivity`,
-      'appium:appWaitForLaunch': false,
+      'appium:appWaitActivity': '*',
       'appium:appWaitDuration': 120000,
       'appium:newCommandTimeout': 240,
       'appium:adbExecTimeout': 120000,
@@ -57,7 +57,7 @@ try {
     },
   });
 
-  await driver.activateApp(APP_PACKAGE);
+  await ensureAppForeground(driver);
 
   const rootRoute = await driver.$('~springboard-routing-root-content');
   await rootRoute.waitForDisplayed({ timeout: 120000 });
@@ -107,7 +107,7 @@ function startAppium() {
       '--address', APPIUM_HOST,
       '--port', String(APPIUM_PORT),
       '--base-path', '/',
-      '--allow-insecure', 'uiautomator2:chromedriver_autodownload',
+      '--allow-insecure', 'uiautomator2:chromedriver_autodownload,adb_shell',
     ],
     { cwd: import.meta.dirname, stdio: ['ignore', out, out] },
   );
@@ -134,6 +134,43 @@ async function saveScreenshot(driver, filePath) {
     await driver.saveScreenshot(filePath);
   } catch (error) {
     console.warn('Failed to save screenshot:', error);
+  }
+}
+
+async function ensureAppForeground(driver) {
+  let lastPackage = '';
+  let lastActivity = '';
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    await dismissSystemWaitDialog(driver);
+    await driver.activateApp(APP_PACKAGE);
+    await delay(5000);
+    await dismissSystemWaitDialog(driver);
+
+    lastPackage = await driver.getCurrentPackage().catch(() => '');
+    lastActivity = await driver.getCurrentActivity().catch(() => '');
+    console.log(`Foreground after launch attempt ${attempt}: ${lastPackage}/${lastActivity}`);
+    if (lastPackage === APP_PACKAGE) return;
+
+    await driver.execute('mobile: shell', {
+      command: 'am',
+      args: ['start', '-W', '-n', `${APP_PACKAGE}/.MainActivity`],
+      timeout: 120000,
+    }).catch((error) => {
+      console.warn(`adb am start failed on attempt ${attempt}:`, error);
+    });
+    await delay(5000);
+  }
+
+  throw new Error(`Expected ${APP_PACKAGE} to be foreground; saw ${lastPackage}/${lastActivity}`);
+}
+
+async function dismissSystemWaitDialog(driver) {
+  for (const text of ['Wait', 'OK']) {
+    const element = await driver.$(`android=new UiSelector().text("${text}")`);
+    if (await element.isExisting().catch(() => false)) {
+      await element.click().catch(() => undefined);
+      await delay(1000);
+    }
   }
 }
 
