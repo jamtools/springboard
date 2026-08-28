@@ -64,10 +64,20 @@ declare module 'expo-asset' {
 }
 
 declare module 'expo-file-system' {
-    export const documentDirectory: string | null;
-    export function readAsStringAsync(path: string): Promise<string>;
-    export function copyAsync(args: {from: string; to: string}): Promise<void>;
-    export function writeAsStringAsync(path: string, contents: string): Promise<void>;
+    export const Paths: {
+        document: {
+            uri: string;
+        };
+    };
+
+    export class File {
+        constructor(...uris: (string | File)[]);
+        readonly uri: string;
+        readonly exists: boolean;
+        text(): Promise<string>;
+        write(contents: string): void;
+        copy(destination: File, options?: {overwrite?: boolean}): Promise<void>;
+    }
 }
 
 declare module 'expo-splash-screen' {
