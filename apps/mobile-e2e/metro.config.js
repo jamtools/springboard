@@ -1,5 +1,5 @@
 const { getDefaultConfig } = require('expo/metro-config');
-const exclusionList = require('metro-config/src/defaults/exclusionList');
+const exclusionList = require('metro-config/private/defaults/exclusionList').default;
 const path = require('path');
 
 const appRoot = __dirname;

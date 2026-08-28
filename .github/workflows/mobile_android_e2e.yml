@@ -63,6 +63,27 @@ jobs:
       - name: Build Springboard packages
         run: pnpm --filter springboard build
 
+      - name: Verify mobile dependency versions
+        working-directory: apps/mobile-e2e
+        run: |
+          node - <<'NODE'
+          const expected = new Map([
+            ['expo', '57.0.17'],
+            ['react', '19.2.3'],
+            ['react-native', '0.86.3'],
+            ['react-native-screens', '4.26.0'],
+            ['react-native-safe-area-context', '5.7.0'],
+            ['react-native-webview', '13.16.1'],
+          ]);
+          for (const [pkg, expectedVersion] of expected) {
+            const actual = require(`${pkg}/package.json`).version;
+            console.log(`${pkg}@${actual}`);
+            if (actual !== expectedVersion) {
+              throw new Error(`${pkg} resolved to ${actual}; expected ${expectedVersion}`);
+            }
+          }
+          NODE
+
       - name: Build Android APK (EAS local when authenticated)
         working-directory: apps/mobile-e2e
         shell: bash
@@ -80,7 +101,7 @@ jobs:
               --output "$artifact_dir/app.apk"
           else
             echo "::notice::EXPO_TOKEN is not configured, so EAS CLI cannot run in CI. Falling back to Expo prebuild + Gradle to keep the Android E2E fixture compiling and runnable on PRs."
-            skip_dependency_update="expo,react,react-native,react-native-webview,expo-asset,expo-constants,expo-file-system,expo-splash-screen,react-native-safe-area-context,@react-native-community/cli"
+            skip_dependency_update="@react-native/assets-registry,@react-native-community/cli,expo,expo-asset,expo-constants,expo-file-system,expo-modules-core,expo-splash-screen,react,react-native,react-native-safe-area-context,react-native-screens,react-native-webview"
             pnpm exec expo prebuild \
               --platform android \
               --clean \

@@ -45,6 +45,8 @@
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@types/jest": "29.5.14",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "@vitejs/plugin-react": "4.4.1",
@@ -54,6 +56,8 @@
     "eslint-plugin-react": "7.37.5",
     "identity-obj-proxy": "3.0.0",
     "react-router": "7.9.6",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "shadow-dom-testing-library": "1.13.1",
     "springboard": "workspace:*",
     "tsup": "8.5.1",
@@ -65,16 +69,5 @@
   },
   "dependencies": {
     "turbo": "2.6.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "react": "catalog:",
-      "esbuild": "catalog:",
-      "estree-walker": "catalog:",
-      "vite": "catalog:",
-      "hono": "catalog:",
-      "rxjs": "catalog:",
-      "jsdom": "25.0.1"
-    }
   }
 }
