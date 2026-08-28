@@ -444,6 +444,7 @@
     "@hono/node-ws": "^1.2.0",
     "@tauri-apps/api": "^2.9.0",
     "@tauri-apps/plugin-shell": "^2.3.3",
+    "@expo/dom-webview": "catalog:",
     "@react-navigation/native": "catalog:",
     "@react-navigation/native-stack": "catalog:",
     "@tanstack/react-query": "catalog:",
@@ -486,6 +487,9 @@
       "optional": true
     },
     "@tauri-apps/plugin-shell": {
+      "optional": true
+    },
+    "@expo/dom-webview": {
       "optional": true
     },
     "@react-navigation/native": {
@@ -564,6 +568,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/ws": "^8.18.1",
+    "@expo/dom-webview": "catalog:",
     "@react-navigation/native": "catalog:",
     "@react-navigation/native-stack": "catalog:",
     "@tanstack/react-query": "catalog:",

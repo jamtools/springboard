@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.29.7",
+    "@expo/dom-webview": "catalog:",
     "@react-navigation/native": "catalog:",
     "@react-navigation/native-stack": "catalog:",
     "@react-native/assets-registry": "catalog:",
