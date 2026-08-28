@@ -52,6 +52,10 @@ const assetMock = vi.hoisted(() => ({
         localUri: `file:///mock/assets/${moduleId}`,
         downloadAsync: vi.fn(async () => undefined),
     })),
+    fromMetadata: vi.fn((metadata: {name: 'html' | 'css' | 'js'}) => ({
+        localUri: `file:///mock/assets/${metadata.name}`,
+        downloadAsync: vi.fn(async () => undefined),
+    })),
 }));
 
 vi.mock('expo-file-system', () => ({
@@ -82,6 +86,7 @@ describe('loadBundledWebAppAssets', () => {
         fileSystemMock.files.set('file:///mock/assets/css', 'body { color: #123; }');
         fileSystemMock.files.set('file:///mock/assets/js', 'window.loaded = true;');
         assetMock.fromModule.mockClear();
+        assetMock.fromMetadata.mockClear();
     });
 
     it('uses the Expo FileSystem document directory and writes local web assets', async () => {
@@ -119,4 +124,32 @@ describe('loadBundledWebAppAssets', () => {
         expect(result.htmlFilePath).toBe('file:///custom/output/index.html');
         expect(fileSystemMock.files.get('file:///custom/output/index.html')).toContain('file:///custom/output/index.css');
     });
+
+    it('accepts Metro asset metadata objects from registered bundle assets', async () => {
+        const {loadBundledWebAppAssets} = await import('./expo_bundled_web_asset_loader');
+
+        await loadBundledWebAppAssets({
+            assetModules: {
+                html: createMetroAssetMetadata('html', 'html'),
+                css: createMetroAssetMetadata('css', 'css'),
+                js: createMetroAssetMetadata('js', 'asset'),
+            },
+        });
+
+        expect(assetMock.fromModule).not.toHaveBeenCalled();
+        expect(assetMock.fromMetadata).toHaveBeenCalledTimes(3);
+        expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.css');
+        expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.js');
+    });
+});
+
+const createMetroAssetMetadata = (name: 'html' | 'css' | 'js', type: string) => ({
+    __packager_asset: true,
+    hash: `mock-${name}-hash`,
+    name,
+    type,
+    width: null,
+    height: null,
+    scales: [1],
+    httpServerLocation: '/assets/assets/web',
 });

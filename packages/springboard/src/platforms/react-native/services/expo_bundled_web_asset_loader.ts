@@ -1,6 +1,22 @@
 import {Asset} from 'expo-asset';
 import {File, Paths} from 'expo-file-system';
 
+type ExpoAsset = {
+    localUri?: string | null;
+    downloadAsync(): Promise<void>;
+};
+
+type MetroAssetMetadata = {
+    __packager_asset: true;
+    hash: string;
+    name: string;
+    type: string;
+    width?: number | null;
+    height?: number | null;
+    scales: number[];
+    httpServerLocation: string;
+};
+
 export type BundledWebAssetModules = {
     html: unknown;
     css: unknown;
@@ -27,9 +43,9 @@ export const loadBundledWebAppAssets = async (options: LoadBundledWebAppAssetsOp
         throw new Error('No document directory available for Expo bundled web assets');
     }
 
-    const htmlAsset = Asset.fromModule(options.assetModules.html as Parameters<typeof Asset.fromModule>[0]);
-    const cssAsset = Asset.fromModule(options.assetModules.css as Parameters<typeof Asset.fromModule>[0]);
-    const jsAsset = Asset.fromModule(options.assetModules.js as Parameters<typeof Asset.fromModule>[0]);
+    const htmlAsset = createAsset(options.assetModules.html);
+    const cssAsset = createAsset(options.assetModules.css);
+    const jsAsset = createAsset(options.assetModules.js);
 
     await Promise.all([
         htmlAsset.downloadAsync(),
@@ -87,6 +103,27 @@ const normalizeDirectoryUri = (uri: string | null | undefined) => {
     if (!uri) return null;
 
     return uri.replace(/\/*$/, '/');
+};
+
+const createAsset = (assetModule: unknown): ExpoAsset => {
+    if (isMetroAssetMetadata(assetModule)) {
+        return Asset.fromMetadata(assetModule);
+    }
+
+    return Asset.fromModule(assetModule);
+};
+
+const isMetroAssetMetadata = (value: unknown): value is MetroAssetMetadata => {
+    return (
+        typeof value === 'object'
+        && value !== null
+        && (value as {__packager_asset?: unknown}).__packager_asset === true
+        && typeof (value as {hash?: unknown}).hash === 'string'
+        && typeof (value as {name?: unknown}).name === 'string'
+        && typeof (value as {type?: unknown}).type === 'string'
+        && Array.isArray((value as {scales?: unknown}).scales)
+        && typeof (value as {httpServerLocation?: unknown}).httpServerLocation === 'string'
+    );
 };
 
 const requireAssetLocalUri = (uri: string | null | undefined, assetName: string) => {

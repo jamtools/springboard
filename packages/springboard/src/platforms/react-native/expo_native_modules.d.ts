@@ -60,6 +60,19 @@ declare module 'expo-asset' {
             localUri?: string | null;
             downloadAsync(): Promise<void>;
         };
+        fromMetadata(metadata: {
+            __packager_asset: true;
+            hash: string;
+            name: string;
+            type: string;
+            width?: number | null;
+            height?: number | null;
+            scales: number[];
+            httpServerLocation: string;
+        }): {
+            localUri?: string | null;
+            downloadAsync(): Promise<void>;
+        };
     };
 }
 
