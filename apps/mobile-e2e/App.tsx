@@ -109,7 +109,7 @@ export default function App() {
                   loadFromSiteUrl={target.kind === 'remote'}
                   assetModules={{
                     html: require('./assets/web/index.html'),
-                    css: require('./assets/web/index-css.css'),
+                    css: require('./assets/web/index-css.css.asset'),
                     js: require('./assets/web/index-js.js.asset'),
                   }}
                   handleMessageFromWebview={handleSpringboardWebViewMessage}
@@ -133,7 +133,7 @@ export default function App() {
             loadFromSiteUrl={extra?.loadFromSiteUrl === true}
             assetModules={{
               html: require('./assets/web/index.html'),
-              css: require('./assets/web/index-css.css'),
+              css: require('./assets/web/index-css.css.asset'),
               js: require('./assets/web/index-js.js.asset'),
             }}
             handleMessageFromWebview={handleSpringboardWebViewMessage}
