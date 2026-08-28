@@ -9,6 +9,15 @@
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
+  "expo": {
+    "autolinking": {
+      "android": {
+        "exclude": [
+          "@expo/dom-webview"
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@babel/runtime": "^7.29.7",
     "@expo/dom-webview": "catalog:",
