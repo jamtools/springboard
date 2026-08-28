@@ -138,7 +138,6 @@ describe('loadBundledWebAppAssets', () => {
 
         expect(assetMock.fromModule).not.toHaveBeenCalled();
         expect(assetMock.fromMetadata).toHaveBeenCalledTimes(3);
-        expect(assetMock.fromMetadata).toHaveBeenNthCalledWith(1, expect.objectContaining({hash: 'mock-html-file-hash'}));
         expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.css');
         expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.js');
     });
@@ -156,6 +155,7 @@ describe('loadBundledWebAppAssets', () => {
 
         expect(assetMock.fromModule).not.toHaveBeenCalled();
         expect(assetMock.fromMetadata).toHaveBeenCalledTimes(3);
+        expect(assetMock.fromMetadata).toHaveBeenNthCalledWith(1, expect.objectContaining({hash: 'mock-html-file-hash'}));
         expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.css');
         expect(fileSystemMock.files.get('file:///mock/document/index.html')).toContain('file:///mock/document/index.js');
     });
