@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import springboard from 'springboard';
+import springboard from '../../src/core/engine/register.js';
 
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
@@ -12,9 +12,7 @@ import {Box, Button, createTheme, Drawer, Group, MantineProvider as Mantine, Pro
 import {Notifications, notifications} from '@mantine/notifications';
 
 springboard.registerModule('Mantine', {}, async (moduleAPI) => {
-    return {
-        Provider: MantineProvider,
-    };
+    moduleAPI.ui.registerReactProvider(MantineProvider);
 });
 
 const MantineProvider = (props: React.PropsWithChildren) => {

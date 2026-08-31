@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import springboard from 'springboard';
-import {MidiFileParser, ParsedMidiFile} from './midi_file_parser/midi_file_parser';
+import {MidiFileParser, ParsedMidiFile} from './midi_file_parser/midi_file_parser.js';
 
 declare module 'springboard/module_registry/module_registry' {
     interface AllModules {
@@ -19,7 +19,7 @@ type MidiFileModuleReturnValue = {
     };
 };
 
-springboard.registerModule('MidiFile', {}, async (moduleAPI): Promise<MidiFileModuleReturnValue> => {
+export const midiFilesModule = springboard.defineModule('MidiFile', {}, async (moduleAPI): Promise<MidiFileModuleReturnValue> => {
     return {
         components: {
             Upload: (props: UploadComponentProps) => {

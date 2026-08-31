@@ -26,7 +26,7 @@ console.error = function (message, ...args) {
 };
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 
 import {CoreDependencies, KVStore, Rpc} from '../../../core/types/module_types.js';
 
@@ -37,6 +37,7 @@ import {RpcWebviewToRN} from '../services/rpc/rpc_webview_to_rn.js';
 import {WebviewToReactNativeKVService} from '../services/kv/kv_rn_and_webview.js';
 import {BrowserJsonRpcClientAndServer} from '../../browser/services/browser_json_rpc.js';
 import {HttpKvStoreClient as HttpKVStoreService} from '../../../core/services/http_kv_store_client.js';
+import {NullKVStore} from '../../../core/services/namespaced_kv_store.js';
 import {ReactNativeWebviewLocalTokenService} from '../services/rn_webview_local_token_service.js';
 
 export const startAndRenderBrowserApp = async (args: {remoteUrl: string}): Promise<Springboard> => {
@@ -61,7 +62,7 @@ export const startAndRenderBrowserApp = async (args: {remoteUrl: string}): Promi
     // rootElem.style.overflowY = 'scroll';
     document.body.appendChild(rootElem);
 
-    const root = ReactDOM.createRoot(rootElem);
+    const root = createRoot(rootElem);
     root.render(<Main engine={engine} />);
 
     await engine.waitForInitialize();
@@ -132,7 +133,8 @@ export const createRNWebviewEngine = (props: {remoteRpc: Rpc, remoteKv: KVStore,
         log: console.log,
         showError: (error: string) => console.error(error),
         storage: {
-            remote: remoteKVStore,
+            shared: remoteKVStore,
+            server: new NullKVStore(),
             userAgent: userAgentKVStore,
         },
         rpc: {
@@ -142,7 +144,7 @@ export const createRNWebviewEngine = (props: {remoteRpc: Rpc, remoteKv: KVStore,
         isMaestro: () => isLocal,
     };
 
-    const engine = new Springboard(coreDeps, {});
+    const engine = new Springboard(coreDeps);
     return engine;
 };
 

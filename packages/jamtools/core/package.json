@@ -10,29 +10,76 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "test": "vitest --run",
     "test:watch": "vitest",
     "check-types": "tsc --noEmit",
+    "generate-exports": "node scripts/generate-exports.js",
+    "check-exports": "node scripts/generate-exports.js --check",
     "lint": "eslint --ext ts --ext tsx  ./",
-    "fix": "npm run lint -- --fix"
+    "fix": "npm run lint -- --fix",
+    "prepublishOnly": "npm run build && npm run generate-exports"
   },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./modules": {
-      "types": "./dist/modules/index.d.ts",
-      "import": "./dist/modules/index.js"
-    },
     "./constants/midi_number_to_note_name_mappings": {
       "types": "./dist/constants/midi_number_to_note_name_mappings.d.ts",
       "import": "./dist/constants/midi_number_to_note_name_mappings.js"
     },
+    "./modules": {
+      "types": "./dist/modules/index.d.ts",
+      "import": "./dist/modules/index.js"
+    },
+    "./modules/chord_families/chord_families_module": {
+      "types": "./dist/modules/chord_families/chord_families_module.d.ts",
+      "import": "./dist/modules/chord_families/chord_families_module.js"
+    },
+    "./modules/io/io_dependencies": {
+      "types": "./dist/modules/io/io_dependencies_types.d.ts",
+      "node": {
+        "import": "./dist/modules/io/io_dependencies.node.js"
+      },
+      "browser": {
+        "import": "./dist/modules/io/io_dependencies.browser.js"
+      },
+      "default": {
+        "import": "./dist/modules/io/io_dependencies.js"
+      }
+    },
+    "./modules/io/io_module": {
+      "types": "./dist/modules/io/io_module.d.ts",
+      "import": "./dist/modules/io/io_module.js"
+    },
+    "./modules/macro_module/macro_handlers": {
+      "types": "./dist/modules/macro_module/macro_handlers/index.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/index.js"
+    },
+    "./modules/macro_module/macro_handlers/inputs/midi_button_input_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/midi_button_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/midi_button_input_macro_handler.js"
+    },
     "./modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler": {
       "types": "./dist/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.d.ts",
       "import": "./dist/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/inputs/musical_keyboard_input_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_input_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/inputs/musical_keyboard_paged_octave_input_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_paged_octave_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_paged_octave_input_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/outputs/midi_button_output_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/outputs/midi_button_output_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/outputs/midi_button_output_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/outputs/midi_control_change_output_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/outputs/midi_control_change_output_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/outputs/midi_control_change_output_macro_handler.js"
     },
     "./modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler": {
       "types": "./dist/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.d.ts",
@@ -46,13 +93,17 @@
       "types": "./dist/modules/macro_module/macro_module_types.d.ts",
       "import": "./dist/modules/macro_module/macro_module_types.js"
     },
+    "./modules/macro_module/registered_macro_types": {
+      "types": "./dist/modules/macro_module/registered_macro_types.d.ts",
+      "import": "./dist/modules/macro_module/registered_macro_types.js"
+    },
     "./modules/midi_files/midi_file_parser/midi_file_parser": {
       "types": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.d.ts",
       "import": "./dist/modules/midi_files/midi_file_parser/midi_file_parser.js"
     },
-    "./modules/macro_module/registered_macro_types": {
-      "types": "./dist/modules/macro_module/registered_macro_types.d.ts",
-      "import": "./dist/modules/macro_module/registered_macro_types.js"
+    "./modules/midi_files/midi_files_module": {
+      "types": "./dist/modules/midi_files/midi_files_module.d.ts",
+      "import": "./dist/modules/midi_files/midi_files_module.js"
     },
     "./services/browser/browser_midi_service": {
       "types": "./dist/services/browser/browser_midi_service.d.ts",

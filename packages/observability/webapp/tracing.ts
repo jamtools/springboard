@@ -2,7 +2,7 @@ import {diag, DiagConsoleLogger, DiagLogLevel} from '@opentelemetry/api';
 
 import {context, trace, Span, SpanStatusCode} from '@opentelemetry/api';
 import {WebTracerProvider, ConsoleSpanExporter} from '@opentelemetry/sdk-trace-web';
-import {Resource} from '@opentelemetry/resources';
+import {resourceFromAttributes} from '@opentelemetry/resources';
 import {SimpleSpanProcessor} from '@opentelemetry/sdk-trace-base';
 import {OTLPTraceExporter} from '@opentelemetry/exporter-trace-otlp-http';
 import {ZoneContextManager} from '@opentelemetry/context-zone';
@@ -19,14 +19,19 @@ if (WS_HOST) {
     TELEMETRY_HOST = protocol + '://' + WS_HOST.slice(index + 3);
 }
 
-const resource = new Resource({'service.name': serviceName});
-const provider = new WebTracerProvider({resource});
+const resource = resourceFromAttributes({'service.name': serviceName});
 
 const collector = new OTLPTraceExporter({
     url: `${TELEMETRY_HOST}/v1/traces`,
 });
 
-provider.addSpanProcessor(new SimpleSpanProcessor(collector));
+const provider = new WebTracerProvider({
+    resource,
+    spanProcessors: [
+        new SimpleSpanProcessor(collector),
+        new SimpleSpanProcessor(new ConsoleSpanExporter()),
+    ],
+});
 provider.register({contextManager: new ZoneContextManager()});
 
 const webTracerWithZone = provider.getTracer(serviceName);
@@ -48,9 +53,6 @@ window.startBindingSpan = (
 // Optional: Enable diagnostics for debugging
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
-// Add processors for exporting the traces
-provider.addSpanProcessor(new SimpleSpanProcessor(collector));
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
 registerInstrumentations({
     instrumentations: [],

@@ -2,9 +2,12 @@ import process from 'node:process';
 import path from 'node:path';
 
 import {serve} from '@hono/node-server';
-import crosswsNode from 'crossws/adapters/node';
+import crosswsNodeImport from 'crossws/adapters/node';
 
 import {makeWebsocketServerCoreDependenciesWithSqlite} from '../services/ws_server_core_dependencies.js';
+
+type CrosswsNodeAdapter = typeof crosswsNodeImport;
+const crosswsNode = ((crosswsNodeImport as unknown as {default?: CrosswsNodeAdapter}).default ?? crosswsNodeImport) as CrosswsNodeAdapter;
 
 import {initApp} from '../../../server/hono_app.js';
 import {LocalJsonNodeKVStoreService} from '../services/node_kvstore_service.js';
@@ -61,9 +64,8 @@ setTimeout(async () => {
 
     Object.assign(coreDeps, serverAppDependencies);
 
-    const extraDeps = {}; // TODO: remove this extraDeps thing from the framework
 
-    const engine = new Springboard(coreDeps, extraDeps);
+    const engine = new Springboard(coreDeps);
 
     injectResources({
         engine,

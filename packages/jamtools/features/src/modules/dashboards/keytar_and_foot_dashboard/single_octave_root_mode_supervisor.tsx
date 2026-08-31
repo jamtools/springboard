@@ -162,7 +162,7 @@ export class SingleOctaveRootModeSupervisor {
     };
 
     private createActions = () => ({
-        toggleDebugging: this.moduleAPI.createAction(`${this.kvPrefix}|toggleDebugging`, {}, async () => {
+        toggleDebugging: this.moduleAPI.internal.createAction(`${this.kvPrefix}|toggleDebugging`, {}, async () => {
             console.log('toggling debug mode', !this.states.enableDebugging.getState());
             this.states.enableDebugging.setState(!this.states.enableDebugging.getState());
         }),
@@ -321,7 +321,7 @@ export class SingleOctaveRootModeSupervisor {
     private createMacros = async () => {
         const makeMacroName = (name: string) => `${this.kvPrefix}|${name}`;
 
-        const singleOctaveInput = await this.moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(this.moduleAPI, makeMacroName('singleOctaveInput'), 'musical_keyboard_paged_octave_input', {
+        const singleOctaveInput = await this.moduleAPI.getModule('macro').createMacro(this.moduleAPI, makeMacroName('singleOctaveInput'), 'musical_keyboard_paged_octave_input', {
             singleOctave: true,
             enableQwerty: true,
             onTrigger: (event) => {
@@ -329,7 +329,7 @@ export class SingleOctaveRootModeSupervisor {
             },
         });
 
-        const sustainedOutputMute = await this.moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(this.moduleAPI, makeMacroName('sustainedOutputMute'), 'midi_button_input', {
+        const sustainedOutputMute = await this.moduleAPI.getModule('macro').createMacro(this.moduleAPI, makeMacroName('sustainedOutputMute'), 'midi_button_input', {
             onTrigger: () => {
                 this.midiState = {
                     ...this.midiState,
@@ -342,12 +342,12 @@ export class SingleOctaveRootModeSupervisor {
             },
         });
 
-        const sustainedOutput = await this.moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(this.moduleAPI, makeMacroName('sustainedOutput'), 'musical_keyboard_output', {});
+        const sustainedOutput = await this.moduleAPI.getModule('macro').createMacro(this.moduleAPI, makeMacroName('sustainedOutput'), 'musical_keyboard_output', {});
 
-        const stacattoOutput = await this.moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(this.moduleAPI, makeMacroName('stacattoOutput'), 'musical_keyboard_output', {});
-        const monoBassOutput = await this.moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(this.moduleAPI, makeMacroName('monoBassOutput'), 'musical_keyboard_output', {});
+        const stacattoOutput = await this.moduleAPI.getModule('macro').createMacro(this.moduleAPI, makeMacroName('stacattoOutput'), 'musical_keyboard_output', {});
+        const monoBassOutput = await this.moduleAPI.getModule('macro').createMacro(this.moduleAPI, makeMacroName('monoBassOutput'), 'musical_keyboard_output', {});
 
-        const chooseScaleButton = await this.moduleAPI.deps.module.moduleRegistry.getModule('macro').createMacro(this.moduleAPI, makeMacroName('chooseScaleButton'), 'midi_button_input', {
+        const chooseScaleButton = await this.moduleAPI.getModule('macro').createMacro(this.moduleAPI, makeMacroName('chooseScaleButton'), 'midi_button_input', {
             onTrigger: () => {
                 this.toggleChooseScale();
             },
@@ -371,9 +371,9 @@ export class SingleOctaveRootModeSupervisor {
             debugSavedInputEvent,
             debugMidiState,
         ] = await Promise.all([
-            this.moduleAPI.statesAPI.createPersistentState<boolean>(makeStateName('enableDebugging'), true),
-            this.moduleAPI.statesAPI.createSharedState<MidiEventFull | null>(makeStateName('debugSavedInputEvent'), null),
-            this.moduleAPI.statesAPI.createSharedState<SingleOctaveRootModeSupervisorMidiState>(makeStateName('debugMidiState'), this.midiState),
+            this.moduleAPI.shared.createSharedStates({[makeStateName('enableDebugging')]: true}).then(s => s[makeStateName('enableDebugging')]),
+            this.moduleAPI.shared.createSharedStates({[makeStateName('debugSavedInputEvent')]: null as MidiEventFull | null}).then(s => s[makeStateName('debugSavedInputEvent')]),
+            this.moduleAPI.shared.createSharedStates({[makeStateName('debugMidiState')]: this.midiState as SingleOctaveRootModeSupervisorMidiState}).then(s => s[makeStateName('debugMidiState')]),
         ]);
 
         return {

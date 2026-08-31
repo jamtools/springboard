@@ -50,17 +50,20 @@ const CustomSplashScreen = () => {
 springboard.registerSplashScreen(CustomSplashScreen);
 
 springboard.registerModule('AppWithSplashScreen', {}, async (moduleAPI) => {
-    const messageState = await moduleAPI.statesAPI.createPersistentState<string>('message', 'Hello from the app with custom splash screen!');
+    const states = await moduleAPI.shared.createSharedStates({
+        message: 'Hello from the app with custom splash screen!',
+    });
+    const messageState = states.message;
 
     await new Promise(r => setTimeout(r, 5000)); // fake waiting time
 
-    const actions = moduleAPI.createActions({
+    const actions = moduleAPI.shared.createSharedActions({
         updateMessage: async (args: {newMessage: string}) => {
             messageState.setState(args.newMessage);
         },
     });
 
-    moduleAPI.registerRoute('/', {}, () => {
+    moduleAPI.ui.registerRoute('/', {}, () => {
         return (
             <AppWithSplashScreenComponent
                 message={messageState.useState()}

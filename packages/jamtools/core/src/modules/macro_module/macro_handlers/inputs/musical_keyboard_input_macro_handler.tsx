@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {MidiDeviceAndChannelMap, MidiEvent, MidiEventFull, makeHashedMidiDeviceAndChannel} from '../../macro_module_types';
-import {QwertyCallbackPayload} from '../../../../types/io_types';
-import {QWERTY_TO_MIDI_MAPPINGS} from '../../../../constants/qwerty_to_midi_mappings';
-import {InputMacroStateHolders, MidiInputMacroPayload, getKeyForMacro, getKeyForMidiEvent, useInputMacroWaiterAndSaver} from './input_macro_handler_utils';
-import {macroTypeRegistry} from '../../registered_macro_types';
+import {MidiDeviceAndChannelMap, MidiEvent, MidiEventFull, makeHashedMidiDeviceAndChannel} from '../../macro_module_types.js';
+import {QwertyCallbackPayload} from '../../../../types/io_types.js';
+import {QWERTY_TO_MIDI_MAPPINGS} from '../../../../constants/qwerty_to_midi_mappings.js';
+import {InputMacroStateHolders, MidiInputMacroPayload, getKeyForMacro, getKeyForMidiEvent, useInputMacroWaiterAndSaver} from './input_macro_handler_utils.js';
+import {defineMacroType} from '../../registered_macro_types.js';
 
 type MusicalKeyboardInputResult = MidiInputMacroPayload;
 
@@ -31,14 +31,14 @@ const QWERTY_DEVICE_NAME = 'qwerty';
 const QWERTY_CHANNEL_NUMBER = 0;
 const QWERTY_DEVICE_AND_CHANNEL = makeHashedMidiDeviceAndChannel({device: 'qwerty', channel: 0});
 
-macroTypeRegistry.registerMacroType(
+export const musicalKeyboardInputMacroType = defineMacroType(
     'musical_keyboard_input',
     {},
     async (macroAPI, conf, fieldName): Promise<MusicalKeyboardInputResult> => {
         const editing = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
         const waitingForConfiguration = await macroAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
         const capturedMidiEvent = await macroAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);
-        const savedMidiEvents = await macroAPI.statesAPI.createPersistentState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
+        const savedMidiEvents = await macroAPI.statesAPI.createSharedState<MidiEventFull[]>(getKeyForMacro('saved_midi_event', fieldName), []);
         const states: InputMacroStateHolders = {
             editing,
             waiting: waitingForConfiguration,

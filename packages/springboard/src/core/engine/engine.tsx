@@ -1,13 +1,24 @@
 import {CoreDependencies, ModuleDependencies} from '../types/module_types.js';
 
-import {ClassModuleCallback, ModuleCallback, RegisterModuleOptions, springboard, getRegisteredSplashScreen} from './register.js';
+import {
+    ClassModuleCallback,
+    DefinedModuleDescriptor,
+    isDefinedModuleDescriptor,
+    isEntrypointDescriptor,
+    ModuleCallback,
+    RegisterModuleOptions,
+    springboard,
+    SpringboardDescriptor,
+    SpringboardEntrypointComposer,
+    getRegisteredSplashScreen
+} from './register.js';
 
 import React, {createContext, useContext, useState} from 'react';
 
 import {useMount} from '../hooks/useMount.js';
-import {ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
+import {AllModules, ExtraModuleDependencies, Module, ModuleRegistry} from '../module_registry/module_registry.js';
 
-import {SharedStateService} from '../services/states/shared_state_service.js';
+import {ServerStateService, SharedStateService} from '../services/states/shared_state_service.js';
 import {ModuleAPI} from './module_api.js';
 
 type CapturedRegisterModuleCalls = [string, RegisterModuleOptions, ModuleCallback<any>];
@@ -52,8 +63,15 @@ const roundDecimal = (num: number) => {
 export class Springboard {
     public moduleRegistry!: ModuleRegistry;
     private constructorStartTime: number;
+    private readonly definedModulesToInitialize: DefinedModuleDescriptor[] = [];
+    private readonly pendingEntrypointRegistrations = new Set<Promise<void>>();
+    private readonly entrypointComposer: SpringboardEntrypointComposer = {
+        register: async (descriptor) => {
+            await this.registerDescriptor(descriptor);
+        },
+    };
 
-    constructor(public coreDeps: CoreDependencies, public extraModuleDependencies: ExtraModuleDependencies) {
+    constructor(public coreDeps: CoreDependencies, public extraModuleDependencies: ExtraModuleDependencies = {}) {
         this.constructorStartTime = now();
     }
 
@@ -61,6 +79,8 @@ export class Springboard {
 
     private remoteSharedStateService!: SharedStateService;
     private localSharedStateService!: SharedStateService;
+    private sessionSharedStateService?: SharedStateService;
+    private serverStateService!: ServerStateService;
 
     initialize = async () => {
         const initStartTime = now();
@@ -80,11 +100,22 @@ export class Springboard {
 
         this.remoteSharedStateService = new SharedStateService({
             rpc: this.coreDeps.rpc.remote,
-            kv: this.coreDeps.storage.remote,
+            kv: this.coreDeps.storage.shared,
             log: this.coreDeps.log,
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.remoteSharedStateService.initialize();
+        this.coreDeps.rpc.remote.onReconnect?.(async () => {
+            await this.remoteSharedStateService.refreshFromKV();
+        });
+
+        // Set up reconnection handler to refresh all KV values when websocket reconnects
+        if (this.coreDeps.rpc.remote.onReconnect) {
+            this.coreDeps.rpc.remote.onReconnect(async () => {
+                console.log('Refreshing all KV values after reconnection');
+                await this.remoteSharedStateService.refreshAll();
+            });
+        }
 
         const remoteSharedStateServiceFinishedTime = now();
         logPerformance(websocketConnectedTime, remoteSharedStateServiceFinishedTime, 'SharedStateService initialized');
@@ -96,6 +127,23 @@ export class Springboard {
             isMaestro: this.coreDeps.isMaestro,
         });
         await this.localSharedStateService.initialize();
+
+        if (this.coreDeps.storage.session) {
+            this.sessionSharedStateService = new SharedStateService({
+                rpc: this.coreDeps.rpc.local,
+                kv: this.coreDeps.storage.session,
+                log: this.coreDeps.log,
+                isMaestro: this.coreDeps.isMaestro,
+            });
+            await this.sessionSharedStateService.initialize();
+        }
+
+        this.serverStateService = new ServerStateService(this.coreDeps.storage.server);
+        if (this.coreDeps.isMaestro()) {
+            await this.serverStateService.initialize();
+        }
+
+        await this.waitForPendingEntrypointRegistrations();
 
         this.moduleRegistry = new ModuleRegistry();
 
@@ -116,6 +164,14 @@ export class Springboard {
 
         // TODO: this is not good that classes are unconditionally all registered first. Let's use performance.now() to determine the order of when things were called
         // or put them all in the same array instead of different arrays like they currently are
+        for (const definedModule of this.definedModulesToInitialize) {
+            const start = now();
+            await this.initializeDefinedModule(definedModule);
+            const end = now();
+
+            handleInitTime({id: definedModule.moduleId, start, end});
+        }
+
         for (const modClassCallback of registeredClassModuleCallbacks) {
             const start = now(); // would be great to use `using` here to time this
             const mod = await this.registerClassModule(modClassCallback);
@@ -154,6 +210,49 @@ export class Springboard {
         }
     };
 
+    public registerDescriptor = async (descriptor: SpringboardDescriptor): Promise<void> => {
+        if (isDefinedModuleDescriptor(descriptor)) {
+            this.definedModulesToInitialize.push(descriptor);
+            return;
+        }
+
+        if (isEntrypointDescriptor(descriptor)) {
+            const registrationPromise = Promise.resolve(descriptor.initialize(this.entrypointComposer));
+            this.pendingEntrypointRegistrations.add(registrationPromise);
+            try {
+                await registrationPromise;
+            } finally {
+                this.pendingEntrypointRegistrations.delete(registrationPromise);
+            }
+            return;
+        }
+
+        throw new Error('Unknown Springboard descriptor');
+    };
+
+    private waitForPendingEntrypointRegistrations = async () => {
+        while (this.pendingEntrypointRegistrations.size > 0) {
+            const pending = Array.from(this.pendingEntrypointRegistrations);
+            await Promise.all(pending);
+        }
+    };
+
+    private initializeDefinedModule = async <ModuleReturnValue extends object>(
+        descriptor: DefinedModuleDescriptor<ModuleReturnValue>,
+    ): Promise<{
+        module: Module;
+        api: ModuleReturnValue
+    }> => {
+        const mod: Module = {moduleId: descriptor.moduleId};
+        const moduleAPI = new ModuleAPI(mod, 'engine', this.coreDeps, this.makeDerivedDependencies(), this.extraModuleDependencies, descriptor.options);
+        const moduleReturnValue = await descriptor.initialize(moduleAPI);
+
+        Object.assign(mod, moduleReturnValue);
+
+        this.moduleRegistry.registerModule(mod);
+        return {module: mod, api: moduleReturnValue};
+    };
+
     public registerModule = async <ModuleOptions extends RegisterModuleOptions, ModuleReturnValue extends object>(
         moduleId: string,
         options: ModuleOptions,
@@ -182,6 +281,8 @@ export class Springboard {
             services: {
                 remoteSharedStateService: this.remoteSharedStateService,
                 localSharedStateService: this.localSharedStateService,
+                sessionSharedStateService: this.sessionSharedStateService,
+                serverStateService: this.serverStateService,
             },
         };
     };
@@ -227,6 +328,19 @@ export const useSpringboardEngine = () => {
     return useContext(engineContext);
 };
 
+/**
+ * React hook to access a module by ID from within a component.
+ * Use this instead of moduleAPI.getModule() when in React components.
+ *
+ * @example
+ * const audioPlayer = useModule('AudioPlayer');
+ * const currentFile = audioPlayer.currentlyPlayingFile.useState();
+ */
+export const useModule = <ModuleId extends keyof AllModules>(moduleId: ModuleId): AllModules[ModuleId] => {
+    const engine = useSpringboardEngine();
+    return engine.moduleRegistry.getModule(moduleId);
+};
+
 type SpringboardProviderProps = React.PropsWithChildren<{
     engine: Springboard;
 }>;
@@ -265,16 +379,37 @@ export const SpringboardProviderPure = (props: SpringboardProviderProps) => {
     const {engine} = props;
     const mods = engine.moduleRegistry.getModules();
 
-    let stackedProviders: React.ReactNode = props.children;
+    // Collect all providers with their ranks from all modules
+    const allProvidersWithRank: Array<{provider: React.ElementType, rank: number}> = [];
+
     for (const mod of mods) {
-        const ModProvider = mod.Provider;
-        if (ModProvider) {
-            stackedProviders = (
-                <ModProvider>
-                    {stackedProviders}
-                </ModProvider>
-            );
+        // Support legacy single Provider property (treat as rank 0)
+        if (mod.Provider) {
+            allProvidersWithRank.push({
+                provider: mod.Provider,
+                rank: 0,
+            });
         }
+
+        // Collect new providers with their ranks
+        if (mod.providers) {
+            allProvidersWithRank.push(...mod.providers);
+        }
+    }
+
+    // Sort by rank descending (higher rank = outer wrapper)
+    // Within same rank, maintain registration order (stable sort)
+    allProvidersWithRank.sort((a, b) => b.rank - a.rank);
+
+    // Stack providers from lowest rank to highest (so highest rank ends up outermost)
+    let stackedProviders: React.ReactNode = props.children;
+    for (let i = allProvidersWithRank.length - 1; i >= 0; i--) {
+        const Provider = allProvidersWithRank[i]!.provider;
+        stackedProviders = (
+            <Provider>
+                {stackedProviders}
+            </Provider>
+        );
     }
 
     return (

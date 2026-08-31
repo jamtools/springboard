@@ -1,22 +1,39 @@
 import React, {act} from 'react';
 
-import {fireEvent, render, within} from '@testing-library/react';
+import {fireEvent, render, within, waitFor} from '@testing-library/react';
 import {Subject} from 'rxjs';
 import { screen } from 'shadow-dom-testing-library';
 import '@testing-library/jest-dom';
 import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macro_module_types';
-import {makeMockCoreDependencies, makeMockExtraDependences} from 'springboard/test/mock_core_dependencies';
+import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 
-import {Main} from 'springboard/platforms/browser/entrypoints/main';
-import {Springboard} from 'springboard/engine/engine';
-import {setIoDependencyCreator} from '../../../../modules/io/io_module';
-import {MockMidiService} from '../../../../test/services/mock_midi_service';
-import {MockQwertyService} from '../../../../test/services/mock_qwerty_service';
+import {Springboard, SpringboardProviderPure} from 'springboard/engine/engine';
+import {ioModule, setIoDependencyCreator} from '../../../../modules/io/io_module.js';
+import {macroModule as macroModuleDescriptor} from '../../macro_module.js';
+import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
+import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
 
 export const getMacroInputTestHelpers = () => {
+    let engineForRender: Springboard | undefined;
+    let MacroRouteComponentForRender: React.ElementType | undefined;
+    let rerenderMacroPage: ReturnType<typeof render>['rerender'] | undefined;
+
+    const makeMacroPage = () => {
+        if (!engineForRender || !MacroRouteComponentForRender) {
+            throw new Error('Macro input test helpers must be set up before rendering the macro page.');
+        }
+
+        const MacroRouteComponent = MacroRouteComponentForRender;
+
+        return (
+            <SpringboardProviderPure engine={engineForRender}>
+                <MacroRouteComponent />
+            </SpringboardProviderPure>
+        );
+    };
+
     const setupTest = async (midiSubject: Subject<MidiEventFull>): Promise<Springboard> => {
         const coreDeps = makeMockCoreDependencies({store: {}});
-        const extraDeps = makeMockExtraDependences();
 
         setIoDependencyCreator(async () => {
             const midi = new MockMidiService();
@@ -28,37 +45,32 @@ export const getMacroInputTestHelpers = () => {
             };
         });
 
-        const engine = new Springboard(coreDeps, extraDeps);
+        const engine = new Springboard(coreDeps);
+        await engine.registerDescriptor(ioModule);
+        await engine.registerDescriptor(macroModuleDescriptor);
+        await engine.initialize();
+        const macroModule = engine.moduleRegistry.getModule('macro');
+        const MacroRouteComponent = macroModule.routes!['']!.component;
+        engineForRender = engine;
+        MacroRouteComponentForRender = MacroRouteComponent;
 
-        const { container } = render(
-            <Main
-                engine={engine}
-            />
-            // <div id='yup'/>
-        );
-
-        // screen.debug();
-
-        // const { container } = render(<MyComponent />);
-
-
-        // await engine.initialize();
-        await act(async () => {
-            await new Promise(r => setTimeout(r, 10));
+        rerenderMacroPage = render(makeMacroPage()).rerender;
+        await waitFor(() => {
+            expect(screen.getAllByRole('list').length).toBeGreaterThan(0);
         });
-        await new Promise(r => setTimeout(r, 10));
 
         return engine;
 
     };
 
     const gotoMacroPage = async () => {
-        const macroPageLink = screen.getByTestId('link-to-/modules/macro');
-        // const macroPageLink = container.querySelector('a[href="/modules/macro/"]');
-        expect(macroPageLink).toBeInTheDocument();
+        if (!rerenderMacroPage) {
+            throw new Error('Macro input test helpers must be set up before navigating to the macro page.');
+        }
 
-        await act(async () => {
-            fireEvent.click(macroPageLink!);
+        rerenderMacroPage(makeMacroPage());
+        await waitFor(() => {
+            expect(screen.getAllByRole('list').length).toBeGreaterThan(0);
         });
     };
 

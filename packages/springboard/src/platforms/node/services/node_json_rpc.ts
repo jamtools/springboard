@@ -15,6 +15,7 @@ export class NodeJsonRpcClientAndServer implements Rpc {
     constructor (private url: string, private sessionStore: KVStore) {}
 
     private clientId = '';
+    private reconnectCallbacks: Array<() => void | Promise<void>> = [];
 
     public role = 'client' as const;
 
@@ -71,6 +72,18 @@ export class NodeJsonRpcClientAndServer implements Rpc {
         return this.rpcClient.notify(method, args, params);
     };
 
+    onReconnect = (cb: () => void | Promise<void>) => {
+        this.reconnectCallbacks.push(cb);
+    };
+
+    private notifyReconnect = () => {
+        for (const cb of this.reconnectCallbacks) {
+            Promise.resolve(cb()).catch(e => {
+                console.error('Error running websocket reconnect callback', e);
+            });
+        }
+    };
+
     // TODO: if we fail to connect on startup, we should just exit the program with a friendly error
     // or at least not spit out the massive error object we currently do
     initializeWebsocket = async () => {
@@ -98,9 +111,10 @@ export class NodeJsonRpcClientAndServer implements Rpc {
         return new Promise<boolean>((resolve, _reject) => {
             let connected = false;
 
-            ws.onopen = () => {
+            ws.onopen = async () => {
+                const isReconnection = connected;
                 connected = true;
-                console.log('websocket connected');
+                console.log(isReconnection ? 'websocket reconnected' : 'websocket connected');
                 this.rpcClient = new JSONRPCClient(async (request) => {
                     request.clientId = this.clientId;
                     if (ws.readyState === WebSocket.OPEN) {
@@ -111,6 +125,11 @@ export class NodeJsonRpcClientAndServer implements Rpc {
                         return Promise.reject(new Error('WebSocket is not open'));
                     }
                 });
+
+                if (isReconnection) {
+                    this.notifyReconnect();
+                }
+
                 resolve(true);
             };
 

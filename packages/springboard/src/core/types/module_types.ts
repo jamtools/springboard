@@ -1,5 +1,5 @@
 import {Module, ModuleRegistry} from '../module_registry/module_registry.js';
-import {SharedStateService} from '../services/states/shared_state_service.js';
+import {ServerStateService, SharedStateService} from '../services/states/shared_state_service.js';
 
 export type ModuleCallback<T extends object,> = (coreDeps: CoreDependencies, modDependencies: ModuleDependencies) =>
 Promise<Module<T>> | Module<T>;
@@ -12,8 +12,14 @@ export type CoreDependencies = {
     log: (...s: any[]) => void;
     showError: (error: string) => void;
     storage: {
-        remote: KVStore;
+        shared: KVStore;
+        /**
+         * Backwards-compatible alias for shared storage used by older Vite/mobile descriptors.
+         */
+        remote?: KVStore;
+        server: KVStore;
         userAgent: KVStore;
+        session?: KVStore;
     };
     rpc: {
         remote: Rpc;
@@ -35,10 +41,11 @@ export type RpcArgs = {
 export type Rpc = {
     callRpc: <Args, Return>(name: string, args: Args, rpcArgs?: RpcArgs) => Promise<Return | string>;
     broadcastRpc: <Args>(name: string, args: Args, rpcArgs?: RpcArgs) => Promise<void>;
-    registerRpc: <Args, Return>(name: string, cb: (args: Args) => Promise<Return>) => void;
+    registerRpc: <Args, Return>(name: string, cb: (args: Args, middlewareResults?: unknown) => Promise<Return>) => void;
     initialize: () => Promise<boolean>;
     role: 'server' | 'client';
     reconnect?: (queryParams?: Record<string, string>) => Promise<boolean>;
+    onReconnect?: (cb: () => void | Promise<void>) => void;
 }
 
 type ToastOptions = {
@@ -60,5 +67,7 @@ export type ModuleDependencies = {
     services: {
         remoteSharedStateService: SharedStateService;
         localSharedStateService : SharedStateService;
+        sessionSharedStateService?: SharedStateService;
+        serverStateService: ServerStateService;
     };
 }
