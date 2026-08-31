@@ -12,20 +12,16 @@ import {QwertyCallbackPayload} from '../../../../types/io_types.js';
 import {MidiEventFull} from '../../macro_module_types.js';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
 import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
-import {IoModule, setIoDependencyCreator} from '../../../io/io_module.js';
-import {MacroModule} from '../../macro_module.js';
+import {ioModule, setIoDependencyCreator} from '../../../io/io_module.js';
+import {macroModule} from '../../macro_module.js';
 import {macroTypeRegistry} from '../../registered_macro_types.js';
 
 import {getMacroInputTestHelpers} from './macro_input_test_helpers.js';
-import '../../macro_handlers/index.js';
 
 describe('MusicalKeyboardInputMacroHandler', () => {
     beforeEach(() => {
         springboard.reset();
         macroTypeRegistry.reset();
-
-        springboard.registerClassModule((coreDeps, modDependencies) => new IoModule(coreDeps, modDependencies));
-        springboard.registerClassModule((coreDeps, modDependencies) => new MacroModule(coreDeps, modDependencies));
     });
 
     it('should handle qwerty events', async () => {
@@ -45,6 +41,8 @@ describe('MusicalKeyboardInputMacroHandler', () => {
         // coreDeps.inputs.qwerty.onInputEvent = qwertySubject;
 
         const engine = new Springboard(coreDeps);
+        await engine.registerDescriptor(ioModule);
+        await engine.registerDescriptor(macroModule);
         await engine.initialize();
 
         const calls: MidiEventFull[] = [];

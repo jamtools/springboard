@@ -6,7 +6,7 @@ import {Subject} from 'rxjs';
 import {getKeyForMacro} from './input_macro_handler_utils.js';
 import {savedMidiInputsAreEqual} from './musical_keyboard_input_macro_handler.js';
 
-import {macroTypeRegistry} from '../../registered_macro_types.js';
+import {defineMacroType} from '../../registered_macro_types.js';
 
 import {MidiEventFull} from '../../macro_module_types.js';
 
@@ -44,7 +44,7 @@ const initialUserDefinedConfig: PagedOctaveInputStoredConfig = {
     numberOfOctaves: 2,
 };
 
-macroTypeRegistry.registerMacroType(
+export const musicalKeyboardPagedOctaveInputMacroType = defineMacroType(
     'musical_keyboard_paged_octave_input',
     {},
     async (macroAPI, conf, fieldName): Promise<MusicalKeyboardPagedOctaveInputResult> => {

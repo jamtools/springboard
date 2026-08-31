@@ -1,18 +1,12 @@
 import React from 'react';
 
-import '../io/io_module.js';
-
-import type {Module} from 'springboard/module_registry/module_registry';
-
-import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
+import springboard, {CoreDependencies, Module, ModuleAPI, ModuleDependencies} from 'springboard';
 import {MacroConfigItem, MacroTypeConfigs} from './macro_module_types.js';
 import {BaseModule, ModuleHookValue} from 'springboard/modules/base_module/base_module';
 import {MacroPage} from './macro_page.js';
-import springboard from 'springboard/core/engine/register';
-import {CapturedRegisterMacroTypeCall, MacroAPI, MacroCallback} from '@jamtools/core/modules/macro_module/registered_macro_types';
-import {ModuleAPI} from 'springboard/engine/module_api';
+import {CapturedRegisterMacroTypeCall, DefinedMacroTypeDescriptor, MacroAPI, MacroCallback, RegisterMacroType} from '@jamtools/core/modules/macro_module/registered_macro_types';
+import {defaultMacroTypes} from './macro_handlers/index.js';
 
-import './macro_handlers/index.js';
 import {macroTypeRegistry} from './registered_macro_types.js';
 
 type ModuleId = string;
@@ -25,10 +19,6 @@ export type MacroConfigState = {
 type MacroHookValue = ModuleHookValue<MacroModule>;
 
 const macroContext = React.createContext<MacroHookValue>({} as MacroHookValue);
-
-springboard.registerClassModule((coreDeps: CoreDependencies, modDependencies: ModuleDependencies) => {
-    return new MacroModule(coreDeps, modDependencies);
-});
 
 declare module 'springboard/module_registry/module_registry' {
     interface AllModules {
@@ -50,7 +40,11 @@ export class MacroModule implements Module<MacroConfigState> {
         this.localMode = mode;
     };
 
-    constructor(private coreDeps: CoreDependencies, private moduleDeps: ModuleDependencies) { }
+    constructor(
+        private coreDeps: CoreDependencies,
+        private moduleDeps: ModuleDependencies,
+        private macroTypes: DefinedMacroTypeDescriptor[] = defaultMacroTypes,
+    ) { }
 
     routes = {
         '': {
@@ -114,19 +108,23 @@ export class MacroModule implements Module<MacroConfigState> {
         return result;
     };
 
-    public registerMacroType = <MacroTypeOptions extends object, MacroInputConf extends object, MacroReturnValue extends object>(
-        macroName: string,
+    public registerMacroType: RegisterMacroType = <MacroTypeId extends keyof MacroTypeConfigs, MacroTypeOptions extends object>(
+        macroName: MacroTypeId,
         options: MacroTypeOptions,
-        cb: MacroCallback<MacroInputConf, MacroReturnValue>,
+        cb: MacroCallback<MacroTypeConfigs[MacroTypeId]['input'], MacroTypeConfigs[MacroTypeId]['output']>,
     ) => {
         this.registeredMacroTypes.push([macroName, options, cb]);
     };
 
     initialize = async () => {
-        const registeredMacroCallbacks = (macroTypeRegistry.registerMacroType as unknown as {calls: CapturedRegisterMacroTypeCall[]}).calls || [];
+        const legacyMacroCallbacks = (macroTypeRegistry.registerMacroType as unknown as {calls: CapturedRegisterMacroTypeCall[]}).calls || [];
         macroTypeRegistry.registerMacroType = this.registerMacroType;
 
-        for (const macroType of registeredMacroCallbacks) {
+        for (const macroType of this.macroTypes) {
+            this.registerMacroType(macroType.macroTypeId, macroType.options, macroType.initialize);
+        }
+
+        for (const macroType of legacyMacroCallbacks) {
             this.registerMacroType(...macroType);
         }
 
@@ -174,3 +172,11 @@ export class MacroModule implements Module<MacroConfigState> {
     static use = BaseModule.useModule(macroContext);
     private setState = BaseModule.setState(this);
 }
+
+export const defineMacroModule = (macroTypes: DefinedMacroTypeDescriptor[] = defaultMacroTypes) => springboard.defineModule('macro', {}, async (moduleAPI) => {
+    const mod = new MacroModule(moduleAPI.internal.coreDeps, moduleAPI.internal.modDeps, macroTypes);
+    await mod.initialize();
+    return mod;
+});
+
+export const macroModule = defineMacroModule();

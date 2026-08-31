@@ -22,22 +22,44 @@ export type MacroAPI = {
 export type MacroCallback<MacroInputConf extends object, MacroReturnValue extends object> = (macroAPI: MacroAPI, macroInputConf: MacroInputConf, fieldName: string) =>
 Promise<MacroReturnValue> | MacroReturnValue;
 
-type RegisterMacroType = <MacroTypeId extends keyof MacroTypeConfigs, MacroTypeOptions extends object>(
+export type RegisterMacroType = <MacroTypeId extends keyof MacroTypeConfigs, MacroTypeOptions extends object>(
     macroTypeId: MacroTypeId,
     options: MacroTypeOptions,
     cb: MacroCallback<MacroTypeConfigs[MacroTypeId]['input'], MacroTypeConfigs[MacroTypeId]['output']>,
 ) => void;
 
-export type CapturedRegisterMacroTypeCall = [string, RegisterMacroTypeOptions, MacroCallback<any, any>];
+export type DefinedMacroTypeDescriptor = {
+    kind: 'defineMacroType';
+    macroTypeId: keyof MacroTypeConfigs;
+    options: RegisterMacroTypeOptions;
+    initialize: MacroCallback<any, any>;
+};
 
-const registerMacroType = <MacroOptions extends RegisterMacroTypeOptions, MacroInputConf extends object, MacroReturnValue extends object>(
-    macroName: string,
+export type CapturedRegisterMacroTypeCall = [keyof MacroTypeConfigs, RegisterMacroTypeOptions, MacroCallback<any, any>];
+
+export const defineMacroType = <MacroTypeId extends keyof MacroTypeConfigs, MacroTypeOptions extends object>(
+    macroTypeId: MacroTypeId,
+    options: MacroTypeOptions,
+    cb: MacroCallback<MacroTypeConfigs[MacroTypeId]['input'], MacroTypeConfigs[MacroTypeId]['output']>,
+): DefinedMacroTypeDescriptor => ({
+    kind: 'defineMacroType',
+    macroTypeId,
+    options,
+    initialize: cb,
+});
+
+const registerMacroType = <MacroTypeId extends keyof MacroTypeConfigs, MacroOptions extends RegisterMacroTypeOptions>(
+    macroName: MacroTypeId,
     options: MacroOptions,
-    cb: MacroCallback<MacroInputConf, MacroReturnValue>,
+    cb: MacroCallback<MacroTypeConfigs[MacroTypeId]['input'], MacroTypeConfigs[MacroTypeId]['output']>,
 ) => {
     const calls = (registerMacroType as unknown as {calls: CapturedRegisterMacroTypeCall[]}).calls || [];
     calls.push([macroName, options, cb]);
     (registerMacroType as unknown as {calls: CapturedRegisterMacroTypeCall[]}).calls = calls;
+};
+
+const clearRegisteredMacroTypes = () => {
+    (registerMacroType as unknown as {calls: CapturedRegisterMacroTypeCall[]}).calls = [];
 };
 
 export const macroTypeRegistry: {
@@ -46,6 +68,7 @@ export const macroTypeRegistry: {
 } = {
     registerMacroType,
     reset: () => {
+        clearRegisteredMacroTypes();
         macroTypeRegistry.registerMacroType = registerMacroType;
     },
 };

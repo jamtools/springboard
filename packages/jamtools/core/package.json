@@ -33,6 +33,10 @@
       "types": "./dist/modules/index.d.ts",
       "import": "./dist/modules/index.js"
     },
+    "./modules/chord_families/chord_families_module": {
+      "types": "./dist/modules/chord_families/chord_families_module.d.ts",
+      "import": "./dist/modules/chord_families/chord_families_module.js"
+    },
     "./modules/io/io_dependencies": {
       "types": "./dist/modules/io/io_dependencies_types.d.ts",
       "node": {
@@ -45,9 +49,37 @@
         "import": "./dist/modules/io/io_dependencies.js"
       }
     },
+    "./modules/io/io_module": {
+      "types": "./dist/modules/io/io_module.d.ts",
+      "import": "./dist/modules/io/io_module.js"
+    },
+    "./modules/macro_module/macro_handlers": {
+      "types": "./dist/modules/macro_module/macro_handlers/index.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/index.js"
+    },
+    "./modules/macro_module/macro_handlers/inputs/midi_button_input_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/midi_button_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/midi_button_input_macro_handler.js"
+    },
     "./modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler": {
       "types": "./dist/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.d.ts",
       "import": "./dist/modules/macro_module/macro_handlers/inputs/midi_control_change_input_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/inputs/musical_keyboard_input_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_input_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/inputs/musical_keyboard_paged_octave_input_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_paged_octave_input_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/inputs/musical_keyboard_paged_octave_input_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/outputs/midi_button_output_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/outputs/midi_button_output_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/outputs/midi_button_output_macro_handler.js"
+    },
+    "./modules/macro_module/macro_handlers/outputs/midi_control_change_output_macro_handler": {
+      "types": "./dist/modules/macro_module/macro_handlers/outputs/midi_control_change_output_macro_handler.d.ts",
+      "import": "./dist/modules/macro_module/macro_handlers/outputs/midi_control_change_output_macro_handler.js"
     },
     "./modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler": {
       "types": "./dist/modules/macro_module/macro_handlers/outputs/musical_keyboard_output_macro_handler.d.ts",

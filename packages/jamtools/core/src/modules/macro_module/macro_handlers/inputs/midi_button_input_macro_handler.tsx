@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 import {MidiEventFull} from '../../macro_module_types.js';
 import {getKeyForMacro, InputMacroStateHolders, useInputMacroWaiterAndSaver, savedMidiEventsAreEqual, getKeyForMidiEvent, MidiInputMacroPayload} from './input_macro_handler_utils.js';
 import {qwertyEventToMidiEvent, savedMidiInputsAreEqual} from './musical_keyboard_input_macro_handler.js';
-import {macroTypeRegistry} from '../../registered_macro_types.js';
+import {defineMacroType} from '../../registered_macro_types.js';
 
 type MacroConfigItemMidiButtonInput = {
     onTrigger?(midiEvent: MidiEventFull): void;
@@ -31,7 +31,7 @@ declare module '../../macro_module_types' {
     }
 }
 
-macroTypeRegistry.registerMacroType('midi_button_input', {}, async (macroAPI, conf, fieldName) => {
+export const midiButtonInputMacroType = defineMacroType('midi_button_input', {}, async (macroAPI, conf, fieldName) => {
     const editing = await macroAPI.statesAPI.createSharedState(getKeyForMacro('editing', fieldName), false);
     const waitingForConfiguration = await macroAPI.statesAPI.createSharedState(getKeyForMacro('waiting_for_configuration', fieldName), false);
     const capturedMidiEvent = await macroAPI.statesAPI.createSharedState<MidiEventFull | null>(getKeyForMacro('captured_midi_event', fieldName), null);

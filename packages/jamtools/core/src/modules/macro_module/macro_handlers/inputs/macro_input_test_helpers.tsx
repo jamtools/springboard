@@ -8,7 +8,8 @@ import {MidiEvent, MidiEventFull} from '@jamtools/core/modules/macro_module/macr
 import {makeMockCoreDependencies} from 'springboard/test/mock_core_dependencies';
 
 import {Springboard, SpringboardProviderPure} from 'springboard/engine/engine';
-import {setIoDependencyCreator} from '../../../../modules/io/io_module.js';
+import {ioModule, setIoDependencyCreator} from '../../../../modules/io/io_module.js';
+import {macroModule as macroModuleDescriptor} from '../../macro_module.js';
 import {MockMidiService} from '../../../../test/services/mock_midi_service.js';
 import {MockQwertyService} from '../../../../test/services/mock_qwerty_service.js';
 
@@ -45,6 +46,8 @@ export const getMacroInputTestHelpers = () => {
         });
 
         const engine = new Springboard(coreDeps);
+        await engine.registerDescriptor(ioModule);
+        await engine.registerDescriptor(macroModuleDescriptor);
         await engine.initialize();
         const macroModule = engine.moduleRegistry.getModule('macro');
         const MacroRouteComponent = macroModule.routes!['']!.component;

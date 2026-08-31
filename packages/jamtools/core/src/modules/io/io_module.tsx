@@ -1,11 +1,7 @@
 import {Subject} from 'rxjs';
 
-import {CoreDependencies, ModuleDependencies} from 'springboard/types/module_types';
-import {Module} from 'springboard/module_registry/module_registry';
+import springboard, {CoreDependencies, Module, ModuleAPI, ModuleDependencies, StateSupervisor} from 'springboard';
 import {MidiInputEventPayload, QwertyCallbackPayload} from '@jamtools/core/types/io_types';
-import springboard from 'springboard/core/engine/register';
-import {StateSupervisor} from 'springboard/services/states/shared_state_service';
-import {ModuleAPI} from 'springboard/engine/module_api';
 import {MidiEvent} from '@jamtools/core/modules/macro_module/macro_module_types';
 import {createIoDependencies as defaultCreateIoDependencies} from '@jamtools/core/modules/io/io_dependencies';
 
@@ -25,10 +21,6 @@ type IoState = {
     midiInputDevices: string[];
     midiOutputDevices: string[];
 };
-
-springboard.registerClassModule((coreDeps: CoreDependencies, modDependencies: ModuleDependencies) => {
-    return new IoModule(coreDeps, modDependencies);
-});
 
 declare module 'springboard/module_registry/module_registry' {
     interface AllModules {
@@ -115,3 +107,9 @@ export class IoModule implements Module<IoState> {
         }
     };
 }
+
+export const ioModule = springboard.defineModule('io', {}, async (moduleAPI) => {
+    const mod = new IoModule(moduleAPI.internal.coreDeps, moduleAPI.internal.modDeps);
+    await mod.initialize(moduleAPI);
+    return mod;
+});

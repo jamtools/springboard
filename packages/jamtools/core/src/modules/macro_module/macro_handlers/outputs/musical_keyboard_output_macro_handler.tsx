@@ -1,7 +1,7 @@
 import {getKeyForMacro} from '../inputs/input_macro_handler_utils.js';
 import {AddingOutputDeviceState, SavedOutputDeviceState} from './components/output_macro_edit.js';
 import {MidiOutputMacroPayload, OutputMacroStateHolders, checkSavedMidiOutputsAreEqual, useOutputMacroWaiterAndSaver} from './output_macro_handler_utils.js';
-import {macroTypeRegistry} from '../../registered_macro_types.js';
+import {defineMacroType} from '../../registered_macro_types.js';
 
 export type OutputMidiDevice = MidiOutputMacroPayload;
 
@@ -18,7 +18,7 @@ declare module '../../macro_module_types' {
     }
 }
 
-macroTypeRegistry.registerMacroType(
+export const musicalKeyboardOutputMacroType = defineMacroType(
     'musical_keyboard_output',
     {},
     (async (macroAPI, inputConf, fieldName) => {

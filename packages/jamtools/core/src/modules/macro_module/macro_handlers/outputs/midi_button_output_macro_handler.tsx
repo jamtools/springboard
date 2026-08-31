@@ -3,7 +3,7 @@ import React from 'react';
 import {getKeyForMacro} from '../inputs/input_macro_handler_utils.js';
 import {AddingOutputDeviceState, Edit, SavedOutputDeviceState} from './components/output_macro_edit.js';
 import {MidiOutputMacroPayload, OutputMacroStateHolders, checkSavedMidiOutputsAreEqual, useOutputMacroWaiterAndSaver} from './output_macro_handler_utils.js';
-import {macroTypeRegistry} from '../../registered_macro_types.js';
+import {defineMacroType} from '../../registered_macro_types.js';
 
 type Base = Omit<MidiOutputMacroPayload, 'send'>;
 
@@ -23,7 +23,7 @@ declare module '../../macro_module_types' {
     }
 }
 
-macroTypeRegistry.registerMacroType(
+export const midiButtonOutputMacroType = defineMacroType(
     'midi_button_output',
     {},
     (async (macroAPI, inputConf, fieldName) => {

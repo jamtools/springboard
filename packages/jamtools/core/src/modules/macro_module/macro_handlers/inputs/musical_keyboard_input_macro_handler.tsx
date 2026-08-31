@@ -4,7 +4,7 @@ import {MidiDeviceAndChannelMap, MidiEvent, MidiEventFull, makeHashedMidiDeviceA
 import {QwertyCallbackPayload} from '../../../../types/io_types.js';
 import {QWERTY_TO_MIDI_MAPPINGS} from '../../../../constants/qwerty_to_midi_mappings.js';
 import {InputMacroStateHolders, MidiInputMacroPayload, getKeyForMacro, getKeyForMidiEvent, useInputMacroWaiterAndSaver} from './input_macro_handler_utils.js';
-import {macroTypeRegistry} from '../../registered_macro_types.js';
+import {defineMacroType} from '../../registered_macro_types.js';
 
 type MusicalKeyboardInputResult = MidiInputMacroPayload;
 
@@ -31,7 +31,7 @@ const QWERTY_DEVICE_NAME = 'qwerty';
 const QWERTY_CHANNEL_NUMBER = 0;
 const QWERTY_DEVICE_AND_CHANNEL = makeHashedMidiDeviceAndChannel({device: 'qwerty', channel: 0});
 
-macroTypeRegistry.registerMacroType(
+export const musicalKeyboardInputMacroType = defineMacroType(
     'musical_keyboard_input',
     {},
     async (macroAPI, conf, fieldName): Promise<MusicalKeyboardInputResult> => {

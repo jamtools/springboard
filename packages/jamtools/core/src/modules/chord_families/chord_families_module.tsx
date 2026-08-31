@@ -3,7 +3,7 @@ import React from 'react';
 import {ScaleDegreeInfo, cycle, getScaleDegreeFromScaleAndNote, ionianScaleDegreeQualities} from './root_mode_snack/root_mode_types.js';
 
 import {RootModeComponent} from './root_mode_snack/root_mode_component.js';
-import springboard from 'springboard/core/engine/register';
+import springboard from 'springboard';
 
 type State = {
     chord: ScaleDegreeInfo | null;
@@ -46,7 +46,7 @@ const getOppositeQuality = (quality: ChordQuality): ChordQuality => {
     return quality === 'major' ? 'minor' : 'major';
 };
 
-class ChordFamilyHandler {
+export class ChordFamilyHandler {
     constructor(private data: ChordFamilyData) {}
 
     // this function will be used to do data entry as well. "fill in the blanks" feature for data entry
@@ -89,7 +89,7 @@ class ChordFamilyHandler {
     };
 }
 
-type ChordFamiliesModuleReturnValue = {
+export type ChordFamiliesModuleReturnValue = {
     getChordFamilyHandler(key: string): ChordFamilyHandler;
 }
 
@@ -99,13 +99,7 @@ declare module 'springboard/module_registry/module_registry' {
     }
 }
 
-// springboard.registerModule('chord_families_test', {}, async (moduleAPI) => {
-//     const chordFamiliesModule = moduleAPI.deps.module.moduleRegistry.getModule('chord_families');
-
-//     const data = chordFamiliesModule.getChordFamilyHandler('mykey');
-// });
-
-springboard.registerModule('chord_families', {}, async (moduleAPI) => {
+export const chordFamiliesModule = springboard.defineModule('chord_families', {}, async (moduleAPI) => {
     const states = await moduleAPI.shared.createSharedStates({
         all_chord_families: [] as ChordFamilyData[],
         state: {chord: null, scale: 0} as State,
